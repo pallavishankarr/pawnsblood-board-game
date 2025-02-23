@@ -10,7 +10,7 @@ public interface Cell {
   /**
    * Places a card on the cell and removes any pawns on the cell.
    */
-  void placeCard();
+  void placeCard(Card card);
 
   /**
    * Applies influence of the card on the cell.
@@ -30,9 +30,9 @@ public interface Cell {
   int getPawnCount();
 
   /**
-   * Changes the ownership to the other Player.
+   * Changes the ownership to the given Player.
    */
-  void changeOwnership();
+  void changeOwnership(Player player);
 
   /**
    * Determines if the Cell contains a card.
