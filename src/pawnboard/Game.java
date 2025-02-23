@@ -6,4 +6,7 @@ package pawnboard;
  * handling players, and determining game outcomes.
  */
 public interface Game {
+  /**
+   * 
+   */
 }
