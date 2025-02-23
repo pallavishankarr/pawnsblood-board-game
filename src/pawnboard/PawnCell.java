@@ -22,7 +22,7 @@ public class PawnCell implements Cell{
     if (owner == null) {
       throw new IllegalArgumentException("Owner cannot be null");
     }
-     if (pawnCount < 1 && pawnCount < 3 ) {
+     if (pawnCount > 0 && pawnCount < 3 ) {
        throw new IllegalArgumentException("Pawn count cannot be less than 1 or greater than 3");
      }
 
@@ -43,6 +43,7 @@ public class PawnCell implements Cell{
   @Override
   public void placeCard(Card card) {
     this.card = card;
+    this.pawnCount = 0;
     isEmpty = false;
   }
 
