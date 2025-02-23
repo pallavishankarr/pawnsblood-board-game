@@ -47,10 +47,7 @@ public class PawnCell implements Cell{
     isEmpty = false;
   }
 
-  @Override
-  public void applyInfluence() {
 
-  }
 
   @Override
   public Player getOwner() {
