@@ -49,6 +49,9 @@ public class PawnGameTest {
 
   @Test
   public void testGetPawnCount() {
+    assertEquals(0, this.cell1.getPawnCount());
+    this.cell1.addPawn();
+    assertEquals(1, this.cell1.getPawnCount());
 
   }
 
@@ -59,6 +62,9 @@ public class PawnGameTest {
 
   @Test
   public void testHasCard() {
+    assertFalse(cell1.hasCard());
+    assertFalse(cell2.hasCard());
+    assertFalse(cell3.hasCard());
 
   }
 
