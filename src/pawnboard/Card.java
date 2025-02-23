@@ -36,8 +36,9 @@ public interface Card {
    * @param row row index of the cell
    * @param col col index of the cell
    * @return true if the cell is affected by the card or false if not
+   * @throws IllegalArgumentException if the row and col indexes are invalid
    */
-  boolean affectsCell(int row, int col);
+  boolean affectsCell(int row, int col) throws IllegalArgumentException;
 
   /**
    * Applies th influence of the card onto the cells to the board.
