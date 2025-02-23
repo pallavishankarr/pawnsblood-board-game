@@ -14,6 +14,10 @@ public interface PawnsGame {
    * @param player1deck the list of cards for the first player
    * @param player2deck the list of cards for the second player
    * @param handSize maximum hand size for the game
+   * @throws IllegalStateException if the game has already been started
+   * @throws IllegalArgumentException if either players deck is null or contains a null object,
+   * if handSize is not positive (i.e. 0 or less),
+   * or if either deck does not contain enough cards to fill every cell on the board
    */
   void startGame(List<Card> player1deck, List<Card> player2deck, int handSize);
 
@@ -36,8 +40,12 @@ public interface PawnsGame {
    * @param cardIdx index of the card in hand to place (0-index based)
    * @param row row to place the card in (0-index based)
    * @param col col to be placed the card in (0-index based)
+   * @throws IllegalStateException if the game has not started or there is a cardat the given
+   * position
+   * @throws IllegalArgumentException if the cardIdx is our of bounds of the hand
+   * or row and col do not indicate a position on the board
    */
-  void playCard(Player player, int cardIdx, int row, int col);
+  void placeCardAt(Player player, int cardIdx, int row, int col);
 
   /**
    * Allows a player to pass their turn.
@@ -47,12 +55,31 @@ public interface PawnsGame {
 
   /**
    * Draws a card for the current player.
+   * @param player the player who wants to drawCard
+   * @throws IllegalStateException if the game has not started or there is no cards left to draw
    */
-  void drawCardForPlayer();
+  void drawCard(Player player);
+
+  /**
+   * Creates a brand new deck of cards.
+   * @return a new deck of all possible cards that can be used to play
+   */
+  List<Card> getNewDeck();
+
+  /**
+   * Returns the cell at the indicated position on the board.
+   * @param row the row to access
+   * @param col the column to acess
+   * @return the cell in the valid position
+   * @throws IllegalArgumentException if the row and column are not a valid location
+   * for a Cell on the board
+   */
+  Cell getCellAt(int row, int col);
 
   /**
    * Gets the current player.
    * @return The player whose turn it is
+   * @throws IllegalStateException if the game has not started
    */
   Player getCurrentPlayer();
 
@@ -65,14 +92,17 @@ public interface PawnsGame {
   List<Card> getHand(Player player);
 
   /**
-   * Determines if the game has ended.
-   * @return true if the game is over, false if the game is not over
+   * Returns the number of cards left in a player's deck.
+   * @param player the player whose deck needs to be accessed
+   * @return the number of cards left in the players deck.
+   * @throws IllegalStateException if the game has not started
    */
-  boolean isGameOver();
+  int getRemainingDeckSize(Player player);
 
   /**
    * Gets the winner of the game
    * @return the player who won
+   * @throws IllegalStateException if the game has not started
    */
   Player getWinner();
 
@@ -80,12 +110,14 @@ public interface PawnsGame {
    * Checks and returns the score of the Player.
    * @param player checks the score of the player
    * @return the integer of the Score
+   * @throws IllegalStateException if the game has not started
    */
   int checkScore(Player player);
 
   /**
-   * Checks the winner of the game based on the final Score.
-   * @return the Player who won
+   * Determines if the game has ended.
+   * @return true if the game is over, false if the game is not over
+   * @throws IllegalStateException if the game has not started
    */
-  Player checkWinner();
+  boolean isGameOver();
 }
