@@ -128,6 +128,8 @@ public interface PawnsGame {
    * @param col the col index of the placed card (0-index)
    * @param card the card being placed on the board
    * @param currentPlayer the player placing the card
+   * @throws IllegalStateException if the game is not started
+   * @throws IllegalArgumentException if row or col is not a position on the board, card is null, or currentplayer is null
    */
   void applyCardInfluence(int row, int col, Card card, Player currentPlayer);
 }
