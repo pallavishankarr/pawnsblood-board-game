@@ -13,11 +13,6 @@ public interface Cell {
   void placeCard(Card card);
 
   /**
-   * Applies influence of the card on the cell.
-   */
-  void applyInfluence();
-
-  /**
    * Gets the owner of the cell.
    * @return Player who owns the cell
    */

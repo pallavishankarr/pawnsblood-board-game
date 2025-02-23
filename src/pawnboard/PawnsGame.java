@@ -120,4 +120,14 @@ public interface PawnsGame {
    * @throws IllegalStateException if the game has not started
    */
   boolean isGameOver();
+
+  /**
+   * Applies the influence of a placed card to the board.
+   * Each affected cell is modified according to the games influence rules.
+   * @param row the row index of the placed card (0-index)
+   * @param col the col index of the placed card (0-index)
+   * @param card the card being placed on the board
+   * @param currentPlayer the player placing the card
+   */
+  void applyCardInfluence(int row, int col, Card card, Player currentPlayer);
 }
