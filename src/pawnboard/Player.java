@@ -9,4 +9,13 @@ import java.util.List;
  * such as drawing cards, making moves, and retrieving player-related information.
  */
 public interface Player {
+  public void makeMove(Game model);
+
+  public void drawInitialHand(Game model);
+
+  public void drawCard(Game model);
+
+  public PlayerColor getColor();
+
+  public List<Card> getHand();
 }
