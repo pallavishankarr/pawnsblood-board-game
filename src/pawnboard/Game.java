@@ -10,7 +10,7 @@ public interface Game {
    * Starts the game with the given hand size and initializes the board.
    * @param handSize maximum hand size for the game
    */
-  void sartGame(int handSize);
+  void startGame(int handSize);
 
   /**
    * Checks if a move that is made is valid.
