@@ -4,8 +4,9 @@ public interface Cell {
 
   /**
    * Adds a pawn to the cell.
+   * @param player the player who owns the cell
    */
-  void addPawn();
+  void addPawn(Player player);
 
   /**
    * Places a card on the cell and removes any pawns on the cell.
@@ -34,6 +35,13 @@ public interface Cell {
    * @return true if the cells contains a card or false
    */
   boolean hasCard();
+
+  /**
+   * Checks if the cell is empty
+   * Empty means no cards or pawns are in the cell
+   * @return true if the cell is empty
+   */
+  boolean isCellEmpty();
 
 
 
