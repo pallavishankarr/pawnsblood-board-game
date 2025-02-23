@@ -9,13 +9,31 @@ import java.util.List;
  * such as drawing cards, making moves, and retrieving player-related information.
  */
 public interface Player {
-  public void makeMove(Game model);
 
-  public void drawInitialHand(Game model);
+  /**
+   * Plays a card from the player's hand onto the board.
+   * @param game the game instance enforcing rules
+   * @param cardIdx the index of card in the hand
+   * @param row the row to be placed
+   * @param col the column to be placed
+   */
+  void playCard(PawnsGame game, int cardIdx, int row, int col);
 
-  public void drawCard(Game model);
+  /**
+   * Passes the player's turn.
+   * @param game The game instance managing turns
+   */
+  void passMove(PawnsGame game);
 
-  public PlayerColor getColor();
+  /**
+   * Draws a card from the deck into the player's hand.
+   * @param game
+   */
+  void drawCard(PawnsGame game);
 
-  public List<Card> getHand();
+  /**
+   * Gets the player's color.
+   * @return The player's color
+   */
+  PlayerColor getColor();
 }
