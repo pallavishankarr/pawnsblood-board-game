@@ -1,8 +1,8 @@
 package pawnboard.influences;
 
-import pawnboard.Cell;
-import pawnboard.PawnsGame;
-import pawnboard.Player;
+import pawnboard.model.Cell;
+import pawnboard.model.PawnsGame;
+import pawnboard.model.Player;
 
 /**
  * Increases the amount of pawns in a cell the player owns.

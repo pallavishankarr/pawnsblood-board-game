@@ -1,4 +1,4 @@
-package pawnboard;
+package pawnboard.model;
 
 public interface Cell {
 

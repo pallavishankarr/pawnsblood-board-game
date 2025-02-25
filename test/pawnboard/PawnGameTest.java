@@ -3,6 +3,9 @@ package pawnboard;
 import org.junit.Before;
 import org.junit.Test;
 
+import pawnboard.model.Cell;
+import pawnboard.model.PawnCell;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;

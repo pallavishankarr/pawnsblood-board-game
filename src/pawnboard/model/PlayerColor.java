@@ -1,4 +1,4 @@
-package pawnboard;
+package pawnboard.model;
 
 /**
  * Represents the Player color in the game.

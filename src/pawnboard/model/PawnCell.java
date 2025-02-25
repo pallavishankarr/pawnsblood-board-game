@@ -1,11 +1,11 @@
-package pawnboard;
+package pawnboard.model;
 
 /**
  * PawnCell implements the class Cell and contains the fields
  * of the owner, pawn count of the cell, card of the cell  and if the cell
  * is empty or not.
  */
-public class PawnCell implements Cell{
+public class PawnCell implements Cell {
 
   private Player owner;
   private int pawnCount;

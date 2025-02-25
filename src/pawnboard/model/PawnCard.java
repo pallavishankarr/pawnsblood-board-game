@@ -1,4 +1,4 @@
-package pawnboard;
+package pawnboard.model;
 
 import java.util.List;
 

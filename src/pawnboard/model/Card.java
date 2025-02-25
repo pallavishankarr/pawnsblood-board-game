@@ -1,4 +1,4 @@
-package pawnboard;
+package pawnboard.model;
 
 /**
  * Interface represents a card defining its properties and behaviors.
