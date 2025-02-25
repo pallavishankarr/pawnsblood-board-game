@@ -1,7 +1,6 @@
 package pawnboard.influences;
 
 import pawnboard.model.PawnsGame;
-import pawnboard.model.Player;
 
 /**
  * Represents the types of influences a card can have on the board.

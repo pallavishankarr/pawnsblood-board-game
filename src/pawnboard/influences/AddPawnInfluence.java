@@ -2,7 +2,6 @@ package pawnboard.influences;
 
 import pawnboard.model.Cell;
 import pawnboard.model.PawnsGame;
-import pawnboard.model.Player;
 
 /**
  * Represents an influnece where a pawn is added to the cell.
