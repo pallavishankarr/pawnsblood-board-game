@@ -16,6 +16,9 @@ public interface Player {
    * @param cardIdx the index of card in the hand
    * @param row the row to be placed
    * @param col the column to be placed
+   * @throws IllegalArgumentException if the game is null
+   * @throws IllegalArgumentException if the cardIdx is out of bounds or
+   *                                  row and col do not indicate a position on the board
    */
   void playCard(PawnsGame game, int cardIdx, int row, int col);
 
@@ -27,7 +30,7 @@ public interface Player {
 
   /**
    * Draws a card from the deck into the player's hand.
-   * @param game
+   * @param game The game instance to draw a card
    */
   void drawCard(PawnsGame game);
 
