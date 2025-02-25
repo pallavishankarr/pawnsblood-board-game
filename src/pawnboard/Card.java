@@ -29,7 +29,7 @@ public interface Card {
    * Returns the influence grid which shows what cells state changes.
    * @return a 2D array representing the influence pattern of the grid
    */
-  int[][] getInfluenceGrid();
+  char[][] getInfluenceGrid();
 
   /**
    * Determines if the Card affects cell of the given row and column.
@@ -41,9 +41,9 @@ public interface Card {
   boolean affectsCell(int row, int col) throws IllegalArgumentException;
 
   /**
-   * Applies th influence of the card onto the cells to the board.
+   * Applies the influence of the card onto the cells to the board.
    */
-  void applyInfluence();
+  void applyInfluence(PawnsGame game, int boardRow, int boardCol, Player currentPlayer);
 
   /**
    * Returns a String representation of the card
