@@ -1,7 +1,7 @@
 package pawnboard.influences;
 
-import pawnboard.PawnsGame;
-import pawnboard.Player;
+import pawnboard.model.PawnsGame;
+import pawnboard.model.Player;
 
 /**
  * Represents the types of influences a card can have on the board.

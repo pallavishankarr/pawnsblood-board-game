@@ -1,7 +1,5 @@
-package pawnboard;
+package pawnboard.model;
 
-
-import java.util.List;
 
 /**
  * The player interface represents a participant in the game.

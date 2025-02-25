@@ -1,7 +1,7 @@
 package pawnboard.influences;
 
-import pawnboard.PawnsGame;
-import pawnboard.Player;
+import pawnboard.model.PawnsGame;
+import pawnboard.model.Player;
 
 /**
  * Represents an influnece where nothing happens to the cell
