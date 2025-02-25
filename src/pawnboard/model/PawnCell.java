@@ -11,13 +11,13 @@ public class PawnCell implements Cell {
   private int pawnCount;
   private Card card;
 
-  PawnCell() {
+  public PawnCell() {
     this.owner = null;
     this.pawnCount = 0;
     this.card = null;
   }
 
-  PawnCell(Player owner, int pawnCount) {
+  public PawnCell(Player owner, int pawnCount) {
     if (owner == null) {
       throw new IllegalArgumentException("Owner cannot be null");
     }

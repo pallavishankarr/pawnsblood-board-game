@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import pawnboard.model.Cell;
 import pawnboard.model.PawnCell;
+import pawnboard.model.Player;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -15,12 +16,14 @@ public class PawnGameTest {
   private Cell cell1;
   private Cell cell2;
   private Cell cell3;
+  private Player player;
 
   @Before
   public void setUp() {
     this.cell1 = new PawnCell();
     this.cell2 = new PawnCell();
     this.cell3 = new PawnCell();
+
   }
 
 
@@ -38,6 +41,7 @@ public class PawnGameTest {
 
   @Test
   public void testCellAddPawn() {
+    assertEquals(0, this.cell1.addPawn(Player.RED));
 
   }
 
