@@ -52,5 +52,5 @@ public interface Card {
    * @return String of the card
    */
   String toString();
-  
+
 }

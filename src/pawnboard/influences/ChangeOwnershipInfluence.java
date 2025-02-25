@@ -2,6 +2,7 @@ package pawnboard.influences;
 
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Cell;
+import pawnboard.model.Player;
 
 /**
  * Represents an influence where the cell has pawns and the ownership changes.

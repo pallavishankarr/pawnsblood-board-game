@@ -10,6 +10,8 @@ import pawnboard.model.Player;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 public class PawnGameTest {
 
@@ -21,27 +23,47 @@ public class PawnGameTest {
   @Before
   public void setUp() {
     this.cell1 = new PawnCell();
-    this.cell2 = new PawnCell();
+    this.cell2 = new PawnCell(Player.RED, 2);
     this.cell3 = new PawnCell();
+
 
   }
 
 
   @Test
   public void testValidConstructorCell() {
+
+    //checks the initialization of PawnCell with empty constructor
     assertEquals(0, this.cell1.getPawnCount());
     assertNull(this.cell1.getOwner());
     assertFalse(this.cell1.hasCard());
+
+    //checks the initialization of PawnCell with a different constructor
+    assertEquals(2, this.cell2.getPawnCount());
+    assertEquals(Player.RED, this.cell2.getOwner());
+    assertFalse(this.cell2.hasCard());
+
   }
 
   @Test
   public void testInvalidConstructorCell() {
+    assertThrows(IllegalArgumentException.class, ()
+            -> { new PawnCell(null, 5);});
+    
 
   }
 
   @Test
   public void testCellAddPawn() {
-    assertEquals(0, this.cell1.addPawn(Player.RED));
+
+    this.cell1.addPawn(Player.RED);
+    assertEquals(1, this.cell1.getPawnCount());
+    this.cell1.addPawn(Player.RED);
+    assertEquals(2, this.cell1.getPawnCount());
+
+    //adds a pawn for the Blue Player
+    this.cell1.addPawn(Player.BLUE);
+    assertEquals(2, this.cell1.getPawnCount());
 
   }
 
