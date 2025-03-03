@@ -49,7 +49,6 @@ public class PawnGameTest {
   public void testInvalidConstructorCell() {
     assertThrows(IllegalArgumentException.class, ()
             -> { new PawnCell(null, 5);});
-    
 
   }
 
