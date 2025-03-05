@@ -6,6 +6,9 @@ import org.junit.Test;
 import pawnboard.model.Cell;
 import pawnboard.model.PawnCell;
 import pawnboard.model.Player;
+import pawnboard.model.PawnsGame;
+import pawnboard.model.PawnGameImpl;
+
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -19,12 +22,14 @@ public class PawnGameTest {
   private Cell cell2;
   private Cell cell3;
   private Player player;
+  private PawnsGame game;
 
   @Before
   public void setUp() {
     this.cell1 = new PawnCell();
     this.cell2 = new PawnCell(Player.RED, 2);
     this.cell3 = new PawnCell();
+
 
 
   }
@@ -177,12 +182,20 @@ public class PawnGameTest {
   //test for Valid Constructor of the PawnsGame Class
   @Test
   public void testValidConstructor(){
+    this.game = new PawnGameImpl(3, 5);
+    assertEquals(3, this.game.getHeight());
+    assertEquals(5, this.game.getWidth());
+
 
   }
 
   //test for Invalid Constructor of the PawnGame Class
   @Test
   public void testInvalidConstructor(){
+
+    assertThrows(IllegalArgumentException.class,() -> new PawnGameImpl(3,6));
+    assertThrows(IllegalArgumentException.class,() -> new PawnGameImpl(0,6));
+
 
   }
 

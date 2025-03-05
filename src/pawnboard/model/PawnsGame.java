@@ -40,7 +40,7 @@ public interface PawnsGame {
    * @param cardIdx index of the card in hand to place (0-index based)
    * @param row row to place the card in (0-index based)
    * @param col col to be placed the card in (0-index based)
-   * @throws IllegalStateException if the game has not started or there is a cardat the given
+   * @throws IllegalStateException if the game has not started or there is a card at the given
    * position
    * @throws IllegalArgumentException if the cardIdx is our of bounds of the hand
    * or row and col do not indicate a position on the board
