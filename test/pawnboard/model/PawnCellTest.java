@@ -9,8 +9,6 @@ public class PawnCellTest {
   private Cell cell1;
   private Cell cell2;
   private Cell cell3;
-  private Player player;
-  private PawnsGame game;
 
   @Before
   public void setUp() {

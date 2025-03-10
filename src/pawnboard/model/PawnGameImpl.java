@@ -10,25 +10,43 @@ public class PawnGameImpl implements PawnsGame{
   private Cell[][] board;
   private List<Card> playerRedDeck;
   private List<Card> playerBlueDeck;
-  private boolean gameStarted = false;
   private List<Card> playerRedHand;
   private List<Card> playerBlueHand;
+  private boolean gameStarted = false;
   private Player turn;
+  private final int handSize = 5;
 
   public PawnGameImpl(int row, int column) {
     if(row < 0 || column < 1 || column%2 == 0 ) {
       throw new IllegalArgumentException("Row or column out of bounds");
     }
 
+    initializeBoard();
+    
+    CardInitializer cardInitializer = new CardInitializer();
+    this.playerRedDeck = cardInitializer.initializeDeck(RedDeckFile);
+    this.playerBlueDeck = cardInitializer.initializeDeck(BlueDeckFile);
+
+    this.playerRedHand = new ArrayList<>();
+    this.playerBlueHand = new ArrayList<>();
+    this.turn = Player.RED;
+    this.gameStarted = false;
     this.row = row;
     this.column = column;
 
   }
 
+  private void initializeBoard() {
+    this.board = new Cell[row][column];
+    for (int i = 0; i < row; i++) {
+      for (int j = 0; j < column; j++) {
+        this.board[i][j] = new PawnCell();
+      }
+    }
+  }
 
   @Override
   public void startGame(List<Card> player1deck, List<Card> player2deck, int handSize) {
-
 
     if(player1deck == null || player2deck == null) {
       throw new IllegalArgumentException("Player decks cannot be null");
@@ -138,10 +156,12 @@ public class PawnGameImpl implements PawnsGame{
 
   @Override
   public void passTurn(Player player) {
-    if(player == Player.BLUE) {
+    if (player == Player.RED) {
+      turn = Player.BLUE;
+    }
+    else if (player == Player.BLUE) {
       turn = Player.RED;
     }
-    turn = Player.BLUE;
   }
 
   @Override

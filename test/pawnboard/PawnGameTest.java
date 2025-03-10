@@ -18,6 +18,10 @@ import static org.junit.Assert.assertTrue;
 
 public class PawnGameTest {
 
+  private Player player;
+  private PawnsGame game;
+
+
   //Test placing  a Card
   @Test
   public void testPlaceCard() {
