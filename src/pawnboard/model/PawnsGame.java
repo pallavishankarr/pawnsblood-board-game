@@ -19,7 +19,7 @@ public interface PawnsGame {
    * if handSize is not positive (i.e. 0 or less),
    * or if either deck does not contain enough cards to fill every cell on the board
    */
-  void startGame(List<Card> player1deck, List<Card> player2deck, int handSize);
+  void startGame(List<Card> player1deck, List<Card> player2deck);
 
   /**
    * Retrieves the number of cells that make up the width of the board.

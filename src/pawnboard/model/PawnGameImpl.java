@@ -24,6 +24,8 @@ public class PawnGameImpl implements PawnsGame{
     initializeBoard();
     
     CardInitializer cardInitializer = new CardInitializer();
+
+    // need to do this in start game instead
     this.playerRedDeck = cardInitializer.initializeDeck(RedDeckFile);
     this.playerBlueDeck = cardInitializer.initializeDeck(BlueDeckFile);
 
@@ -45,8 +47,12 @@ public class PawnGameImpl implements PawnsGame{
     }
   }
 
+  // need to initialize the deck somewhere since you give in a deck
+
+  // create private method to initialize the hand
+
   @Override
-  public void startGame(List<Card> player1deck, List<Card> player2deck, int handSize) {
+  public void startGame(List<Card> player1deck, List<Card> player2deck) {
 
     if(player1deck == null || player2deck == null) {
       throw new IllegalArgumentException("Player decks cannot be null");
@@ -60,11 +66,7 @@ public class PawnGameImpl implements PawnsGame{
       throw new IllegalStateException("Game has already started.");
     }
 
-    if(handSize <= 0) {
-      throw new IllegalArgumentException("Hand size must be greater than 0");
-    }
-
-    if(player1deck.size() < row*column || player2deck.size() < row*column) {
+    if(player1deck.size() < row * column || player2deck.size() < row * column) {
       throw new IllegalArgumentException("Each deck doesn't have enough cards.");
     }
 
@@ -72,16 +74,16 @@ public class PawnGameImpl implements PawnsGame{
       throw new IllegalArgumentException("Hand size cannot be greater than ⅓ of the deck.");
     }
 
-
+    // initialize card deck here
     this.playerRedDeck = player1deck;
     this.playerBlueDeck = player2deck;
-    this.board = new Cell[row][column];
+
     this.gameStarted = true;
     this.turn = Player.RED;
-    this.playerRedHand = new ArrayList<Card>();
-    this.playerBlueHand = new ArrayList<Card>();
 
-    for(int i = 0; i < playerRedDeck.size(); i++) {
+
+    // initializes a players hand
+    for (int i = 0; i < playerRedDeck.size(); i++) {
       if(i <= handSize) {
         playerRedHand.add(playerRedDeck.get(i));
       }
@@ -112,11 +114,13 @@ public class PawnGameImpl implements PawnsGame{
   @Override
   public void placeCardAt(Player player, int cardIdx, int row, int col) {
 
+    Cell cell = this.board[row][col];
+
     if(!gameStarted) {
       throw new IllegalStateException("Game has not started.");
     }
 
-    if(board[row][col] != null) {
+    if(getCellAt(row, col).hasCard()) {
       throw new IllegalArgumentException("Card already occupied");
     }
 
@@ -124,7 +128,9 @@ public class PawnGameImpl implements PawnsGame{
       throw new IllegalArgumentException("Row or column is out of board bounds.");
     }
 
-    if(turn == Player.RED) {
+    // ABSTRACT THIS PART
+
+    if (turn == Player.RED) {
       if ((cardIdx < 0 || cardIdx > playerRedHand.size() - 1)) {
         throw new IllegalArgumentException("Card Index is out of Bounds");
       }
@@ -134,7 +140,7 @@ public class PawnGameImpl implements PawnsGame{
       }
 
       Card card = playerRedHand.get(cardIdx);
-      ;
+
       board[row][col].placeCard(card);
       playerRedHand.remove(cardIdx);
 
@@ -169,6 +175,7 @@ public class PawnGameImpl implements PawnsGame{
 
   }
 
+  // do we really need this?
   @Override
   public List<Card> getNewDeck() {
     return List.of();
@@ -176,7 +183,7 @@ public class PawnGameImpl implements PawnsGame{
 
   @Override
   public Cell getCellAt(int row, int col) {
-    return null;
+    return board[row][col];
   }
 
   @Override
