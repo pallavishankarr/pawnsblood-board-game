@@ -87,7 +87,6 @@ public class PawnGameTest {
   @Test
   public void testGetPawnCount() {
     assertEquals(0, this.cell1.getPawnCount());
-
     assertEquals(1, this.cell1.getPawnCount());
 
   }
@@ -112,49 +111,7 @@ public class PawnGameTest {
   public void testIsEmpty(){
 
   }
-
-  //test for get Name of the card
-  @Test
-  public void testGetNameCard() {
-
-  }
-
-  //test to get the Pawn Cost of a card
-  @Test
-  public void testGetPawnCostCard(){
-
-  }
-
-  //test to get the Value of a card
-  @Test
-  public void testGetValueCard() {
-
-  }
-
-  //test to get Influence Grid of the Card
-  @Test
-  public void testGetInfluenceGridCard(){
-
-  }
-
-  // test for Affects Cell Card
-  @Test
-  public void testAffectsCellCard(){
-
-  }
-
-  //test to Apply Influence Card
-  @Test
-  public void testApplyInfluenceCard() {
-
-  }
-
-  //test toStringMethod for the Card
-  @Test
-  public void testToStringCard(){
-
-  }
-
+  
   //test to PlayGame from the Player
   @Test
   public void testPlayCardPlayer() {

@@ -18,9 +18,16 @@ public class PawnCard implements Card {
     if (value <= 0) {
       throw new IllegalArgumentException("Value must be positive integer");
     }
-    if (influenceGrid.length != 5 || influenceGrid[0].length != 5) {
-      throw new IllegalArgumentException("Influence Grid must be 5 x 5");
+    if (influenceGrid.length != 5) {
+      throw new IllegalArgumentException("Influence Grid must have exactly 5 rows.");
     }
+
+    for (char[] row : influenceGrid) {
+      if (row.length != 5) {
+        throw new IllegalArgumentException("Each row in the Influence Grid must have exactly 5 columns.");
+      }
+    }
+
     if (influenceGrid[2][2] != 'C') {
       throw new IllegalArgumentException("the center of the grid must contain 'C'");
     }
@@ -31,6 +38,7 @@ public class PawnCard implements Card {
     this.influenceGrid = influenceGrid;
     this.influenceEffects = influenceEffects;
   }
+
   @Override
   public String getName() {
     return name;

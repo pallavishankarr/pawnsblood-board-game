@@ -28,9 +28,7 @@ public class PawnCell implements Cell {
 
      this.owner = owner;
      this.pawnCount = pawnCount;
-
   }
-
 
   @Override
   public void addPawn(Player player) {
@@ -39,11 +37,9 @@ public class PawnCell implements Cell {
     } else if (!this.owner.equals(player)) {
       return;
     }
-
     if (pawnCount < 3) {
       pawnCount++;
     }
-
   }
 
   @Override
@@ -51,8 +47,6 @@ public class PawnCell implements Cell {
     this.card = card;
     this.pawnCount = 0;
   }
-
-
 
   @Override
   public Player getOwner() {

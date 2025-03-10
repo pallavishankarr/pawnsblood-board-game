@@ -15,9 +15,6 @@ public class PawnGameImpl implements PawnsGame{
   private List<Card> playerBlueHand;
   private Player turn;
 
-
-
-
   public PawnGameImpl(int row, int column) {
     if(row < 0 || column < 1 || column%2 == 0 ) {
       throw new IllegalArgumentException("Row or column out of bounds");
@@ -27,8 +24,6 @@ public class PawnGameImpl implements PawnsGame{
     this.column = column;
 
   }
-
-
 
 
   @Override
@@ -84,8 +79,6 @@ public class PawnGameImpl implements PawnsGame{
 
     playerBlueDeck.removeAll(playerBlueHand);
 
-
-
   }
 
   @Override
@@ -105,12 +98,9 @@ public class PawnGameImpl implements PawnsGame{
       throw new IllegalStateException("Game has not started.");
     }
 
-
     if(board[row][col] != null) {
       throw new IllegalArgumentException("Card already occupied");
     }
-
-
 
     if (row < 0 || row >= board.length || col < 0 || col >= board[0].length) {
       throw new IllegalArgumentException("Row or column is out of board bounds.");
@@ -143,13 +133,7 @@ public class PawnGameImpl implements PawnsGame{
         Card card2 = playerBlueHand.get(cardIdx);;
         board[row][col].placeCard(card2);
         playerBlueHand.remove(cardIdx);
-
-
-
-
       }
-
-
   }
 
   @Override
@@ -157,9 +141,7 @@ public class PawnGameImpl implements PawnsGame{
     if(player == Player.BLUE) {
       turn = Player.RED;
     }
-
     turn = Player.BLUE;
-
   }
 
   @Override
