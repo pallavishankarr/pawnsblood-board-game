@@ -26,13 +26,16 @@ public class PawnCardTest {
 
   @Test
   public void testInvalidCost() {
-    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 4, 1, influenceGrid, emptyEffects));
-    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 0, 1, influenceGrid, emptyEffects));
+    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 4, 1,
+            influenceGrid, emptyEffects));
+    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 0, 1,
+            influenceGrid, emptyEffects));
   }
 
   @Test
   public void testInvalidValue() {
-    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 3, 0, influenceGrid, emptyEffects));
+    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 3, 0,
+            influenceGrid, emptyEffects));
   }
 
   @Test
@@ -43,7 +46,8 @@ public class PawnCardTest {
             {'I', 'I', 'C', 'I', 'I'},
             {'X', 'I', 'I', 'I', 'X'},
     };
-    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 3, 1, influenceGrid, emptyEffects));
+    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 3, 1,
+            influenceGrid, emptyEffects));
   }
 
   @Test
@@ -64,8 +68,10 @@ public class PawnCardTest {
             {'X', 'X', 'I', 'X', 'X'}
     };
 
-    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 3, 1, influenceGrid2, emptyEffects));
-    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 3, 1, influenceGrid, emptyEffects));
+    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 3, 1,
+            influenceGrid2, emptyEffects));
+    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 3, 1,
+            influenceGrid, emptyEffects));
   }
 
   @Test
@@ -78,7 +84,8 @@ public class PawnCardTest {
             {'X', 'X', 'I', 'X', 'X'}
     };
 
-    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 3, 1, influenceGrid, emptyEffects));
+    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 3, 1,
+            influenceGrid, emptyEffects));
   }
 
   @Test
@@ -93,7 +100,8 @@ public class PawnCardTest {
 
   @Test
   public void testAffectsCell() {
-    PawnCard card = new PawnCard("TestCard", 2, 5, influenceGrid, new ArrayList<>());
+    PawnCard card = new PawnCard("TestCard", 2, 5, influenceGrid,
+            new ArrayList<>());
 
     assertTrue(card.affectsCell(0, 2));
     assertFalse(card.affectsCell(0, 0));
