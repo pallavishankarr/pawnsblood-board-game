@@ -37,6 +37,12 @@ public interface Cell {
   boolean hasCard();
 
   /**
+   * Returns the card of the cell.
+   * @return Card that the cell has placed on
+   */
+  Card getCard();
+
+  /**
    * Checks if the cell is empty
    * Empty means no cards or pawns are in the cell
    * @return true if the cell is empty

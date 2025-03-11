@@ -172,6 +172,15 @@ public class PawnGameImpl implements PawnsGame{
 
   @Override
   public void drawCard(Player player) {
+    if(player == Player.BLUE) {
+      playerBlueHand.add(playerBlueDeck.get(0));
+      playerBlueDeck.remove(0);
+    }
+
+    else {
+      playerRedHand.add(playerRedDeck.get(0));
+      playerRedDeck.remove(0);
+    }
 
   }
 
@@ -209,17 +218,49 @@ public class PawnGameImpl implements PawnsGame{
 
   @Override
   public Player getWinner() {
-    return null;
+    if (!isGameOver()) {
+      throw new IllegalArgumentException("Game isn't over.");
+    }
+
+    int redScore = checkScore(Player.RED);
+    int blueScore = checkScore(Player.BLUE);
+
+    if (redScore > blueScore) {
+      return Player.RED;
+    }
+    else {
+      return Player.BLUE;
+    }
+
   }
 
   @Override
   public int checkScore(Player player) {
-    return 0;
+    int score = 0;
+    for (int i = 0; i < row; i++) {
+      for (int j = 0; j < column; j++) {
+        Cell cell = board[i][j];
+        if (cell.hasCard() && cell.getOwner() == player) {
+          Card card = cell.getCard();
+          score += card.getValue();
+        }
+      }
+    }
+    return score;
   }
+
+
 
   @Override
   public boolean isGameOver() {
-    return false;
+    for (int i = 0; i < row; i++) {
+      for (int j = 0; j < column; j++) {
+        if (!board[i][j].hasCard()) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   @Override

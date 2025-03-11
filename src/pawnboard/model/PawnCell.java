@@ -74,4 +74,8 @@ public class PawnCell implements Cell {
   public boolean isCellEmpty() {
     return (pawnCount == 0 && !hasCard());
   }
+
+  public Card getCard() {
+    return this.card;
+  }
 }
