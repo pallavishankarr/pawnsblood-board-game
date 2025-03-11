@@ -72,27 +72,19 @@ public class PawnGameImpl implements PawnsGame{
     this.playerRedDeck = cardInitializer.initializeDeck("CardList.txt");
     this.playerBlueDeck = cardInitializer.initializeDeck("CardList.txt");
     this.handSize = handSize;
+
+    initializeHand(playerRedDeck, playerRedHand);
+    initializeHand(playerBlueDeck, playerBlueHand);
+
     this.gameStarted = true;
     this.turn = Player.RED;
+  }
 
-
-    // initializes a players hand
-    for (int i = 0; i < playerRedDeck.size(); i++) {
-      if(i <= handSize) {
-        playerRedHand.add(playerRedDeck.get(i));
-      }
+  private void initializeHand(List<PawnCard> deck, List<PawnCard> hand) {
+    for (int i = 0; i < handSize; i++) {
+      hand.add(deck.get(i));
     }
-
-    playerRedDeck.removeAll(playerRedHand);
-
-    for(int i = 0; i < playerBlueDeck.size(); i++) {
-      if(i <= handSize) {
-        playerBlueHand.add(playerBlueDeck.get(i));
-      }
-    }
-
-    playerBlueDeck.removeAll(playerBlueHand);
-
+    deck.removeAll(hand);
   }
 
   @Override
