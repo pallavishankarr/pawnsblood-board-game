@@ -155,6 +155,8 @@ public class PawnGameImpl implements PawnsGame{
       }
   }
 
+
+
   @Override
   public void passTurn(Player player) {
     if (player == Player.RED) {
@@ -232,17 +234,53 @@ public class PawnGameImpl implements PawnsGame{
   @Override
   public int checkScore(Player player) {
     int score = 0;
-    for (int i = 0; i < row; i++) {
-      for (int j = 0; j < column; j++) {
-        Cell cell = board[i][j];
-        if (cell.hasCard() && cell.getOwner() == player) {
-          Card card = cell.getCard();
-          score += card.getValue();
-        }
+
+    for(int row = 0 ; row < this.row ; row++) {
+      if(rowWinner(row) == player){
+        score =+ checkScoreRow(player, row);
       }
+      else {
+        score =+ 0;
+      }
+
     }
     return score;
+
   }
+
+
+  private int checkScoreRow(Player player, int rowIdx) {
+    int score = 0;
+
+    for (int col = 0; col < column; col++) {
+      Cell cell = board[rowIdx][col];
+      if (cell.hasCard()) {
+        Card card = cell.getCard();
+        if (cell.getOwner() == player) {
+          score += card.getValue();
+        }
+
+      }
+
+    }
+
+    return score;
+
+  }
+
+  private Player rowWinner(int rowIdx) {
+    int redScore = checkScoreRow(Player.RED, rowIdx);
+    int blueScore = checkScoreRow(Player.BLUE, rowIdx);
+
+    if (redScore > blueScore) {
+      return Player.RED;
+    } else if (blueScore > redScore) {
+      return Player.BLUE;
+    } else {
+      return null;
+    }
+  }
+
 
 
 
