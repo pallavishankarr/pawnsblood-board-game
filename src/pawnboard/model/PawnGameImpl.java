@@ -21,8 +21,12 @@ public class PawnGameImpl implements PawnsGame{
       throw new IllegalArgumentException("Row or column out of bounds");
     }
 
+    // INVARIANT: the board does not have null values
     initializeBoard();
 
+    // INVARIANT: a players deck cannot be null
+    this.playerRedDeck = new ArrayList<>();
+    this.playerBlueDeck = new ArrayList<>();
     this.playerRedHand = new ArrayList<>();
     this.playerBlueHand = new ArrayList<>();
     this.turn = Player.RED;
@@ -40,10 +44,6 @@ public class PawnGameImpl implements PawnsGame{
       }
     }
   }
-
-  // need to initialize the deck somewhere since you give in a deck
-
-  // create private method to initialize the hand
 
   @Override
   public void startGame(List<Card> player1deck, List<Card> player2deck, int handSize) {
