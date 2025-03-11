@@ -3,11 +3,17 @@ package pawnboard;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import pawnboard.model.Cell;
 import pawnboard.model.PawnCell;
 import pawnboard.model.Player;
 import pawnboard.model.PawnsGame;
+import pawnboard.model.PawnCard;
 import pawnboard.model.PawnGameImpl;
+import pawnboard.model.CardInitializer;
+
+
 
 
 import static org.junit.Assert.assertEquals;
@@ -25,6 +31,11 @@ public class PawnGameTest {
   //Test placing  a Card
   @Test
   public void testPlaceCard() {
+
+    CardInitializer initializer = new CardInitializer();
+   
+
+
 
 
   }
