@@ -128,10 +128,6 @@ public class PawnGameImpl implements PawnsGame{
       throw new IllegalArgumentException("CardIdx out of bounds");
     }
 
-    if(cardIdx > playerHand.size() + 1) {
-      throw new IllegalArgumentException("CardIdx out of bounds");
-    }
-
     Card card = playerHand.get(cardIdx);
     board[row][col].placeCard(card);
     playerHand.remove(cardIdx);
@@ -183,9 +179,9 @@ public class PawnGameImpl implements PawnsGame{
   @Override
   public List<PawnCard> getHand(Player player) {
     if(player == Player.RED) {
-      return playerRedDeck;
+      return playerRedHand;
     }
-    return playerBlueDeck;
+    return playerBlueHand;
   }
 
   @Override
