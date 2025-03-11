@@ -122,38 +122,28 @@ public class PawnGameImpl implements PawnsGame{
       throw new IllegalArgumentException("Row or column is out of board bounds.");
     }
 
-    List<Card> playerHand;
+    List<PawnCard> playerHand = new ArrayList<>();
 
-
-
-    if (turn == Player.RED) {
-      if ((cardIdx < 0 || cardIdx > playerRedHand.size() - 1)) {
-        throw new IllegalArgumentException("Card Index is out of Bounds");
-      }
-
-      if (cardIdx > playerRedHand.size() + 1) {
-        throw new IllegalArgumentException("Card Index is out of Bounds");
-      }
-
-      Card card = playerRedHand.get(cardIdx);
-
-      board[row][col].placeCard(card);
-      playerRedHand.remove(cardIdx);
-
+    if(player == Player.RED) {
+      playerHand = playerRedHand;
     }
-      else {
-        if ((cardIdx < 0 || cardIdx > playerBlueHand.size() - 1)) {
-          throw new IllegalArgumentException("Card Index is out of Bounds");
-        }
 
-        if(cardIdx > playerBlueHand.size() + 1) {
-          throw new IllegalArgumentException("Card Index is out of Bounds");
-        }
+    if(player == Player.BLUE) {
+      playerHand = playerBlueHand;
+    }
 
-        Card card2 = playerBlueHand.get(cardIdx);;
-        board[row][col].placeCard(card2);
-        playerBlueHand.remove(cardIdx);
-      }
+    if(cardIdx < 0 || cardIdx > playerHand.size() - 1) {
+      throw new IllegalArgumentException("CardIdx out of bounds");
+    }
+
+    if(cardIdx > playerHand.size() + 1) {
+      throw new IllegalArgumentException("CardIdx out of bounds");
+    }
+
+    Card card = playerHand.get(cardIdx);
+    board[row][col].placeCard(card);
+    playerHand.remove(cardIdx);
+
   }
 
 
