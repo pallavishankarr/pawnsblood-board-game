@@ -68,6 +68,7 @@ public class PawnGameImpl implements PawnsGame{
       throw new IllegalArgumentException("Hand size cannot be greater than ⅓ of the deck.");
     }
 
+    // intializes their deck
     CardInitializer cardInitializer = new CardInitializer();
     this.playerRedDeck = cardInitializer.initializeDeck("CardList.txt");
     this.playerBlueDeck = cardInitializer.initializeDeck("CardList.txt");
