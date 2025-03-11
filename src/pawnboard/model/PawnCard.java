@@ -60,6 +60,11 @@ public class PawnCard implements Card {
   }
 
   @Override
+  public List<InfluenceEffect> getInfluenceEffects() {
+    return influenceEffects;
+  }
+
+  @Override
   public boolean affectsCell(int row, int col) throws IllegalArgumentException {
     if (row < 0 || row >= 5 || col < 0 || col >= 5) {
       throw new IllegalArgumentException("Invalid cell coordinates for influence grid.");

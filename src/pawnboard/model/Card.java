@@ -2,6 +2,8 @@ package pawnboard.model;
 
 import java.util.List;
 
+import pawnboard.influences.InfluenceEffect;
+
 /**
  * Interface represents a card defining its properties and behaviors.
  * It includes methods the retrieve Card properties and how a card
@@ -32,6 +34,12 @@ public interface Card {
    * @return a 2D array representing the influence pattern of the grid
    */
   char[][] getInfluenceGrid();
+
+  /**
+   * Returns a list of influence effects that the card has
+   * @return a list of influence effects
+   */
+  List<InfluenceEffect> getInfluenceEffects();
 
   /**
    * Determines if the Card affects cell of the given row and column.
