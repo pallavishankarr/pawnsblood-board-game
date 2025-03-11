@@ -23,8 +23,17 @@ public class CardInitializerTest {
     tempFile.deleteOnExit(); // Ensure deletion after test
 
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+      writer.write("Security 1 2\n");
+=======
       writer.write("Security\n");
       writer.write("1 2\n");
+>>>>>>> Stashed changes
+=======
+      writer.write("Security\n");
+      writer.write("1 2\n");
+>>>>>>> Stashed changes
       writer.write("XXXXX\n");
       writer.write("XXIXX\n");
       writer.write("XICIX\n");
@@ -69,8 +78,17 @@ public class CardInitializerTest {
 
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
       // First card: Security
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+      writer.write("Security 1 2\n");
+=======
       writer.write("Security\n");
       writer.write("1 2\n");
+>>>>>>> Stashed changes
+=======
+      writer.write("Security\n");
+      writer.write("1 2\n");
+>>>>>>> Stashed changes
       writer.write("XXXXX\n");
       writer.write("XXIXX\n");
       writer.write("XICIX\n");
@@ -79,8 +97,17 @@ public class CardInitializerTest {
       writer.write("A N\n"); // Influence effects
 
       // Second card: Bee
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+      writer.write("Bee 1 1\n");
+=======
       writer.write("Bee\n");
       writer.write("1 1\n");
+>>>>>>> Stashed changes
+=======
+      writer.write("Bee\n");
+      writer.write("1 1\n");
+>>>>>>> Stashed changes
       writer.write("XXIXX\n");
       writer.write("XXXXX\n");
       writer.write("XXCXX\n");
