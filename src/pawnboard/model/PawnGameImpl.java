@@ -276,7 +276,7 @@ public class PawnGameImpl implements PawnsGame{
     } else if (blueScore > redScore) {
       return Player.BLUE;
     } else {
-      return null; // Indicates a tie for the row
+      return null;
     }
   }
 
