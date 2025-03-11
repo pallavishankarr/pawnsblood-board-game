@@ -13,12 +13,13 @@ public interface PawnsGame {
    * Starts the game with the given hand size and initializes the board.
    * @param player1deck the list of cards for the first player
    * @param player2deck the list of cards for the second player
+   * @param handSize the given hand size for each player
    * @throws IllegalStateException if the game has already been started
    * @throws IllegalArgumentException if either players deck is null or contains a null object,
    * if handSize is not positive (i.e. 0 or less),
    * or if either deck does not contain enough cards to fill every cell on the board
    */
-  void startGame(List<Card> player1deck, List<Card> player2deck);
+  void startGame(List<Card> player1deck, List<Card> player2deck, int handSize);
 
   /**
    * Retrieves the number of cells that make up the width of the board.

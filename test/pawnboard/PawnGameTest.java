@@ -26,6 +26,7 @@ public class PawnGameTest {
   @Test
   public void testPlaceCard() {
 
+
   }
 
   //test to PlayGame from the Player
@@ -74,6 +75,7 @@ public class PawnGameTest {
   //test for starting the Game
   @Test
   public void testLegalStartGame(){
+
 
   }
 

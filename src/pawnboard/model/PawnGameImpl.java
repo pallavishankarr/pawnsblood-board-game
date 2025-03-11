@@ -14,7 +14,7 @@ public class PawnGameImpl implements PawnsGame{
   private List<PawnCard> playerBlueHand;
   private boolean gameStarted = false;
   private Player turn;
-  private final int handSize = 5;
+  private  int handSize;
 
   public PawnGameImpl(int row, int column) {
     if(row < 0 || column < 1 || column%2 == 0 ) {
@@ -46,7 +46,7 @@ public class PawnGameImpl implements PawnsGame{
   // create private method to initialize the hand
 
   @Override
-  public void startGame(List<Card> player1deck, List<Card> player2deck) {
+  public void startGame(List<Card> player1deck, List<Card> player2deck, int handSize) {
 
     if(player1deck == null || player2deck == null) {
       throw new IllegalArgumentException("Player decks cannot be null");
@@ -71,7 +71,7 @@ public class PawnGameImpl implements PawnsGame{
     CardInitializer cardInitializer = new CardInitializer();
     this.playerRedDeck = cardInitializer.initializeDeck("CardList.txt");
     this.playerBlueDeck = cardInitializer.initializeDeck("CardList.txt");
-
+    this.handSize = handSize;
     this.gameStarted = true;
     this.turn = Player.RED;
 
@@ -122,7 +122,9 @@ public class PawnGameImpl implements PawnsGame{
       throw new IllegalArgumentException("Row or column is out of board bounds.");
     }
 
-    // ABSTRACT THIS PART
+    List<Card> playerHand;
+
+
 
     if (turn == Player.RED) {
       if ((cardIdx < 0 || cardIdx > playerRedHand.size() - 1)) {
