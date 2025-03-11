@@ -69,7 +69,10 @@ public class PawnGameImpl implements PawnsGame{
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     // intializes their deck
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     CardInitializer cardInitializer = new CardInitializer();

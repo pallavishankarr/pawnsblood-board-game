@@ -24,7 +24,12 @@ public class CardInitializerTest {
 
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       writer.write("Security 1 2\n");
+=======
+      writer.write("Security\n");
+      writer.write("1 2\n");
+>>>>>>> Stashed changes
 =======
       writer.write("Security\n");
       writer.write("1 2\n");
@@ -74,7 +79,12 @@ public class CardInitializerTest {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
       // First card: Security
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       writer.write("Security 1 2\n");
+=======
+      writer.write("Security\n");
+      writer.write("1 2\n");
+>>>>>>> Stashed changes
 =======
       writer.write("Security\n");
       writer.write("1 2\n");
@@ -88,7 +98,12 @@ public class CardInitializerTest {
 
       // Second card: Bee
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       writer.write("Bee 1 1\n");
+=======
+      writer.write("Bee\n");
+      writer.write("1 1\n");
+>>>>>>> Stashed changes
 =======
       writer.write("Bee\n");
       writer.write("1 1\n");

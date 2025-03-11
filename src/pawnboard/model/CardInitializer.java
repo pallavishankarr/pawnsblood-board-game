@@ -19,6 +19,7 @@ public class CardInitializer {
       String line;
       while ((line = reader.readLine()) != null) {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         // Parse name, cost, and value from the same line
         String[] parts = line.trim().split("\\s+");
         if (parts.length != 3) throw new IOException("Invalid format: Expected '<Name> <Cost> <Value>'");
@@ -29,6 +30,8 @@ public class CardInitializer {
 
         // Read the 5x5 influence grid
 =======
+=======
+>>>>>>> Stashed changes
         String name = line.trim();
         if (name.isEmpty()) continue; // Skip empty lines
 
@@ -40,6 +43,9 @@ public class CardInitializer {
         int cost = Integer.parseInt(parts[0]);
         int value = Integer.parseInt(parts[1]);
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         char[][] influenceGrid = new char[5][5];
         for (int i = 0; i < 5; i++) {
@@ -52,7 +58,11 @@ public class CardInitializer {
         line = reader.readLine();
         if (line == null) throw new IOException("Missing influence effect line.");
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         String[] effectInitials = line.trim().split("\\s+");
+=======
+        String[] effectInitials = line.split(" ");
+>>>>>>> Stashed changes
 =======
         String[] effectInitials = line.split(" ");
 >>>>>>> Stashed changes
@@ -75,7 +85,10 @@ public class CardInitializer {
         }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         // Add card to the deck
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
         deck.add(new PawnCard(name, cost, value, influenceGrid, effects));
