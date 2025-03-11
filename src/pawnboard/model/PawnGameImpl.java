@@ -8,10 +8,10 @@ public class PawnGameImpl implements PawnsGame{
   private final int row;
   private final  int column;
   private Cell[][] board;
-  private List<Card> playerRedDeck;
-  private List<Card> playerBlueDeck;
-  private List<Card> playerRedHand;
-  private List<Card> playerBlueHand;
+  private List<PawnCard> playerRedDeck;
+  private List<PawnCard> playerBlueDeck;
+  private List<PawnCard> playerRedHand;
+  private List<PawnCard> playerBlueHand;
   private boolean gameStarted = false;
   private Player turn;
   private final int handSize = 5;
@@ -22,12 +22,6 @@ public class PawnGameImpl implements PawnsGame{
     }
 
     initializeBoard();
-    
-    CardInitializer cardInitializer = new CardInitializer();
-
-    // need to do this in start game instead
-    this.playerRedDeck = cardInitializer.initializeDeck(RedDeckFile);
-    this.playerBlueDeck = cardInitializer.initializeDeck(BlueDeckFile);
 
     this.playerRedHand = new ArrayList<>();
     this.playerBlueHand = new ArrayList<>();
@@ -74,9 +68,9 @@ public class PawnGameImpl implements PawnsGame{
       throw new IllegalArgumentException("Hand size cannot be greater than ⅓ of the deck.");
     }
 
-    // initialize card deck here
-    this.playerRedDeck = player1deck;
-    this.playerBlueDeck = player2deck;
+    CardInitializer cardInitializer = new CardInitializer();
+    this.playerRedDeck = cardInitializer.initializeDeck("CardList.txt");
+    this.playerBlueDeck = cardInitializer.initializeDeck("CardList.txt");
 
     this.gameStarted = true;
     this.turn = Player.RED;
@@ -203,7 +197,7 @@ public class PawnGameImpl implements PawnsGame{
   }
 
   @Override
-  public List<Card> getHand(Player player) {
+  public List<PawnCard> getHand(Player player) {
     if(player == Player.RED) {
       return playerRedDeck;
     }

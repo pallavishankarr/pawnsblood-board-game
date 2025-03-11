@@ -13,7 +13,6 @@ public interface PawnsGame {
    * Starts the game with the given hand size and initializes the board.
    * @param player1deck the list of cards for the first player
    * @param player2deck the list of cards for the second player
-   * @param handSize maximum hand size for the game
    * @throws IllegalStateException if the game has already been started
    * @throws IllegalArgumentException if either players deck is null or contains a null object,
    * if handSize is not positive (i.e. 0 or less),
@@ -89,7 +88,7 @@ public interface PawnsGame {
    * @return a copy of the player's current hand
    * @throws IllegalStateException if the game has not started
    */
-  List<Card> getHand(Player player);
+  List<PawnCard> getHand(Player player);
 
   /**
    * Returns the number of cards left in a player's deck.

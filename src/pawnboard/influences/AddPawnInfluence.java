@@ -5,14 +5,20 @@ import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 
 /**
- * Represents an influnece where a pawn is added to the cell.
- */
+ * Represents an influence where a pawn is added to an empty cell.
+ * Or increases the pawn count if the player owns the cell. */
 public class AddPawnInfluence implements InfluenceEffect {
 
   @Override
   public void apply(PawnsGame game, int row, int col, Player currentPlayer) {
     Cell influencedCell = game.getCellAt(row, col);
+
+    // If the cell is empty, add a pawn
     if (influencedCell.isCellEmpty()) {
+      influencedCell.addPawn(currentPlayer);
+    }
+    // If the player owns the cell and pawn count is less than 3, increase pawn count
+    else if (influencedCell.getOwner() == currentPlayer && influencedCell.getPawnCount() < 3) {
       influencedCell.addPawn(currentPlayer);
     }
   }
