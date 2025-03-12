@@ -34,6 +34,7 @@ public class PawnGameTest {
 
   private Player player;
   private PawnsGame game;
+  String path = "docs" + File.separator + "deck.config";
 
 
   //test for Valid Constructor of the PawnsGame Class
@@ -58,14 +59,8 @@ public class PawnGameTest {
   //test for starting the Game
   @Test
   public void testLegalStartGame(){
-
-    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/deck.config");
-    CardInitializer initializer = new CardInitializer();
-    List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
-    List<Card> playerDeck = new ArrayList<>(deck);
-
     game = new PawnGameImpl(3, 5);
-    game.startGame(playerDeck, playerDeck, 5);
+    game.startGame(path,5);
     assertEquals(3, game.getHeight());
     assertEquals(5, game.getWidth());
     assertEquals(5, game.getHand(Player.RED).size());
@@ -91,14 +86,13 @@ public class PawnGameTest {
 
     List<InfluenceEffect> emptyEffects = new ArrayList<>();
 
-
     PawnCard card = new PawnCard("Example Pawn", 2, 5, influenceGrid);
 
     List<Card> redPlayerDecks = new ArrayList<>();
 
     //error thrown when decks are null
     assertThrows(IllegalArgumentException.class,() -> new PawnGameImpl(0,0)
-            .startGame(redPlayerDecks, redPlayerDecks, 5));
+            .startGame(path, 5));
     //error thrown when the decks have cards less than what is needed
     redPlayerDecks.add(card);
     assertThrows(IllegalArgumentException.class,() -> new PawnGameImpl(0,0)
@@ -126,16 +120,9 @@ public class PawnGameTest {
   //test for legally placing a Card At
   @Test
   public void testLegalPlaceCardAt(){
-    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/deck.config");
-    CardInitializer initializer = new CardInitializer();
-    List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
-    List<Card> playerDeck = new ArrayList<>(deck);
-    System.out.println("Deck size: " + deck.size());
-
-
     this.game = new PawnGameImpl(3, 5);
-    game.startGame(playerDeck, playerDeck, 5);
-    Card card = game.getHand(Player.RED).get(0);
+    game.startGame(path, 5);
+    PawnCard card = game.getHand(Player.RED).get(0);
     game.placeCardAt(Player.RED, 0, 1, 2);
     assertNotEquals(card, game.getHand(Player.RED).get(0));
 
@@ -145,18 +132,9 @@ public class PawnGameTest {
   //test for Illegal Place Card AT
   @Test
   public void testIllegalPlaceCardAt(){
-
-    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/deck.config");
-    CardInitializer initializer = new CardInitializer();
-    List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
-    List<Card> playerDeck = new ArrayList<>(deck);
-    System.out.println("Deck size: " + deck.size());
-
-
     this.game = new PawnGameImpl(3, 5);
-    game.startGame(playerDeck, playerDeck, 5);
+    game.startGame(path, 5);
     assertThrows(IllegalArgumentException.class,() -> game.placeCardAt(Player.RED, 5, 1,2));
-
 
   }
 
@@ -174,13 +152,9 @@ public class PawnGameTest {
   //test for legal draw Card
   @Test
   public void testLegalDrawCard(){
-    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/deck.config");
-    CardInitializer initializer = new CardInitializer();
-    List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
-    List<Card> playerDeck = new ArrayList<>(deck);
 
     game = new PawnGameImpl(3, 5);
-    game.startGame(playerDeck, playerDeck, 5);
+    game.startGame(path, 5);
 
     Card card = game.getHand(Player.RED).get(0);
     game.drawCard(Player.BLUE);
@@ -206,13 +180,9 @@ public class PawnGameTest {
   //test legal get Cell At
   @Test
   public void testLegalGetCellAt(){
-    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/deck.config");
-    CardInitializer initializer = new CardInitializer();
-    List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
-    List<Card> playerDeck = new ArrayList<>(deck);
 
     game = new PawnGameImpl(3, 5);
-    game.startGame(playerDeck, playerDeck, 5);
+    game.startGame(path, 5);
     game.getCellAt(1, 1);
 
   }
@@ -220,13 +190,9 @@ public class PawnGameTest {
   //test Illegal get Cell At
   @Test
   public void testIllegalGetCellAt(){
-    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/deck.config");
-    CardInitializer initializer = new CardInitializer();
-    List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
-    List<Card> playerDeck = new ArrayList<>(deck);
 
     game = new PawnGameImpl(3, 5);
-    game.startGame(playerDeck, playerDeck, 5);
+    game.startGame(path, 5);
     assertThrows(IllegalArgumentException.class, () -> game.getCellAt(3, 5));
 
   }
@@ -252,11 +218,7 @@ public class PawnGameTest {
   @Test
   public void testGetWinner(){
     this.game = new PawnGameImpl(3, 5);
-    File file = new File("\\Users\\pshan\\OneDrive\\Desktop\\cs3500\\CS3500Assignment5\\src\\pawnboard\\model\\deck.config");
-    CardInitializer initializer = new CardInitializer();
-    List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
-    List<Card> playerDeck = new ArrayList<>(deck);
-    game.startGame(playerDeck, playerDeck, 5);
+    game.startGame(path, 5);
     game.placeCardAt(Player.RED, 0, 0, 0);
 
     System.out.println(game.rowWinner(0));
@@ -267,11 +229,7 @@ public class PawnGameTest {
   @Test
   public void testIllegalGetWinner(){
     this.game = new PawnGameImpl(3, 5);
-    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/deck.config");
-    CardInitializer initializer = new CardInitializer();
-    List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
-    List<Card> playerDeck = new ArrayList<>(deck);
-    game.startGame(playerDeck, playerDeck, 5);
+    game.startGame(path, 5);
     game.placeCardAt(Player.RED, 0, 0, 0);
     game.placeCardAt(Player.RED, 0, 0, 1);
     game.placeCardAt(Player.RED, 0, 0, 2);
@@ -291,11 +249,7 @@ public class PawnGameTest {
   @Test
   public void testIsGameOver() {
     this.game = new PawnGameImpl(3, 5);
-    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/deck.config");
-    CardInitializer initializer = new CardInitializer();
-    List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
-    List<Card> playerDeck = new ArrayList<>(deck);
-    game.startGame(playerDeck, playerDeck, 5);
+    game.startGame(path, 5);
     game.placeCardAt(Player.RED, 0, 0, 0);
     game.placeCardAt(Player.RED, 0, 0, 1);
     game.placeCardAt(Player.RED, 0, 0, 2);
@@ -306,12 +260,7 @@ public class PawnGameTest {
 
   @Test
   public void testPlaceCardOnBoard() {
-    this.game = new PawnGameImpl(3, 5);
-    File file = new File("\\Users\\pshan\\OneDrive\\Desktop\\cs3500\\CS3500Assignment5\\src\\pawnboard\\model\\deck.config");
-    CardInitializer initializer = new CardInitializer();
-    List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
-    List<Card> playerDeck = new ArrayList<>(deck);
-    game.startGame(playerDeck, playerDeck, 3);
+    game.startGame(path, 3);
 
     Card placedCard = game.getHand(Player.RED).get(0);
     // Place the card at position (2,2)
@@ -328,12 +277,7 @@ public class PawnGameTest {
   @Test
   public void testApplyInfluence() {
     this.game = new PawnGameImpl(3, 5);
-    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/CardList");
-    CardInitializer initializer = new CardInitializer();
-    List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
-    List<Card> playerDeck = new ArrayList<>(deck);
-    this.game = new PawnGameImpl(3, 5);
-    game.startGame(playerDeck, playerDeck, 5);
+    game.startGame(path, 5);
     Card card  = game.getHand(Player.RED).get(0);
 
     game.placeCardAt(Player.RED, 0, 0, 0);

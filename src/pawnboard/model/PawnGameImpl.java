@@ -35,7 +35,6 @@ public class PawnGameImpl implements PawnsGame{
     initializeBoard();
   }
 
-
   private void initializeBoard() {
     this.board = new Cell[row][column];
     for (int i = 0; i < row; i++) {
