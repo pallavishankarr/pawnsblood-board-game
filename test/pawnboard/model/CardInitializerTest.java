@@ -143,29 +143,26 @@ public class CardInitializerTest {
 
   @Test
   public void testLoadMultipleCards() {
-    File file = new File("C:\\Users\\pshan\\OneDrive\\Desktop\\cs3500\\CS3500Assignment5\\src\\pawnboard\\model\\CardList"); // Make sure this matches your actual file location
+    File file = new File("C:\\Users\\pshan\\OneDrive\\Desktop\\cs3500\\CS3500Assignment5\\src\\pawnboard\\model\\CardList");
     assertTrue(file.exists());
 
     List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
 
     assertNotNull(deck);
-    assertEquals(20, deck.size()); // Adjust if your deck size is different
+    assertEquals(20, deck.size());
 
-    // Test first card
     PawnCard firstCard = deck.get(0);
     assertEquals("Security", firstCard.getName());
     assertEquals(1, firstCard.getPawnCost());
     assertEquals(2, firstCard.getValue());
-    assertEquals(3, firstCard.getInfluenceEffects().size()); // A N C
+    assertEquals(3, firstCard.getInfluenceEffects().size());
 
-    // Test another card (e.g., "Lobber")
-    PawnCard lobber = deck.get(3); // Index 3 corresponds to Lobber
+    PawnCard lobber = deck.get(3);
     assertEquals("Lobber", lobber.getName());
     assertEquals(2, lobber.getPawnCost());
     assertEquals(1, lobber.getValue());
     assertEquals(3, lobber.getInfluenceEffects().size());
 
-    // Check if effects are parsed correctly
     assertTrue(firstCard.getInfluenceEffects().get(0) instanceof AddPawnInfluence);
     assertTrue(firstCard.getInfluenceEffects().get(1) instanceof NoEffectInfluence);
     assertTrue(firstCard.getInfluenceEffects().get(2) instanceof ChangeOwnershipInfluence);
