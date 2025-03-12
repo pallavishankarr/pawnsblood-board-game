@@ -279,8 +279,7 @@ public class PawnGameTest {
     Cell cell = game.getCellAt(0, 0);
     Cell cell2 = game.getCellAt(2, 1);
 
-   System.out.print(cell2.getPawnCount());
-    cell.addPawn(Player.RED);
+   
     game.startGame(path, 5);
     PawnCard card  = (PawnCard) game.getHand(Player.RED).get(0);
     char[][] influenceGrid = card.getInfluenceGrid();
