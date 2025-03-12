@@ -112,9 +112,15 @@ public class PawnGameTest {
   public void testLegalPlaceCardAt(){
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
+    Cell cell = game.getCellAt(1,2);
+    cell.addPawn(Player.RED);
     PawnCard card =(PawnCard) game.getHand(Player.RED).get(0);
     game.placeCardAt(Player.RED, 0, 1, 2);
     assertNotEquals(card, game.getHand(Player.RED).get(0));
+
+    Cell cell2 = game.getCellAt(1,2);
+    PawnCard card2 = (PawnCard) cell2.getCard();
+    assertEquals(card, card2);
 
 
   }
