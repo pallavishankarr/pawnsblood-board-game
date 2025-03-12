@@ -52,30 +52,31 @@ public class PawnGameImpl implements PawnsGame{
       throw new IllegalStateException("Game has already started.");
     }
 
-    playerRedDeck = CardInitializer.initializeDeck(path);
-    playerBlueDeck = CardInitializer.initializeDeck(path);
+    List<PawnCard> redDeck = CardInitializer.initializeDeck(path);
+    List<PawnCard> blueDeck = CardInitializer.initializeDeck(path);
 
-
-    // Validate loaded decks
-    if (playerRedDeck == null || playerBlueDeck == null || playerRedDeck.isEmpty() || playerBlueDeck.isEmpty()) {
+    if (redDeck == null || blueDeck == null || redDeck.isEmpty() || blueDeck.isEmpty()) {
       throw new IllegalArgumentException("Decks cannot be null or empty.");
     }
 
-    if (playerRedDeck.contains(null) || playerBlueDeck.contains(null)) {
+    if (redDeck.contains(null) || blueDeck.contains(null)) {
       throw new IllegalArgumentException("Decks contain null elements.");
     }
 
-    if (playerRedDeck.size() < row * column || playerBlueDeck.size() < row * column) {
+    if (redDeck.size() < row * column || blueDeck.size() < row * column) {
       throw new IllegalArgumentException("Each deck must have at least " + (row * column) + " cards.");
     }
 
-    if (handSize > playerRedDeck.size() / 3 || handSize > playerBlueDeck.size() / 3) {
+    if (handSize > redDeck.size() / 3 || handSize > blueDeck.size() / 3) {
       throw new IllegalArgumentException("Hand size cannot be greater than ⅓ of the deck.");
     }
 
+    this.playerRedDeck = redDeck;
+    this.playerBlueDeck = blueDeck;
     this.handSize = handSize;
 
     initializeHand(playerRedDeck, playerRedHand);
+    initializeHand(playerBlueDeck, playerBlueHand);
 
     this.gameStarted = true;
     this.turn = Player.RED;
