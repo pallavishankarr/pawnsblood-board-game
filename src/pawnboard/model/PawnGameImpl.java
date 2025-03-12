@@ -46,33 +46,32 @@ public class PawnGameImpl implements PawnsGame{
   }
 
   @Override
-  public void startGame(List<Card> player1deck, List<Card> player2deck, int handSize) {
-
-    if(player1deck == null || player2deck == null) {
-      throw new IllegalArgumentException("Player decks cannot be null");
-    }
-
-    if(player1deck.contains(null) || player2deck.contains(null)) {
-      throw new IllegalArgumentException("Player decks contain null elements");
-    }
+  public void startGame(String path, int handSize) {
 
     if(gameStarted) {
       throw new IllegalStateException("Game has already started.");
     }
 
-    if(player1deck.size() < row * column || player2deck.size() < row * column) {
-      throw new IllegalArgumentException("Each deck doesn't have enough cards.");
+    playerRedDeck = CardInitializer.initializeDeck(path);
+    playerBlueDeck = CardInitializer.initializeDeck(path);
+
+
+    // Validate loaded decks
+    if (playerRedDeck == null || playerBlueDeck == null || playerRedDeck.isEmpty() || playerBlueDeck.isEmpty()) {
+      throw new IllegalArgumentException("Decks cannot be null or empty.");
     }
 
-    if(handSize > player1deck.size() / 3 || handSize > player2deck.size() / 3 ) {
+    if (playerRedDeck.contains(null) || playerBlueDeck.contains(null)) {
+      throw new IllegalArgumentException("Decks contain null elements.");
+    }
+
+    if (playerRedDeck.size() < row * column || playerBlueDeck.size() < row * column) {
+      throw new IllegalArgumentException("Each deck must have at least " + (row * column) + " cards.");
+    }
+
+    if (handSize > playerRedDeck.size() / 3 || handSize > playerBlueDeck.size() / 3) {
       throw new IllegalArgumentException("Hand size cannot be greater than ⅓ of the deck.");
     }
-    
-    //CardInitializer cardInitializer = new CardInitializer();
-    //this.playerRedDeck = cardInitializer.initializeDeck("deck.config.txt");
-    //this.playerBlueDeck = cardInitializer.initializeDeck("deck.config.txt");
-    this.playerRedDeck = player1deck;
-    this.playerBlueDeck = player2deck;
 
     this.handSize = handSize;
 

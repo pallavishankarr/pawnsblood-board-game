@@ -36,7 +36,6 @@ public class PawnGameTest {
   private PawnsGame game;
 
 
-
   //test for Valid Constructor of the PawnsGame Class
   @Test
   public void testValidConstructor(){
