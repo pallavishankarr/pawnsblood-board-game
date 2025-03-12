@@ -7,7 +7,7 @@ import java.util.List;
  * It includes methods for initializing the board, starting the game,
  * handling players, and determining game outcomes.
  */
-public interface PawnsGame {
+public interface PawnsGame<C extends Card> {
 
   /**
    * Starts the game with the given hand size and initializes the board.
@@ -63,7 +63,7 @@ public interface PawnsGame {
    * Creates a brand new deck of cards.
    * @return a new deck of all possible cards that can be used to play
    */
-  List<Card> getNewDeck();
+  List<C> getNewDeck();
 
   /**
    * Returns the cell at the indicated position on the board.
@@ -88,7 +88,7 @@ public interface PawnsGame {
    * @return a copy of the player's current hand
    * @throws IllegalStateException if the game has not started
    */
-  List<Card> getHand(Player player);
+  List<C> getHand(Player player);
 
   /**
    * Returns the number of cards left in a player's deck.

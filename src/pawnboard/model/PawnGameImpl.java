@@ -8,10 +8,10 @@ public class PawnGameImpl implements PawnsGame{
   private final int row;
   private final  int column;
   private Cell[][] board;
-  private List<Card> playerRedDeck;
-  private List<Card> playerBlueDeck;
-  private List<Card> playerRedHand;
-  private List<Card> playerBlueHand;
+  private List<PawnCard> playerRedDeck;
+  private List<PawnCard> playerBlueDeck;
+  private List<PawnCard> playerRedHand;
+  private List<PawnCard> playerBlueHand;
   private boolean gameStarted = false;
   private Player turn;
   private  int handSize;
@@ -52,36 +52,37 @@ public class PawnGameImpl implements PawnsGame{
       throw new IllegalStateException("Game has already started.");
     }
 
-    playerRedDeck = CardInitializer.initializeDeck(path);
-    playerBlueDeck = CardInitializer.initializeDeck(path);
+    List<PawnCard> redDeck = CardInitializer.initializeDeck(path);
+    List<PawnCard> blueDeck = CardInitializer.initializeDeck(path);
 
-
-    // Validate loaded decks
-    if (playerRedDeck == null || playerBlueDeck == null || playerRedDeck.isEmpty() || playerBlueDeck.isEmpty()) {
+    if (redDeck == null || blueDeck == null || redDeck.isEmpty() || blueDeck.isEmpty()) {
       throw new IllegalArgumentException("Decks cannot be null or empty.");
     }
 
-    if (playerRedDeck.contains(null) || playerBlueDeck.contains(null)) {
+    if (redDeck.contains(null) || blueDeck.contains(null)) {
       throw new IllegalArgumentException("Decks contain null elements.");
     }
 
-    if (playerRedDeck.size() < row * column || playerBlueDeck.size() < row * column) {
+    if (redDeck.size() < row * column || blueDeck.size() < row * column) {
       throw new IllegalArgumentException("Each deck must have at least " + (row * column) + " cards.");
     }
 
-    if (handSize > playerRedDeck.size() / 3 || handSize > playerBlueDeck.size() / 3) {
+    if (handSize > redDeck.size() / 3 || handSize > blueDeck.size() / 3) {
       throw new IllegalArgumentException("Hand size cannot be greater than ⅓ of the deck.");
     }
 
+    this.playerRedDeck = redDeck;
+    this.playerBlueDeck = blueDeck;
     this.handSize = handSize;
 
     initializeHand(playerRedDeck, playerRedHand);
+    initializeHand(playerBlueDeck, playerBlueHand);
 
     this.gameStarted = true;
     this.turn = Player.RED;
   }
 
-  private void initializeHand(List<Card> deck, List<Card> hand) {
+  private void initializeHand(List<PawnCard> deck, List<PawnCard> hand) {
     for (int i = 0; i < handSize; i++) {
       hand.add(deck.get(i));
     }
@@ -126,7 +127,7 @@ public class PawnGameImpl implements PawnsGame{
 
   }
 
-  private void placeCardAtHelper(List<Card> playerHand,Player player,
+  private void placeCardAtHelper(List<PawnCard> playerHand,Player player,
                                  int cardIdx, int row, int col) {
 
     if(cardIdx < 0 || cardIdx > playerHand.size() - 1) {
@@ -200,7 +201,7 @@ public class PawnGameImpl implements PawnsGame{
   }
 
   @Override
-  public List<Card> getHand(Player player) {
+  public List<PawnCard> getHand(Player player) {
     if(player == Player.RED) {
       return playerRedHand;
     }
