@@ -27,15 +27,15 @@ public class PawnCardTest {
   @Test
   public void testInvalidCost() {
     assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 4, 1,
-            influenceGrid, emptyEffects));
+            influenceGrid));
     assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 0, 1,
-            influenceGrid, emptyEffects));
+            influenceGrid));
   }
 
   @Test
   public void testInvalidValue() {
     assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 3, 0,
-            influenceGrid, emptyEffects));
+            influenceGrid));
   }
 
   @Test
@@ -47,7 +47,7 @@ public class PawnCardTest {
             {'X', 'I', 'I', 'I', 'X'},
     };
     assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 3, 1,
-            influenceGrid, emptyEffects));
+            influenceGrid));
   }
 
   @Test
@@ -69,9 +69,9 @@ public class PawnCardTest {
     };
 
     assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 3, 1,
-            influenceGrid2, emptyEffects));
+            influenceGrid2));
     assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 3, 1,
-            influenceGrid, emptyEffects));
+            influenceGrid));
   }
 
   @Test
@@ -85,12 +85,12 @@ public class PawnCardTest {
     };
 
     assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 3, 1,
-            influenceGrid, emptyEffects));
+            influenceGrid));
   }
 
   @Test
   public void testValidCardCreation() {
-    PawnCard card = new PawnCard("TestCard", 2, 5, influenceGrid, emptyEffects);
+    PawnCard card = new PawnCard("TestCard", 2, 5, influenceGrid);
 
     assertEquals("TestCard", card.getName());
     assertEquals(2, card.getPawnCost());
@@ -100,8 +100,7 @@ public class PawnCardTest {
 
   @Test
   public void testAffectsCell() {
-    PawnCard card = new PawnCard("TestCard", 2, 5, influenceGrid,
-            new ArrayList<>());
+    PawnCard card = new PawnCard("TestCard", 2, 5, influenceGrid);
 
     assertTrue(card.affectsCell(0, 2));
     assertFalse(card.affectsCell(0, 0));
@@ -109,7 +108,7 @@ public class PawnCardTest {
 
   @Test
   public void testCardGetValue() {
-    PawnCard card = new PawnCard("TestCard", 2, 5, influenceGrid, emptyEffects);
+    PawnCard card = new PawnCard("TestCard", 2, 5, influenceGrid);
     assertEquals(5, card.getValue());
 
   }

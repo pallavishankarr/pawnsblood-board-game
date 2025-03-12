@@ -60,7 +60,7 @@ public class PawnGameTest {
   @Test
   public void testLegalStartGame(){
 
-    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/CardList");
+    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/deck.config");
     CardInitializer initializer = new CardInitializer();
     List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
     List<Card> playerDeck = new ArrayList<>(deck);
@@ -93,8 +93,7 @@ public class PawnGameTest {
     List<InfluenceEffect> emptyEffects = new ArrayList<>();
 
 
-    PawnCard card = new PawnCard("Example Pawn", 2, 5, influenceGrid,
-            emptyEffects);
+    PawnCard card = new PawnCard("Example Pawn", 2, 5, influenceGrid);
 
     List<Card> redPlayerDecks = new ArrayList<>();
 
@@ -128,7 +127,7 @@ public class PawnGameTest {
   //test for legally placing a Card At
   @Test
   public void testLegalPlaceCardAt(){
-    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/CardList");
+    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/deck.config");
     CardInitializer initializer = new CardInitializer();
     List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
     List<Card> playerDeck = new ArrayList<>(deck);
@@ -148,7 +147,7 @@ public class PawnGameTest {
   @Test
   public void testIllegalPlaceCardAt(){
 
-    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/CardList");
+    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/deck.config");
     CardInitializer initializer = new CardInitializer();
     List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
     List<Card> playerDeck = new ArrayList<>(deck);
@@ -176,7 +175,7 @@ public class PawnGameTest {
   //test for legal draw Card
   @Test
   public void testLegalDrawCard(){
-    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/CardList");
+    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/deck.config");
     CardInitializer initializer = new CardInitializer();
     List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
     List<Card> playerDeck = new ArrayList<>(deck);
@@ -208,7 +207,7 @@ public class PawnGameTest {
   //test legal get Cell At
   @Test
   public void testLegalGetCellAt(){
-    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/CardList");
+    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/deck.config");
     CardInitializer initializer = new CardInitializer();
     List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
     List<Card> playerDeck = new ArrayList<>(deck);
@@ -222,7 +221,7 @@ public class PawnGameTest {
   //test Illegal get Cell At
   @Test
   public void testIllegalGetCellAt(){
-    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/CardList");
+    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/deck.config");
     CardInitializer initializer = new CardInitializer();
     List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
     List<Card> playerDeck = new ArrayList<>(deck);
@@ -254,7 +253,7 @@ public class PawnGameTest {
   @Test
   public void testGetWinner(){
     this.game = new PawnGameImpl(3, 5);
-    File file = new File("\\Users\\pshan\\OneDrive\\Desktop\\cs3500\\CS3500Assignment5\\src\\pawnboard\\model\\CardList");
+    File file = new File("\\Users\\pshan\\OneDrive\\Desktop\\cs3500\\CS3500Assignment5\\src\\pawnboard\\model\\deck.config");
     CardInitializer initializer = new CardInitializer();
     List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
     List<Card> playerDeck = new ArrayList<>(deck);
@@ -269,7 +268,7 @@ public class PawnGameTest {
   @Test
   public void testIllegalGetWinner(){
     this.game = new PawnGameImpl(3, 5);
-    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/CardList");
+    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/deck.config");
     CardInitializer initializer = new CardInitializer();
     List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
     List<Card> playerDeck = new ArrayList<>(deck);
@@ -293,7 +292,7 @@ public class PawnGameTest {
   @Test
   public void testIsGameOver() {
     this.game = new PawnGameImpl(3, 5);
-    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/CardList");
+    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/deck.config");
     CardInitializer initializer = new CardInitializer();
     List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
     List<Card> playerDeck = new ArrayList<>(deck);
@@ -309,7 +308,7 @@ public class PawnGameTest {
   @Test
   public void testPlaceCardOnBoard() {
     this.game = new PawnGameImpl(3, 5);
-    File file = new File("\\Users\\pshan\\OneDrive\\Desktop\\cs3500\\CS3500Assignment5\\src\\pawnboard\\model\\CardList");
+    File file = new File("\\Users\\pshan\\OneDrive\\Desktop\\cs3500\\CS3500Assignment5\\src\\pawnboard\\model\\deck.config");
     CardInitializer initializer = new CardInitializer();
     List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
     List<Card> playerDeck = new ArrayList<>(deck);

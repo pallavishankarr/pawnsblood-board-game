@@ -1,8 +1,13 @@
 package pawnboard.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import pawnboard.influences.AddPawnInfluence;
+import pawnboard.influences.ChangeOwnershipInfluence;
 import pawnboard.influences.InfluenceEffect;
+import pawnboard.influences.NoEffectInfluence;
 
 public class PawnCard implements Card {
   private final String name;
@@ -11,7 +16,7 @@ public class PawnCard implements Card {
   private final char[][] influenceGrid;
   private final List<InfluenceEffect> influenceEffects;
 
-  public PawnCard(String name, int cost, int value, char[][] influenceGrid, List<InfluenceEffect> influenceEffects) {
+  public PawnCard(String name, int cost, int value, char[][] influenceGrid) {
     if (cost < 1 || cost > 3) {
       throw new IllegalArgumentException("Cost must be between 1 and 3");
     }
@@ -36,7 +41,10 @@ public class PawnCard implements Card {
     this.cost = cost;
     this.value = value;
     this.influenceGrid = influenceGrid;
-    this.influenceEffects = influenceEffects;
+    this.influenceEffects = new ArrayList<>(Arrays.asList(
+            new AddPawnInfluence(),
+            new ChangeOwnershipInfluence(),
+            new NoEffectInfluence()));
   }
 
   @Override

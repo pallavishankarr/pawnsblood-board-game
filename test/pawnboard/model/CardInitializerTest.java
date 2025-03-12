@@ -73,29 +73,19 @@ public class CardInitializerTest {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
       // First card: Security
       writer.write("Security 1 2\n");
-      writer.write("Security\n");
-      writer.write("1 2\n");
-      writer.write("Security\n");
-      writer.write("1 2\n");
       writer.write("XXXXX\n");
       writer.write("XXIXX\n");
       writer.write("XICIX\n");
       writer.write("XXIXX\n");
       writer.write("XXXXX\n");
-      writer.write("A N\n"); // Influence effects
 
       // Second card: Bee
       writer.write("Bee 1 1\n");
-      writer.write("Bee\n");
-      writer.write("1 1\n");
-      writer.write("Bee\n");
-      writer.write("1 1\n");
       writer.write("XXIXX\n");
       writer.write("XXXXX\n");
       writer.write("XXCXX\n");
       writer.write("XXXXX\n");
       writer.write("XXIXX\n");
-      writer.write("C A\n"); // Influence effects
     }
 
     // Load deck from file
@@ -143,10 +133,9 @@ public class CardInitializerTest {
 
   @Test
   public void testLoadMultipleCards() {
-    File file = new File("C:\\Users\\pshan\\OneDrive\\Desktop\\cs3500\\CS3500Assignment5\\src\\pawnboard\\model\\CardList");
-    assertTrue(file.exists());
+    String path = "docs" + File.separator + "deck.config";
 
-    List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
+    List<PawnCard> deck = CardInitializer.initializeDeck(path);
 
     assertNotNull(deck);
     assertEquals(20, deck.size());
@@ -164,8 +153,8 @@ public class CardInitializerTest {
     assertEquals(3, lobber.getInfluenceEffects().size());
 
     assertTrue(firstCard.getInfluenceEffects().get(0) instanceof AddPawnInfluence);
-    assertTrue(firstCard.getInfluenceEffects().get(1) instanceof NoEffectInfluence);
-    assertTrue(firstCard.getInfluenceEffects().get(2) instanceof ChangeOwnershipInfluence);
+    assertTrue(firstCard.getInfluenceEffects().get(1) instanceof ChangeOwnershipInfluence);
+    assertTrue(firstCard.getInfluenceEffects().get(2) instanceof NoEffectInfluence);
   }
 
 

@@ -69,8 +69,8 @@ public class PawnGameImpl implements PawnsGame{
     }
     
     //CardInitializer cardInitializer = new CardInitializer();
-    //this.playerRedDeck = cardInitializer.initializeDeck("CardList.txt");
-    //this.playerBlueDeck = cardInitializer.initializeDeck("CardList.txt");
+    //this.playerRedDeck = cardInitializer.initializeDeck("deck.config.txt");
+    //this.playerBlueDeck = cardInitializer.initializeDeck("deck.config.txt");
     this.playerRedDeck = player1deck;
     this.playerBlueDeck = player2deck;
 

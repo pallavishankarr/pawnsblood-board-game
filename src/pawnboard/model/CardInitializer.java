@@ -1,8 +1,11 @@
 package pawnboard.model;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,12 +15,14 @@ import pawnboard.influences.InfluenceEffect;
 import pawnboard.influences.NoEffectInfluence;
 
 public class CardInitializer {
-  public static List<PawnCard> initializeDeck(String filename) {
+  public static List<PawnCard> initializeDeck(String path) {
     List<PawnCard> deck = new ArrayList<>();
-    try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+    File config = new File(path);
+
+    try (BufferedReader reader = new BufferedReader(new FileReader(config))) {
       String line;
       while ((line = reader.readLine()) != null) {
-        // Parse name, cost, and value from the same line
+        // parse name and cost
         String[] parts = line.trim().split("\\s+");
         if (parts.length != 3) throw new IOException("Invalid format: Expected '<Name> <Cost> <Value>'");
 
@@ -25,7 +30,7 @@ public class CardInitializer {
         int cost = Integer.parseInt(parts[1]);
         int value = Integer.parseInt(parts[2]);
 
-        // Read the 5x5 influence grid
+        // read the grid
         char[][] influenceGrid = new char[5][5];
         for (int i = 0; i < 5; i++) {
           line = reader.readLine();
@@ -33,30 +38,8 @@ public class CardInitializer {
           influenceGrid[i] = line.toCharArray();
         }
 
-        // Read and parse the influence effects line
-        line = reader.readLine();
-        if (line == null) throw new IOException("Missing influence effect line.");
-        String[] effectInitials = line.trim().split("\\s+");
-
-        List<InfluenceEffect> effects = new ArrayList<>();
-        for (String effectInitial : effectInitials) {
-          switch (effectInitial) {
-            case "A":
-              effects.add(new AddPawnInfluence());
-              break;
-            case "N":
-              effects.add(new NoEffectInfluence());
-              break;
-            case "C":
-              effects.add(new ChangeOwnershipInfluence());
-              break;
-            default:
-              throw new IllegalArgumentException("Invalid influence effect: " + effectInitial);
-          }
-        }
-
-        // Add card to the deck
-        deck.add(new PawnCard(name, cost, value, influenceGrid, effects));
+        // add card to deck after parsing everything
+        deck.add(new PawnCard(name, cost, value, influenceGrid));
       }
     } catch (IOException | NumberFormatException e) {
       System.err.println("Error reading deck file: " + e.getMessage());
