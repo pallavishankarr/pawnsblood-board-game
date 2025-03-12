@@ -74,11 +74,9 @@ public class PawnGameImpl implements PawnsGame{
     this.playerRedDeck = player1deck;
     this.playerBlueDeck = player2deck;
 
-
     this.handSize = handSize;
 
     initializeHand(playerRedDeck, playerRedHand);
-    initializeHand(playerBlueDeck, playerBlueHand);
 
     this.gameStarted = true;
     this.turn = Player.RED;
@@ -103,9 +101,6 @@ public class PawnGameImpl implements PawnsGame{
 
   @Override
   public void placeCardAt(Player player, int cardIdx, int row, int col) {
-
-
-
     if(!gameStarted) {
       throw new IllegalStateException("Game has not started.");
     }
@@ -120,11 +115,11 @@ public class PawnGameImpl implements PawnsGame{
 
     List<Card> playerHand = new ArrayList<>();
 
-    if(player == Player.RED) {
+    if (player == Player.RED) {
       playerHand = playerRedHand;
     }
 
-    if(player == Player.BLUE) {
+    if (player == Player.BLUE) {
       playerHand = playerBlueHand;
     }
 
@@ -137,11 +132,12 @@ public class PawnGameImpl implements PawnsGame{
       throw new IllegalArgumentException("CardIdx out of bounds");
     }
 
+    Card card = playerHand.get(cardIdx);
     Cell cell = this.board[row][col];
 
+    cell.placeCard(card);
+    cell.changeOwnership(player);
 
-    Card card = playerHand.get(cardIdx);
-    board[row][col].placeCard(card);
     playerHand.remove(cardIdx);
 
   }

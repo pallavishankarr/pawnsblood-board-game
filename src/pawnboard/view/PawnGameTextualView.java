@@ -24,7 +24,7 @@ public class PawnGameTextualView implements GameView {
         if (cell.hasCard()) {
           Card card = cell.getCard();
           String owner = (cell.getOwner() == Player.RED) ? "R" : "B";
-          cellRepresentation.append(String.format("%2d%s", card.getValue(), owner));
+          cellRepresentation.append(owner);
         } else {
           cellRepresentation.append("__");
         }

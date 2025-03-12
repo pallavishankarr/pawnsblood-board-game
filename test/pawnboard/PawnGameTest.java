@@ -253,18 +253,14 @@ public class PawnGameTest {
   //test get Winner
   @Test
   public void testGetWinner(){
-
     this.game = new PawnGameImpl(3, 5);
-    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/CardList");
+    File file = new File("\\Users\\pshan\\OneDrive\\Desktop\\cs3500\\CS3500Assignment5\\src\\pawnboard\\model\\CardList");
     CardInitializer initializer = new CardInitializer();
     List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
     List<Card> playerDeck = new ArrayList<>(deck);
     game.startGame(playerDeck, playerDeck, 5);
     game.placeCardAt(Player.RED, 0, 0, 0);
-    game.placeCardAt(Player.RED, 0, 0, 1);
-    game.placeCardAt(Player.RED, 0, 0, 2);
-    game.placeCardAt(Player.RED, 0, 0, 3);
-    game.placeCardAt(Player.RED, 0, 0, 4);
+
     System.out.println(game.rowWinner(0));
   }
 
@@ -308,8 +304,25 @@ public class PawnGameTest {
     game.placeCardAt(Player.RED, 0, 0, 3);
     game.placeCardAt(Player.RED, 0, 0, 4);
     assertFalse(game.isGameOver());
+  }
 
+  @Test
+  public void testPlaceCardOnBoard() {
+    this.game = new PawnGameImpl(3, 5);
+    File file = new File("\\Users\\pshan\\OneDrive\\Desktop\\cs3500\\CS3500Assignment5\\src\\pawnboard\\model\\CardList");
+    CardInitializer initializer = new CardInitializer();
+    List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
+    List<Card> playerDeck = new ArrayList<>(deck);
+    game.startGame(playerDeck, playerDeck, 3);
 
+    Card placedCard = game.getHand(Player.RED).get(0);
+    // Place the card at position (2,2)
+    game.placeCardAt(Player.RED, 0, 2, 2);
+
+    // Get the cell and check that the card was placed
+    Cell cell = game.getCellAt(2, 2);
+    assertTrue(cell.hasCard());
+    assertEquals(placedCard, cell.getCard());
   }
 
 
