@@ -174,6 +174,23 @@ public class PawnGameTest {
   @Test
   public void testIllegalPlaceCardAt(){
 
+    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/CardList");
+    CardInitializer initializer = new CardInitializer();
+    List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
+    List<Card> playerDeck = new ArrayList<>(deck);
+    System.out.println("Deck size: " + deck.size());
+
+
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(playerDeck, playerDeck, 5);
+
+    System.out.println(game.getHand(Player.RED).size());
+
+
+    game.placeCardAt(Player.RED, 5, 1, 2);
+    assertThrows(IllegalArgumentException.class,() -> game.placeCardAt(Player.RED, 5, 1,2));
+
+
   }
 
   //test for Pass Turn through the game
@@ -236,6 +253,14 @@ public class PawnGameTest {
   //test Illegal get Cell At
   @Test
   public void testIllegalGetCellAt(){
+    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/CardList");
+    CardInitializer initializer = new CardInitializer();
+    List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
+    List<Card> playerDeck = new ArrayList<>(deck);
+
+    game = new PawnGameImpl(3, 5);
+    game.startGame(playerDeck, playerDeck, 5);
+    assertThrows(IllegalArgumentException.class, () -> game.getCellAt(3, 5));
 
   }
 
