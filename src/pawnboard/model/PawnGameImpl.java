@@ -113,15 +113,22 @@ public class PawnGameImpl implements PawnsGame{
       throw new IllegalArgumentException("Row or column is out of board bounds.");
     }
 
-    List<Card> playerHand = new ArrayList<>();
+
 
     if (player == Player.RED) {
-      playerHand = playerRedHand;
+      placeCardAtHelper(playerRedHand, player, cardIdx,row,col);
     }
 
     if (player == Player.BLUE) {
-      playerHand = playerBlueHand;
+      placeCardAtHelper(playerBlueHand, player, cardIdx,row,col);
     }
+
+
+
+  }
+
+  private void placeCardAtHelper(List<Card> playerHand,Player player,
+                                 int cardIdx, int row, int col) {
 
     if(cardIdx < 0 || cardIdx > playerHand.size() - 1) {
       throw new IllegalArgumentException("CardIdx out of bounds");
@@ -135,10 +142,14 @@ public class PawnGameImpl implements PawnsGame{
     Card card = playerHand.get(cardIdx);
     Cell cell = this.board[row][col];
 
+    if(cell.getPawnCount() != card.getPawnCost()) {
+      throw new IllegalArgumentException("Pawn count mismatch");
+    }
+
     cell.placeCard(card);
     cell.changeOwnership(player);
-
     playerHand.remove(cardIdx);
+
 
   }
 
