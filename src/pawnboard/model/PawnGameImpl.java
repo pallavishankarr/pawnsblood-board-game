@@ -35,15 +35,6 @@ public class PawnGameImpl implements PawnsGame{
     initializeBoard();
   }
 
-  private void initializeBoard() {
-    this.board = new Cell[row][column];
-    for (int i = 0; i < row; i++) {
-      for (int j = 0; j < column; j++) {
-        this.board[i][j] = new PawnCell();
-      }
-    }
-  }
-
   @Override
   public void startGame(String path, int handSize) {
 
@@ -79,13 +70,6 @@ public class PawnGameImpl implements PawnsGame{
 
     this.gameStarted = true;
     this.turn = Player.RED;
-  }
-
-  private void initializeHand(List<PawnCard> deck, List<PawnCard> hand) {
-    for (int i = 0; i < handSize; i++) {
-      hand.add(deck.get(i));
-    }
-    deck.removeAll(hand);
   }
 
   @Override
@@ -125,34 +109,6 @@ public class PawnGameImpl implements PawnsGame{
 
 
   }
-
-  private void placeCardAtHelper(List<PawnCard> playerHand,Player player,
-                                 int cardIdx, int row, int col) {
-
-    if(cardIdx < 0 || cardIdx > playerHand.size() - 1) {
-      throw new IllegalArgumentException("CardIdx out of bounds");
-    }
-
-
-    if(cardIdx > playerHand.size() + 1) {
-      throw new IllegalArgumentException("CardIdx out of bounds");
-    }
-
-    Card card = playerHand.get(cardIdx);
-    Cell cell = this.board[row][col];
-
-    if(cell.getPawnCount() != card.getPawnCost()) {
-      throw new IllegalArgumentException("Pawn count mismatch");
-    }
-
-    cell.placeCard(card);
-    cell.changeOwnership(player);
-    playerHand.remove(cardIdx);
-
-
-  }
-
-
 
   @Override
   public void passTurn(Player player) {
@@ -301,6 +257,46 @@ public class PawnGameImpl implements PawnsGame{
   @Override
   public void applyCardInfluence(int row, int col, Card card, Player currentPlayer) {
     card.applyInfluence(this, row, col, currentPlayer);
+  }
+
+  private void initializeBoard() {
+    this.board = new Cell[row][column];
+    for (int i = 0; i < row; i++) {
+      for (int j = 0; j < column; j++) {
+        this.board[i][j] = new PawnCell();
+      }
+    }
+  }
+
+  private void initializeHand(List<PawnCard> deck, List<PawnCard> hand) {
+    for (int i = 0; i < handSize; i++) {
+      hand.add(deck.get(i));
+    }
+    deck.removeAll(hand);
+  }
+
+  private void placeCardAtHelper(List<PawnCard> playerHand,Player player,
+                                 int cardIdx, int row, int col) {
+
+    if(cardIdx < 0 || cardIdx > playerHand.size() - 1) {
+      throw new IllegalArgumentException("CardIdx out of bounds");
+    }
+
+
+    if(cardIdx > playerHand.size() + 1) {
+      throw new IllegalArgumentException("CardIdx out of bounds");
+    }
+
+    Card card = playerHand.get(cardIdx);
+    Cell cell = this.board[row][col];
+
+    if(cell.getPawnCount() != card.getPawnCost()) {
+      throw new IllegalArgumentException("Pawn count mismatch");
+    }
+
+    cell.placeCard(card);
+    cell.changeOwnership(player);
+    playerHand.remove(cardIdx);
   }
 
   private char[][] mirrorGrid(char[][] grid) {
