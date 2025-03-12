@@ -108,6 +108,7 @@ public class PawnGameTest {
     assertEquals(3, game.getHeight());
     assertEquals(5, game.getWidth());
     assertEquals(5, game.getHand(Player.RED).size());
+    assertEquals(5, game.getHand(Player.BLUE).size());
 
 
 
@@ -166,6 +167,7 @@ public class PawnGameTest {
   @Test
   public void testLegalPlaceCardAt(){
 
+
   }
 
   //test for Illegal Place Card AT
@@ -188,6 +190,20 @@ public class PawnGameTest {
   //test for legal draw Card
   @Test
   public void testLegalDrawCard(){
+    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/CardList");
+    CardInitializer initializer = new CardInitializer();
+    List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
+    List<Card> playerDeck = new ArrayList<>(deck);
+
+    game = new PawnGameImpl(3, 5);
+    game.startGame(playerDeck, playerDeck, 5);
+
+    Card card = game.getHand(Player.RED).get(0);
+    game.drawCard(Player.BLUE);
+    Card card2 = game.getHand(Player.BLUE).get(0);
+    assertNotEquals(card, card2);
+
+
 
   }
 
@@ -206,6 +222,14 @@ public class PawnGameTest {
   //test legal get Cell At
   @Test
   public void testLegalGetCellAt(){
+    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/CardList");
+    CardInitializer initializer = new CardInitializer();
+    List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
+    List<Card> playerDeck = new ArrayList<>(deck);
+
+    game = new PawnGameImpl(3, 5);
+    game.startGame(playerDeck, playerDeck, 5);
+    game.getCellAt(1, 1);
 
   }
 
