@@ -313,5 +313,23 @@ public class PawnGameTest {
   }
 
 
+  //test Apply Influence in the game
+  @Test
+  public void testApplyInfluence() {
+    this.game = new PawnGameImpl(3, 5);
+    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/CardList");
+    CardInitializer initializer = new CardInitializer();
+    List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
+    List<Card> playerDeck = new ArrayList<>(deck);
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(playerDeck, playerDeck, 5);
+    Card card  = game.getHand(Player.RED).get(0);
+
+    game.placeCardAt(Player.RED, 0, 0, 0);
+ 
+
+  }
+
+
 
 }
