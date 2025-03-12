@@ -115,11 +115,28 @@ public interface PawnsGame {
   int checkScore(Player player);
 
   /**
+   * Checks the Score of the row based on the Player
+   * @param player player that score is being checked
+   * @param rowIdx the row index that is being checked
+   * @return the score of the row
+   */
+  int checkScoreRow(Player player, int rowIdx);
+
+  /**
+   * Returns the player who won the row
+   * @param rowIdx the index of the row being checked
+   * @return Player who won the row
+   */
+  Player rowWinner(int rowIdx);
+
+  /**
    * Determines if the game has ended.
    * @return true if the game is over, false if the game is not over
    * @throws IllegalStateException if the game has not started
    */
   boolean isGameOver();
+
+
 
   /**
    * Applies the influence of a placed card to the board.

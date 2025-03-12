@@ -21,9 +21,6 @@ public class PawnGameImpl implements PawnsGame{
       throw new IllegalArgumentException("Row or column out of bounds");
     }
 
-    // INVARIANT: the board does not have null values
-    initializeBoard();
-
     // INVARIANT: a players deck cannot be null
     this.playerRedDeck = new ArrayList<>();
     this.playerBlueDeck = new ArrayList<>();
@@ -34,7 +31,10 @@ public class PawnGameImpl implements PawnsGame{
     this.row = row;
     this.column = column;
 
+    // INVARIANT: the board does not have null values
+    initializeBoard();
   }
+
 
   private void initializeBoard() {
     this.board = new Cell[row][column];
@@ -242,7 +242,7 @@ public class PawnGameImpl implements PawnsGame{
   }
 
 
-  private int checkScoreRow(Player player, int rowIdx) {
+  public int checkScoreRow(Player player, int rowIdx) {
     int score = 0;
 
     for (int col = 0; col < column; col++) {
@@ -261,7 +261,7 @@ public class PawnGameImpl implements PawnsGame{
 
   }
 
-  private Player rowWinner(int rowIdx) {
+  public Player rowWinner(int rowIdx) {
     int redScore = checkScoreRow(Player.RED, rowIdx);
     int blueScore = checkScoreRow(Player.BLUE, rowIdx);
 
