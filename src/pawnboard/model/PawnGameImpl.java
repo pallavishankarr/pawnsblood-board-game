@@ -299,7 +299,7 @@ public class PawnGameImpl implements PawnsGame{
     List<PawnCard> mirroredDeck = new ArrayList<>();
     for (PawnCard card : deck) {
       char[][] mirroredGrid = mirrorGrid(card.getInfluenceGrid());
-      mirroredDeck.add(new PawnCard(card.getName(), card.getPawnCost(), card.getValue(), mirroredGrid, card.getInfluenceEffects()));
+      mirroredDeck.add(new PawnCard(card.getName(), card.getPawnCost(), card.getValue(), mirroredGrid));
     }
     return mirroredDeck;
   }
