@@ -274,8 +274,11 @@ public class PawnGameTest {
     //Card card  = game.getHand(Player.RED).get(0);
 
     game.placeCardAt(Player.RED, 0, 0, 0);
- 
+  }
 
+  @Test
+  public void testMirroredDeck() {
+    
   }
 
 
