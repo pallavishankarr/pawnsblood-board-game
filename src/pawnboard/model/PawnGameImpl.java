@@ -142,15 +142,9 @@ public class PawnGameImpl implements PawnsGame{
     Cell cell = this.board[row][col];
     Card card = playerHand.get(cardIdx);
 
-    if(cell.getPawnCount() != card.getPawnCost()) {
-      throw new IllegalArgumentException("Pawn count mismatch");
-    }
-
-
-
     board[row][col].placeCard(card);
     playerHand.remove(cardIdx);
-    applyCardInfluence(row, col, card, player);
+
 
   }
 
