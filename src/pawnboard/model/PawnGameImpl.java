@@ -8,10 +8,10 @@ public class PawnGameImpl implements PawnsGame{
   private final int row;
   private final  int column;
   private Cell[][] board;
-  private List<Card> playerRedDeck;
-  private List<Card> playerBlueDeck;
-  private List<Card> playerRedHand;
-  private List<Card> playerBlueHand;
+  private List<PawnCard> playerRedDeck;
+  private List<PawnCard> playerBlueDeck;
+  private List<PawnCard> playerRedHand;
+  private List<PawnCard> playerBlueHand;
   private boolean gameStarted = false;
   private Player turn;
   private  int handSize;
@@ -81,7 +81,7 @@ public class PawnGameImpl implements PawnsGame{
     this.turn = Player.RED;
   }
 
-  private void initializeHand(List<Card> deck, List<Card> hand) {
+  private void initializeHand(List<PawnCard> deck, List<PawnCard> hand) {
     for (int i = 0; i < handSize; i++) {
       hand.add(deck.get(i));
     }
@@ -126,7 +126,7 @@ public class PawnGameImpl implements PawnsGame{
 
   }
 
-  private void placeCardAtHelper(List<Card> playerHand,Player player,
+  private void placeCardAtHelper(List<PawnCard> playerHand,Player player,
                                  int cardIdx, int row, int col) {
 
     if(cardIdx < 0 || cardIdx > playerHand.size() - 1) {
@@ -200,7 +200,7 @@ public class PawnGameImpl implements PawnsGame{
   }
 
   @Override
-  public List<Card> getHand(Player player) {
+  public List<PawnCard> getHand(Player player) {
     if(player == Player.RED) {
       return playerRedHand;
     }
