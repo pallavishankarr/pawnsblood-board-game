@@ -52,7 +52,7 @@ public class PawnGameImpl implements PawnsGame{
     }
 
     List<PawnCard> redDeck = CardInitializer.initializeDeck(path);
-    List<PawnCard> blueDeck = CardInitializer.initializeDeck(path);
+    List<PawnCard> blueDeck = mirrorDeck(redDeck);
 
     if (redDeck == null || blueDeck == null || redDeck.isEmpty() || blueDeck.isEmpty()) {
       throw new IllegalArgumentException("Decks cannot be null or empty.");
@@ -301,5 +301,27 @@ public class PawnGameImpl implements PawnsGame{
   @Override
   public void applyCardInfluence(int row, int col, Card card, Player currentPlayer) {
     card.applyInfluence(this, row, col, currentPlayer);
+  }
+
+  private char[][] mirrorGrid(char[][] grid) {
+    int size = grid.length;
+    char[][] mirrored = new char[size][size];
+
+    for (int i = 0; i < size; i++) {
+      for (int j = 0; j < size; j++) {
+        mirrored[i][j] = grid[i][size - 1 - j]; // Reverse columns
+      }
+    }
+
+    return mirrored;
+  }
+
+  private List<PawnCard> mirrorDeck(List<PawnCard> deck) {
+    List<PawnCard> mirroredDeck = new ArrayList<>();
+    for (PawnCard card : deck) {
+      char[][] mirroredGrid = mirrorGrid(card.getInfluenceGrid());
+      mirroredDeck.add(new PawnCard(card.getName(), card.getPawnCost(), card.getValue(), mirroredGrid, card.getInfluenceEffects()));
+    }
+    return mirroredDeck;
   }
 }
