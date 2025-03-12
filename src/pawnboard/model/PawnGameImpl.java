@@ -8,10 +8,10 @@ public class PawnGameImpl implements PawnsGame{
   private final int row;
   private final  int column;
   private Cell[][] board;
-  private List<PawnCard> playerRedDeck;
-  private List<PawnCard> playerBlueDeck;
-  private List<PawnCard> playerRedHand;
-  private List<PawnCard> playerBlueHand;
+  private List<Card> playerRedDeck;
+  private List<Card> playerBlueDeck;
+  private List<Card> playerRedHand;
+  private List<Card> playerBlueHand;
   private boolean gameStarted = false;
   private Player turn;
   private  int handSize;
@@ -68,9 +68,13 @@ public class PawnGameImpl implements PawnsGame{
       throw new IllegalArgumentException("Hand size cannot be greater than ⅓ of the deck.");
     }
     
-    CardInitializer cardInitializer = new CardInitializer();
-    this.playerRedDeck = cardInitializer.initializeDeck("CardList.txt");
-    this.playerBlueDeck = cardInitializer.initializeDeck("CardList.txt");
+    //CardInitializer cardInitializer = new CardInitializer();
+    //this.playerRedDeck = cardInitializer.initializeDeck("CardList.txt");
+    //this.playerBlueDeck = cardInitializer.initializeDeck("CardList.txt");
+    this.playerRedDeck = player1deck;
+    this.playerBlueDeck = player2deck;
+
+
     this.handSize = handSize;
 
     initializeHand(playerRedDeck, playerRedHand);
@@ -80,7 +84,7 @@ public class PawnGameImpl implements PawnsGame{
     this.turn = Player.RED;
   }
 
-  private void initializeHand(List<PawnCard> deck, List<PawnCard> hand) {
+  private void initializeHand(List<Card> deck, List<Card> hand) {
     for (int i = 0; i < handSize; i++) {
       hand.add(deck.get(i));
     }
@@ -100,7 +104,7 @@ public class PawnGameImpl implements PawnsGame{
   @Override
   public void placeCardAt(Player player, int cardIdx, int row, int col) {
 
-    Cell cell = this.board[row][col];
+
 
     if(!gameStarted) {
       throw new IllegalStateException("Game has not started.");
@@ -114,7 +118,7 @@ public class PawnGameImpl implements PawnsGame{
       throw new IllegalArgumentException("Row or column is out of board bounds.");
     }
 
-    List<PawnCard> playerHand = new ArrayList<>();
+    List<Card> playerHand = new ArrayList<>();
 
     if(player == Player.RED) {
       playerHand = playerRedHand;
@@ -131,6 +135,8 @@ public class PawnGameImpl implements PawnsGame{
     if(cardIdx > playerHand.size() + 1) {
       throw new IllegalArgumentException("CardIdx out of bounds");
     }
+
+    Cell cell = this.board[row][col];
 
     Card card = playerHand.get(cardIdx);
     board[row][col].placeCard(card);
@@ -164,6 +170,8 @@ public class PawnGameImpl implements PawnsGame{
 
   }
 
+
+
   // do we really need this?
   @Override
   public List<Card> getNewDeck() {
@@ -181,7 +189,7 @@ public class PawnGameImpl implements PawnsGame{
   }
 
   @Override
-  public List<PawnCard> getHand(Player player) {
+  public List<Card> getHand(Player player) {
     if(player == Player.RED) {
       return playerRedDeck;
     }
@@ -281,6 +289,6 @@ public class PawnGameImpl implements PawnsGame{
 
   @Override
   public void applyCardInfluence(int row, int col, Card card, Player currentPlayer) {
-
+    card.applyInfluence(this, row, col, currentPlayer);
   }
 }

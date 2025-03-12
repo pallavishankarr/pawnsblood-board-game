@@ -89,7 +89,7 @@ public interface PawnsGame {
    * @return a copy of the player's current hand
    * @throws IllegalStateException if the game has not started
    */
-  List<PawnCard> getHand(Player player);
+  List<Card> getHand(Player player);
 
   /**
    * Returns the number of cards left in a player's deck.
