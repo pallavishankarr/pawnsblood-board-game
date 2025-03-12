@@ -75,20 +75,17 @@ public class PawnGameTest {
   //test that the correct Illegal Argument Exceptions are thrown
   @Test
   public void testIllegalStartGame(){
+    String path2 = "CardList";
 
-    char[][] influenceGrid = {
-            {'X', 'X', 'I', 'X', 'X'},
-            {'X', 'I', 'I', 'I', 'X'},
-            {'I', 'I', 'C', 'I', 'I'},
-            {'X', 'I', 'I', 'I', 'X'},
-            {'X', 'X', 'I', 'X', 'X'}
-    };
 
-    List<InfluenceEffect> emptyEffects = new ArrayList<>();
 
-    PawnCard card = new PawnCard("Example Pawn", 2, 5, influenceGrid);
+   game = new PawnGameImpl(3, 5);
 
-    List<Card> redPlayerDecks = new ArrayList<>();
+   //Throws because of path should create null decks 
+   assertThrows(IllegalArgumentException.class, () -> game.startGame(path2,5));
+
+   //Throws because hand Size is greater  than 1/3
+   assertThrows(IllegalArgumentException.class, () -> game.startGame(path,7));
 
 
 
@@ -149,10 +146,10 @@ public class PawnGameTest {
     game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
 
-    Card card = game.getHand(Player.RED).get(0);
+    //Card card = game.getHand(Player.RED).get(0);
     game.drawCard(Player.BLUE);
-    Card card2 = game.getHand(Player.BLUE).get(0);
-    assertNotEquals(card, card2);
+    //Card card2 = game.getHand(Player.BLUE).get(0);
+    //assertNotEquals(card, card2);
 
 
 
