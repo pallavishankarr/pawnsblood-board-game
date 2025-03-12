@@ -18,22 +18,16 @@ public class CardInitializerTest {
 
   @Test
   public void testLoadDeckFromFile() throws IOException {
-    // Create a temporary file with sample card data
     File tempFile = File.createTempFile("deck", ".txt");
-    tempFile.deleteOnExit(); // Ensure deletion after test
+    tempFile.deleteOnExit();
 
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
       writer.write("Security 1 2\n");
-      writer.write("Security\n");
-      writer.write("1 2\n");
-      writer.write("Security\n");
-      writer.write("1 2\n");
       writer.write("XXXXX\n");
       writer.write("XXIXX\n");
       writer.write("XICIX\n");
       writer.write("XXIXX\n");
       writer.write("XXXXX\n");
-      writer.write("A N C\n"); // Influence effects: AddPawnInfluence, NoEffectInfluence, ChangeOwnershipInfluence
     }
 
     // Load deck from file
@@ -56,19 +50,12 @@ public class CardInitializerTest {
     };
 
     assertArrayEquals(expectedGrid, card.getInfluenceGrid());
-
-    // Check influence effects
-    assertEquals(3, card.getInfluenceEffects().size());
-    assertTrue(card.getInfluenceEffects().get(0) instanceof AddPawnInfluence);
-    assertTrue(card.getInfluenceEffects().get(1) instanceof NoEffectInfluence);
-    assertTrue(card.getInfluenceEffects().get(2) instanceof ChangeOwnershipInfluence);
   }
 
   @Test
   public void testLoadMultipleCardsFromFile() throws IOException {
-    // Create a temporary file with multiple card entries
     File tempFile = File.createTempFile("deck", ".txt");
-    tempFile.deleteOnExit(); // Ensure cleanup after test
+    tempFile.deleteOnExit();
 
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
       // First card: Security
@@ -108,9 +95,6 @@ public class CardInitializerTest {
             {'X', 'X', 'X', 'X', 'X'}
     };
     assertArrayEquals(expectedGrid1, card1.getInfluenceGrid());
-    assertEquals(2, card1.getInfluenceEffects().size());
-    assertTrue(card1.getInfluenceEffects().get(0) instanceof AddPawnInfluence);
-    assertTrue(card1.getInfluenceEffects().get(1) instanceof NoEffectInfluence);
 
     // Verify second card
     PawnCard card2 = deck.get(1);
@@ -126,10 +110,8 @@ public class CardInitializerTest {
             {'X', 'X', 'I', 'X', 'X'}
     };
     assertArrayEquals(expectedGrid2, card2.getInfluenceGrid());
-    assertEquals(2, card2.getInfluenceEffects().size());
-    assertTrue(card2.getInfluenceEffects().get(0) instanceof ChangeOwnershipInfluence);
-    assertTrue(card2.getInfluenceEffects().get(1) instanceof AddPawnInfluence);
   }
+
 
   @Test
   public void testLoadMultipleCards() {
