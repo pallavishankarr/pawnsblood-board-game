@@ -107,6 +107,13 @@ public class PawnCardTest {
     assertFalse(card.affectsCell(0, 0));
   }
 
+  @Test
+  public void testCardGetValue() {
+    PawnCard card = new PawnCard("TestCard", 2, 5, influenceGrid, emptyEffects);
+    assertEquals(5, card.getValue());
+
+  }
+
   // create tests for the apply card influence from card
 
 }

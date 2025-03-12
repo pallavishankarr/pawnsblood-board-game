@@ -182,6 +182,9 @@ public class PawnGameImpl implements PawnsGame{
 
   @Override
   public Cell getCellAt(int row, int col) {
+    if( row >= this.row || col >= this.column || row < 0 || col < 0 ) {
+      throw new IllegalArgumentException("Row or column is out of board bounds.");
+    }
     return board[row][col];
   }
 
@@ -241,11 +244,11 @@ public class PawnGameImpl implements PawnsGame{
 
   }
 
-
+  @Override
   public int checkScoreRow(Player player, int rowIdx) {
     int score = 0;
 
-    for (int col = 0; col < column; col++) {
+    for (int col = 0; col < this.column; col++) {
       Cell cell = board[rowIdx][col];
       if (cell.hasCard()) {
         Card card = cell.getCard();
@@ -260,7 +263,7 @@ public class PawnGameImpl implements PawnsGame{
     return score;
 
   }
-
+  @Override
   public Player rowWinner(int rowIdx) {
     int redScore = checkScoreRow(Player.RED, rowIdx);
     int blueScore = checkScoreRow(Player.BLUE, rowIdx);

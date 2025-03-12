@@ -157,11 +157,6 @@ public class PawnGameTest {
 
     this.game = new PawnGameImpl(3, 5);
     game.startGame(playerDeck, playerDeck, 5);
-
-    System.out.println(game.getHand(Player.RED).size());
-
-
-    game.placeCardAt(Player.RED, 5, 1, 2);
     assertThrows(IllegalArgumentException.class,() -> game.placeCardAt(Player.RED, 5, 1,2));
 
 
@@ -265,10 +260,58 @@ public class PawnGameTest {
     List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
     List<Card> playerDeck = new ArrayList<>(deck);
     game.startGame(playerDeck, playerDeck, 5);
-    game.placeCardAt(Player.RED, 0, 0, 0);;
-    
+    game.placeCardAt(Player.RED, 0, 0, 0);
+    game.placeCardAt(Player.RED, 0, 0, 1);
+    game.placeCardAt(Player.RED, 0, 0, 2);
+    game.placeCardAt(Player.RED, 0, 0, 3);
+    game.placeCardAt(Player.RED, 0, 0, 4);
+    System.out.println(game.rowWinner(0));
+  }
+
+
+  //test illegal if game is over
+  @Test
+  public void testIllegalGetWinner(){
+    this.game = new PawnGameImpl(3, 5);
+    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/CardList");
+    CardInitializer initializer = new CardInitializer();
+    List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
+    List<Card> playerDeck = new ArrayList<>(deck);
+    game.startGame(playerDeck, playerDeck, 5);
+    game.placeCardAt(Player.RED, 0, 0, 0);
+    game.placeCardAt(Player.RED, 0, 0, 1);
+    game.placeCardAt(Player.RED, 0, 0, 2);
+    game.placeCardAt(Player.RED, 0, 0, 3);
+    game.placeCardAt(Player.RED, 0, 0, 4);
+    assertThrows(IllegalArgumentException.class, () -> game.getWinner());
+
 
   }
+  //test legal if game is over
+  @Test
+  public void testLegalGetWinner() {
+
+  }
+
+  //test isGameOver
+  @Test
+  public void testIsGameOver() {
+    this.game = new PawnGameImpl(3, 5);
+    File file = new File("/Users/rachelelevathingal/Desktop/OOD/GitHub/CS3500Assignment5/src/pawnboard/model/CardList");
+    CardInitializer initializer = new CardInitializer();
+    List<PawnCard> deck = CardInitializer.initializeDeck(file.getAbsolutePath());
+    List<Card> playerDeck = new ArrayList<>(deck);
+    game.startGame(playerDeck, playerDeck, 5);
+    game.placeCardAt(Player.RED, 0, 0, 0);
+    game.placeCardAt(Player.RED, 0, 0, 1);
+    game.placeCardAt(Player.RED, 0, 0, 2);
+    game.placeCardAt(Player.RED, 0, 0, 3);
+    game.placeCardAt(Player.RED, 0, 0, 4);
+    assertFalse(game.isGameOver());
+
+
+  }
+
 
 
 }
