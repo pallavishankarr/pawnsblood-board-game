@@ -280,6 +280,7 @@ public class PawnGameImpl implements PawnsGame{
     cell.placeCard(card);
     cell.changeOwnership(player);
     playerHand.remove(cardIdx);
+    applyCardInfluence(row, col, card, player);
   }
 
   private char[][] mirrorGrid(char[][] grid) {

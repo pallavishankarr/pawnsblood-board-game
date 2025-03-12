@@ -130,7 +130,10 @@ public class PawnGameTest {
   public void testIllegalPlaceCardAt(){
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
-    assertThrows(IllegalArgumentException.class,() -> game.placeCardAt(Player.RED, 5, 1,2));
+
+    //Pawn cost not met for placing the card
+    assertThrows(IllegalArgumentException.class,() ->
+            game.placeCardAt(Player.RED, 5, 1,2));
 
   }
 
@@ -273,10 +276,28 @@ public class PawnGameTest {
   @Test
   public void testApplyInfluence() {
     this.game = new PawnGameImpl(3, 5);
-    game.startGame(path, 5);
-    //Card card  = game.getHand(Player.RED).get(0);
+    Cell cell = game.getCellAt(0, 0);
+    Cell cell2 = game.getCellAt(2, 1);
 
-    game.placeCardAt(Player.RED, 0, 0, 0);
+   System.out.print(cell2.getPawnCount());
+    cell.addPawn(Player.RED);
+    game.startGame(path, 5);
+    PawnCard card  = (PawnCard) game.getHand(Player.RED).get(0);
+    char[][] influenceGrid = card.getInfluenceGrid();
+
+    for (int i = 0; i < influenceGrid.length; i++) {
+      for (int j = 0; j < influenceGrid[i].length; j++) {
+        char value = influenceGrid[i][j];
+        System.out.println("Value at (" + i + ", " + j + "): " + value);
+      }
+    }
+
+    System.out.print(cell2.getPawnCount());
+
+
+    game.applyCardInfluence(0, 0, card, Player.RED);
+    System.out.print(cell.getPawnCount());
+
   }
 
   @Test
