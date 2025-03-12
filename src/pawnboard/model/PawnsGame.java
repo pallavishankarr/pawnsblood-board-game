@@ -60,12 +60,6 @@ public interface PawnsGame<C extends Card> {
   void drawCard(Player player);
 
   /**
-   * Creates a brand new deck of cards.
-   * @return a new deck of all possible cards that can be used to play
-   */
-  List<C> getNewDeck();
-
-  /**
    * Returns the cell at the indicated position on the board.
    * @param row the row to access
    * @param col the column to acess

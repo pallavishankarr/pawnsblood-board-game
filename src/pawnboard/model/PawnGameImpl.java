@@ -134,14 +134,6 @@ public class PawnGameImpl implements PawnsGame{
 
   }
 
-
-
-  // do we really need this?
-  @Override
-  public List<Card> getNewDeck() {
-    return List.of();
-  }
-
   @Override
   public Cell getCellAt(int row, int col) {
     if( row >= this.row || col >= this.column || row < 0 || col < 0 ) {
@@ -186,7 +178,6 @@ public class PawnGameImpl implements PawnsGame{
     else {
       return Player.BLUE;
     }
-
   }
 
   @Override
@@ -200,10 +191,8 @@ public class PawnGameImpl implements PawnsGame{
       else {
         score =+ 0;
       }
-
     }
     return score;
-
   }
 
   @Override
@@ -217,14 +206,11 @@ public class PawnGameImpl implements PawnsGame{
         if (cell.getOwner() == player) {
           score += card.getValue();
         }
-
       }
-
     }
-
     return score;
-
   }
+
   @Override
   public Player rowWinner(int rowIdx) {
     int redScore = checkScoreRow(Player.RED, rowIdx);
@@ -238,9 +224,6 @@ public class PawnGameImpl implements PawnsGame{
       return null;
     }
   }
-
-
-
 
   @Override
   public boolean isGameOver() {
