@@ -41,7 +41,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
   @Override
   public void startGame(String path, int handSize) {
 
-    if(gameStarted) {
+    if (gameStarted) {
       throw new IllegalStateException("Game has already started.");
     }
 
@@ -123,6 +123,10 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
   private void endTurn() {
     turnStarted = false;
     turn = (turn == Player.RED) ? Player.BLUE : Player.RED;
+
+    if (isGameOver()) {
+      gameStarted = false;
+    }
   }
 
   @Override
@@ -163,7 +167,6 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     }
 
     drawCard(player);
-
     turnStarted = true;
   }
 
@@ -261,9 +264,13 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public boolean isGameOver() {
-    for (int i = 0; i < row; i++) {
-      for (int j = 0; j < column; j++) {
-        if (!board[i][j].hasCard()) {
+    if (!gameStarted) {
+      throw new IllegalStateException("game has not been started");
+    }
+    
+    for (int i = 0; i < board.length; i++) {
+      for (int j = 0; j < board[i].length; j++) {
+        if (board[i][j].getPawnCount() > 0) {
           return false;
         }
       }
