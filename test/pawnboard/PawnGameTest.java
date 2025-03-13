@@ -1383,20 +1383,7 @@ public class PawnGameTest {
     PawnGameTextualView view = new PawnGameTextualView(game);
 
     game.startTurn(Player.RED);
-    game.placeCardAt(Player.RED, 0, 0, 4);
-
-    game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
-
-    game.startTurn(Player.RED);
-    game.placeCardAt(Player.RED, 0, 0, 3);
-
-    game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
-
-    game.getCellAt(0,2).addPawn(Player.RED);
-    game.startTurn(Player.RED);
-    game.placeCardAt(Player.RED, 0, 0, 2);
+    game.placeCardAt(Player.RED, 0, 0, 0);
 
     game.startTurn(Player.BLUE);
     game.passTurn(Player.BLUE);
@@ -1408,12 +1395,26 @@ public class PawnGameTest {
     game.startTurn(Player.BLUE);
     game.passTurn(Player.BLUE);
 
-    game.getCellAt(0,0).addPawn(Player.RED);
+    game.getCellAt(0,2).addPawn(Player.RED);
     game.startTurn(Player.RED);
-    game.placeCardAt(Player.RED, 0, 0, 0);
+    game.placeCardAt(Player.RED, 0, 0, 2);
 
-    assertEquals(0, game.checkScore(Player.BLUE));
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.getCellAt(0,3).addPawn(Player.RED);
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 0, 3);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.getCellAt(0,4).addPawn(Player.RED);
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 0, 4);
+
     assertEquals(9, game.checkScore(Player.RED));
+    assertEquals(0, game.checkScore(Player.BLUE));
     assertEquals(Player.RED, game.rowWinner(0));
   }
 
