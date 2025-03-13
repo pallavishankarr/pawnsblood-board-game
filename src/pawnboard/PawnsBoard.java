@@ -54,9 +54,7 @@ public final class PawnsBoard {
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0,1,3);
     System.out.println(view);
-
-    // can't draw another card because 1/3 of 20 is 6.66 so you cannot
-    // draw another card or else it will go up to 7 which is more than 1/3
+    
     game.startTurn(Player.RED);
     System.out.println(game.getHand(Player.RED).size());
     game.passTurn(Player.RED);
