@@ -34,7 +34,7 @@ import static org.junit.Assert.assertTrue;
 public class PawnGameTest {
 
   private Player player;
-  private PawnsGame game;
+  private PawnsGame<PawnCard> game;
   String path = "docs" + File.separator + "deck.config";
 
 
@@ -369,7 +369,7 @@ public class PawnGameTest {
     assertEquals(0,cell2.getPawnCount());
     assertEquals(0,cell3.getPawnCount());
 
-    PawnCard card  = (PawnCard) game.getHand(Player.RED).get(0);
+    PawnCard card  = game.getHand(Player.RED).get(0);
     game.applyCardInfluence(0, 0, card, Player.RED);
 
     //checks that the pawn count of the cells after card influence is applied
@@ -380,7 +380,20 @@ public class PawnGameTest {
 
   @Test
   public void testMirroredDeck() {
-    
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(path,5);
+
+    PawnCard card  = game.getHand(Player.BLUE).get(2);
+    char[][] mirroredGrid = {
+            {'X', 'X', 'X', 'X', 'X'},
+            {'X', 'X', 'I', 'X', 'X'},
+            {'I', 'I', 'C', 'X', 'X'},
+            {'X', 'X', 'X', 'X', 'X'},
+            {'X', 'X', 'X', 'X', 'X'}
+    };
+
+    assertEquals(card.getInfluenceGrid(), mirroredGrid);
+
   }
 
 

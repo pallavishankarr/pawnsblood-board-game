@@ -3,7 +3,7 @@ package pawnboard.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PawnGameImpl implements PawnsGame{
+public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   private final int row;
   private final  int column;
