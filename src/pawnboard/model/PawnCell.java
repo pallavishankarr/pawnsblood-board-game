@@ -18,10 +18,6 @@ public class PawnCell implements Cell {
   }
 
   public PawnCell(Player owner, int pawnCount) {
-    if (owner == null) {
-      throw new IllegalArgumentException("Owner cannot be null");
-    }
-
      if (pawnCount < 0 || pawnCount > 3 ) {
        throw new IllegalArgumentException("Pawn count cannot be less than 1 or greater than 3");
      }
@@ -44,6 +40,9 @@ public class PawnCell implements Cell {
 
   @Override
   public void placeCard(Card card) {
+    if (card == null) {
+      throw new IllegalArgumentException("Card cannot be null");
+    }
     this.card = card;
     this.pawnCount = 0;
   }
@@ -69,11 +68,12 @@ public class PawnCell implements Cell {
   }
 
   @Override
-  public boolean isCellEmpty() {
-    return (pawnCount == 0 && !hasCard());
-  }
-
   public Card getCard() {
     return this.card;
+  }
+
+  @Override
+  public boolean isCellEmpty() {
+    return (pawnCount == 0 && !hasCard());
   }
 }

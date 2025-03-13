@@ -10,6 +10,7 @@ public interface Cell {
 
   /**
    * Places a card on the cell and removes any pawns on the cell.
+   * @throws IllegalArgumentException if the card is null
    */
   void placeCard(Card card);
 
