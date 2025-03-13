@@ -221,10 +221,10 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
     for(int row = 0 ; row < this.row ; row++) {
       if(rowWinner(row) == player){
-        score =+ checkScoreRow(player, row);
+        score += checkScoreRow(player, row);
       }
       else {
-        score =+ 0;
+        score += 0;
       }
     }
     return score;

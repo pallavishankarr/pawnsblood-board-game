@@ -163,6 +163,9 @@ public class PawnGameTest {
     //adds pawn so that the card can be placed
     Cell cell = game.getCellAt(0,4);
 
+    game.passTurn(Player.RED);
+    game.startTurn(Player.BLUE);
+
 
     //card that will be placed
     PawnCard card = game.getHand(Player.BLUE).get(0);
@@ -213,6 +216,9 @@ public class PawnGameTest {
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
 
+    game.passTurn(Player.RED);
+    game.startTurn(Player.BLUE);
+
     //Pawn cost not met for placing the card
     assertThrows(IllegalArgumentException.class,() ->
             game.placeCardAt(Player.BLUE, 0, 1,2));
@@ -244,6 +250,9 @@ public class PawnGameTest {
   public void testBluePlaceCardAtWithRedPawns() {
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
+
+    game.passTurn(Player.RED);
+    game.startTurn(Player.BLUE);
 
     assertThrows(IllegalArgumentException.class,() ->
             game.placeCardAt(Player.BLUE, 0, 0,0));
@@ -291,6 +300,9 @@ public class PawnGameTest {
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
 
+    game.passTurn(Player.RED);
+    game.startTurn(Player.BLUE);
+
     //adds pawn so that the card can be placed
     Cell cell = game.getCellAt(0,4);
     cell.addPawn(Player.BLUE);
@@ -328,8 +340,11 @@ public class PawnGameTest {
   @Test
   public void testPassTurnGame(){
     this.game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+    game.startTurn(Player.RED);
     game.passTurn(Player.RED);
     assertEquals(Player.BLUE, game.getCurrentPlayer());
+    game.startTurn(Player.BLUE);
     game.passTurn(Player.BLUE);
     assertEquals(Player.RED, game.getCurrentPlayer());
 
@@ -342,23 +357,26 @@ public class PawnGameTest {
     game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
 
-    Cell cell = game.getCellAt(0,0);
+    Cell cell = game.getCellAt(0,4);
     cell.addPawn(Player.BLUE);
 
-    game.placeCardAt(Player.BLUE, 0, 0, 0);
+    game.passTurn(Player.RED);
+    game.startTurn(Player.BLUE);
 
-    //Makes sure that handSize is less than the hand size so a new card can be drawn for the deck
-    assertEquals(4, game.getHand(Player.BLUE).size());
+    game.placeCardAt(Player.BLUE, 0, 0, 4);
+
+    //card immediatley drawn on turn
+    assertEquals(5, game.getHand(Player.BLUE).size());
     //Checks the deck size
-    assertEquals(15,game.getRemainingDeckSize(Player.BLUE));
+    assertEquals(14,game.getRemainingDeckSize(Player.BLUE));
 
     game.drawCard(Player.BLUE);
 
     //Makes sure that the card is added to hand
-    assertEquals(5, game.getHand(Player.BLUE).size());
+    assertEquals(6, game.getHand(Player.BLUE).size());
 
     //Makes sure that the deck size has been reduced by one card
-    assertEquals(14,game.getRemainingDeckSize(Player.BLUE));
+    assertEquals(13,game.getRemainingDeckSize(Player.BLUE));
 
   }
 
@@ -449,6 +467,65 @@ public class PawnGameTest {
   @Test
   public void testCheckScore(){
 
+    game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+
+
+
+    Cell cell = game.getCellAt(0,0);
+    Cell cell2 = game.getCellAt(0,1);
+    Cell cell3 = game.getCellAt(0,2);
+    Cell cell4 = game.getCellAt(0,3);
+    Cell cell5 = game.getCellAt(0,4);
+
+    Cell cell6 = game.getCellAt(1,0);
+    Cell cell7 = game.getCellAt(1,1);
+    Cell cell8 = game.getCellAt(1,2);
+    Cell cell9 = game.getCellAt(1,3);
+    Cell cell10 = game.getCellAt(1,4);
+
+
+
+    cell3.addPawn(Player.RED);
+    cell4.addPawn(Player.RED);
+    cell5.changeOwnership(Player.RED);
+
+    cell8.addPawn(Player.RED);
+    cell9.addPawn(Player.RED);
+    cell10.changeOwnership(Player.RED);
+
+
+
+
+
+
+    game.placeCardAt(Player.RED, 0, 0, 0);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+    game.startTurn(Player.RED);
+
+    game.placeCardAt(Player.RED, 0, 0, 1);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+    game.startTurn(Player.RED);
+
+    game.placeCardAt(Player.RED, 0, 0, 2);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+    game.startTurn(Player.RED);
+
+    game.placeCardAt(Player.RED, 0, 0, 3);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+    game.startTurn(Player.RED);
+
+    game.placeCardAt(Player.RED, 0, 0, 4);
+
   }
 
   //test check Score Row
@@ -457,6 +534,8 @@ public class PawnGameTest {
 
     game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
+
+
 
 
     Cell cell = game.getCellAt(0,0);
@@ -477,9 +556,29 @@ public class PawnGameTest {
 
 
     game.placeCardAt(Player.RED, 0, 0, 0);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+    game.startTurn(Player.RED);
+
     game.placeCardAt(Player.RED, 0, 0, 1);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+    game.startTurn(Player.RED);
+
     game.placeCardAt(Player.RED, 0, 0, 2);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+    game.startTurn(Player.RED);
+
     game.placeCardAt(Player.RED, 0, 0, 3);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+    game.startTurn(Player.RED);
+
     game.placeCardAt(Player.RED, 0, 0, 4);
 
     assertEquals(9, game.checkScoreRow(Player.RED,0));
