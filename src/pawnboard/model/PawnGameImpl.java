@@ -410,10 +410,6 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
   private void endTurn() {
     turnStarted = false;
     turn = (turn == Player.RED) ? Player.BLUE : Player.RED;
-
-    if (isGameOver()) {
-      gameStarted = false;
-    }
   }
 
   private void gameNotStartedCheck() {
