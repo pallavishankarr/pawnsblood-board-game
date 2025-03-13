@@ -54,7 +54,7 @@ public final class PawnsBoard {
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0,1,3);
     System.out.println(view);
-    
+
     game.startTurn(Player.RED);
     System.out.println(game.getHand(Player.RED).size());
     game.passTurn(Player.RED);
@@ -95,6 +95,8 @@ public final class PawnsBoard {
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 2, 0, 2);
     System.out.println(view);
+
+    System.out.println(game.getWinner());
 
   }
 
