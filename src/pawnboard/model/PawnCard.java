@@ -3,6 +3,7 @@ package pawnboard.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import pawnboard.influences.DefaultInfluence;
 import pawnboard.influences.InfluenceEffect;
@@ -73,6 +74,31 @@ public class PawnCard implements Card {
       throw new IllegalArgumentException("Invalid cell coordinates for influence grid.");
     }
     return influenceGrid[row][col] == 'I';
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other == this) {
+      return true;
+    }
+
+    if (!(other instanceof PawnCard)) {
+      return false;
+    }
+
+    PawnCard that = (PawnCard) other;
+    return this.cost == that.cost
+            &&
+            this.value == that.value
+            &&
+            this.name.equals(that.name)
+            &&
+            Arrays.deepEquals(this.influenceGrid, that.influenceGrid);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, cost, value, Arrays.deepHashCode(influenceGrid));
   }
 
 }
