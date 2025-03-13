@@ -294,10 +294,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   private void drawCardHelper(List<PawnCard> playerDeck,
                               List<PawnCard> playerHand) {
-    if(playerHand.size() >= this.handSize + 1) {
-      throw new IllegalArgumentException("Player hands is full");
-    }
-
+    
     playerHand.add(playerDeck.get(0));
     playerDeck.remove(0);
 

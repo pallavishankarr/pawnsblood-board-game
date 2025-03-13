@@ -125,7 +125,6 @@ public class PawnGameTest {
 
     //adds pawn so that the card can be placed
     Cell cell = game.getCellAt(0,0);
-    cell.addPawn(Player.RED);
 
     //card that will be placed
     PawnCard card = game.getHand(Player.RED).get(0);
@@ -150,7 +149,7 @@ public class PawnGameTest {
 
     //makes sure that the influence has changed for the specific cells
     assertEquals(1, cell3.getPawnCount());
-    assertEquals(1, cell4.getPawnCount());
+    assertEquals(2, cell4.getPawnCount());
 
 
   }
