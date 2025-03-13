@@ -60,9 +60,7 @@ public class PawnCell implements Cell {
 
   @Override
   public void changeOwnership(Player player) {
-    if (!this.owner.equals(player)) {
-      this.owner = player;
-    }
+    this.owner = player;
   }
 
   @Override

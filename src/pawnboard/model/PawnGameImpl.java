@@ -16,7 +16,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
   private List<PawnCard> playerBlueHand;
   private boolean gameStarted = false;
   private Player turn;
-  private  int handSize;
+  private int handSize;
   private boolean turnStarted;
 
   public PawnGameImpl(int row, int column) {
@@ -49,8 +49,12 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     List<PawnCard> redDeck = CardInitializer.initializeDeck(path);
     List<PawnCard> blueDeck = mirrorDeck(redDeck);
 
-    if (redDeck == null || blueDeck == null || redDeck.isEmpty() || blueDeck.isEmpty()) {
+    if (redDeck.isEmpty() || blueDeck.isEmpty()) {
       throw new IllegalArgumentException("Decks cannot be null or empty.");
+    }
+
+    if (redDeck.size() != blueDeck.size()) {
+      throw new IllegalArgumentException("Decks must be the same size");
     }
 
     if (redDeck.contains(null) || blueDeck.contains(null)) {
@@ -61,7 +65,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
       throw new IllegalArgumentException("Each deck must have at least " + (row * column) + " cards.");
     }
 
-    if (handSize > redDeck.size() / 3 || handSize > blueDeck.size() / 3) {
+    if (handSize > redDeck.size() / 3 || handSize > blueDeck.size() / 3 || handSize < 0) {
       throw new IllegalArgumentException("Hand size cannot be greater than ⅓ of the deck.");
     }
 
@@ -109,6 +113,10 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
       throw new IllegalArgumentException("Row or column is out of board bounds.");
     }
 
+    if (cardIdx > playerRedDeck.size()) {
+      throw new IllegalArgumentException("Card index out of bounds");
+    }
+
     if (player == Player.RED) {
       placeCardAtHelper(playerRedHand, player, cardIdx,row,col);
     }
@@ -118,15 +126,6 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     }
 
     endTurn();
-  }
-
-  private void endTurn() {
-    turnStarted = false;
-    turn = (turn == Player.RED) ? Player.BLUE : Player.RED;
-
-    if (isGameOver()) {
-      gameStarted = false;
-    }
   }
 
   @Override
@@ -148,6 +147,18 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public void drawCard(Player player) {
+    if (!gameStarted) {
+      throw new IllegalStateException("Game has not started.");
+    }
+
+    if (player != turn) {
+      throw new IllegalArgumentException("It is not " + player + "'s turn.");
+    }
+
+    if (!turnStarted) {
+      throw new IllegalStateException("You must start your turn before passing.");
+    }
+
     List<PawnCard> playerDeck = (player == Player.RED) ? playerRedDeck : playerBlueDeck;
     List<PawnCard> playerHand = (player == Player.RED) ? playerRedHand : playerBlueHand;
 
@@ -173,7 +184,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public Cell getCellAt(int row, int col) {
-    if( row >= this.row || col >= this.column || row < 0 || col < 0 ) {
+    if (row >= this.row || col >= this.column || row < 0 || col < 0) {
       throw new IllegalArgumentException("Row or column is out of board bounds.");
     }
     return board[row][col];
@@ -181,11 +192,19 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public Player getCurrentPlayer() {
+    if (!gameStarted) {
+      throw new IllegalStateException("game has not been started");
+    }
+
     return turn;
   }
 
   @Override
   public List<PawnCard> getHand(Player player) {
+    if (!gameStarted) {
+      throw new IllegalStateException("game has not been started");
+    }
+
     if(player == Player.RED) {
       return playerRedHand;
     }
@@ -194,7 +213,11 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public int getRemainingDeckSize(Player player) {
-    if(player == Player.RED) {
+    if (!gameStarted) {
+      throw new IllegalStateException("game has not been started");
+    }
+
+    if (player == Player.RED) {
       return playerRedDeck.size();
     }
     return playerBlueDeck.size();
@@ -202,6 +225,10 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public Player getWinner() {
+    if (!gameStarted) {
+      throw new IllegalStateException("game has not been started");
+    }
+
     if (!isGameOver()) {
       throw new IllegalArgumentException("Game isn't over.");
     }
@@ -219,6 +246,10 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public int checkScore(Player player) {
+    if (!gameStarted) {
+      throw new IllegalStateException("game has not been started");
+    }
+
     int score = 0;
 
     for(int row = 0 ; row < this.row ; row++) {
@@ -234,6 +265,14 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public int checkScoreRow(Player player, int rowIdx) {
+    if (!gameStarted) {
+      throw new IllegalStateException("game has not been started");
+    }
+
+    if (rowIdx < 0 || rowIdx >= row) {
+      throw new IllegalArgumentException("Row index out of bounds");
+    }
+
     int score = 0;
 
     for (int col = 0; col < this.column; col++) {
@@ -250,6 +289,14 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public Player rowWinner(int rowIdx) {
+    if (!gameStarted) {
+      throw new IllegalStateException("game has not been started");
+    }
+
+    if (rowIdx < 0 || rowIdx >= row) {
+      throw new IllegalArgumentException("Row index out of bounds");
+    }
+
     int redScore = checkScoreRow(Player.RED, rowIdx);
     int blueScore = checkScoreRow(Player.BLUE, rowIdx);
 
@@ -264,6 +311,10 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public boolean isGameOver() {
+    if (!gameStarted) {
+      throw new IllegalStateException("game has not been started");
+    }
+
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[i].length; j++) {
         if (board[i][j].getPawnCount() > 0) {
@@ -275,12 +326,28 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
   }
 
   @Override
-  public void applyCardInfluence(int boardRow, int boardCol, Player currentPlayer, char[][] influenceGrid, List<InfluenceEffect> influenceEffects) {
+  public void applyCardInfluence(int rowIdx, int colIdx, Player currentPlayer, Card card) {
+    if (!gameStarted) {
+      throw new IllegalStateException("game has not been started");
+    }
+
+    if (rowIdx < 0 || rowIdx >= row || colIdx < 0 || colIdx >= column) {
+      throw new IllegalArgumentException("Row index out of bounds");
+    }
+
+    if (card == null) {
+      throw new IllegalArgumentException("Card cannot be null");
+    }
+
+    char[][] influenceGrid = card.getInfluenceGrid();
+    List<InfluenceEffect> influenceEffects = card.getInfluenceEffects();
+
+
     for (int i = 0; i < 5; i++) {
       for (int j = 0; j < 5; j++) {
         if (influenceGrid[i][j] == 'I') {
-          int targetRow = boardRow + (i - 2);
-          int targetCol = boardCol + (j - 2);
+          int targetRow = rowIdx + (i - 2);
+          int targetCol = colIdx + (j - 2);
 
           try {
             if (getCellAt(targetRow, targetCol).hasCard()) {
@@ -345,7 +412,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     else {
       cell.placeCard(card);
       playerHand.remove(cardIdx);
-      applyCardInfluence(row, col, player, card.getInfluenceGrid(), card.getInfluenceEffects());
+      applyCardInfluence(row, col, player, card);
     }
 
 
@@ -378,5 +445,14 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
       mirroredDeck.add(new PawnCard(card.getName(), card.getPawnCost(), card.getValue(), mirroredGrid));
     }
     return mirroredDeck;
+  }
+
+  private void endTurn() {
+    turnStarted = false;
+    turn = (turn == Player.RED) ? Player.BLUE : Player.RED;
+
+    if (isGameOver()) {
+      gameStarted = false;
+    }
   }
 }

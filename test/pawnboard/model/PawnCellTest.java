@@ -69,7 +69,7 @@ public class PawnCellTest {
   @Test
   public void testChangerOwnership(){
     cell2.changeOwnership(Player.BLUE);
-    assertEquals(Player.BLUE, cell1.getOwner());
+    assertEquals(Player.BLUE, cell2.getOwner());
 
   }
 
