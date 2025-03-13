@@ -15,6 +15,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
   private boolean gameStarted = false;
   private Player turn;
   private  int handSize;
+  private boolean turnStarted;
 
   public PawnGameImpl(int row, int column) {
     if(row < 0 || column < 1 || column%2 == 0 ) {
@@ -30,6 +31,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     this.gameStarted = false;
     this.row = row;
     this.column = column;
+    this.turnStarted = false;
 
     // INVARIANT: the board does not have null values
     initializeBoard();
@@ -70,6 +72,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
     this.gameStarted = true;
     this.turn = Player.RED;
+    this.turnStarted = true;
   }
 
   @Override
@@ -88,6 +91,14 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
       throw new IllegalStateException("Game has not started.");
     }
 
+    if (player != turn) {
+      throw new IllegalArgumentException("It is not " + player + "'s turn.");
+    }
+
+    if (!turnStarted) {
+      throw new IllegalStateException("You must start your turn before playing a card.");
+    }
+    
     if(getCellAt(row, col).hasCard()) {
       throw new IllegalArgumentException("Card already occupied");
     }
@@ -96,8 +107,6 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
       throw new IllegalArgumentException("Row or column is out of board bounds.");
     }
 
-
-
     if (player == Player.RED) {
       placeCardAtHelper(playerRedHand, player, cardIdx,row,col);
     }
@@ -105,36 +114,62 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     if (player == Player.BLUE) {
       placeCardAtHelper(playerBlueHand, player, cardIdx,row,col);
     }
+    
+    endTurn();
+  }
 
-
-
+  private void endTurn() {
+    turnStarted = false;
+    turn = (turn == Player.RED) ? Player.BLUE : Player.RED;
   }
 
   @Override
   public void passTurn(Player player) {
-    if (player == Player.RED) {
-      turn = Player.BLUE;
+    if (!gameStarted) {
+      throw new IllegalStateException("Game has not started.");
     }
-    else if (player == Player.BLUE) {
-      turn = Player.RED;
+
+    if (player != turn) {
+      throw new IllegalArgumentException("It is not " + player + "'s turn.");
     }
+
+    if (!turnStarted) {
+      throw new IllegalStateException("You must start your turn before passing.");
+    }
+
+    endTurn();
   }
 
   @Override
   public void drawCard(Player player) {
+    List<PawnCard> playerDeck = (player == Player.RED) ? playerRedDeck : playerBlueDeck;
+    List<PawnCard> playerHand = (player == Player.RED) ? playerRedHand : playerBlueHand;
 
-    if(player == Player.BLUE) {
-
-      drawCardHelper(playerBlueDeck, playerBlueHand);
+    if (playerDeck.isEmpty()) {
+      return;
     }
 
-    else {
-      drawCardHelper(playerRedDeck, playerRedHand);
-    }
+    int maxHandSize = playerDeck.size() / 3;
 
+    if (playerHand.size() < maxHandSize) {
+      playerHand.add(playerDeck.remove(0));
+    }
   }
 
+  @Override
+  public void startTurn(Player player) {
+    if (!gameStarted) {
+      throw new IllegalStateException("Game has not started.");
+    }
 
+    if (player != turn) {
+      throw new IllegalArgumentException("It is not " + player + "'s turn.");
+    }
+
+    drawCard(player);
+
+    turnStarted = true;
+  }
 
 
   @Override
@@ -263,21 +298,20 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   private void initializeHand(List<PawnCard> deck, List<PawnCard> hand) {
     for (int i = 0; i < handSize; i++) {
-      hand.add(deck.get(i));
+      hand.add(deck.remove(0));
     }
-    deck.removeAll(hand);
   }
 
   private void placeCardAtHelper(List<PawnCard> playerHand,Player player,
                                  int cardIdx, int row, int col) {
 
-    if(cardIdx < 0 || cardIdx > playerHand.size() - 1) {
+    if (cardIdx < 0 || cardIdx >= playerHand.size()) {
       throw new IllegalArgumentException("CardIdx out of bounds");
     }
 
 
-    if(cardIdx > playerHand.size() + 1) {
-      throw new IllegalArgumentException("CardIdx out of bounds");
+    if (playerHand.size() < handSize) {
+      throw new IllegalArgumentException("Cannot play card. Hand size cannot drop below " + handSize);
     }
 
     Card card = playerHand.get(cardIdx);
@@ -300,6 +334,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   }
 
+<<<<<<< Updated upstream
   private void drawCardHelper(List<PawnCard> playerDeck,
                               List<PawnCard> playerHand) {
 
@@ -309,6 +344,8 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   }
 
+=======
+>>>>>>> Stashed changes
   private char[][] mirrorGrid(char[][] grid) {
     int size = grid.length;
     char[][] mirrored = new char[size][size];

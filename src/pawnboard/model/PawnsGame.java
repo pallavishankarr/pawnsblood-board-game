@@ -59,6 +59,8 @@ public interface PawnsGame<C extends Card> {
    */
   void drawCard(Player player);
 
+  void startTurn(Player player);
+
   /**
    * Returns the cell at the indicated position on the board.
    * @param row the row to access

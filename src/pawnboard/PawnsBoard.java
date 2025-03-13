@@ -17,14 +17,23 @@ public final class PawnsBoard {
     GameView view = new PawnGameTextualView(game);
     game.startGame(path,5);
 
+    game.drawCard(Player.RED);
     System.out.println("Initial Board:");
     System.out.println(view);
 
+    game.drawCard(Player.RED);
+    System.out.println(game.getHand(Player.RED).size());
     game.placeCardAt(Player.RED, 0,0,0);
     System.out.println(view);
 
-    game.placeCardAt(Player.RED, 1,0,0);
+    game.placeCardAt(Player.BLUE, 0,0,4);
     System.out.println(view);
+
+    System.out.println("Player Red Hand Size Before Pass:" + game.getHand(Player.RED).size());
+    game.passTurn(Player.RED);
+    System.out.println("Player Red Hand Size:" + game.getHand(Player.RED).size());
+
   }
+
 
 }
