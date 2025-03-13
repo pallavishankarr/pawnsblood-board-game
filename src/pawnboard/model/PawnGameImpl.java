@@ -249,7 +249,24 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     this.board = new Cell[row][column];
     for (int i = 0; i < row; i++) {
       for (int j = 0; j < column; j++) {
-        this.board[i][j] = new PawnCell();
+
+        if (j == 0) {
+          this.board[i][j] = new PawnCell();
+          board[i][j].addPawn(Player.RED);
+          
+        }
+
+        if (j ==  column - 1) {
+          this.board[i][j] = new PawnCell();
+          board[i][j].addPawn(Player.BLUE);
+        }
+
+        else {
+          this.board[i][j] = new PawnCell();
+        }
+
+
+
       }
     }
   }
@@ -276,7 +293,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     Card card = playerHand.get(cardIdx);
     Cell cell = this.board[row][col];
 
-    if(cell.getPawnCount() != card.getPawnCost()) {
+    if(cell.getPawnCount() < card.getPawnCost()) {
       throw new IllegalArgumentException("Pawn count mismatch");
     }
 
@@ -288,7 +305,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   private void drawCardHelper(List<PawnCard> playerDeck,
                               List<PawnCard> playerHand) {
-    if(playerHand.size() >= this.handSize) {
+    if(playerHand.size() >= this.handSize + 1) {
       throw new IllegalArgumentException("Player hands is full");
     }
 

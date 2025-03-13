@@ -67,6 +67,20 @@ public class PawnGameTest {
     assertEquals(5, game.getHand(Player.RED).size());
     assertEquals(5, game.getHand(Player.BLUE).size());
 
+    //test that the first column has one pawn count for Red Pawn
+    Cell cell = game.getCellAt(0,0);
+    Cell cell2 = game.getCellAt(1,0);
+    Cell cell3 = game.getCellAt(2,0);
+
+
+    //assertEquals(1,cell.getPawnCount());
+    assertEquals(Player.RED, cell.getOwner());
+    assertEquals(1,cell2.getPawnCount());
+    assertEquals(Player.RED, cell2.getOwner());
+    assertEquals(1,cell3.getPawnCount());
+    assertEquals(Player.RED, cell3.getOwner());
+
+
 
 
 
@@ -341,11 +355,6 @@ public class PawnGameTest {
     Cell cell3 = game.getCellAt(0,2);
     Cell cell4 = game.getCellAt(0,3);
 
-    //Adds the pawns for the card to be placed
-    cell.addPawn(Player.RED);
-
-    cell3.addPawn(Player.RED);
-    cell3.addPawn(Player.RED);
 
     game.placeCardAt(Player.RED, 0, 0, 0);
     game.placeCardAt(Player.RED, 0, 0, 1);
