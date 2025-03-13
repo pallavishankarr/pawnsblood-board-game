@@ -177,8 +177,8 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
       throw new IllegalArgumentException("It is not " + player + "'s turn.");
     }
 
-    drawCard(player);
     turnStarted = true;
+    drawCard(player);
   }
 
 

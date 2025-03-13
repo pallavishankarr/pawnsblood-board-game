@@ -26,6 +26,7 @@ public final class PawnsBoard {
     placeCard(game, view, Player.BLUE, 0,2,4);
     placeCard(game, view, Player.RED, 0,0,0);
     placeCard(game, view, Player.BLUE, 0,1,3);
+    
     passTurn(game, view, Player.RED);
     placeCard(game, view, Player.BLUE, 0,1,1);
     placeCard(game, view, Player.RED, 0,2,0);
