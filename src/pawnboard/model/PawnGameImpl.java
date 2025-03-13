@@ -288,7 +288,6 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     }
 
     cell.placeCard(card);
-    cell.changeOwnership(player);
     playerHand.remove(cardIdx);
     applyCardInfluence(row, col, card, player);
   }
