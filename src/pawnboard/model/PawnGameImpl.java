@@ -100,7 +100,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     if (!turnStarted) {
       throw new IllegalStateException("You must start your turn before playing a card.");
     }
-    
+
     if(getCellAt(row, col).hasCard()) {
       throw new IllegalArgumentException("Card already occupied");
     }
@@ -116,7 +116,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     if (player == Player.BLUE) {
       placeCardAtHelper(playerBlueHand, player, cardIdx,row,col);
     }
-    
+
     endTurn();
   }
 
