@@ -8,9 +8,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-import pawnboard.influences.AddPawnInfluence;
-import pawnboard.influences.ChangeOwnershipInfluence;
-import pawnboard.influences.NoEffectInfluence;
+import javax.swing.*;
+
+import pawnboard.influences.DefaultInfluence;
 
 import static org.junit.Assert.*;
 
@@ -134,9 +134,7 @@ public class CardInitializerTest {
     assertEquals(1, lobber.getValue());
     assertEquals(3, lobber.getInfluenceEffects().size());
 
-    assertTrue(firstCard.getInfluenceEffects().get(0) instanceof AddPawnInfluence);
-    assertTrue(firstCard.getInfluenceEffects().get(1) instanceof ChangeOwnershipInfluence);
-    assertTrue(firstCard.getInfluenceEffects().get(2) instanceof NoEffectInfluence);
+    assertTrue(firstCard.getInfluenceEffects().get(0) instanceof DefaultInfluence);
   }
 
 

@@ -5,9 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import pawnboard.influences.AddPawnInfluence;
-import pawnboard.influences.ChangeOwnershipInfluence;
+import pawnboard.influences.DefaultInfluence;
 import pawnboard.influences.InfluenceEffect;
-import pawnboard.influences.NoEffectInfluence;
 
 public class PawnCard implements Card {
   private final String name;
@@ -41,10 +40,7 @@ public class PawnCard implements Card {
     this.cost = cost;
     this.value = value;
     this.influenceGrid = influenceGrid;
-    this.influenceEffects = new ArrayList<>(Arrays.asList(
-            new AddPawnInfluence(),
-            new ChangeOwnershipInfluence(),
-            new NoEffectInfluence()));
+    this.influenceEffects = new ArrayList<>(List.of(new DefaultInfluence()));
   }
 
   @Override
@@ -89,6 +85,9 @@ public class PawnCard implements Card {
           int targetCol = boardCol + (j - 2);
 
           try {
+            if (game.getCellAt(targetRow, targetCol).hasCard()) {
+              continue;
+            }
             for (InfluenceEffect effect : influenceEffects) {
               effect.apply(game, targetRow, targetCol, currentPlayer);
             }

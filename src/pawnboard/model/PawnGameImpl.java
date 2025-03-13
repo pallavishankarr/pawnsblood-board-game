@@ -16,6 +16,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
   private Player turn;
   private  int handSize;
   private boolean turnStarted;
+  private int maxHandSize;
 
   public PawnGameImpl(int row, int column) {
     if(row < 0 || column < 1 || column%2 == 0 ) {
@@ -66,6 +67,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     this.playerRedDeck = redDeck;
     this.playerBlueDeck = blueDeck;
     this.handSize = handSize;
+    this.maxHandSize = playerRedDeck.size() / 3;
 
     initializeHand(playerRedDeck, playerRedHand);
     initializeHand(playerBlueDeck, playerBlueHand);
@@ -145,13 +147,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     List<PawnCard> playerDeck = (player == Player.RED) ? playerRedDeck : playerBlueDeck;
     List<PawnCard> playerHand = (player == Player.RED) ? playerRedHand : playerBlueHand;
 
-    if (playerDeck.isEmpty()) {
-      return;
-    }
-
-    int maxHandSize = playerDeck.size() / 3;
-
-    if (playerHand.size() < maxHandSize) {
+    if (!playerDeck.isEmpty() && playerHand.size() < maxHandSize) {
       playerHand.add(playerDeck.remove(0));
     }
   }
@@ -322,7 +318,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     }
 
     if (cell.getPawnCount() < card.getPawnCost()) {
-      throw new IllegalArgumentException("Pawn count mismatch");
+      throw new IllegalArgumentException("Not enough pawns to place this card");
     }
 
     else {
@@ -334,18 +330,13 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   }
 
-<<<<<<< Updated upstream
   private void drawCardHelper(List<PawnCard> playerDeck,
                               List<PawnCard> playerHand) {
 
     playerHand.add(playerDeck.get(0));
     playerDeck.remove(0);
-
-
   }
 
-=======
->>>>>>> Stashed changes
   private char[][] mirrorGrid(char[][] grid) {
     int size = grid.length;
     char[][] mirrored = new char[size][size];

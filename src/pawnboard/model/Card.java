@@ -53,7 +53,7 @@ public interface Card {
   /**
    * Applies the influence of the card onto the cells to the board.
    */
-  void applyInfluence(PawnsGame game, int boardRow, int boardCol, Player currentPlayer);
+  void applyInfluence(PawnsGame<PawnCard> game, int boardRow, int boardCol, Player currentPlayer);
 
   /**
    * Returns a String representation of the card
