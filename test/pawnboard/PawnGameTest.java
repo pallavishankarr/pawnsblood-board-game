@@ -1200,12 +1200,6 @@ public class PawnGameTest {
 
   }
 
-  //test legal if Get Winner
-  @Test
-  public void testLegalGetWinner() {
-
-  }
-
   //test checkScore
   @Test
   public void testCheckScore(){
@@ -1715,6 +1709,7 @@ public class PawnGameTest {
     placeCard(game, Player.RED, 4,1,1);
 
     assertTrue(game.isGameOver());
+    assertEquals(Player.BLUE, game.getWinner());
   }
 
   private void placeCard(PawnGameImpl game, Player player, int cardIdx, int row, int col) {

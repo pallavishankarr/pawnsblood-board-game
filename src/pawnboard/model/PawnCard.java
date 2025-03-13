@@ -8,6 +8,11 @@ import java.util.Objects;
 import pawnboard.influences.DefaultInfluence;
 import pawnboard.influences.InfluenceEffect;
 
+/**
+ * Represents a card in the Pawn Board game.
+ * Each card has a name, cost (how many pawns req to play), a value (scoring),
+ * and an influence grid that dictates how it affects the board.
+ */
 public class PawnCard implements Card {
   private final String name;
   private final int cost;
@@ -15,6 +20,16 @@ public class PawnCard implements Card {
   private final char[][] influenceGrid;
   private final List<InfluenceEffect> influenceEffects;
 
+  /**
+   * Constructs a PawnCard object.
+   * @param name the name of the card
+   * @param cost the cost of the card
+   * @param value the value of the card
+   * @param influenceGrid the influence grid of the card
+   * @throws IllegalArgumentException if the cost is less than 1 or greater than 3,
+   * if the value is not a positive integer, if the influence grid is not 5x5 and if the
+   * influence grid doesn't have a proper center
+   */
   public PawnCard(String name, int cost, int value, char[][] influenceGrid) {
     if (cost < 1 || cost > 3) {
       throw new IllegalArgumentException("Cost must be between 1 and 3");

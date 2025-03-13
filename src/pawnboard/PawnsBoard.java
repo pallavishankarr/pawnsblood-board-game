@@ -11,6 +11,9 @@ import pawnboard.model.Player;
 import pawnboard.view.GameView;
 import pawnboard.view.PawnGameTextualView;
 
+/**
+ * Main method meant to run full game and see process.
+ */
 public final class PawnsBoard {
   public static void main(String[] args) {
     String path = "docs" + File.separator + "deck.config";

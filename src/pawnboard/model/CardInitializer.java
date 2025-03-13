@@ -7,8 +7,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Initializes a deck of PawnCards from a given a file path.
+ * Turns file path into a configuration that can then be read.
+ * Reads the name, value, cost, and influence grid.
+ */
 public class CardInitializer {
+
+  /**
+   * Reads a configuration file and initializes a list of PawnCards.
+   * @param path the file path to the deck
+   * @return a list of pawn cards created
+   */
   public static List<PawnCard> initializeDeck(String path) {
     List<PawnCard> deck = new ArrayList<>();
     File config = new File(path);

@@ -5,6 +5,11 @@ import java.util.List;
 
 import pawnboard.influences.InfluenceEffect;
 
+/**
+ * Represents the logic of the 2 player Pawn Board game.
+ * Maintains the game state including the rectangular board, player decks, turns, and
+ * move validation.
+ */
 public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   private final int row;
@@ -19,12 +24,18 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
   private int handSize;
   private boolean turnStarted;
 
+  /**
+   * Constructs a new PawnGameImpl object with the given board dimensions.
+   * @param row the number of rows in the board (must be positive)
+   * @param column the number of columsn in the board (must be odd and >1)
+   * @throws IllegalArgumentException if the row is not a positive integer or column is not
+   * odd and greater than 1.
+   */
   public PawnGameImpl(int row, int column) {
     if(row <= 0 || column <= 1 || column%2 == 0 ) {
       throw new IllegalArgumentException("Row or column out of bounds");
     }
 
-    // INVARIANT: a players deck cannot be null
     this.playerRedDeck = new ArrayList<>();
     this.playerBlueDeck = new ArrayList<>();
     this.playerRedHand = new ArrayList<>();

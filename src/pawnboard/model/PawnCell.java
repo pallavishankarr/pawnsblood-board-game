@@ -17,6 +17,13 @@ public class PawnCell implements Cell {
     this.card = null;
   }
 
+  /**
+   * Constructs a PawnCell object with an owner and pawncount.
+   * @param owner the owner of the cell
+   * @param pawnCount the amount of pawns in the cell
+   * @throws IllegalArgumentException if the pawn count is less than 0 or greater
+   * than 3
+   */
   public PawnCell(Player owner, int pawnCount) {
      if (pawnCount < 0 || pawnCount > 3 ) {
        throw new IllegalArgumentException("Pawn count cannot be less than 1 or greater than 3");

@@ -5,9 +5,16 @@ import pawnboard.model.Cell;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 
+/**
+ * Represents the textual view of a pawn game.
+ */
 public class PawnGameTextualView implements GameView {
   private final PawnsGame model;
 
+  /**
+   * Creates a PawnGameTextualView object.
+   * @param model the model of the game
+   */
   public PawnGameTextualView(PawnsGame model) {
     this.model = model;
   }
