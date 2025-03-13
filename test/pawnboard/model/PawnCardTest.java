@@ -1,5 +1,6 @@
 package pawnboard.model;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -14,15 +15,20 @@ import static org.junit.Assert.assertTrue;
 
 public class PawnCardTest {
 
-  private char[][] influenceGrid = {
-          {'X', 'X', 'I', 'X', 'X'},
-          {'X', 'I', 'I', 'I', 'X'},
-          {'I', 'I', 'C', 'I', 'I'},
-          {'X', 'I', 'I', 'I', 'X'},
-          {'X', 'X', 'I', 'X', 'X'}
-  };
+  private char[][] influenceGrid;
+  private PawnCard card;
 
-  List<InfluenceEffect> emptyEffects = new ArrayList<>();
+  @Before
+  public void setUp() {
+    influenceGrid = new char[][] {
+            {'X', 'X', 'I', 'X', 'X'},
+            {'X', 'I', 'I', 'I', 'X'},
+            {'I', 'I', 'C', 'I', 'I'},
+            {'X', 'I', 'I', 'I', 'X'},
+            {'X', 'X', 'I', 'X', 'X'}
+    };
+    card = new PawnCard("TestCard", 2, 5, influenceGrid);
+  }
 
   @Test
   public void testInvalidCost() {
@@ -90,8 +96,6 @@ public class PawnCardTest {
 
   @Test
   public void testValidCardCreation() {
-    PawnCard card = new PawnCard("TestCard", 2, 5, influenceGrid);
-
     assertEquals("TestCard", card.getName());
     assertEquals(2, card.getPawnCost());
     assertEquals(5, card.getValue());
@@ -100,19 +104,38 @@ public class PawnCardTest {
 
   @Test
   public void testAffectsCell() {
-    PawnCard card = new PawnCard("TestCard", 2, 5, influenceGrid);
-
     assertTrue(card.affectsCell(0, 2));
     assertFalse(card.affectsCell(0, 0));
   }
 
   @Test
   public void testCardGetValue() {
-    PawnCard card = new PawnCard("TestCard", 2, 5, influenceGrid);
     assertEquals(5, card.getValue());
-
   }
 
-  // create tests for the apply card influence from card
+  @Test
+  public void testCardEquality() {
+    PawnCard sameCard = new PawnCard("TestCard", 2, 5, influenceGrid);
+    assertTrue(sameCard.equals(card));
+  }
 
+  @Test
+  public void testCardInequality() {
+    char[][] influenceGrid2 = {
+            {'X', 'X', 'I', 'X', 'X'},
+            {'I', 'I', 'I', 'I', 'X'},
+            {'I', 'I', 'C', 'I', 'I'},
+            {'X', 'I', 'I', 'I', 'X'},
+            {'X', 'X', 'I', 'X', 'X'}
+    };
+    PawnCard card1 = new PawnCard("TestCard", 3, 5, influenceGrid);
+    PawnCard card2 = new PawnCard("TestCard", 2, 10, influenceGrid);
+    PawnCard card3 = new PawnCard("TestCard", 2, 5, influenceGrid2);
+    PawnCard card4 = new PawnCard("DiffName", 2, 5, influenceGrid);
+
+    assertFalse(card.equals(card1));
+    assertFalse(card.equals(card2));
+    assertFalse(card.equals(card3));
+    assertFalse(card.equals(card4));
+  }
 }
