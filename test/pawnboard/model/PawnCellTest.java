@@ -68,6 +68,8 @@ public class PawnCellTest {
   //Test for changing Ownership
   @Test
   public void testChangerOwnership(){
+    cell2.changeOwnership(Player.BLUE);
+    assertEquals(Player.BLUE, cell1.getOwner());
 
   }
 
