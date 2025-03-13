@@ -155,6 +155,7 @@ public class PawnGameTest {
 
   }
 
+  //test for legally placing a Blue Card At
   @Test
   public void testBlueCardPlaceCardAt(){
     this.game = new PawnGameImpl(3, 5);
@@ -177,8 +178,8 @@ public class PawnGameTest {
     Cell cell2 = game.getCellAt(0,4);
     PawnCard card2 = (PawnCard) cell2.getCard();
 
-   // Cell cell3 = game.getCellAt(0, 1);
-    //Cell cell4 = game.getCellAt(1, 0);
+    Cell cell3 = game.getCellAt(2, 4);
+    Cell cell4 = game.getCellAt(1, 4);
 
     //checks that the card has been placed on the cell
     assertEquals(card, card2);
@@ -186,8 +187,8 @@ public class PawnGameTest {
     assertEquals(Player.BLUE,cell.getOwner());
 
     //makes sure that the influence has changed for the specific cells
-    //assertEquals(1, cell3.getPawnCount());
-    //assertEquals(1, cell4.getPawnCount());
+    assertEquals(1, cell3.getPawnCount());
+    assertEquals(2, cell4.getPawnCount());
 
 
   }
