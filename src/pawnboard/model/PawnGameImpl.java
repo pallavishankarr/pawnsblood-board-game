@@ -267,7 +267,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     if (!gameStarted) {
       throw new IllegalStateException("game has not been started");
     }
-    
+
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[i].length; j++) {
         if (board[i][j].getPawnCount() > 0) {
