@@ -27,6 +27,7 @@ public class PawnGameTest {
   private Player player;
   private PawnsGame<PawnCard> game;
   String path = "docs" + File.separator + "deck.config";
+  String biggerPath = "docs" + File.separator + "biggerDeck";
 
 
   //test for Valid Constructor of the PawnsGame Class
@@ -479,7 +480,144 @@ public class PawnGameTest {
 
   }
 
-  
+  //test place card At Edges for Red on BiggerBoard
+  @Test
+  public void testPlaceCardAtEdgesRedBigger() {
+    this.game = new PawnGameImpl(5, 7);
+    game.startGame(biggerPath, 5);
+
+    Cell cell = game.getCellAt(0,0);
+    Cell cell2 = game.getCellAt(1,0);
+    Cell cell3 = game.getCellAt(2,0);
+    Cell cell4 = game.getCellAt(3,0);
+    Cell cell5 = game.getCellAt(4,0);
+
+
+    PawnCard card = game.getHand(Player.RED).get(0);
+    PawnCard card2 = game.getHand(Player.RED).get(1);
+    PawnCard card3 = game.getHand(Player.RED).get(2);
+    PawnCard card4 = game.getHand(Player.RED).get(3);
+    PawnCard card5 = game.getHand(Player.RED).get(4);
+
+
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 0, 0);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 1, 0);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 2, 0);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 3, 0);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    cell5.addPawn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 4, 0);
+
+    assertEquals(card, cell.getCard());
+    assertEquals(Player.RED,cell.getOwner());
+
+    assertEquals(card2, cell2.getCard());
+    assertEquals(Player.RED,cell2.getOwner());
+
+    assertEquals(card3, cell3.getCard());
+    assertEquals(Player.RED,cell3.getOwner());
+
+    assertEquals(card4, cell4.getCard());
+    assertEquals(Player.RED,cell4.getOwner());
+
+    assertEquals(card5, cell5.getCard());
+    assertEquals(Player.RED,cell5.getOwner());
+
+  }
+
+
+  //test place card At Edges for Blue on BiggerBoard
+  @Test
+  public void testPlaceCardAtEdgesBlueBigger() {
+    this.game = new PawnGameImpl(5, 7);
+    game.startGame(biggerPath, 5);
+
+    Cell cell = game.getCellAt(0,6);
+    Cell cell2 = game.getCellAt(1,6);
+    Cell cell3 = game.getCellAt(2,6);
+    Cell cell4 = game.getCellAt(3,6);
+    Cell cell5 = game.getCellAt(4,6);
+
+
+    PawnCard card = game.getHand(Player.RED).get(0);
+    PawnCard card2 = game.getHand(Player.RED).get(1);
+    PawnCard card3 = game.getHand(Player.RED).get(2);
+    PawnCard card4 = game.getHand(Player.RED).get(3);
+    PawnCard card5 = game.getHand(Player.RED).get(4);
+
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 0, 6);
+
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+
+    game.placeCardAt(Player.BLUE, 0, 1, 6);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 2, 6);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 3, 6);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    cell5.addPawn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 4, 6);
+
+    assertEquals(card, cell.getCard());
+    assertEquals(Player.BLUE,cell.getOwner());
+
+    assertEquals(card2, cell2.getCard());
+    assertEquals(Player.BLUE,cell2.getOwner());
+
+    assertEquals(card3, cell3.getCard());
+    assertEquals(Player.BLUE,cell3.getOwner());
+
+    assertEquals(card4, cell4.getCard());
+    assertEquals(Player.BLUE,cell4.getOwner());
+
+    assertEquals(card5, cell5.getCard());
+    assertEquals(Player.BLUE,cell5.getOwner());
+
+  }
+
+
+
 
   //test for Place Red Card at with a cell with no pawns
   @Test
