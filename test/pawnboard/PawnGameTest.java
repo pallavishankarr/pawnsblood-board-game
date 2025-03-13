@@ -1324,6 +1324,7 @@ public class PawnGameTest {
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 4);
+<<<<<<< Updated upstream
 
     game.startTurn(Player.RED);
     game.placeCardAt(Player.RED, 0, 0, 1);
@@ -1435,8 +1436,108 @@ public class PawnGameTest {
 
     assertEquals(0, game.checkScore(Player.BLUE));
     assertEquals(0, game.checkScore(Player.RED));
+=======
+>>>>>>> Stashed changes
 
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 0, 1);
 
+    assertEquals(0, game.checkScore(Player.BLUE));
+    assertEquals(3, game.checkScore(Player.RED));
+  }
+
+  @Test
+  public void testRowWinnerBlue() {
+    game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+    PawnGameTextualView view = new PawnGameTextualView(game);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 0, 4);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 0, 3);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.getCellAt(0,2).addPawn(Player.BLUE);
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 0, 2);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.getCellAt(0,1).addPawn(Player.BLUE);
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 0, 1);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.getCellAt(0,0).addPawn(Player.BLUE);
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 0, 0);
+
+    assertEquals(9, game.checkScore(Player.BLUE));
+    assertEquals(0, game.checkScore(Player.RED));
+    assertEquals(Player.BLUE, game.rowWinner(0));
+  }
+
+  @Test
+  public void testRowWinnerRed() {
+    game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+    PawnGameTextualView view = new PawnGameTextualView(game);
+
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 0, 4);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 0, 3);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.getCellAt(0,2).addPawn(Player.RED);
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 0, 2);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.getCellAt(0,1).addPawn(Player.RED);
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 0, 1);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.getCellAt(0,0).addPawn(Player.RED);
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 0, 0);
+
+    assertEquals(0, game.checkScore(Player.BLUE));
+    assertEquals(9, game.checkScore(Player.RED));
+    assertEquals(Player.RED, game.rowWinner(0));
+  }
+
+  //test tie
+  @Test
+  public void testRowWinnerTie() {
+    game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+    assertEquals(null, game.rowWinner(0));
   }
 
   //test isGameOver
