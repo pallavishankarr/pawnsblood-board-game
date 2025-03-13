@@ -486,9 +486,9 @@ public class PawnGameTest {
     game.startGame(path, 5);
 
     String expected =
-            "0 1 _ _ _ _ 1 0\n" +
-                    "0 1 _ _ _ _ 1 0\n" +
-                    "0 1 _ _ _ _ 1 0\n";
+            "0 1 _ _ _ 1 0\n" +
+                    "0 1 _ _ _ 1 0\n" +
+                    "0 1 _ _ _ 1 0\n";
     assertEquals(expected, view.toString());
   }
 
