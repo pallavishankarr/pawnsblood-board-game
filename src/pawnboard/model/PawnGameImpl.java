@@ -353,8 +353,14 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
             if (getCellAt(targetRow, targetCol).hasCard()) {
               continue;
             }
-            for (InfluenceEffect effect : influenceEffects) {
-              effect.apply(this, targetRow, targetCol, currentPlayer);
+            if(getCellAt(targetRow, targetCol).getOwner() != currentPlayer){
+              Cell cell = getCellAt(targetRow, targetCol);
+              cell.changeOwnership(currentPlayer);
+            }
+            else {
+              for (InfluenceEffect effect : influenceEffects) {
+                effect.apply(this, targetRow, targetCol, currentPlayer);
+              }
             }
           } catch (IllegalArgumentException e) {
             // Ignore out-of-bounds cells

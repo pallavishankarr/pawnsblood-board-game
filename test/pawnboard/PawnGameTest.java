@@ -419,15 +419,35 @@ public class PawnGameTest {
             game.placeCardAt(Player.BLUE, 0, 1,2));
   }
 
-  //test for Place Red Card at with a cell with no pawns
+  //test for Place Red Card at with a cell with not enough pawns
   @Test
   public void testRedPlaceCardAtWithNotEnoughPawns() {
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
 
+    Cell cell = game.getCellAt(0,0);
+    PawnCard card = game.getHand(Player.RED).get(3);
+
+    assertNotEquals(cell.getPawnCount(), card.getPawnCost());
+
     assertThrows(IllegalArgumentException.class,() ->
             game.placeCardAt(Player.BLUE, 3, 0,0));
 
+  }
+
+  //test for Place Blue Card at cell with not enough pawns
+  @Test
+  public void testBluePlaceCardAtWithNotEnoughPawns() {
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+    Cell cell = game.getCellAt(0,4);
+    PawnCard card = game.getHand(Player.RED).get(3);
+
+    assertNotEquals(cell.getPawnCount(), card.getPawnCost());
+
+    assertThrows(IllegalArgumentException.class,() ->
+            game.placeCardAt(Player.BLUE, 3, 0,4));
   }
 
   //test for Place Red Card at with a cell with Blue Pawns
@@ -461,7 +481,7 @@ public class PawnGameTest {
 
     //adds pawn so that the card can be placed
     Cell cell = game.getCellAt(0,0);
-    cell.addPawn(Player.RED);
+
 
     //card that will be placed
     PawnCard card = game.getHand(Player.RED).get(0);
@@ -495,12 +515,14 @@ public class PawnGameTest {
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
 
+    game.startTurn(Player.RED);
     game.passTurn(Player.RED);
+
     game.startTurn(Player.BLUE);
 
     //adds pawn so that the card can be placed
     Cell cell = game.getCellAt(0,4);
-    cell.addPawn(Player.BLUE);
+
 
 
     //card that will be placed
@@ -527,6 +549,42 @@ public class PawnGameTest {
     //makes sure that the influence has changed for the specific cells
     assertEquals(1, cell3.getPawnCount());
     assertEquals(2, cell4.getPawnCount());
+
+  }
+
+  //test Apply Influence properly works when placing a Red Card
+  @Test
+  public void testApplyInfluenceRedCardPlaced() {
+    game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+
+
+    //Cells that should be affected after placing card
+    Cell cell = game.getCellAt(0, 1);
+    Cell cell2 = game.getCellAt(1, 0);
+
+    System.out.print(cell.getPawnCount());
+
+    //adds pawn for Blue
+    cell2.addPawn(Player.BLUE);
+
+    System.out.print(cell2.getPawnCount());
+
+    game.placeCardAt(Player.RED, 0, 0, 0);
+
+    System.out.print(cell2.getPawnCount());
+
+    assertEquals(1, cell.getPawnCount());
+    assertEquals(Player.RED, cell.getOwner());
+
+    //checks that the cell2 ownership has changed and only one pawn on cell
+    //assertEquals(1, cell2.getPawnCount());
+    //assertEquals(Player.RED, cell2.getOwner());
+
+
+
+
 
   }
 
@@ -851,7 +909,7 @@ public class PawnGameTest {
 
     PawnCard card  = game.getHand(Player.RED).get(0);
     game.applyCardInfluence(0, 0,  Player.RED,
-            card.getInfluenceGrid(), card.getInfluenceEffects());
+            card);
 
     //checks that the pawn count of the cells after card influence is applied
     assertEquals(1, cell2.getPawnCount());
