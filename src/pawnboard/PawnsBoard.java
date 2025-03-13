@@ -3,6 +3,8 @@ package pawnboard;
 import java.io.File;
 
 import pawnboard.model.CardInitializer;
+import pawnboard.model.Cell;
+import pawnboard.model.PawnCard;
 import pawnboard.model.PawnGameImpl;
 import pawnboard.model.Player;
 import pawnboard.view.GameView;
@@ -48,55 +50,53 @@ public final class PawnsBoard {
     System.out.println(view);
 
     // mandragora
+    // blue is occupying previously red pawns
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0,1,3);
     System.out.println(view);
 
-//    game.startTurn(Player.BLUE);
-//    game.placeCardAt(Player.BLUE, 0,0,4);
-//    System.out.println(view);
-//
-//    game.startTurn(Player.RED);
-//    System.out.println("Player Red Hand Size Before Pass:" + game.getHand(Player.RED).size());
-//    game.passTurn(Player.RED);
-//    System.out.println("Player Red Hand Size:" + game.getHand(Player.RED).size());
-//
-//    game.startTurn(Player.BLUE);
-//    game.placeCardAt(Player.BLUE, 0,1,4);
-//    System.out.println(view);
-//
-//    // can't draw another card because 1/3 of 20 is 6.66 so you cannot
-//    // draw another card or else it will go up to 7 which is more than 1/3
-//    game.startTurn(Player.RED);
-//    System.out.println(game.getHand(Player.RED).size());
-//    game.passTurn(Player.RED);
-//    System.out.println(view);
-//
-//    game.startTurn(Player.BLUE);
-//    game.placeCardAt(Player.BLUE, 0,2,4);
-//    System.out.println(view);
-//
-//    game.startTurn(Player.RED);
-//    game.placeCardAt(Player.RED, 0, 2, 0);
-//    System.out.println(view);
-//
-//    game.startTurn(Player.BLUE);
-//    game.placeCardAt(Player.BLUE, 2, 0, 3);
-//    System.out.println(view);
-//
-//    game.startTurn(Player.RED);
-//    game.placeCardAt(Player.RED, 2, 1, 0);
-//    System.out.println(view);
-//
-//    game.startTurn(Player.BLUE);
-//    game.placeCardAt(Player.BLUE, 5, 2, 2);
-//    System.out.println(view);
-//
-//    game.startTurn(Player.RED);
-//    game.placeCardAt(Player.RED, 2, 1, 1);
-//    System.out.println(view);
-//
-//
+    // can't draw another card because 1/3 of 20 is 6.66 so you cannot
+    // draw another card or else it will go up to 7 which is more than 1/3
+    game.startTurn(Player.RED);
+    System.out.println(game.getHand(Player.RED).size());
+    game.passTurn(Player.RED);
+    System.out.println(view);
+
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0,1,1);
+    System.out.println(view);
+
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 2, 0);
+    System.out.println(view);
+
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 2, 0, 4);
+    System.out.println(view);
+
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 2, 2, 1);
+    System.out.println(view);
+
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 4, 0, 3);
+    System.out.println(view);
+
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 4, 2, 2);
+    System.out.println(view);
+
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 1, 1, 2);
+    System.out.println(view);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+    System.out.println(view);
+
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 2, 0, 2);
+    System.out.println(view);
 
 
 

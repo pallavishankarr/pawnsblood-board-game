@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import pawnboard.influences.AddPawnInfluence;
 import pawnboard.influences.DefaultInfluence;
 import pawnboard.influences.InfluenceEffect;
 
