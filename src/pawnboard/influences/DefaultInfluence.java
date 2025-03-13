@@ -18,12 +18,10 @@ public class DefaultInfluence implements InfluenceEffect {
       influencedCell.addPawn(currentPlayer);
     }
 
-    // If the cell is owned by the opponent, change ownership and add a pawn (if below limit)
-    else if (influencedCell.getOwner() != currentPlayer) {
+    // If the cell is owned by the opponent and change ownership
+     else if (influencedCell.getOwner() != currentPlayer) {
       influencedCell.changeOwnership(currentPlayer);
-      if (influencedCell.getPawnCount() < 3) {
-        influencedCell.addPawn(currentPlayer);
-      }
+
     }
 
     // If the player owns the cell and pawn count is less than 3, increase pawn count

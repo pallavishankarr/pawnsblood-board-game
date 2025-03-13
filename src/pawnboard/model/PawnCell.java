@@ -30,7 +30,8 @@ public class PawnCell implements Cell {
   public void addPawn(Player player) {
     if (this.isCellEmpty()) {
       this.owner = player;
-    } else if (!this.owner.equals(player)) {
+    }
+    else if (!this.owner.equals(player)) {
       return;
     }
     if (pawnCount < 3) {

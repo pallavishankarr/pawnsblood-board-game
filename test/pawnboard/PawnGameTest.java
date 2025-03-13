@@ -89,6 +89,9 @@ public class PawnGameTest {
     Cell cell2 = game.getCellAt(1,0);
     Cell cell3 = game.getCellAt(2,0);
 
+    Cell cell7 = game.getCellAt(0,1);
+    assertEquals(0, cell7.getPawnCount());
+
 
     assertEquals(1,cell.getPawnCount());
     assertEquals(Player.RED, cell.getOwner());
@@ -567,19 +570,25 @@ public class PawnGameTest {
     System.out.print(cell.getPawnCount());
 
     //adds pawn for Blue
-    cell2.addPawn(Player.BLUE);
+    cell.addPawn(Player.BLUE);
 
-    System.out.print(cell2.getPawnCount());
+    System.out.println(cell.getOwner());
+
+    System.out.println(cell.getPawnCount());
+
 
     game.placeCardAt(Player.RED, 0, 0, 0);
 
-    System.out.print(cell2.getPawnCount());
+    System.out.print(cell.getPawnCount());
+    System.out.println(cell.getOwner());
+
+
 
     assertEquals(1, cell.getPawnCount());
     assertEquals(Player.RED, cell.getOwner());
 
     //checks that the cell2 ownership has changed and only one pawn on cell
-    //assertEquals(1, cell2.getPawnCount());
+    //assertEquals(2, cell2.getPawnCount());
     //assertEquals(Player.RED, cell2.getOwner());
 
 
