@@ -678,7 +678,8 @@ public class PawnGameTest {
     assertEquals(1,cell3.getPawnCount());
 
     PawnCard card  = game.getHand(Player.RED).get(0);
-    game.applyCardInfluence(0, , 0, Player.RED, , );
+    game.applyCardInfluence(0, 0,  Player.RED,
+            card.getInfluenceGrid(), card.getInfluenceEffects());
 
     //checks that the pawn count of the cells after card influence is applied
     assertEquals(1, cell2.getPawnCount());
