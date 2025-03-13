@@ -567,35 +567,58 @@ public class PawnGameTest {
     Cell cell = game.getCellAt(0, 1);
     Cell cell2 = game.getCellAt(1, 0);
 
-    System.out.print(cell.getPawnCount());
+    //Cells that shouldn't be affected
+    Cell cell3 = game.getCellAt(0, 4);
 
-    //adds pawn for Blue
+
+
+    //adds pawn for Blue to
     cell.addPawn(Player.BLUE);
 
-    System.out.println(cell.getOwner());
+    assertEquals(1, cell.getPawnCount());
+    assertEquals(Player.BLUE, cell.getOwner());
 
-    System.out.println(cell.getPawnCount());
+    assertEquals(1, cell2.getPawnCount());
+    assertEquals(Player.RED, cell2.getOwner());
+
+    assertEquals(1, cell3.getPawnCount());
+    assertEquals(Player.BLUE, cell3.getOwner());
 
 
     game.placeCardAt(Player.RED, 0, 0, 0);
 
-    System.out.print(cell.getPawnCount());
-    System.out.println(cell.getOwner());
-
-
-
+    //checks that the cell ownership has changed and only one pawn on cell
     assertEquals(1, cell.getPawnCount());
     assertEquals(Player.RED, cell.getOwner());
 
-    //checks that the cell2 ownership has changed and only one pawn on cell
-    //assertEquals(2, cell2.getPawnCount());
-    //assertEquals(Player.RED, cell2.getOwner());
+    //checks that one pawn has been added to the cell and the ownership stays the same
+    assertEquals(2, cell2.getPawnCount());
+    assertEquals(Player.RED, cell2.getOwner());
 
-
-
-
-
+    //checks that Cell has not changed after place Card
+    assertEquals(1, cell3.getPawnCount());
+    assertEquals(Player.BLUE, cell3.getOwner());
   }
+
+  //test PlaceCArd when a Card has already been placed
+  @Test
+  public void testPlaceCardAlready() {
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 0, 0);
+
+    game.startTurn(Player.BLUE);
+    game.drawCard(Player.BLUE);
+
+
+
+
+    game.placeCardAt(Player.RED, 0, 0, 0);
+  }
+
+
 
 
   //test for Pass Turn through the game
