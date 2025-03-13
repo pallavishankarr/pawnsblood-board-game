@@ -155,13 +155,16 @@ public class PawnGameTest {
 
 
 
-   game = new PawnGameImpl(3, 5);
+   game = new PawnGameImpl(5, 7);
 
    //Throws because of path should create null decks 
    assertThrows(IllegalArgumentException.class, () -> game.startGame(path2,5));
 
    //Throws because hand Size is greater  than 1/3
-   assertThrows(IllegalArgumentException.class, () -> game.startGame(path,7));
+   assertThrows(IllegalArgumentException.class, () -> game.startGame(biggerPath,15));
+
+    //Throws because not enough cards to fill up board
+    assertThrows(IllegalArgumentException.class, () -> game.startGame(path,7));
 
 
 
@@ -384,7 +387,7 @@ public class PawnGameTest {
 
     //checks that the card has been placed on the cell
     assertEquals(card, card2);
-    //checks that ownership has been changed to Red
+    //checks that ownership has been changed to Blue
     assertEquals(Player.BLUE,cell.getOwner());
 
     //makes sure that the influence has changed for the specific cells
@@ -393,7 +396,7 @@ public class PawnGameTest {
 
   }
 
-  //test place card At Edges for Red
+  //test place card for every edge
   @Test
   public void testPlaceCardAtEdgesRed() {
     this.game = new PawnGameImpl(3, 5);
@@ -825,6 +828,8 @@ public class PawnGameTest {
     assertEquals(Player.BLUE, cell3.getOwner());
   }
 
+
+
   //test Apply Influence properly works when placing a Blue Card
   @Test
   public void testApplyInfluenceBlueCardPlaced() {
@@ -866,6 +871,165 @@ public class PawnGameTest {
     assertEquals(1, cell3.getPawnCount());
 
   }
+
+  //test Place Card Apply Influence Bigger Board for Red
+  @Test
+  public void testPlaceCardApplyInfluenceBiggerRed() {
+    game = new PawnGameImpl(5, 7);
+    game.startGame(biggerPath, 5);
+
+
+
+    //Cells that should be affected after placing card
+    Cell cell = game.getCellAt(0, 0);
+    Cell cell2 = game.getCellAt(2, 0);
+    Cell cell3 = game.getCellAt(1, 1);
+
+    //Cells that shouldn't be affected
+    Cell cell4 = game.getCellAt(0, 4);
+
+
+
+    //adds pawn for Blue to
+    cell3.addPawn(Player.BLUE);
+
+    assertEquals(1, cell.getPawnCount());
+    assertEquals(Player.RED, cell.getOwner());
+
+    assertEquals(1, cell2.getPawnCount());
+    assertEquals(Player.RED, cell2.getOwner());
+
+    assertEquals(1, cell3.getPawnCount());
+    assertEquals(Player.BLUE, cell3.getOwner());
+
+    assertEquals(0, cell4.getPawnCount());
+
+
+
+    game.placeCardAt(Player.RED, 0,1 , 0);
+
+    //checks that the cell ownership has changed and only one pawn on cell
+    assertEquals(2, cell.getPawnCount());
+    assertEquals(Player.RED, cell.getOwner());
+
+    //checks that one pawn has been added to the cell and the ownership stays the same
+    assertEquals(2, cell2.getPawnCount());
+    assertEquals(Player.RED, cell2.getOwner());
+
+    //checks that Cell has  changed after place Card
+    assertEquals(1, cell3.getPawnCount());
+    assertEquals(Player.RED, cell3.getOwner());
+
+    //checks that Cell has not changed
+    assertEquals(0, cell4.getPawnCount());
+
+  }
+
+  //test Apply Influence properly works when placing a Blue Card
+  //on  a Bigger Board
+  @Test
+  public void testApplyInfluenceBlueCardPlacedBigger() {
+    game = new PawnGameImpl(5, 7);
+    game.startGame(biggerPath, 5);
+
+
+
+    //Cells that should be affected after placing card
+    Cell cell = game.getCellAt(0, 6);
+    Cell cell2 = game.getCellAt(2, 6);
+    Cell cell3 = game.getCellAt(1, 5);
+
+    assertEquals(1,cell.getPawnCount());
+    assertEquals(Player.BLUE, cell.getOwner());
+
+    assertEquals(1, cell2.getPawnCount());
+    assertEquals(Player.BLUE, cell2.getOwner());
+
+    assertEquals(0, cell3.getPawnCount());
+
+
+    //Cells that shouldn't be affected
+    Cell cell4 = game.getCellAt(2, 4);
+
+    assertEquals(0,cell4.getPawnCount());
+
+
+
+    cell2.addPawn(Player.RED);
+
+    assertEquals(1, cell2.getPawnCount());
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 1, 6);
+
+    assertEquals(2, cell.getPawnCount());
+    assertEquals(Player.BLUE, cell.getOwner());
+
+    assertEquals(2, cell2.getPawnCount());
+    assertEquals(Player.BLUE, cell2.getOwner());
+
+    assertEquals(1, cell3.getPawnCount());
+    assertEquals(Player.BLUE, cell3.getOwner());
+
+    assertEquals(0,cell4.getPawnCount());
+
+  }
+
+
+  //Place CArd Doesn't influence with 3 pawns on it
+  @Test
+  public void testApplyInfluenceWithThreePawns() {
+    game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+
+
+    //Cells that should be affected after placing card
+    Cell cell = game.getCellAt(0, 1);
+    Cell cell2 = game.getCellAt(1, 0);
+
+    //Cells that shouldn't be affected
+    Cell cell3 = game.getCellAt(0, 4);
+
+
+
+    //adds pawn for Red to
+    cell2.addPawn(Player.RED);
+    cell2.addPawn(Player.RED);
+
+    assertEquals(0, cell.getPawnCount());
+
+
+    assertEquals(3, cell2.getPawnCount());
+    assertEquals(Player.RED, cell2.getOwner());
+
+    assertEquals(1, cell3.getPawnCount());
+    assertEquals(Player.BLUE, cell3.getOwner());
+
+
+    game.placeCardAt(Player.RED, 0, 0, 0);
+
+    //checks that the cell ownership has changed and only one pawn on cell
+    assertEquals(1, cell.getPawnCount());
+    assertEquals(Player.RED, cell.getOwner());
+
+    //checks that one pawn has been added to the cell and the ownership stays the same
+    assertEquals(3, cell2.getPawnCount());
+    assertEquals(Player.RED, cell2.getOwner());
+
+    //checks that Cell has not changed after place Card
+    assertEquals(1, cell3.getPawnCount());
+    assertEquals(Player.BLUE, cell3.getOwner());
+
+
+
+  }
+
+
+
 
   //test PlaceCArd when a Card has already been placed
   @Test
