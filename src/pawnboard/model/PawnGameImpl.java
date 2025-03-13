@@ -294,7 +294,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   private void drawCardHelper(List<PawnCard> playerDeck,
                               List<PawnCard> playerHand) {
-    
+
     playerHand.add(playerDeck.get(0));
     playerDeck.remove(0);
 

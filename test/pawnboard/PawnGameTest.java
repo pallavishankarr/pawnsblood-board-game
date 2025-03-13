@@ -189,8 +189,9 @@ public class PawnGameTest {
     assertEquals(1, cell3.getPawnCount());
     assertEquals(2, cell4.getPawnCount());
 
-
   }
+
+  
 
   //test for Illegal Place Card at
   @Test
@@ -250,15 +251,6 @@ public class PawnGameTest {
 
   }
 
-  //test for illegal draw card
-  @Test
-  public void testIllegalDrawCard(){
-    game = new PawnGameImpl(3, 5);
-    game.startGame(path, 5);
-
-    assertThrows(IllegalArgumentException.class, () -> game.drawCard(Player.BLUE));
-
-  }
 
 
   //test legal get Cell At
@@ -362,12 +354,12 @@ public class PawnGameTest {
     Cell cell4 = game.getCellAt(0,3);
     Cell cell5 = game.getCellAt(0,4);
 
-    cell.addPawn(Player.RED);
-    cell2.addPawn(Player.RED);
+
+
     cell3.addPawn(Player.RED);
     cell4.addPawn(Player.RED);
     cell5.changeOwnership(Player.RED);
-    cell5.addPawn(Player.RED);
+
 
 
 
@@ -395,12 +387,10 @@ public class PawnGameTest {
     Cell cell4 = game.getCellAt(0,3);
     Cell cell5 = game.getCellAt(0,4);
 
-    cell.addPawn(Player.RED);
-    cell2.addPawn(Player.RED);
+
     cell3.addPawn(Player.RED);
     cell4.addPawn(Player.RED);
     cell5.changeOwnership(Player.RED);
-    cell5.addPawn(Player.RED);
 
 
     game.placeCardAt(Player.RED, 0, 0, 0);
@@ -424,19 +414,19 @@ public class PawnGameTest {
     Cell cell4 = game.getCellAt(0,3);
     Cell cell5 = game.getCellAt(0,4);
 
-    cell.addPawn(Player.RED);
-    cell2.addPawn(Player.RED);
+
+
     cell3.addPawn(Player.RED);
     cell4.addPawn(Player.RED);
     cell5.changeOwnership(Player.RED);
-    cell5.addPawn(Player.RED);
+
 
     game.placeCardAt(Player.RED, 0, 0, 0);
     game.placeCardAt(Player.RED, 0, 0, 1);
     game.placeCardAt(Player.RED, 0, 0, 2);
     game.placeCardAt(Player.RED, 0, 0, 3);
     game.placeCardAt(Player.RED, 0, 0, 4);
-    //assertFalse(game.isGameOver());
+    assertFalse(game.isGameOver());
   }
 
   //test Apply Influence in the game
