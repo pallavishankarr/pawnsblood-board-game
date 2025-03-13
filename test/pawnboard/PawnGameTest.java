@@ -17,9 +17,8 @@ import pawnboard.model.PawnsGame;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnGameImpl;
 import pawnboard.model.CardInitializer;
-
-
-
+import pawnboard.view.GameView;
+import pawnboard.view.PawnGameTextualView;
 
 
 import static org.junit.Assert.assertEquals;
@@ -79,10 +78,6 @@ public class PawnGameTest {
     assertEquals(Player.RED, cell2.getOwner());
     assertEquals(1,cell3.getPawnCount());
     assertEquals(Player.RED, cell3.getOwner());
-
-
-
-
 
 
   }
@@ -402,8 +397,23 @@ public class PawnGameTest {
     };
 
     assertEquals(card.getInfluenceGrid(), mirroredGrid);
-
   }
+
+  @Test
+  public void testInitialEmptyBoard() {
+    game = new PawnGameImpl(3, 5);
+    GameView view = new PawnGameTextualView(game);
+    game.startGame(path, 5);
+
+    String expected =
+            "0 1 _ _ _ _ 1 0\n" +
+                    "0 1 _ _ _ _ 1 0\n" +
+                    "0 1 _ _ _ _ 1 0\n";
+    assertEquals(expected, view.toString());
+  }
+
+
+
 
 
 
