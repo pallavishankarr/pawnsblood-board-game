@@ -26,17 +26,15 @@ public final class PawnsBoard {
     placeCard(game, view, Player.BLUE, 0,2,4);
     placeCard(game, view, Player.RED, 0,0,0);
     placeCard(game, view, Player.BLUE, 0,1,3);
-    
     passTurn(game, view, Player.RED);
-    placeCard(game, view, Player.BLUE, 0,1,1);
+    placeCard(game, view, Player.BLUE, 0,0,4);
     placeCard(game, view, Player.RED, 0,2,0);
-    placeCard(game, view, Player.BLUE, 2,0,4);
+    placeCard(game, view, Player.BLUE, 1,0,3);
     placeCard(game, view, Player.RED, 2,2,1);
-    placeCard(game, view, Player.BLUE, 4,0,3);
+    placeCard(game, view, Player.BLUE, 4,0,2);
     placeCard(game, view, Player.RED, 4,2,2);
-    placeCard(game, view, Player.BLUE, 1,1,2);
-    passTurn(game, view, Player.RED);
-    placeCard(game, view, Player.BLUE, 2,0,2);
+    placeCard(game, view, Player.BLUE, 2,1,2);
+    placeCard(game, view, Player.RED, 4,1,1);
     System.out.println(game.getWinner());
   }
 

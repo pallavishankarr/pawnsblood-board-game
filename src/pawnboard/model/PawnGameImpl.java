@@ -265,10 +265,6 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public int checkScoreRow(Player player, int rowIdx) {
-    if (!gameStarted) {
-      throw new IllegalStateException("game has not been started");
-    }
-
     if (rowIdx < 0 || rowIdx >= row) {
       throw new IllegalArgumentException("Row index out of bounds");
     }
