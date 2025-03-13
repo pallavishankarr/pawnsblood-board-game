@@ -600,6 +600,58 @@ public class PawnGameTest {
     assertEquals(Player.BLUE, cell3.getOwner());
   }
 
+  //test Apply Influence properly works when placing a Blue Card
+  @Test
+  public void testApplyInfluenceBlueCardPlaced() {
+    game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+
+
+    //Cells that should be affected after placing card
+    Cell cell = game.getCellAt(1, 4);
+    Cell cell2 = game.getCellAt(0, 3);
+
+    assertEquals(1,cell.getPawnCount());
+    assertEquals(Player.BLUE, cell.getOwner());
+
+    assertEquals(0, cell2.getPawnCount());
+
+    //Cells that shouldn't be affected
+    Cell cell3 = game.getCellAt(2, 4);
+
+    assertEquals(1,cell.getPawnCount());
+
+    cell2.addPawn(Player.RED);
+
+    assertEquals(1, cell2.getPawnCount());
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 0, 4);
+
+    assertEquals(2, cell.getPawnCount());
+    assertEquals(Player.BLUE, cell.getOwner());
+
+    assertEquals(1, cell2.getPawnCount());
+    assertEquals(Player.BLUE, cell2.getOwner());
+
+    assertEquals(1, cell3.getPawnCount());
+
+
+
+
+
+
+
+
+
+
+
+  }
+
   //test PlaceCArd when a Card has already been placed
   @Test
   public void testPlaceCardAlready() {
@@ -610,12 +662,17 @@ public class PawnGameTest {
     game.placeCardAt(Player.RED, 0, 0, 0);
 
     game.startTurn(Player.BLUE);
-    game.drawCard(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+
+
+    game.startTurn(Player.RED);
 
 
 
 
-    game.placeCardAt(Player.RED, 0, 0, 0);
+    assertThrows(IllegalArgumentException.class,
+            () -> game.placeCardAt(Player.RED, 0, 0, 0));
   }
 
 
@@ -705,6 +762,7 @@ public class PawnGameTest {
 
     //test the current player which should be Red Player at start of game
     this.game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
     assertEquals(Player.RED, this.game.getCurrentPlayer());
 
     //Passes the turn so that the player changes
@@ -735,9 +793,33 @@ public class PawnGameTest {
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
     game.placeCardAt(Player.RED, 0, 0, 0);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+    game.startTurn(Player.RED);
+
+
     game.placeCardAt(Player.RED, 0, 0, 1);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+    game.startTurn(Player.RED);
+
+
     game.placeCardAt(Player.RED, 0, 0, 2);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+    game.startTurn(Player.RED);
+
+
     game.placeCardAt(Player.RED, 0, 0, 3);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+    game.startTurn(Player.RED);
+
+
     game.placeCardAt(Player.RED, 0, 0, 4);
     assertThrows(IllegalArgumentException.class, () -> game.getWinner());
 
