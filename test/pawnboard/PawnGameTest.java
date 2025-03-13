@@ -1,22 +1,14 @@
 package pawnboard;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
-import pawnboard.influences.InfluenceEffect;
-import pawnboard.model.*;
-import pawnboard.model.Card;
 import pawnboard.model.Cell;
-import pawnboard.model.PawnCell;
 import pawnboard.model.Player;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnGameImpl;
-import pawnboard.model.CardInitializer;
 import pawnboard.view.GameView;
 import pawnboard.view.PawnGameTextualView;
 
@@ -654,7 +646,7 @@ public class PawnGameTest {
     assertEquals(1,cell3.getPawnCount());
 
     PawnCard card  = game.getHand(Player.RED).get(0);
-    game.applyCardInfluence(0, 0, card, Player.RED);
+    game.applyCardInfluence(0, , 0, Player.RED, , );
 
     //checks that the pawn count of the cells after card influence is applied
     assertEquals(1, cell2.getPawnCount());

@@ -2,6 +2,8 @@ package pawnboard.model;
 
 import java.util.List;
 
+import pawnboard.influences.InfluenceEffect;
+
 /**
  * The PawnsGame interface defines the structure and rules for a playable game.
  * It includes methods for initializing the board, starting the game,
@@ -136,12 +138,14 @@ public interface PawnsGame<C extends Card> {
   /**
    * Applies the influence of a placed card to the board.
    * Each affected cell is modified according to the games influence rules.
-   * @param row the row index of the placed card (0-index)
-   * @param col the col index of the placed card (0-index)
-   * @param card the card being placed on the board
-   * @param currentPlayer the player placing the card
-   * @throws IllegalStateException if the game is not started
+   *
+   * @param boardRow         the row index of the placed card (0-index)
+   * @param boardCol the column index of the placed card (0-index based)
+   * @param currentPlayer    the player placing the card
+   * @param influenceGrid the influence grid of the card
+   * @param influenceEffects the influence effects of the card
+   * @throws IllegalStateException    if the game is not started
    * @throws IllegalArgumentException if row or col is not a position on the board, card is null, or currentplayer is null
    */
-  void applyCardInfluence(int row, int col, Card card, Player currentPlayer);
+  void applyCardInfluence(int boardRow, int boardCol, Player currentPlayer, char[][] influenceGrid, List<InfluenceEffect> influenceEffects);
 }

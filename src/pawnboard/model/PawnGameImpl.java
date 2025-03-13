@@ -3,6 +3,8 @@ package pawnboard.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import pawnboard.influences.InfluenceEffect;
+
 public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   private final int row;
@@ -273,8 +275,26 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
   }
 
   @Override
-  public void applyCardInfluence(int row, int col, Card card, Player currentPlayer) {
-    card.applyInfluence(this, row, col, currentPlayer);
+  public void applyCardInfluence(int boardRow, int boardCol, Player currentPlayer, char[][] influenceGrid, List<InfluenceEffect> influenceEffects) {
+    for (int i = 0; i < 5; i++) {
+      for (int j = 0; j < 5; j++) {
+        if (influenceGrid[i][j] == 'I') {
+          int targetRow = boardRow + (i - 2);
+          int targetCol = boardCol + (j - 2);
+
+          try {
+            if (getCellAt(targetRow, targetCol).hasCard()) {
+              continue;
+            }
+            for (InfluenceEffect effect : influenceEffects) {
+              effect.apply(this, targetRow, targetCol, currentPlayer);
+            }
+          } catch (IllegalArgumentException e) {
+            // Ignore out-of-bounds cells
+          }
+        }
+      }
+    }
   }
 
   private void initializeBoard() {
@@ -325,7 +345,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     else {
       cell.placeCard(card);
       playerHand.remove(cardIdx);
-      applyCardInfluence(row, col, card, player);
+      applyCardInfluence(row, col, player, card.getInfluenceGrid(), card.getInfluenceEffects());
     }
 
 

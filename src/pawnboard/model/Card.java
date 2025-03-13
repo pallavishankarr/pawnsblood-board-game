@@ -51,11 +51,6 @@ public interface Card {
   boolean affectsCell(int row, int col) throws IllegalArgumentException;
 
   /**
-   * Applies the influence of the card onto the cells to the board.
-   */
-  void applyInfluence(PawnsGame<PawnCard> game, int boardRow, int boardCol, Player currentPlayer);
-
-  /**
    * Returns a String representation of the card
    * @return String of the card
    */
