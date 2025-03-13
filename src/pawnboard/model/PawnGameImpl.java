@@ -249,24 +249,14 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     this.board = new Cell[row][column];
     for (int i = 0; i < row; i++) {
       for (int j = 0; j < column; j++) {
+        this.board[i][j] = new PawnCell(); // Initialize every cell first
 
         if (j == 0) {
-          this.board[i][j] = new PawnCell();
           board[i][j].addPawn(Player.RED);
-          
         }
-
-        if (j ==  column - 1) {
-          this.board[i][j] = new PawnCell();
+        else if (j == column - 1) {
           board[i][j].addPawn(Player.BLUE);
         }
-
-        else {
-          this.board[i][j] = new PawnCell();
-        }
-
-
-
       }
     }
   }
