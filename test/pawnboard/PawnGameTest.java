@@ -1483,25 +1483,19 @@ public class PawnGameTest {
     game.startGame(path, 5);
     PawnGameTextualView view = new PawnGameTextualView(game);
 
-    Cell cell = game.getCellAt(0,0);
-    Cell cell2 = game.getCellAt(0,1);
-    Cell cell3 = game.getCellAt(0,2);
-    Cell cell4 = game.getCellAt(0,3);
-    Cell cell5 = game.getCellAt(0,4);
-
-
-    cell3.addPawn(Player.RED);
-    cell4.addPawn(Player.RED);
-    cell5.changeOwnership(Player.RED);
-
-    view.toString();
     game.startTurn(Player.RED);
     game.placeCardAt(Player.RED, 0, 0, 0);
-    view.toString();
 
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 0, 4);
 
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 0, 1);
 
+    assertEquals(0, game.checkScore(Player.BLUE));
+    assertEquals(3, game.checkScore(Player.RED));
   }
+
 
   //check Score when game is over
   @Test
@@ -1512,7 +1506,106 @@ public class PawnGameTest {
     assertEquals(0, game.checkScore(Player.BLUE));
     assertEquals(0, game.checkScore(Player.RED));
 
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 0, 0);
 
+    assertEquals(0, game.checkScore(Player.BLUE));
+    assertEquals(2, game.checkScore(Player.RED));
+  }
+
+  @Test
+  public void testRowWinnerBlue() {
+    game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+    PawnGameTextualView view = new PawnGameTextualView(game);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 0, 4);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 0, 3);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.getCellAt(0,2).addPawn(Player.BLUE);
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 0, 2);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.getCellAt(0,1).addPawn(Player.BLUE);
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 0, 1);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.getCellAt(0,0).addPawn(Player.BLUE);
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 0, 0);
+
+    assertEquals(9, game.checkScore(Player.BLUE));
+    assertEquals(0, game.checkScore(Player.RED));
+    assertEquals(Player.BLUE, game.rowWinner(0));
+  }
+
+  @Test
+  public void testRowWinnerRed() {
+    game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+    PawnGameTextualView view = new PawnGameTextualView(game);
+
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 0, 0);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.getCellAt(0,1).addPawn(Player.RED);
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 0, 1);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.getCellAt(0,2).addPawn(Player.RED);
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 0, 2);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.getCellAt(0,3).addPawn(Player.RED);
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 0, 3);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.getCellAt(0,4).addPawn(Player.RED);
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 0, 4);
+
+    assertEquals(9, game.checkScore(Player.RED));
+    assertEquals(0, game.checkScore(Player.BLUE));
+    assertEquals(Player.RED, game.rowWinner(0));
+  }
+
+  //test tie
+  @Test
+  public void testRowWinnerTie() {
+    game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+    assertEquals(null, game.rowWinner(0));
   }
 
   //test isGameOver
@@ -1599,6 +1692,42 @@ public class PawnGameTest {
 
     assertEquals(expectedAfter, view.toString());
   }
+
+  @Test
+  public void testPlayUntilCompletion() {
+    PawnGameImpl game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+    placeCard(game, Player.RED, 0, 1,0);
+    placeCard(game, Player.BLUE, 0,1,4);
+    passTurn(game, Player.RED);
+    placeCard(game, Player.BLUE, 0,2,4);
+    placeCard(game, Player.RED, 0,0,0);
+    placeCard(game, Player.BLUE, 0,1,3);
+    passTurn(game, Player.RED);
+    placeCard(game, Player.BLUE, 0,0,4);
+    placeCard(game, Player.RED, 0,2,0);
+    placeCard(game, Player.BLUE, 1,0,3);
+    placeCard(game, Player.RED, 2,2,1);
+    placeCard(game, Player.BLUE, 4,0,2);
+    placeCard(game, Player.RED, 4,2,2);
+    placeCard(game, Player.BLUE, 2,1,2);
+    placeCard(game, Player.RED, 4,1,1);
+
+    assertTrue(game.isGameOver());
+  }
+
+  private void placeCard(PawnGameImpl game, Player player, int cardIdx, int row, int col) {
+    game.startTurn(player);
+    game.placeCardAt(player, cardIdx, row, col);
+  }
+
+  private static void passTurn(PawnGameImpl game, Player player) {
+    game.startTurn(player);
+    game.passTurn(player);
+  }
+
+
 
 
 
