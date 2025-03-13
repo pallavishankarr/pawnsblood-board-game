@@ -283,13 +283,21 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     Card card = playerHand.get(cardIdx);
     Cell cell = this.board[row][col];
 
-    if (cell.getPawnCount() > card.getPawnCost()) {
+    if(cell.getOwner() != player) {
+      throw new IllegalArgumentException("Player is not the owner of this cell");
+    }
+
+    if (cell.getPawnCount() < card.getPawnCost()) {
       throw new IllegalArgumentException("Pawn count mismatch");
     }
 
-    cell.placeCard(card);
-    playerHand.remove(cardIdx);
-    applyCardInfluence(row, col, card, player);
+    else {
+      cell.placeCard(card);
+      playerHand.remove(cardIdx);
+      applyCardInfluence(row, col, card, player);
+    }
+
+
   }
 
   private void drawCardHelper(List<PawnCard> playerDeck,

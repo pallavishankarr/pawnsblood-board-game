@@ -119,7 +119,7 @@ public class PawnGameTest {
 
   //test for legally placing a Red Card At
   @Test
-  public void testRedCardPlaceCardAt(){
+  public void testRedCardLegalPlaceCardAt(){
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
 
@@ -156,7 +156,7 @@ public class PawnGameTest {
 
   //test for legally placing a Blue Card At
   @Test
-  public void testBlueCardPlaceCardAt(){
+  public void testBlueCardLegalPlaceCardAt(){
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
 
@@ -193,25 +193,136 @@ public class PawnGameTest {
 
   
 
-  //test for Illegal Place Card at
+  //test for Place Red Card at with a cell with no pawns
   @Test
-  public void testIllegalPlaceCardAt(){
+  public void testRedPlaceCardAtWithNoPawns(){
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+    Cell cell = game.getCellAt(2,2);
+
+
+    //Pawn cost not met for placing the card
+    assertThrows(IllegalArgumentException.class,() ->
+            game.placeCardAt(Player.RED, 2, 2,2));
+  }
+
+  //test for Place Blue Card at with a cell with no pawns
+  @Test
+  public void testBluePlaceCardAtWithNoPawns(){
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
 
     //Pawn cost not met for placing the card
     assertThrows(IllegalArgumentException.class,() ->
-            game.placeCardAt(Player.RED, 5, 1,2));
+            game.placeCardAt(Player.BLUE, 0, 1,2));
+  }
 
-    //Adds pawn so cell cost can be met
+  //test for Place Red Card at with a cell with no pawns
+  @Test
+  public void testRedPlaceCardAtWithNotEnoughPawns() {
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+    assertThrows(IllegalArgumentException.class,() ->
+            game.placeCardAt(Player.BLUE, 3, 0,0));
+
+  }
+
+  //test for Place Red Card at with a cell with Blue Pawns
+  @Test
+  public void testRedPlaceCardAtWithBluePawns() {
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+    assertThrows(IllegalArgumentException.class,() ->
+            game.placeCardAt(Player.RED, 0, 0,4));
+  }
+
+  //test for Place Blue Card at with a cell with Red Pawns
+  @Test
+  public void testBluePlaceCardAtWithRedPawns() {
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+    assertThrows(IllegalArgumentException.class,() ->
+            game.placeCardAt(Player.BLUE, 0, 0,0));
+  }
+
+  //test for Red Card with more than enough Red Pawns
+  @Test
+  public void testRedCardWithMoreThanEnoughPawns(){
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+    //adds pawn so that the card can be placed
     Cell cell = game.getCellAt(0,0);
     cell.addPawn(Player.RED);
 
-    //Throws because the row index and col index is out of bounds
-    assertThrows(IllegalArgumentException.class,
-            () ->game.placeCardAt(Player.RED, 0, 3,5));
+    //card that will be placed
+    PawnCard card = game.getHand(Player.RED).get(0);
+
+    //places card
+    game.placeCardAt(Player.RED, 0, 0, 0);
+
+    //checks that the card has been placed and a new card has been picked up
+    assertNotEquals(card, game.getHand(Player.RED).get(0));
+
+    //Gets the card at the cell at row : 0 col : 0
+    Cell cell2 = game.getCellAt(0,0);
+    PawnCard card2 = (PawnCard) cell2.getCard();
+
+    Cell cell3 = game.getCellAt(0, 1);
+    Cell cell4 = game.getCellAt(1, 0);
+
+    //checks that the card has been placed on the cell
+    assertEquals(card, card2);
+    //checks that ownership has been changed to Red
+    assertEquals(Player.RED,cell.getOwner());
+
+    //makes sure that the influence has changed for the specific cells
+    assertEquals(1, cell3.getPawnCount());
+    assertEquals(2, cell4.getPawnCount());
+  }
+
+  //test for Red Card with more than enough Red Pawns
+  @Test
+  public void testBlueCardWithMoreThanEnoughPawns(){
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+    //adds pawn so that the card can be placed
+    Cell cell = game.getCellAt(0,4);
+    cell.addPawn(Player.BLUE);
+
+
+    //card that will be placed
+    PawnCard card = game.getHand(Player.BLUE).get(0);
+
+    //places card
+    game.placeCardAt(Player.BLUE, 0, 0, 4);
+
+    //checks that the card has been placed and a new card has been picked up
+    assertNotEquals(card, game.getHand(Player.BLUE).get(0));
+
+    //Gets the card at the cell at row : 0 col : 0
+    Cell cell2 = game.getCellAt(0,4);
+    PawnCard card2 = (PawnCard) cell2.getCard();
+
+    Cell cell3 = game.getCellAt(2, 4);
+    Cell cell4 = game.getCellAt(1, 4);
+
+    //checks that the card has been placed on the cell
+    assertEquals(card, card2);
+    //checks that ownership has been changed to Red
+    assertEquals(Player.BLUE,cell.getOwner());
+
+    //makes sure that the influence has changed for the specific cells
+    assertEquals(1, cell3.getPawnCount());
+    assertEquals(2, cell4.getPawnCount());
 
   }
+
 
   //test for Pass Turn through the game
   @Test
