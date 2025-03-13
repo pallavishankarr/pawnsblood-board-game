@@ -51,8 +51,14 @@ public class PawnGameTest {
     assertThrows(IllegalArgumentException.class,() -> new PawnGameImpl(3,1));
 
 
+  }
 
-
+  //test Valid Constructor for Bigger Board
+  @Test
+  public void testValidConstructorForLargerBoard(){
+    game = new PawnGameImpl(11, 9);
+    assertEquals(11, this.game.getHeight());
+    assertEquals(9, this.game.getWidth());
 
   }
 
@@ -64,15 +70,15 @@ public class PawnGameTest {
     game.startGame(path,5);
     assertEquals(3, game.getHeight());
     assertEquals(5, game.getWidth());
+
+    //tests that both players are dealt with an equal number of cards
     assertEquals(5, game.getHand(Player.RED).size());
     assertEquals(5, game.getHand(Player.BLUE).size());
-
-
-
 
   }
 
   //tests that the Board is fully constructed
+  // and that pawns are added to correct cells
   @Test
   public void testLegalStartGameConstructsBoard() {
     game = new PawnGameImpl(3, 5);
@@ -104,6 +110,38 @@ public class PawnGameTest {
     assertEquals(Player.BLUE, cell5.getOwner());
     assertEquals(1,cell6.getPawnCount());
     assertEquals(Player.BLUE, cell6.getOwner());
+  }
+
+
+  //tests that there are no cards on the board
+  @Test
+  public void testNoCardsOnStartOfGame() {
+    game = new PawnGameImpl(3, 5);
+    game.startGame(path,5);
+
+    for(int i = 0; i < 3; i++ ) {
+      for(int j = 0; j < 5; j++ ) {
+        Cell cell = game.getCellAt(i,j);
+        assertFalse(cell.hasCard());
+      }
+    }
+
+
+  }
+
+  //test that hand is less than 1/3 of the deck size
+  @Test
+  public void testLegalStartGameHandSize() {
+    game = new PawnGameImpl(3, 5);
+    game.startGame(path,5);
+
+    int deckSize = game.getRemainingDeckSize(Player.RED);
+    int deckSize2 = game.getRemainingDeckSize(Player.BLUE);
+    int hand = game.getHand(Player.RED).size();
+    int hand2 = game.getHand(Player.BLUE).size();
+
+    assertFalse( deckSize/3 > hand);
+    assertFalse( deckSize2/3 > hand2);
   }
 
   //test that the correct Illegal Argument Exceptions are thrown
@@ -141,9 +179,142 @@ public class PawnGameTest {
 
   }
 
+  //tests no card left to draw
+  @Test
+  public void testNoCardLeftToDraw() {
+    game = new PawnGameImpl(3, 5);
+    game.startGame(path,5);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    assertEquals(0, game.getRemainingDeckSize(Player.BLUE));
+    assertEquals(0, game.getRemainingDeckSize(Player.RED));
+
+    assertEquals(20, game.getHand(Player.BLUE).size());
+    assertEquals(20, game.getHand(Player.RED).size());
+  }
+
+
+  //test that Opposing PLayer
+  // cannot make move when their turn hasn't started
+  @Test
+  public void testCannotMakeMove(){
+    game = new PawnGameImpl(3, 5);
+    game.startGame(path,5);
+
+    //throws when Opposing player places Card
+    assertThrows(IllegalArgumentException.class, () ->
+            game.placeCardAt(Player.BLUE, 0,0,0));
+
+    //throws when Opposing player tries to pass turn
+    assertThrows(IllegalArgumentException.class, () ->
+            game.passTurn(Player.BLUE));
+
+  }
+
+  //test that turn ends when Player's turn is over
+  @Test
+  public void testTurnEnds() {
+    game = new PawnGameImpl(3, 5);
+    game.startGame(path,5);
+
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0,0,0);
+    assertEquals(Player.BLUE, game.getCurrentPlayer());
+
+  }
+
   //test for legally placing a Red Card At
   @Test
-  public void testRedCardLegalPlaceCardAt(){
+  public void testRedCardLegalPlaceCardAt() {
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
 
@@ -365,6 +536,7 @@ public class PawnGameTest {
   public void testPassTurnGame(){
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
+    assertEquals(Player.RED, game.getCurrentPlayer());
     game.startTurn(Player.RED);
     game.passTurn(Player.RED);
     assertEquals(Player.BLUE, game.getCurrentPlayer());

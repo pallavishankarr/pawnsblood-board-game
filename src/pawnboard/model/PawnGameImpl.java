@@ -20,7 +20,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
   private boolean turnStarted;
 
   public PawnGameImpl(int row, int column) {
-    if(row < 0 || column < 1 || column%2 == 0 ) {
+    if(row <= 0 || column <= 1 || column%2 == 0 ) {
       throw new IllegalArgumentException("Row or column out of bounds");
     }
 
