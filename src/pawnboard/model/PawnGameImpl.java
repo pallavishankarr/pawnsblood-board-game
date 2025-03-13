@@ -93,17 +93,11 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public void placeCardAt(Player player, int cardIdx, int row, int col) {
-    if(!gameStarted) {
-      throw new IllegalStateException("Game has not started.");
-    }
+    gameNotStartedCheck();
 
-    if (player != turn) {
-      throw new IllegalArgumentException("It is not " + player + "'s turn.");
-    }
+    playerNotTurnCheck(player);
 
-    if (!turnStarted) {
-      throw new IllegalStateException("You must start your turn before playing a card.");
-    }
+    turnNotStartedCheck(player);
 
     if(getCellAt(row, col).hasCard()) {
       throw new IllegalArgumentException("Card already occupied");
@@ -130,34 +124,22 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public void passTurn(Player player) {
-    if (!gameStarted) {
-      throw new IllegalStateException("Game has not started.");
-    }
+    gameNotStartedCheck();
 
-    if (player != turn) {
-      throw new IllegalArgumentException("It is not " + player + "'s turn.");
-    }
+    playerNotTurnCheck(player);
 
-    if (!turnStarted) {
-      throw new IllegalStateException("You must start your turn before passing.");
-    }
+    turnNotStartedCheck(player);
 
     endTurn();
   }
 
   @Override
   public void drawCard(Player player) {
-    if (!gameStarted) {
-      throw new IllegalStateException("Game has not started.");
-    }
+    gameNotStartedCheck();
 
-    if (player != turn) {
-      throw new IllegalArgumentException("It is not " + player + "'s turn.");
-    }
+    playerNotTurnCheck(player);
 
-    if (!turnStarted) {
-      throw new IllegalStateException("You must start your turn before passing.");
-    }
+    turnNotStartedCheck(player);
 
     List<PawnCard> playerDeck = (player == Player.RED) ? playerRedDeck : playerBlueDeck;
     List<PawnCard> playerHand = (player == Player.RED) ? playerRedHand : playerBlueHand;
@@ -169,13 +151,9 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public void startTurn(Player player) {
-    if (!gameStarted) {
-      throw new IllegalStateException("Game has not started.");
-    }
+    gameNotStartedCheck();
 
-    if (player != turn) {
-      throw new IllegalArgumentException("It is not " + player + "'s turn.");
-    }
+    playerNotTurnCheck(player);
 
     turnStarted = true;
     drawCard(player);
@@ -192,18 +170,14 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public Player getCurrentPlayer() {
-    if (!gameStarted) {
-      throw new IllegalStateException("game has not been started");
-    }
+    gameNotStartedCheck();
 
     return turn;
   }
 
   @Override
   public List<PawnCard> getHand(Player player) {
-    if (!gameStarted) {
-      throw new IllegalStateException("game has not been started");
-    }
+    gameNotStartedCheck();
 
     if(player == Player.RED) {
       return playerRedHand;
@@ -213,9 +187,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public int getRemainingDeckSize(Player player) {
-    if (!gameStarted) {
-      throw new IllegalStateException("game has not been started");
-    }
+    gameNotStartedCheck();
 
     if (player == Player.RED) {
       return playerRedDeck.size();
@@ -225,9 +197,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public Player getWinner() {
-    if (!gameStarted) {
-      throw new IllegalStateException("game has not been started");
-    }
+    gameNotStartedCheck();
 
     if (!isGameOver()) {
       throw new IllegalArgumentException("Game isn't over.");
@@ -246,14 +216,12 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public int checkScore(Player player) {
-    if (!gameStarted) {
-      throw new IllegalStateException("game has not been started");
-    }
+    gameNotStartedCheck();
 
     int score = 0;
 
-    for(int row = 0 ; row < this.row ; row++) {
-      if(rowWinner(row) == player){
+    for (int row = 0 ; row < this.row ; row++) {
+      if (rowWinner(row) == player){
         score += checkScoreRow(player, row);
       }
       else {
@@ -285,9 +253,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public Player rowWinner(int rowIdx) {
-    if (!gameStarted) {
-      throw new IllegalStateException("game has not been started");
-    }
+    gameNotStartedCheck();
 
     if (rowIdx < 0 || rowIdx >= row) {
       throw new IllegalArgumentException("Row index out of bounds");
@@ -307,9 +273,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public boolean isGameOver() {
-    if (!gameStarted) {
-      throw new IllegalStateException("game has not been started");
-    }
+    gameNotStartedCheck();
 
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[i].length; j++) {
@@ -323,9 +287,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public void applyCardInfluence(int rowIdx, int colIdx, Player currentPlayer, Card card) {
-    if (!gameStarted) {
-      throw new IllegalStateException("game has not been started");
-    }
+    gameNotStartedCheck();
 
     if (rowIdx < 0 || rowIdx >= row || colIdx < 0 || colIdx >= column) {
       throw new IllegalArgumentException("Row index out of bounds");
@@ -451,6 +413,24 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
     if (isGameOver()) {
       gameStarted = false;
+    }
+  }
+
+  private void gameNotStartedCheck() {
+    if(!gameStarted) {
+      throw new IllegalStateException("Game has not started.");
+    }
+  }
+
+  private void playerNotTurnCheck(Player player) {
+    if (player != turn) {
+      throw new IllegalArgumentException("It is not " + player + "'s turn.");
+    }
+  }
+
+  private void turnNotStartedCheck(Player player) {
+    if (!turnStarted) {
+      throw new IllegalStateException("You must start your turn before playing a card.");
     }
   }
 }
