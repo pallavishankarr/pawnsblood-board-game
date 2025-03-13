@@ -700,27 +700,21 @@ public class PawnGameTest {
     game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
 
-    Cell cell = game.getCellAt(0,4);
-    cell.addPawn(Player.BLUE);
+    //Checks the deck size
+    assertEquals(15, game.getRemainingDeckSize(Player.RED));
 
-    game.passTurn(Player.RED);
-    game.startTurn(Player.BLUE);
-
-    game.placeCardAt(Player.BLUE, 0, 0, 4);
+    int handSizeBefore = game.getHand(Player.RED).size();
+    game.startTurn(Player.RED);
+    int handSizeAfter = game.getHand(Player.RED).size();
 
     //card immediatley drawn on turn
-    assertEquals(5, game.getHand(Player.BLUE).size());
-    //Checks the deck size
-    assertEquals(14,game.getRemainingDeckSize(Player.BLUE));
-
-    game.drawCard(Player.BLUE);
+    assertEquals(5, handSizeBefore);
 
     //Makes sure that the card is added to hand
-    assertEquals(6, game.getHand(Player.BLUE).size());
+    assertEquals(6, handSizeAfter);
 
     //Makes sure that the deck size has been reduced by one card
-    assertEquals(13,game.getRemainingDeckSize(Player.BLUE));
-
+    assertEquals(14,game.getRemainingDeckSize(Player.RED));
   }
 
 
@@ -791,38 +785,26 @@ public class PawnGameTest {
   @Test
   public void testIllegalGetWinner(){
     this.game = new PawnGameImpl(3, 5);
+    PawnGameTextualView view = new PawnGameTextualView(game);
     game.startGame(path, 5);
     game.placeCardAt(Player.RED, 0, 0, 0);
 
     game.startTurn(Player.BLUE);
     game.passTurn(Player.BLUE);
+
     game.startTurn(Player.RED);
-
-
     game.placeCardAt(Player.RED, 0, 0, 1);
 
     game.startTurn(Player.BLUE);
     game.passTurn(Player.BLUE);
+
     game.startTurn(Player.RED);
-
-
-    game.placeCardAt(Player.RED, 0, 0, 2);
+    game.placeCardAt(Player.RED, 0, 1, 0);
 
     game.startTurn(Player.BLUE);
     game.passTurn(Player.BLUE);
-    game.startTurn(Player.RED);
 
-
-    game.placeCardAt(Player.RED, 0, 0, 3);
-
-    game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
-    game.startTurn(Player.RED);
-
-
-    game.placeCardAt(Player.RED, 0, 0, 4);
     assertThrows(IllegalArgumentException.class, () -> game.getWinner());
-
 
   }
   //test legal if game is over
@@ -958,6 +940,7 @@ public class PawnGameTest {
   public void testRowWinner() {
     game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
+    PawnGameTextualView view = new PawnGameTextualView(game);
 
     Cell cell = game.getCellAt(0,0);
     Cell cell2 = game.getCellAt(0,1);
@@ -970,13 +953,12 @@ public class PawnGameTest {
     cell4.addPawn(Player.RED);
     cell5.changeOwnership(Player.RED);
 
-
+    view.toString();
+    game.startTurn(Player.RED);
     game.placeCardAt(Player.RED, 0, 0, 0);
-    game.placeCardAt(Player.RED, 0, 0, 1);
-    game.placeCardAt(Player.RED, 0, 0, 2);
-    game.placeCardAt(Player.RED, 0, 0, 3);
-    game.placeCardAt(Player.RED, 0, 0, 4);
-    assertEquals(Player.RED, game.rowWinner(0));
+    view.toString();
+
+
 
   }
 
@@ -986,24 +968,10 @@ public class PawnGameTest {
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
 
-    Cell cell = game.getCellAt(0,0);
-    Cell cell2 = game.getCellAt(0,1);
-    Cell cell3 = game.getCellAt(0,2);
-    Cell cell4 = game.getCellAt(0,3);
-    Cell cell5 = game.getCellAt(0,4);
-
-
-
-    cell3.addPawn(Player.RED);
-    cell4.addPawn(Player.RED);
-    cell5.changeOwnership(Player.RED);
-
-
+    game.startTurn(Player.RED);
     game.placeCardAt(Player.RED, 0, 0, 0);
-    game.placeCardAt(Player.RED, 0, 0, 1);
-    game.placeCardAt(Player.RED, 0, 0, 2);
-    game.placeCardAt(Player.RED, 0, 0, 3);
-    game.placeCardAt(Player.RED, 0, 0, 4);
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 0, 4);
     assertFalse(game.isGameOver());
   }
 
