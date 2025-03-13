@@ -16,7 +16,6 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
   private Player turn;
   private  int handSize;
   private boolean turnStarted;
-  private int maxHandSize;
 
   public PawnGameImpl(int row, int column) {
     if(row < 0 || column < 1 || column%2 == 0 ) {
@@ -67,7 +66,6 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     this.playerRedDeck = redDeck;
     this.playerBlueDeck = blueDeck;
     this.handSize = handSize;
-    this.maxHandSize = playerRedDeck.size() / 3;
 
     initializeHand(playerRedDeck, playerRedHand);
     initializeHand(playerBlueDeck, playerBlueHand);
@@ -151,7 +149,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     List<PawnCard> playerDeck = (player == Player.RED) ? playerRedDeck : playerBlueDeck;
     List<PawnCard> playerHand = (player == Player.RED) ? playerRedHand : playerBlueHand;
 
-    if (!playerDeck.isEmpty() && playerHand.size() < maxHandSize) {
+    if (!playerDeck.isEmpty()) {
       playerHand.add(playerDeck.remove(0));
     }
   }
