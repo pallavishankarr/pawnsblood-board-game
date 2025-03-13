@@ -122,17 +122,20 @@ public class PawnGameImpl implements PawnsGame{
 
   @Override
   public void drawCard(Player player) {
+
     if(player == Player.BLUE) {
-      playerBlueHand.add(playerBlueDeck.get(0));
-      playerBlueDeck.remove(0);
+
+      drawCardHelper(playerBlueDeck, playerBlueHand);
     }
 
     else {
-      playerRedHand.add(playerRedDeck.get(0));
-      playerRedDeck.remove(0);
+      drawCardHelper(playerRedDeck, playerRedHand);
     }
 
   }
+
+
+
 
   @Override
   public Cell getCellAt(int row, int col) {
@@ -281,6 +284,18 @@ public class PawnGameImpl implements PawnsGame{
     cell.changeOwnership(player);
     playerHand.remove(cardIdx);
     applyCardInfluence(row, col, card, player);
+  }
+
+  private void drawCardHelper(List<PawnCard> playerDeck,
+                              List<PawnCard> playerHand) {
+    if(playerHand.size() >= this.handSize) {
+      throw new IllegalArgumentException("Player hands is full");
+    }
+
+    playerHand.add(playerDeck.get(0));
+    playerDeck.remove(0);
+
+
   }
 
   private char[][] mirrorGrid(char[][] grid) {
