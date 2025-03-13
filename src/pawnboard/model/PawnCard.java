@@ -75,6 +75,7 @@ public class PawnCard implements Card {
     return influenceGrid[row][col] == 'I';
   }
 
+  // make a private method in the model
   @Override
   public void applyInfluence(PawnsGame game, int boardRow, int boardCol, Player currentPlayer) {
     for (int i = 0; i < 5; i++) {
