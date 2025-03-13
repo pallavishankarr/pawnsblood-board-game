@@ -41,8 +41,17 @@ public class PawnGameTest {
   @Test
   public void testInvalidConstructor(){
 
+    //Throws due to column value being even
     assertThrows(IllegalArgumentException.class,() -> new PawnGameImpl(3,6));
-    assertThrows(IllegalArgumentException.class,() -> new PawnGameImpl(0,6));
+
+    //Throws due to row being 0
+    assertThrows(IllegalArgumentException.class,() -> new PawnGameImpl(0,5));
+
+    //Throws due to column being 1 
+    assertThrows(IllegalArgumentException.class,() -> new PawnGameImpl(3,1));
+
+
+
 
 
   }
@@ -58,6 +67,17 @@ public class PawnGameTest {
     assertEquals(5, game.getHand(Player.RED).size());
     assertEquals(5, game.getHand(Player.BLUE).size());
 
+
+
+
+  }
+
+  //tests that the Board is fully constructed
+  @Test
+  public void testLegalStartGameConstructsBoard() {
+    game = new PawnGameImpl(3, 5);
+    game.startGame(path,5);
+
     //test that the first column has one pawn count for Red Pawn
     Cell cell = game.getCellAt(0,0);
     Cell cell2 = game.getCellAt(1,0);
@@ -71,7 +91,19 @@ public class PawnGameTest {
     assertEquals(1,cell3.getPawnCount());
     assertEquals(Player.RED, cell3.getOwner());
 
+    //tests that the last column has one pawn count for Blue Pawn
+    //test that the first column has one pawn count for Red Pawn
+    Cell cell4= game.getCellAt(0,4);
+    Cell cell5 = game.getCellAt(1,4);
+    Cell cell6 = game.getCellAt(2,4);
 
+
+    assertEquals(1,cell4.getPawnCount());
+    assertEquals(Player.BLUE, cell4.getOwner());
+    assertEquals(1,cell5.getPawnCount());
+    assertEquals(Player.BLUE, cell5.getOwner());
+    assertEquals(1,cell6.getPawnCount());
+    assertEquals(Player.BLUE, cell6.getOwner());
   }
 
   //test that the correct Illegal Argument Exceptions are thrown
