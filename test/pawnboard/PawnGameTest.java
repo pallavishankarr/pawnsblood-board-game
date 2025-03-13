@@ -72,7 +72,7 @@ public class PawnGameTest {
     Cell cell3 = game.getCellAt(2,0);
 
 
-    //assertEquals(1,cell.getPawnCount());
+    assertEquals(1,cell.getPawnCount());
     assertEquals(Player.RED, cell.getOwner());
     assertEquals(1,cell2.getPawnCount());
     assertEquals(Player.RED, cell2.getOwner());
@@ -117,9 +117,9 @@ public class PawnGameTest {
 
   }
 
-  //test for legally placing a Card At
+  //test for legally placing a Red Card At
   @Test
-  public void testLegalPlaceCardAt(){
+  public void testRedCardPlaceCardAt(){
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
 
@@ -128,7 +128,7 @@ public class PawnGameTest {
     cell.addPawn(Player.RED);
 
     //card that will be placed
-    PawnCard card =(PawnCard) game.getHand(Player.RED).get(0);
+    PawnCard card = game.getHand(Player.RED).get(0);
 
     //places card
     game.placeCardAt(Player.RED, 0, 0, 0);
@@ -151,6 +151,43 @@ public class PawnGameTest {
     //makes sure that the influence has changed for the specific cells
     assertEquals(1, cell3.getPawnCount());
     assertEquals(1, cell4.getPawnCount());
+
+
+  }
+
+  @Test
+  public void testBlueCardPlaceCardAt(){
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+    //adds pawn so that the card can be placed
+    Cell cell = game.getCellAt(0,4);
+
+
+    //card that will be placed
+    PawnCard card = game.getHand(Player.BLUE).get(0);
+
+    //places card
+    game.placeCardAt(Player.BLUE, 0, 0, 4);
+
+    //checks that the card has been placed and a new card has been picked up
+    assertNotEquals(card, game.getHand(Player.BLUE).get(0));
+
+    //Gets the card at the cell at row : 0 col : 0
+    Cell cell2 = game.getCellAt(0,4);
+    PawnCard card2 = (PawnCard) cell2.getCard();
+
+   // Cell cell3 = game.getCellAt(0, 1);
+    //Cell cell4 = game.getCellAt(1, 0);
+
+    //checks that the card has been placed on the cell
+    assertEquals(card, card2);
+    //checks that ownership has been changed to Red
+    assertEquals(Player.BLUE,cell.getOwner());
+
+    //makes sure that the influence has changed for the specific cells
+    //assertEquals(1, cell3.getPawnCount());
+    //assertEquals(1, cell4.getPawnCount());
 
 
   }
@@ -314,19 +351,25 @@ public class PawnGameTest {
   //test check Score Row
   @Test
   public void testLegalCheckScoreRow(){
+
     game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
+
+
     Cell cell = game.getCellAt(0,0);
     Cell cell2 = game.getCellAt(0,1);
     Cell cell3 = game.getCellAt(0,2);
     Cell cell4 = game.getCellAt(0,3);
     Cell cell5 = game.getCellAt(0,4);
 
-    //Adds the pawns for the card to be placed
     cell.addPawn(Player.RED);
+    cell2.addPawn(Player.RED);
     cell3.addPawn(Player.RED);
     cell4.addPawn(Player.RED);
+    cell5.changeOwnership(Player.RED);
     cell5.addPawn(Player.RED);
+
+
 
 
 
@@ -339,6 +382,36 @@ public class PawnGameTest {
     assertEquals(9, game.checkScoreRow(Player.RED,0));
   }
 
+
+  //test Row Winner
+  @Test
+  public void testRowWinner() {
+    game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+    Cell cell = game.getCellAt(0,0);
+    Cell cell2 = game.getCellAt(0,1);
+    Cell cell3 = game.getCellAt(0,2);
+    Cell cell4 = game.getCellAt(0,3);
+    Cell cell5 = game.getCellAt(0,4);
+
+    cell.addPawn(Player.RED);
+    cell2.addPawn(Player.RED);
+    cell3.addPawn(Player.RED);
+    cell4.addPawn(Player.RED);
+    cell5.changeOwnership(Player.RED);
+    cell5.addPawn(Player.RED);
+
+
+    game.placeCardAt(Player.RED, 0, 0, 0);
+    game.placeCardAt(Player.RED, 0, 0, 1);
+    game.placeCardAt(Player.RED, 0, 0, 2);
+    game.placeCardAt(Player.RED, 0, 0, 3);
+    game.placeCardAt(Player.RED, 0, 0, 4);
+    assertEquals(Player.RED, game.rowWinner(0));
+
+  }
+
   //test isGameOver
   @Test
   public void testIsGameOver() {
@@ -349,7 +422,14 @@ public class PawnGameTest {
     Cell cell2 = game.getCellAt(0,1);
     Cell cell3 = game.getCellAt(0,2);
     Cell cell4 = game.getCellAt(0,3);
+    Cell cell5 = game.getCellAt(0,4);
 
+    cell.addPawn(Player.RED);
+    cell2.addPawn(Player.RED);
+    cell3.addPawn(Player.RED);
+    cell4.addPawn(Player.RED);
+    cell5.changeOwnership(Player.RED);
+    cell5.addPawn(Player.RED);
 
     game.placeCardAt(Player.RED, 0, 0, 0);
     game.placeCardAt(Player.RED, 0, 0, 1);
@@ -371,14 +451,14 @@ public class PawnGameTest {
 
     //checks that the pawn count of the cells before card influence is applied
     assertEquals(0,cell2.getPawnCount());
-    assertEquals(0,cell3.getPawnCount());
+    assertEquals(1,cell3.getPawnCount());
 
     PawnCard card  = game.getHand(Player.RED).get(0);
     game.applyCardInfluence(0, 0, card, Player.RED);
 
     //checks that the pawn count of the cells after card influence is applied
     assertEquals(1, cell2.getPawnCount());
-    assertEquals(1, cell3.getPawnCount());
+    assertEquals(2, cell3.getPawnCount());
 
   }
 
