@@ -392,6 +392,93 @@ public class PawnGameTest {
 
   }
 
+  //test place card At Edges for Red
+  @Test
+  public void testPlaceCardAtEdgesRed() {
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+    Cell cell = game.getCellAt(0,0);
+    Cell cell2 = game.getCellAt(1,0);
+    Cell cell3 = game.getCellAt(2,0);
+
+
+    PawnCard card = game.getHand(Player.RED).get(0);
+    PawnCard card2 = game.getHand(Player.RED).get(1);
+    PawnCard card3 = game.getHand(Player.RED).get(2);
+
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 0, 0);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 1, 0);
+
+    game.startTurn(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 2, 0);
+
+    assertEquals(card, cell.getCard());
+    assertEquals(Player.RED,cell.getOwner());
+
+    assertEquals(card2, cell2.getCard());
+    assertEquals(Player.RED,cell2.getOwner());
+
+    assertEquals(card3, cell3.getCard());
+    assertEquals(Player.RED,cell3.getOwner());
+
+  }
+
+
+
+  //test place card At Edges for Blue
+  @Test
+  public void testPlaceCardAtEdgesBlue() {
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+    Cell cell = game.getCellAt(0,4);
+    Cell cell2 = game.getCellAt(1,4);
+    Cell cell3 = game.getCellAt(2,4);
+
+
+    PawnCard card = game.getHand(Player.BLUE).get(0);
+    PawnCard card2 = game.getHand(Player.BLUE).get(1);
+    PawnCard card3 = game.getHand(Player.BLUE).get(2);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 0, 4);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 1, 4);
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 2, 4);
+
+    assertEquals(card, cell.getCard());
+    assertEquals(Player.BLUE,cell.getOwner());
+
+    assertEquals(card2, cell2.getCard());
+    assertEquals(Player.BLUE,cell2.getOwner());
+
+    assertEquals(card3, cell3.getCard());
+    assertEquals(Player.BLUE,cell3.getOwner());
+
+  }
+
   
 
   //test for Place Red Card at with a cell with no pawns
@@ -640,16 +727,6 @@ public class PawnGameTest {
 
     assertEquals(1, cell3.getPawnCount());
 
-
-
-
-
-
-
-
-
-
-
   }
 
   //test PlaceCArd when a Card has already been placed
@@ -673,6 +750,19 @@ public class PawnGameTest {
 
     assertThrows(IllegalArgumentException.class,
             () -> game.placeCardAt(Player.RED, 0, 0, 0));
+  }
+
+  //test Place Card when there is opposing Card that has been placed
+  @Test
+  public void testPlaceCardAlreadyHasOpposing() {
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 0, 0, 0);
+    game.startTurn(Player.BLUE);
+    assertThrows(IllegalArgumentException.class, ()
+            -> game.placeCardAt(Player.BLUE, 0, 0, 0));
   }
 
 
