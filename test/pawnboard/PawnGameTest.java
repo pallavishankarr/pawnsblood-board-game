@@ -492,6 +492,28 @@ public class PawnGameTest {
     assertEquals(expected, view.toString());
   }
 
+  @Test
+  public void testPlaceRedCard() {
+    game = new PawnGameImpl(3, 5);
+    GameView view = new PawnGameTextualView(game);
+    game.startGame(path, 5);
+
+    // Place "Security" card (assume index 0 in hand) at row 1, col 2
+    game.placeCardAt(Player.RED, 0, 0, 1);
+
+    // Expected board after placement
+    String expectedAfter =
+            "0 R 1 _ _ _ 1 0\n" +
+                    "1 1 _ _ _ _ 1 0\n" +
+                    "0 1 _ _ _ _ 1 0\n";
+
+    assertEquals(expectedAfter, view.toString());
+  }
+
+
+
+
+
 
 
 

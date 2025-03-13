@@ -283,7 +283,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     Card card = playerHand.get(cardIdx);
     Cell cell = this.board[row][col];
 
-    if(cell.getPawnCount() < card.getPawnCost()) {
+    if (cell.getPawnCount() > card.getPawnCost()) {
       throw new IllegalArgumentException("Pawn count mismatch");
     }
 
