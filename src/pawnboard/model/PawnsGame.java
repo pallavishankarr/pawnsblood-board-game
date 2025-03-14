@@ -81,6 +81,7 @@ public interface PawnsGame<C extends Cell> {
 
   /**
    * Returns a deep copy of the current board state.
+   * @throws IllegalStateException if the game has not started
    * @return a deep copy of the board, preserving the current game state
    */
   C[][] getBoard();
@@ -163,6 +164,7 @@ public interface PawnsGame<C extends Cell> {
    * Determines which Player owns the cell at a given coordinate
    * @param row row number of the index
    * @param col column number of the index
+   * @throws IllegalStateException if the game has not started
    * @return Player which owns the cell
    */
   Player getOwnerAt(int row, int col);

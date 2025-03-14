@@ -1741,12 +1741,42 @@ public class PawnGameTest {
   }
 
   @Test
-  public void testGetBoard() {
+  public void testGetBoardCopyThrow() {
     game = new PawnGameImpl(5,7);
+    assertThrows(IllegalStateException.class, () -> game.getBoard());
+  }
+
+  @Test
+  public void testGetBoardCopy() {
+    game = new PawnGameImpl(5,7);
+    game.startGame(biggerPath, 5);
     PawnCell[][] copiedBoard = game.getBoard();
 
-
+    game.placeCardAt(Player.RED, 0, 0, 0);
+    Cell copiedCell = copiedBoard[0][0];
+    
+    assertNotEquals(copiedCell.getCard(),
+            game.getCellAt(0,0).getCard());
   }
+
+  @Test
+  public void testGetBoardCopy2() {
+    game = new PawnGameImpl(5,7);
+    game.startGame(biggerPath, 5);
+
+    game.placeCardAt(Player.RED, 0, 0, 0);
+    PawnCell[][] copiedBoard = game.getBoard();
+    Cell copiedCell = copiedBoard[0][0];
+    Cell copiedCell2 = copiedBoard[4][0];
+
+    assertEquals(copiedCell.getOwner(),
+            game.getCellAt(0,0).getOwner());
+    assertEquals(copiedCell.getCard(),
+            game.getCellAt(0,0).getCard());
+    assertEquals(copiedCell2.getPawnCount(),
+            game.getCellAt(4,0).getPawnCount());
+  }
+
 
 
 

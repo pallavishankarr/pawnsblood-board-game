@@ -178,6 +178,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
 
   @Override
   public PawnCell[][] getBoard() {
+    gameNotStartedCheck();
     PawnCell[][] newBoard = new PawnCell[row][column];
 
     for (int r = 0; r < row; r++) {
