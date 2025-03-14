@@ -121,10 +121,6 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
       throw new IllegalArgumentException("Card already occupied.");
     }
 
-    if (row < 0 || row >= board.length || col < 0 || col >= board[0].length) {
-      throw new IllegalArgumentException("Row or column out of bounds");
-    }
-
     if (player == Player.RED) {
       placeCardAtHelper(playerRedHand, player, cardIdx, row, col);
     }
@@ -137,8 +133,24 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
   }
 
   @Override
-  public boolean placeCardLegal(Player player, int cardIdx, int row, int col) {
+  public boolean placeCardLegal(Player player, Card card, int row, int col) {
+    gameNotStartedCheck();
 
+    if (row < 0 || row >= board.length || col < 0 || col >= board[0].length ) {
+      return false;
+    }
+
+    Cell targetCell = board[row][col];
+
+    if (targetCell.hasCard()) {
+      return false;
+    }
+
+    if (targetCell.getOwner() != turn || targetCell.getPawnCount() < card.getPawnCost()) {
+      return false;
+    }
+
+    return true;
   }
 
   @Override
@@ -407,20 +419,16 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
     }
 
     Card card = playerHand.get(cardIdx);
+
+    if (!this.placeCardLegal(player, card, row, col)) {
+      throw new IllegalArgumentException("card cannot be placed here");
+    }
+
     Cell cell = this.board[row][col];
 
-    if (cell.getOwner() != player) {
-      throw new IllegalArgumentException("Player is not the owner of this cell");
-    }
-
-    if (cell.getPawnCount() < card.getPawnCost()) {
-      throw new IllegalArgumentException("Not enough pawns to place this card");
-    } else {
-      cell.placeCard(card);
-      playerHand.remove(cardIdx);
-      applyCardInfluence(row, col, player, card);
-    }
-
+    cell.placeCard(card);
+    playerHand.remove(cardIdx);
+    applyCardInfluence(row, col, player, card);
 
   }
 

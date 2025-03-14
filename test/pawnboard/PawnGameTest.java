@@ -477,7 +477,7 @@ public class PawnGameTest {
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
 
-    assertTrue(game.placeCardLegal(0, 0, 0));
+    assertTrue(game.placeCardLegal(Player.RED, 0, 0, 0));
     assertFalse(game.placeCardLegal(0, 0, 1));
 
 
