@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Initializes a deck of PawnCards from a given a file path.
@@ -21,6 +23,7 @@ public class CardInitializer {
    */
   public static List<PawnCard> initializeDeck(String path) {
     List<PawnCard> deck = new ArrayList<>();
+    Map<String, Integer> cardCountMap = new HashMap<>();
     File config = new File(path);
 
     try (BufferedReader reader = new BufferedReader(new FileReader(config))) {
@@ -46,8 +49,10 @@ public class CardInitializer {
           influenceGrid[i] = line.toCharArray();
         }
 
-        // add card to deck after parsing everything
-        deck.add(new PawnCard(name, cost, value, influenceGrid));
+        if (cardCountMap.getOrDefault(name, 0) < 2) {
+          deck.add(new PawnCard(name, cost, value, influenceGrid));
+          cardCountMap.put(name, cardCountMap.getOrDefault(name, 0) + 1);
+        }
       }
     } catch (IOException | NumberFormatException e) {
       System.err.println("Error reading deck file: " + e.getMessage());
