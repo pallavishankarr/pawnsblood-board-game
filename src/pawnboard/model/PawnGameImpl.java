@@ -176,6 +176,28 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     drawCard(player);
   }
 
+  @Override
+  public PawnCell[][] getBoard() {
+    PawnCell[][] newBoard = new PawnCell[row][column];
+
+    for (int r = 0; r < row; r++) {
+      for (int c = 0; c < column; c++) {
+        Cell original = this.board[r][c];
+        Player originalCellOwner = original.getOwner();
+        int originalPawnCellCount = original.getPawnCount();
+        PawnCell copy = new PawnCell(originalCellOwner, originalPawnCellCount);
+
+        if (original.hasCard()) {
+          Card originalCard = original.getCard();
+          copy.placeCard(originalCard);
+        }
+
+        newBoard[r][c] = copy;
+      }
+    }
+    return newBoard;
+  }
+
 
   @Override
   public Cell getCellAt(int row, int col) {

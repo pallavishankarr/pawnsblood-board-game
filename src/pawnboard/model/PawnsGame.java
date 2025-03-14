@@ -80,6 +80,12 @@ public interface PawnsGame<C extends Card> {
   void startTurn(Player player);
 
   /**
+   * Returns a deep copy of the current board state.
+   * @return a deep copy of the board, preserving the current game state
+   */
+  Cell[][] getBoard();
+
+  /**
    * Returns the cell at the indicated position on the board.
    * @param row the row to access
    * @param col the column to acess
