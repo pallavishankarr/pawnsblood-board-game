@@ -54,6 +54,15 @@ public interface PawnsGame<C extends Cell> {
   void placeCardAt(Player player, int cardIdx, int row, int col);
 
   /**
+   * Determines if the placing card with a given
+   * @param cardIdx index of the card being checked to place
+   * @param row row of where card should be placed
+   * @param col col of where card should be placed
+   * @return boolean based on if not placing card is legal
+   */
+  boolean placeCardLegal( int cardIdx, int row, int col);
+
+  /**
    * Allows a player to pass their turn.
    * @param player the player passing their turn
    * @throws IllegalStateException if the game has not started

@@ -110,22 +110,9 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
 
   @Override
   public void placeCardAt(Player player, int cardIdx, int row, int col) {
-    gameNotStartedCheck();
 
-    playerNotTurnCheck(player);
-
-    turnNotStartedCheck(player);
-
-    if (getCellAt(row, col).hasCard()) {
-      throw new IllegalArgumentException("Card already occupied");
-    }
-
-    if (row < 0 || row >= board.length || col < 0 || col >= board[0].length) {
-      throw new IllegalArgumentException("Row or column is out of board bounds.");
-    }
-
-    if (cardIdx > playerRedDeck.size()) {
-      throw new IllegalArgumentException("Card index out of bounds");
+    if(!placeCardLegal(cardIdx, row, col)) {
+      throw new IllegalArgumentException("Can't legally place card.");
     }
 
     if (player == Player.RED) {
@@ -137,6 +124,31 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
     }
 
     endTurn();
+  }
+
+  @Override
+  public boolean placeCardLegal(int cardIdx, int row, int col) {
+    gameNotStartedCheck();
+
+    playerNotTurnCheck(this.turn);
+
+    turnNotStartedCheck(this.turn);
+
+    if (getCellAt(row, col).hasCard()) {
+      return false;
+    }
+
+    if (row < 0 || row >= board.length || col < 0 || col >= board[0].length) {
+      return false;
+    }
+
+    if (cardIdx > playerRedDeck.size()) {
+      return false;
+    }
+
+    return true;
+
+
   }
 
   @Override
