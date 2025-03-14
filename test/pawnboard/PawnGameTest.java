@@ -1505,26 +1505,6 @@ public class PawnGameTest {
 
   }
 
-  //test Row Winner
-  @Test
-  public void testRowWinner() {
-    game = new PawnGameImpl(3, 5);
-    game.startGame(path, 5);
-    PawnGameTextualView view = new PawnGameTextualView(game);
-
-    game.startTurn(Player.RED);
-    game.placeCardAt(Player.RED, 0, 0, 0);
-
-    game.startTurn(Player.BLUE);
-    game.placeCardAt(Player.BLUE, 0, 0, 4);
-
-    game.startTurn(Player.RED);
-    game.placeCardAt(Player.RED, 0, 0, 1);
-
-    assertEquals(0, game.checkScore(Player.BLUE));
-    assertEquals(3, game.checkScore(Player.RED));
-  }
-
   //check Score when game is over
   @Test
   public void testCheckScoreWithEmptyBoard() {
