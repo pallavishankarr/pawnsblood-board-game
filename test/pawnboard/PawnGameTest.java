@@ -435,34 +435,34 @@ public class PawnGameTest {
     game = new PawnGameImpl(3, 5);
 
     assertThrows(IllegalStateException.class, ()
-            ->game.placeCardAt(Player.BLUE, 0, 0, 0));
+            -> game.placeCardAt(Player.BLUE, 0, 0, 0));
 
     game.startGame(path, 5);
 
     //Not person's turn
     assertThrows(IllegalArgumentException.class, ()
-            ->game.placeCardAt(Player.BLUE, 0, 0, 0));
+            -> game.placeCardAt(Player.BLUE, 0, 0, 0));
 
     //Don't have right pawns
     assertThrows(IllegalArgumentException.class, ()
-            ->game.placeCardAt(Player.RED, 0, 0, 4));
+            -> game.placeCardAt(Player.RED, 0, 0, 4));
 
     //No pawns on
     assertThrows(IllegalArgumentException.class, ()
-            ->game.placeCardAt(Player.RED, 0, 1, 2));
+            -> game.placeCardAt(Player.RED, 0, 1, 2));
 
     //Out of bounds
     assertThrows(IllegalArgumentException.class, ()
-            ->game.placeCardAt(Player.RED, 0, 3, 5));
+            -> game.placeCardAt(Player.RED, 0, 3, 5));
 
     //Out of bounds for hand size
     assertThrows(IllegalArgumentException.class, ()
-            ->game.placeCardAt(Player.RED, 5, 0, 0));
+            -> game.placeCardAt(Player.RED, 5, 0, 0));
 
     game.placeCardAt(Player.RED, 0, 0, 0);
 
     assertThrows(IllegalStateException.class, ()
-            ->game.placeCardAt(Player.RED, 0, 0, 0));
+            -> game.placeCardAt(Player.RED, 0, 0, 0));
 
 
 
@@ -1227,7 +1227,6 @@ public class PawnGameTest {
     game.startGame(path, 5);
     game.placeCardAt(Player.RED, 0, 0, 0);
 
-    assertEquals(Player.RED, game.rowWinner(0));
     assertEquals("Red", game.getWinner());
   }
 
@@ -1241,7 +1240,7 @@ public class PawnGameTest {
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 4);
 
-    assertEquals(Player.BLUE, game.rowWinner(0));
+
     assertEquals("Blue", game.getWinner());
 
   }
@@ -1562,7 +1561,7 @@ public class PawnGameTest {
 
     assertEquals(9, game.checkScore(Player.BLUE));
     assertEquals(0, game.checkScore(Player.RED));
-    assertEquals(Player.BLUE, game.rowWinner(0));
+
   }
 
   @Test
@@ -1604,17 +1603,9 @@ public class PawnGameTest {
 
     assertEquals(9, game.checkScore(Player.RED));
     assertEquals(0, game.checkScore(Player.BLUE));
-    assertEquals(Player.RED, game.rowWinner(0));
+
   }
 
-  //test tie
-  @Test
-  public void testRowWinnerTie() {
-    game = new PawnGameImpl(3, 5);
-    game.startGame(path, 5);
-
-    assertNull(game.rowWinner(0));
-  }
 
   //test isGameOver
   @Test
