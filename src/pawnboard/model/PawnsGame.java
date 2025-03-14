@@ -54,7 +54,7 @@ public interface PawnsGame<C extends Cell> {
   void placeCardAt(Player player, int cardIdx, int row, int col);
 
   /**
-   * Determines if the placing card with a given
+   * Determines if the placing card with a given card is legal.
    * @param player the player placing the card
    * @param card the card being placed
    * @param row row of where card should be placed
@@ -163,11 +163,11 @@ public interface PawnsGame<C extends Cell> {
 
 
   /**
-   * Determines which Player owns the cell at a given coordinate
+   * Determines which Player owns the cell at a given coordinate.
    * @param row row number of the index
    * @param col column number of the index
-   * @throws IllegalStateException if the game has not started
    * @return Player which owns the cell
+   * @throws IllegalStateException if the game has not started
    */
   Player getOwnerAt(int row, int col);
 

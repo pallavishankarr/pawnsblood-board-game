@@ -139,21 +139,11 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
   public boolean placeCardLegal(Player player, Card card, int row, int col) {
     gameNotStartedCheck();
 
-    if (row < 0 || row >= board.length || col < 0 || col >= board[0].length ) {
-      return false;
-    }
-
-    Cell targetCell = board[row][col];
-
-    if (targetCell.hasCard()) {
-      return false;
-    }
-
-    if (targetCell.getOwner() != turn || targetCell.getPawnCount() < card.getPawnCost()) {
-      return false;
-    }
-
-    return true;
+    return row >= 0 && row < board.length
+            && col >= 0 && col < board[0].length
+            && !board[row][col].hasCard()
+            && board[row][col].getOwner() == turn
+            && board[row][col].getPawnCount() >= card.getPawnCost();
   }
 
   @Override
@@ -269,7 +259,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
     if (redScore > blueScore) {
       return Player.RED.toString();
     }
-    else if(blueScore > redScore) {
+    else if (blueScore > redScore) {
       return Player.BLUE.toString();
     }
 
@@ -314,7 +304,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
     return score;
   }
 
- private Player rowWinner(int rowIdx) {
+  private Player rowWinner(int rowIdx) {
     gameNotStartedCheck();
 
     if (rowIdx < 0 || rowIdx >= row) {
