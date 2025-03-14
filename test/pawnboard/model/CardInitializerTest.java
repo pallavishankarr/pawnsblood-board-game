@@ -8,12 +8,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-import javax.swing.*;
+
 
 import pawnboard.influences.DefaultInfluence;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+/**
+ * Tests for the Card Intializer Implementation
+ */
 public class CardInitializerTest {
 
   @Test

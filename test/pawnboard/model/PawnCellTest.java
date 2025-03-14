@@ -3,7 +3,11 @@ package pawnboard.model;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 public class PawnCellTest {
   private Cell cell1;
@@ -35,7 +39,9 @@ public class PawnCellTest {
   @Test
   public void testInvalidConstructorCell() {
     assertThrows(IllegalArgumentException.class, ()
-            -> { new PawnCell(null, 5);});
+            -> {
+      new PawnCell(null, 5);
+    });
 
   }
 
@@ -55,19 +61,22 @@ public class PawnCellTest {
   //Test to get the owner of a Cel
   @Test
   public void testGetOwner() {
+    assertNull(this.cell1.getOwner());
+    assertEquals(Player.RED, this.cell2.getOwner());
 
   }
 
   @Test
   public void testGetPawnCount() {
     assertEquals(0, this.cell1.getPawnCount());
+    cell1.addPawn(Player.RED);
     assertEquals(1, this.cell1.getPawnCount());
 
   }
 
   //Test for changing Ownership
   @Test
-  public void testChangerOwnership(){
+  public void testChangerOwnership() {
     cell2.changeOwnership(Player.BLUE);
     assertEquals(Player.BLUE, cell2.getOwner());
 
@@ -84,12 +93,11 @@ public class PawnCellTest {
 
   //test finds if the cell is empty
   @Test
-  public void testIsEmpty(){
+  public void testIsEmpty() {
+    assertTrue(cell1.isCellEmpty());
+    assertFalse(cell2.isCellEmpty());
 
   }
-
-
-
 
 
 }
