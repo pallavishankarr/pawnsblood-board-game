@@ -100,12 +100,12 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
 
   @Override
   public int getWidth() {
-    return this.column;
+    return column;
   }
 
   @Override
   public int getHeight() {
-    return this.row;
+    return row;
   }
 
   @Override
@@ -229,9 +229,9 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
     gameNotStartedCheck();
 
     if (player == Player.RED) {
-      return playerRedHand;
+      return new ArrayList<>(playerRedHand);
     }
-    return playerBlueHand;
+    return new ArrayList<>(playerBlueHand);
   }
 
   @Override

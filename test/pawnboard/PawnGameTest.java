@@ -1768,9 +1768,35 @@ public class PawnGameTest {
 
     game.placeCardAt(Player.RED, 0, 0, 0);
     Cell copiedCell = copiedBoard[0][0];
-    
+
+    assertEquals(copiedBoard[0].length, game.getWidth());
+    assertEquals(copiedBoard.length, game.getHeight());
     assertNotEquals(copiedCell.getCard(),
             game.getCellAt(0,0).getCard());
+  }
+
+  @Test
+  public void testGetBoardCopyPawnPlacement() {
+    game = new PawnGameImpl(5, 7);
+    game.startGame(biggerPath, 5);
+    PawnCell[][] copiedBoard = game.getBoard();
+
+    for (int r = 0; r < copiedBoard.length; r++) {
+      for (int c = 0; c < copiedBoard[0].length; c++) {
+        PawnCell cell = copiedBoard[r][c];
+
+        if (c == 0) {
+          assertEquals(Player.RED, cell.getOwner());
+          assertTrue(cell.getPawnCount() > 0);
+        } else if (c == copiedBoard[0].length - 1) {
+          assertEquals(Player.BLUE, cell.getOwner());
+          assertTrue(cell.getPawnCount() > 0);
+        } else { // All other cells should be empty
+          assertNull(cell.getOwner());
+          assertEquals(0, cell.getPawnCount());
+        }
+      }
+    }
   }
 
   @Test
@@ -1789,6 +1815,8 @@ public class PawnGameTest {
             game.getCellAt(0,0).getCard());
     assertEquals(copiedCell2.getPawnCount(),
             game.getCellAt(4,0).getPawnCount());
+
+    System.out.println(game.getCellAt(0,0));
   }
 
 
