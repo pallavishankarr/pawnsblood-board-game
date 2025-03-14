@@ -123,7 +123,7 @@ public interface PawnsGame<C extends Card> {
    * @return the player who won
    * @throws IllegalStateException if the game has not started
    */
-  Player getWinner();
+  String getWinner();
 
   /**
    * Checks and returns the score of the Player.
@@ -158,6 +158,14 @@ public interface PawnsGame<C extends Card> {
    */
   boolean isGameOver();
 
+
+  /**
+   * Determines which Player owns the cell at a given coordinate
+   * @param row row number of the index
+   * @param col column number of the index
+   * @return Player which owns the cell
+   */
+  Player getOwnerAt(int row, int col);
 
 
   /**

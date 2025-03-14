@@ -215,6 +215,11 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
   }
 
   @Override
+  public Player getOwnerAt(int row, int column) {
+    return null; 
+  }
+
+  @Override
   public List<PawnCard> getHand(Player player) {
     gameNotStartedCheck();
 
@@ -235,16 +240,21 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
   }
 
   @Override
-  public Player getWinner() {
+  public String getWinner() {
     gameNotStartedCheck();
 
     int redScore = checkScore(Player.RED);
     int blueScore = checkScore(Player.BLUE);
 
     if (redScore > blueScore) {
-      return Player.RED;
-    } else {
-      return Player.BLUE;
+      return Player.RED.toString();
+    }
+    else if(blueScore > redScore) {
+      return Player.BLUE.toString();
+    }
+
+    else {
+      return "Tie";
     }
   }
 

@@ -1146,7 +1146,37 @@ public class PawnGameTest {
     game.placeCardAt(Player.RED, 0, 0, 0);
 
     assertEquals(Player.RED, game.rowWinner(0));
-    assertEquals(Player.RED, game.getWinner());
+    assertEquals("Red", game.getWinner());
+  }
+
+  //test get Winner
+  @Test
+  public void testGetWinnerBlue() {
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 0, 4);
+
+    assertEquals(Player.BLUE, game.rowWinner(0));
+    assertEquals("Blue", game.getWinner());
+
+  }
+
+  //test for a tie
+  @Test
+  public void testResultsInTie() {
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+    game.placeCardAt(Player.RED, 0, 0, 0);
+    game.startTurn(Player.BLUE);
+    game.placeCardAt(Player.BLUE, 0, 0, 4);
+
+
+    assertEquals("Tie", game.getWinner());
+
+
   }
 
   //test illegal if game is over
