@@ -470,6 +470,20 @@ public class PawnGameTest {
 
   }
 
+
+  //test place Card Legal
+  @Test
+  public void testPlaceCardLegal() {
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+    assertTrue(game.placeCardLegal(0, 0, 0));
+    assertFalse(game.placeCardLegal(0, 0, 1));
+
+
+
+  }
+
   //test place card At Edges for Blue
   @Test
   public void testPlaceCardAtEdgesBlue() {
@@ -1683,7 +1697,7 @@ public class PawnGameTest {
     placeCard(game, Player.RED, 4, 1, 1);
 
     assertTrue(game.isGameOver());
-    assertEquals(Player.BLUE, game.getWinner());
+    assertEquals("Blue", game.getWinner());
   }
 
   private void placeCard(PawnGameImpl game, Player player, int cardIdx, int row, int col) {
