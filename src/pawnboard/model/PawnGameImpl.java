@@ -10,7 +10,7 @@ import pawnboard.influences.InfluenceEffect;
  * Maintains the game state including the rectangular board, player decks, turns, and
  * move validation.
  */
-public class PawnGameImpl implements PawnsGame<PawnCard> {
+public class PawnGameImpl implements PawnsGame<PawnCell> {
 
   private final int row;
   private final int column;

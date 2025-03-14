@@ -1,6 +1,6 @@
 package pawnboard.influences;
 
-import pawnboard.model.PawnCard;
+import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 
@@ -17,5 +17,5 @@ public interface InfluenceEffect {
    * @param col the column where the influence is applied
    * @param currentPlayer the player applying the influence
    */
-  void apply(PawnsGame<PawnCard> game, int row, int col, Player currentPlayer);
+  void apply(PawnsGame<PawnCell> game, int row, int col, Player currentPlayer);
 }

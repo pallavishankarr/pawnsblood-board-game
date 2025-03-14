@@ -6,6 +6,7 @@ import java.io.File;
 
 import pawnboard.model.Cell;
 import pawnboard.model.PawnCard;
+import pawnboard.model.PawnCell;
 import pawnboard.model.PawnGameImpl;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
@@ -30,7 +31,7 @@ public class PawnGameTest {
   String biggerPath = "docs" + File.separator + "biggerDeck";
   String tripleFile = "docs" + File.separator + "tripleFile";
   private Player player;
-  private PawnsGame<PawnCard> game;
+  private PawnsGame<PawnCell> game;
 
   private static void passTurn(PawnGameImpl game, Player player) {
     game.startTurn(player);
@@ -1737,6 +1738,14 @@ public class PawnGameTest {
     assertEquals(5, game.getHand(Player.RED).size());
     assertEquals(15, game.getRemainingDeckSize(Player.RED));
     assertEquals(15, game.getRemainingDeckSize(Player.BLUE));
+  }
+
+  @Test
+  public void testGetBoard() {
+    game = new PawnGameImpl(5,7);
+    PawnCell[][] copiedBoard = game.getBoard();
+
+
   }
 
 
