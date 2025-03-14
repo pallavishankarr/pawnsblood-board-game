@@ -155,15 +155,6 @@ public interface PawnsGame<C extends Cell> {
   int checkScoreRow(Player player, int rowIdx);
 
   /**
-   * Returns the player who won the row.
-   * @param rowIdx the index of the row being checked
-   * @return Player who won the row
-   * @throws IllegalStateException if the game has not started
-   * @throws IllegalArgumentException if the rowIdx is out of row bounds
-   */
-  Player rowWinner(int rowIdx);
-
-  /**
    * Determines if the game has ended.
    * @return true if the game is over, false if the game is not over
    * @throws IllegalStateException if the game has not started

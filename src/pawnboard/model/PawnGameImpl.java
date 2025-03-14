@@ -314,8 +314,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
     return score;
   }
 
-  @Override
-  public Player rowWinner(int rowIdx) {
+ private Player rowWinner(int rowIdx) {
     gameNotStartedCheck();
 
     if (rowIdx < 0 || rowIdx >= row) {
