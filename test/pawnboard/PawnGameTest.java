@@ -1639,5 +1639,56 @@ public class PawnGameTest {
     game.placeCardAt(player, cardIdx, row, col);
   }
 
+  @Test
+  public void testStartTurn() {
+    game = new PawnGameImpl(3, 5);
+    assertThrows(IllegalStateException.class, () -> {
+      game.startTurn(Player.RED);
+    });
+
+  }
+
+  @Test
+  public void testStartTurnWrongPlayer() {
+    game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+    assertThrows(IllegalArgumentException.class, () -> {
+      game.startTurn(Player.BLUE);
+    });
+  }
+
+  @Test
+  public void testGetCurrentPlayerBeforeGameStartThrowsException() {
+    game = new PawnGameImpl(3, 5);
+    assertThrows(IllegalStateException.class, () -> game.getCurrentPlayer());
+  }
+
+
+  @Test
+  public void testGetCurrentPlayerAfterGameStarts() {
+    game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+    assertEquals(Player.RED, game.getCurrentPlayer());
+
+    game.startTurn(Player.RED);
+    game.passTurn(Player.RED);
+
+    assertEquals(Player.BLUE, game.getCurrentPlayer());
+  }
+
+  @Test
+  public void testGetHand() {
+    game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+
+    assertEquals(5, game.getHand(Player.RED).size());
+    assertEquals(5, game.getHand(Player.RED).size());
+    assertEquals(15, game.getRemainingDeckSize(Player.RED));
+    assertEquals(15, game.getRemainingDeckSize(Player.BLUE));
+  }
+
+
+
 
 }
