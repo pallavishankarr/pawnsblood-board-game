@@ -14,6 +14,9 @@ Pawns Board is a two-player strategy game inspired by Queen’s Blood. The game 
 
 - The game model enforces rules, turn-taking, and legal moves.
 
+- A file configuration of the cards must be passed in to start the game. 
+
+
 ## How to Play
 1. make a new game object
 2. call startGame method on game object and input file path and handsize
@@ -39,7 +42,7 @@ Pawns Board is a two-player strategy game inspired by Queen’s Blood. The game 
 
 ### Pawn Cell (PawnCell)
 - represents a board cell 
-- can contain nothing, pawns, or a card
+- can contain pawns or a card
 
 ### Influence Effect
 - determines how a card influences the board upon placement
