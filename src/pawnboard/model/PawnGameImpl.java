@@ -216,7 +216,9 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   @Override
   public Player getOwnerAt(int row, int column) {
-    return null; 
+    gameNotStartedCheck();
+
+    return board[row][column].getOwner();
   }
 
   @Override

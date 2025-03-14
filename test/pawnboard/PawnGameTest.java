@@ -198,6 +198,27 @@ public class PawnGameTest {
 
   }
 
+  //tests the get owner at
+  @Test
+  public void testGetOwnerAt() {
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(path, 5);
+    //Gets the owner when there are pawns on the cell
+    assertEquals(Player.RED, game.getOwnerAt(0, 0));
+    assertEquals(Player.BLUE, game.getOwnerAt(0, 4));
+
+    //Adds a pawn on a cell and gets the owner
+    Cell cell = game.getCellAt(1, 0);
+    cell.addPawn(Player.RED);
+    assertEquals(Player.RED, game.getOwnerAt(1, 0));
+
+    //places a card and gets the owner
+    game.placeCardAt(Player.RED, 0, 0, 0);
+    assertEquals(Player.RED, game.getOwnerAt(0, 0));
+
+    assertNull(game.getOwnerAt(0,2));
+  }
+
   //tests no card left to draw
   @Test
   public void testNoCardLeftToDraw() {
