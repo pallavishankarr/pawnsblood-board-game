@@ -28,7 +28,9 @@ public class CardInitializer {
       while ((line = reader.readLine()) != null) {
         // parse name and cost
         String[] parts = line.trim().split("\\s+");
-        if (parts.length != 3) throw new IOException("Invalid format: Expected '<Name> <Cost> <Value>'");
+        if (parts.length != 3) {
+          throw new IOException("Invalid format: Expected '<Name> <Cost> <Value>'");
+        }
 
         String name = parts[0];
         int cost = Integer.parseInt(parts[1]);
@@ -38,7 +40,9 @@ public class CardInitializer {
         char[][] influenceGrid = new char[5][5];
         for (int i = 0; i < 5; i++) {
           line = reader.readLine();
-          if (line == null || line.length() != 5) throw new IOException("Invalid grid format.");
+          if (line == null || line.length() != 5) {
+            throw new IOException("Invalid grid format.");
+          }
           influenceGrid[i] = line.toCharArray();
         }
 

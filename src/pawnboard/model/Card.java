@@ -18,7 +18,7 @@ public interface Card {
   String getName();
 
   /**
-   * Returns the pawn cost of the card
+   * Returns the pawn cost of the card.
    * @return a integer of the pawn cost
    */
   int getPawnCost();
@@ -36,7 +36,7 @@ public interface Card {
   char[][] getInfluenceGrid();
 
   /**
-   * Returns a list of influence effects that the card has
+   * Returns a list of influence effects that the card has.
    * @return a list of influence effects
    */
   List<InfluenceEffect> getInfluenceEffects();
@@ -51,7 +51,7 @@ public interface Card {
   boolean affectsCell(int row, int col) throws IllegalArgumentException;
 
   /**
-   * Returns a String representation of the card
+   * Returns a String representation of the card.
    * @return String of the card
    */
   String toString();

@@ -2,19 +2,24 @@ package pawnboard;
 
 import java.io.File;
 
-import pawnboard.model.CardInitializer;
-import pawnboard.model.Cell;
-import pawnboard.model.PawnCard;
 import pawnboard.model.PawnGameImpl;
-import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 import pawnboard.view.GameView;
 import pawnboard.view.PawnGameTextualView;
 
 /**
- * Main method meant to run full game and see process.
+ * Main method meant to run a sample game of Pawns Game.
  */
 public final class PawnsBoard {
+
+  /**
+   * The main method runs a sample game.
+   * It initializes the game with board size, loads the deck,
+   * and executes predefined moves between the two players.
+   * This game shows alternates between placing and passing cards to
+   * completion
+   * @param args the command-line arguments (not used in this implementation)
+   */
   public static void main(String[] args) {
     String path = "docs" + File.separator + "deck.config";
     PawnGameImpl game = new PawnGameImpl(3,5);
@@ -41,7 +46,8 @@ public final class PawnsBoard {
     System.out.println(game.getWinner());
   }
 
-  private static void placeCard(PawnGameImpl game, GameView view, Player player, int cardIdx, int row, int col) {
+  private static void placeCard(PawnGameImpl game, GameView view,
+                                Player player, int cardIdx, int row, int col) {
     game.startTurn(player);
     game.placeCardAt(player, cardIdx, row, col);
     System.out.println(view);

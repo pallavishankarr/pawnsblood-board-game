@@ -6,7 +6,8 @@ import pawnboard.model.Player;
 
 /**
  * Represents an influence where a pawn is added to an empty cell.
- * Or increases the pawn count if the player owns the cell. */
+ * Or increases the pawn count if the player owns the cell.
+ */
 public class DefaultInfluence implements InfluenceEffect {
 
   @Override
@@ -19,7 +20,7 @@ public class DefaultInfluence implements InfluenceEffect {
     }
 
     // If the cell is owned by the opponent and change ownership
-     else if (influencedCell.getOwner() != currentPlayer) {
+    else if (influencedCell.getOwner() != currentPlayer) {
       influencedCell.changeOwnership(currentPlayer);
 
     }

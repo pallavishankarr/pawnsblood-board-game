@@ -1,5 +1,10 @@
 package pawnboard.model;
 
+/**
+ * Represents a single cell on the game board in Pawns Board.
+ * A cell can contain pawns or a placed card, and ownership
+ * can change.
+ */
 public interface Cell {
 
   /**
@@ -44,7 +49,7 @@ public interface Cell {
   Card getCard();
 
   /**
-   * Checks if the cell is empty
+   * Checks if the cell is empty.
    * Empty means no cards or pawns are in the cell
    * @return true if the cell is empty
    */

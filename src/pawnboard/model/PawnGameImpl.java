@@ -13,7 +13,7 @@ import pawnboard.influences.InfluenceEffect;
 public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   private final int row;
-  private final  int column;
+  private final int column;
   private Cell[][] board;
   private List<PawnCard> playerRedDeck;
   private List<PawnCard> playerBlueDeck;
@@ -26,13 +26,14 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
   /**
    * Constructs a new PawnGameImpl object with the given board dimensions.
-   * @param row the number of rows in the board (must be positive)
+   *
+   * @param row    the number of rows in the board (must be positive)
    * @param column the number of columsn in the board (must be odd and >1)
    * @throws IllegalArgumentException if the row is not a positive integer or column is not
-   * odd and greater than 1.
+   *                                  odd and greater than 1.
    */
   public PawnGameImpl(int row, int column) {
-    if(row <= 0 || column <= 1 || column%2 == 0 ) {
+    if (row <= 0 || column <= 1 || column % 2 == 0) {
       throw new IllegalArgumentException("Row or column out of bounds");
     }
 
@@ -73,7 +74,9 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     }
 
     if (redDeck.size() < row * column || blueDeck.size() < row * column) {
-      throw new IllegalArgumentException("Each deck must have at least " + (row * column) + " cards.");
+      throw new IllegalArgumentException("Each deck must have at least "
+              +
+              (row * column) + " cards.");
     }
 
     if (handSize > redDeck.size() / 3 || handSize > blueDeck.size() / 3 || handSize < 0) {
@@ -110,7 +113,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
     turnNotStartedCheck(player);
 
-    if(getCellAt(row, col).hasCard()) {
+    if (getCellAt(row, col).hasCard()) {
       throw new IllegalArgumentException("Card already occupied");
     }
 
@@ -123,11 +126,11 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     }
 
     if (player == Player.RED) {
-      placeCardAtHelper(playerRedHand, player, cardIdx,row,col);
+      placeCardAtHelper(playerRedHand, player, cardIdx, row, col);
     }
 
     if (player == Player.BLUE) {
-      placeCardAtHelper(playerBlueHand, player, cardIdx,row,col);
+      placeCardAtHelper(playerBlueHand, player, cardIdx, row, col);
     }
 
     endTurn();
@@ -190,7 +193,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
   public List<PawnCard> getHand(Player player) {
     gameNotStartedCheck();
 
-    if(player == Player.RED) {
+    if (player == Player.RED) {
       return playerRedHand;
     }
     return playerBlueHand;
@@ -219,8 +222,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
     if (redScore > blueScore) {
       return Player.RED;
-    }
-    else {
+    } else {
       return Player.BLUE;
     }
   }
@@ -231,11 +233,10 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
     int score = 0;
 
-    for (int row = 0 ; row < this.row ; row++) {
-      if (rowWinner(row) == player){
+    for (int row = 0; row < this.row; row++) {
+      if (rowWinner(row) == player) {
         score += checkScoreRow(player, row);
-      }
-      else {
+      } else {
         score += 0;
       }
     }
@@ -323,9 +324,9 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
               continue;
             }
 
-              for (InfluenceEffect effect : influenceEffects) {
-                effect.apply(this, targetRow, targetCol, currentPlayer);
-              }
+            for (InfluenceEffect effect : influenceEffects) {
+              effect.apply(this, targetRow, targetCol, currentPlayer);
+            }
 
           } catch (IllegalArgumentException e) {
             // Ignore out-of-bounds cells
@@ -343,8 +344,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
         if (j == 0) {
           board[i][j].addPawn(Player.RED);
-        }
-        else if (j == column - 1) {
+        } else if (j == column - 1) {
           board[i][j].addPawn(Player.BLUE);
         }
       }
@@ -357,7 +357,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     }
   }
 
-  private void placeCardAtHelper(List<PawnCard> playerHand,Player player,
+  private void placeCardAtHelper(List<PawnCard> playerHand, Player player,
                                  int cardIdx, int row, int col) {
 
     if (cardIdx < 0 || cardIdx >= playerHand.size()) {
@@ -372,15 +372,13 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     Card card = playerHand.get(cardIdx);
     Cell cell = this.board[row][col];
 
-    if(cell.getOwner() != player) {
+    if (cell.getOwner() != player) {
       throw new IllegalArgumentException("Player is not the owner of this cell");
     }
 
     if (cell.getPawnCount() < card.getPawnCost()) {
       throw new IllegalArgumentException("Not enough pawns to place this card");
-    }
-
-    else {
+    } else {
       cell.placeCard(card);
       playerHand.remove(cardIdx);
       applyCardInfluence(row, col, player, card);
@@ -424,7 +422,7 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
   }
 
   private void gameNotStartedCheck() {
-    if(!gameStarted) {
+    if (!gameStarted) {
       throw new IllegalStateException("Game has not started.");
     }
   }
