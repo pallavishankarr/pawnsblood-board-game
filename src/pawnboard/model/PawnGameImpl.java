@@ -362,7 +362,8 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
 
 
     if (playerHand.size() < handSize) {
-      throw new IllegalArgumentException("Cannot play card. Hand size cannot drop below " + handSize);
+      throw new IllegalArgumentException("Cannot play card. " +
+              "Hand size cannot drop below " + handSize);
     }
 
     Card card = playerHand.get(cardIdx);
@@ -407,7 +408,8 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     List<PawnCard> mirroredDeck = new ArrayList<>();
     for (PawnCard card : deck) {
       char[][] mirroredGrid = mirrorGrid(card.getInfluenceGrid());
-      mirroredDeck.add(new PawnCard(card.getName(), card.getPawnCost(), card.getValue(), mirroredGrid));
+      mirroredDeck.add(new PawnCard(card.getName(),
+              card.getPawnCost(), card.getValue(), mirroredGrid));
     }
     return mirroredDeck;
   }

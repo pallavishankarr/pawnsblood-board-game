@@ -131,8 +131,8 @@ public interface PawnsGame<C extends Card> {
    * Checks the Score of the row based on the Player.
    * @param player player that score is being checked
    * @param rowIdx the row index that is being checked
+   * @return the score of the
    * @throws IllegalArgumentException if the rowIdx is out of row bounds
-   * @return the score of the row
    */
   int checkScoreRow(Player player, int rowIdx);
 

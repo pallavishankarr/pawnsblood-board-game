@@ -27,8 +27,8 @@ public class PawnCard implements Card {
    * @param value the value of the card
    * @param influenceGrid the influence grid of the card
    * @throws IllegalArgumentException if the cost is less than 1 or greater than 3,
-   *    if the value is not a positive integer, if the influence grid is not 5x5 and if the
-   *    influence grid doesn't have a proper center
+   *         if the value is not a positive integer, if the influence grid is not 5x5 and if the
+   *         influence grid doesn't have a proper center
    */
   public PawnCard(String name, int cost, int value, char[][] influenceGrid) {
     if (cost < 1 || cost > 3) {
