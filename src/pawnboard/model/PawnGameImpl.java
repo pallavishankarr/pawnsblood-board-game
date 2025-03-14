@@ -48,6 +48,9 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
     this.turnStarted = false;
 
     // INVARIANT: the board does not have null values
+    // We decided to enforce this because it prevents null pointer
+    // exceptions as there cannot be any null values and ensures that
+    // the board data is consistent.
     initializeBoard();
   }
 

@@ -32,6 +32,10 @@ Pawns Board is a two-player strategy game inspired by Queen’s Blood. The game 
 ### Game Model (PawnsBoardGame)
 - controls the game state, turn-taking, and win conditions
 - enforces rules, legal moves, and pawn/card interaction
+- we chose that the game model stores the decks, hands, turns, 
+ the board, move validation, and altering the board as the model
+is supposed to store the state of the program, logic, and ensuring
+that the state is correct.
 
 ### Player (Player)
 - enum representation of RED and BLUE players
@@ -47,12 +51,17 @@ Pawns Board is a two-player strategy game inspired by Queen’s Blood. The game 
 ### Influence Effect
 - determines how a card influences the board upon placement
 - applies modifications to surrounding pawns or cells
+- we decided to create a separate class for this so that adding
+different influences in future assignments is easier 
 
 ### Card Initializer
 - loads card data into a list when given file
+- the game model uses the card initializer in startGame to 
+configure the deck since the deck is only constructed
+when the game is started
 
 ### Textual View
 - provides text based reprsentation of the board
 - displays pawn with integers and card placements with an R for red or B for blue
-
+- helps with visualizing card influencing and the current state of the board
 
