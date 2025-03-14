@@ -116,7 +116,6 @@ public interface PawnsGame<C extends Card> {
    * Gets the winner of the game.
    * @return the player who won
    * @throws IllegalStateException if the game has not started
-   * @throws IllegalArgumentException if the game is not over
    */
   Player getWinner();
 

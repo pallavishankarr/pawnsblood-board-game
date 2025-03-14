@@ -213,10 +213,6 @@ public class PawnGameImpl implements PawnsGame<PawnCard> {
   public Player getWinner() {
     gameNotStartedCheck();
 
-    if (!isGameOver()) {
-      throw new IllegalArgumentException("Game isn't over.");
-    }
-
     int redScore = checkScore(Player.RED);
     int blueScore = checkScore(Player.BLUE);
 

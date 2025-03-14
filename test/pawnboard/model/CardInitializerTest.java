@@ -18,7 +18,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Tests for the Card Intializer Implementation
+ * Tests for the Card Intializer Implementation.
  */
 public class CardInitializerTest {
 

@@ -1025,7 +1025,7 @@ public class PawnGameTest {
 
 
     assertThrows(IllegalArgumentException.class,
-            () -> game.placeCardAt(Player.RED, 0, 0, 0));
+        () -> game.placeCardAt(Player.RED, 0, 0, 0));
   }
 
   //test Place Card when there is opposing Card that has been placed
@@ -1038,7 +1038,7 @@ public class PawnGameTest {
     game.placeCardAt(Player.RED, 0, 0, 0);
     game.startTurn(Player.BLUE);
     assertThrows(IllegalArgumentException.class, ()
-            -> game.placeCardAt(Player.BLUE, 0, 0, 0));
+        -> game.placeCardAt(Player.BLUE, 0, 0, 0));
   }
 
   //test for Pass Turn through the game
@@ -1135,7 +1135,8 @@ public class PawnGameTest {
     game.startGame(path, 5);
     game.placeCardAt(Player.RED, 0, 0, 0);
 
-    System.out.println(game.rowWinner(0));
+    assertEquals(Player.RED, game.rowWinner(0));
+    assertEquals(Player.RED, game.getWinner());
   }
 
   //test illegal if game is over
@@ -1143,25 +1144,8 @@ public class PawnGameTest {
   public void testIllegalGetWinner() {
     this.game = new PawnGameImpl(3, 5);
     PawnGameTextualView view = new PawnGameTextualView(game);
-    game.startGame(path, 5);
-    game.placeCardAt(Player.RED, 0, 0, 0);
 
-    game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
-
-    game.startTurn(Player.RED);
-    game.placeCardAt(Player.RED, 0, 0, 1);
-
-    game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
-
-    game.startTurn(Player.RED);
-    game.placeCardAt(Player.RED, 0, 1, 0);
-
-    game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
-
-    assertThrows(IllegalArgumentException.class, () -> game.getWinner());
+    assertThrows(IllegalStateException.class, () -> game.getWinner());
 
   }
 

@@ -9,6 +9,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Represents tests for a pawn cell.
+ */
 public class PawnCellTest {
   private Cell cell1;
   private Cell cell2;
@@ -39,7 +42,7 @@ public class PawnCellTest {
   @Test
   public void testInvalidConstructorCell() {
     assertThrows(IllegalArgumentException.class, ()
-            -> {
+        -> {
       new PawnCell(null, 5);
     });
 
