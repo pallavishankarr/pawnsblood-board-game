@@ -28,6 +28,7 @@ public class PawnGameTest {
 
   String path = "docs" + File.separator + "deck.config";
   String biggerPath = "docs" + File.separator + "biggerDeck";
+  String tripleFile = "docs" + File.separator + "tripleFile";
   private Player player;
   private PawnsGame<PawnCard> game;
 
@@ -66,6 +67,15 @@ public class PawnGameTest {
     game = new PawnGameImpl(11, 9);
     assertEquals(11, this.game.getHeight());
     assertEquals(9, this.game.getWidth());
+
+  }
+
+  //test Error thrown when there are triples of card
+  @Test
+  public void testInvalidCardDeck() {
+    game = new PawnGameImpl(3, 5);
+    assertThrows(IllegalArgumentException.class, () -> game.startGame(tripleFile, 5));
+
 
   }
 
