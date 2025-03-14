@@ -1801,6 +1801,8 @@ public class PawnGameTest {
             game.getCellAt(0,0).getCard());
     assertEquals(copiedCell2.getPawnCount(),
             game.getCellAt(4,0).getPawnCount());
+
+    System.out.println(game.getCellAt(0,0));
   }
 
 
