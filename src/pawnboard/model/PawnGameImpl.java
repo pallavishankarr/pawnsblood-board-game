@@ -110,12 +110,15 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
 
   @Override
   public void placeCardAt(Player player, int cardIdx, int row, int col) {
-
     gameNotStartedCheck();
 
     playerNotTurnCheck(this.turn);
 
     turnNotStartedCheck(this.turn);
+
+    if (turn != player) {
+      throw new IllegalArgumentException("It's not this players turn");
+    }
 
     if (getCellAt(row, col).hasCard()) {
       throw new IllegalArgumentException("Card already occupied.");
