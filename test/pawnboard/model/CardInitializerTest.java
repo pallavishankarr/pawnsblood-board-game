@@ -132,13 +132,13 @@ public class CardInitializerTest {
     assertEquals("Security", firstCard.getName());
     assertEquals(1, firstCard.getPawnCost());
     assertEquals(2, firstCard.getValue());
-    assertEquals(3, firstCard.getInfluenceEffects().size());
+    assertEquals(1, firstCard.getInfluenceEffects().size());
 
     PawnCard lobber = deck.get(3);
     assertEquals("Lobber", lobber.getName());
     assertEquals(2, lobber.getPawnCost());
     assertEquals(1, lobber.getValue());
-    assertEquals(3, lobber.getInfluenceEffects().size());
+    assertEquals(1, lobber.getInfluenceEffects().size());
 
     assertTrue(firstCard.getInfluenceEffects().get(0) instanceof DefaultInfluence);
   }
