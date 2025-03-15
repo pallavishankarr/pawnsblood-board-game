@@ -9,6 +9,7 @@ import pawnboard.influences.InfluenceEffect;
  * Represents the logic of the 2 player Pawn Board game.
  * Maintains the game state including the rectangular board, player decks, turns, and
  * move validation.
+ * Note: 0-index based
  */
 public class PawnGameImpl implements PawnsGame<PawnCell> {
 
