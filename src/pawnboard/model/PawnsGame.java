@@ -1,7 +1,5 @@
 package pawnboard.model;
 
-import java.util.List;
-
 /**
  * The PawnsGame interface defines the structure and rules for a playable game.
  * It includes methods for initializing the board, starting the game,
