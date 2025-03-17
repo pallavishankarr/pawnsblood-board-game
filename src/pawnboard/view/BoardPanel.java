@@ -19,24 +19,24 @@ public class BoardPanel extends JPanel {
     rows = model.getWidth();
     cols = model.getHeight();
   }
-
-  // logical to physical
-  private AffineTransform transformLogicalToPhysical() {
-    AffineTransform xform = new AffineTransform();
-    Dimension logicalSize = new Dimension(30,30);
-    xform.scale(getWidth() / logicalSize.getWidth(), getHeight() / logicalSize.getHeight());
-    return xform;
-  }
-
-  // physical to logical
-  private AffineTransform transformPhysicalToLogical() {
-    AffineTransform xform = transformLogicalToPhysical();
-    try {
-      return xform.createInverse();
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
-  }
+//
+//  // logical to physical
+//  private AffineTransform transformLogicalToPhysical() {
+//    AffineTransform xform = new AffineTransform();
+//    double scaleX = getWidth() / logicalSize
+//    xform.scale(getWidth() / logicalSize.getWidth(), getHeight() / logicalSize.getHeight());
+//    return xform;
+//  }
+//
+//  // physical to logical
+//  private AffineTransform transformPhysicalToLogical() {
+//    AffineTransform xform = transformLogicalToPhysical();
+//    try {
+//      return xform.createInverse();
+//    } catch (Exception e) {
+//      throw new RuntimeException(e);
+//    }
+//  }
 
   // logical to model
   private AffineTransform transformLogicalToModel() {

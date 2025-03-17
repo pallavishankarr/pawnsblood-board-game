@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.io.File;
 
+import pawnboard.model.Card;
 import pawnboard.model.Cell;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
@@ -362,7 +363,7 @@ public class PawnGameTest {
     Cell cell = game.getCellAt(0, 0);
 
     //card that will be placed
-    PawnCard card = game.getHand(Player.RED).get(0);
+    Card card = game.getHand(Player.RED).get(0);
 
     //places card
     game.placeCardAt(Player.RED, 0, 0, 0);
@@ -403,7 +404,7 @@ public class PawnGameTest {
 
 
     //card that will be placed
-    PawnCard card = game.getHand(Player.BLUE).get(0);
+    Card card = game.getHand(Player.BLUE).get(0);
 
     //places card
     game.placeCardAt(Player.BLUE, 0, 0, 4);
@@ -476,9 +477,9 @@ public class PawnGameTest {
     Cell cell3 = game.getCellAt(2, 0);
 
 
-    PawnCard card = game.getHand(Player.RED).get(0);
-    PawnCard card2 = game.getHand(Player.RED).get(1);
-    PawnCard card3 = game.getHand(Player.RED).get(2);
+    Card card = game.getHand(Player.RED).get(0);
+    Card card2 = game.getHand(Player.RED).get(1);
+    Card card3 = game.getHand(Player.RED).get(2);
 
     game.startTurn(Player.RED);
     game.placeCardAt(Player.RED, 0, 0, 0);
@@ -513,7 +514,7 @@ public class PawnGameTest {
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
 
-    PawnCard card = game.getHand(Player.RED).get(0);
+    Card card = game.getHand(Player.RED).get(0);
 
     assertTrue(game.placeCardLegal(Player.RED, card, 0, 0));
     assertFalse(game.placeCardLegal(Player.BLUE,card, 0, 1));
@@ -533,9 +534,9 @@ public class PawnGameTest {
     Cell cell3 = game.getCellAt(2, 4);
 
 
-    PawnCard card = game.getHand(Player.BLUE).get(0);
-    PawnCard card2 = game.getHand(Player.BLUE).get(1);
-    PawnCard card3 = game.getHand(Player.BLUE).get(2);
+    Card card = game.getHand(Player.BLUE).get(0);
+    Card card2 = game.getHand(Player.BLUE).get(1);
+    Card card3 = game.getHand(Player.BLUE).get(2);
 
     game.startTurn(Player.RED);
     game.passTurn(Player.RED);
@@ -579,11 +580,11 @@ public class PawnGameTest {
     Cell cell5 = game.getCellAt(4, 0);
 
 
-    PawnCard card = game.getHand(Player.RED).get(0);
-    PawnCard card2 = game.getHand(Player.RED).get(1);
-    PawnCard card3 = game.getHand(Player.RED).get(2);
-    PawnCard card4 = game.getHand(Player.RED).get(3);
-    PawnCard card5 = game.getHand(Player.RED).get(4);
+    Card card = game.getHand(Player.RED).get(0);
+    Card card2 = game.getHand(Player.RED).get(1);
+    Card card3 = game.getHand(Player.RED).get(2);
+    Card card4 = game.getHand(Player.RED).get(3);
+    Card card5 = game.getHand(Player.RED).get(4);
 
 
     game.startTurn(Player.RED);
@@ -644,11 +645,11 @@ public class PawnGameTest {
     Cell cell5 = game.getCellAt(4, 6);
 
 
-    PawnCard card = game.getHand(Player.BLUE).get(0);
-    PawnCard card2 = game.getHand(Player.BLUE).get(1);
-    PawnCard card3 = game.getHand(Player.BLUE).get(2);
-    PawnCard card4 = game.getHand(Player.BLUE).get(3);
-    PawnCard card5 = game.getHand(Player.BLUE).get(4);
+    Card card = game.getHand(Player.BLUE).get(0);
+    Card card2 = game.getHand(Player.BLUE).get(1);
+    Card card3 = game.getHand(Player.BLUE).get(2);
+    Card card4 = game.getHand(Player.BLUE).get(3);
+    Card card5 = game.getHand(Player.BLUE).get(4);
 
 
     game.startTurn(Player.RED);
@@ -736,7 +737,7 @@ public class PawnGameTest {
     game.startGame(path, 5);
 
     Cell cell = game.getCellAt(0, 0);
-    PawnCard card = game.getHand(Player.RED).get(3);
+    Card card = game.getHand(Player.RED).get(3);
 
     assertNotEquals(cell.getPawnCount(), card.getPawnCost());
 
@@ -752,7 +753,7 @@ public class PawnGameTest {
     game.startGame(path, 5);
 
     Cell cell = game.getCellAt(0, 4);
-    PawnCard card = game.getHand(Player.RED).get(3);
+    Card card = game.getHand(Player.RED).get(3);
 
     assertNotEquals(cell.getPawnCount(), card.getPawnCost());
 
@@ -794,7 +795,7 @@ public class PawnGameTest {
 
 
     //card that will be placed
-    PawnCard card = game.getHand(Player.RED).get(0);
+    Card card = game.getHand(Player.RED).get(0);
 
     //places card
     game.placeCardAt(Player.RED, 0, 0, 0);
@@ -835,7 +836,7 @@ public class PawnGameTest {
 
 
     //card that will be placed
-    PawnCard card = game.getHand(Player.BLUE).get(0);
+    Card card = game.getHand(Player.BLUE).get(0);
 
     //places card
     game.placeCardAt(Player.BLUE, 0, 0, 4);
@@ -1626,7 +1627,7 @@ public class PawnGameTest {
     assertEquals(0, cell2.getPawnCount());
     assertEquals(1, cell3.getPawnCount());
 
-    PawnCard card = game.getHand(Player.RED).get(0);
+    Card card = game.getHand(Player.RED).get(0);
     game.applyCardInfluence(0, 0, Player.RED,
             card);
 
@@ -1641,7 +1642,7 @@ public class PawnGameTest {
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
 
-    PawnCard card = game.getHand(Player.BLUE).get(2);
+    Card card = game.getHand(Player.BLUE).get(2);
     char[][] mirroredGrid = {
             {'X', 'X', 'X', 'X', 'X'},
             {'X', 'X', 'I', 'X', 'X'},

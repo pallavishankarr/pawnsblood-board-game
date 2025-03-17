@@ -15,15 +15,6 @@ public class RedFrame extends JFrame implements GameWindow {
   public RedFrame(ReadonlyPawnsGame<PawnCell> model) {
     super();
     setSize(600, 800);
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
-    board = new BoardPanel(model);
-    this.add(board);
-    hand = new HandPanel(model);
-    this.add(hand);
-    redScore = new RedScorePanel(model);
-    this.add(redScore);
-    blueScore = new BlueScorePanel(model);
-    this.add(blueScore);
   }
   @Override
   public void display() {
