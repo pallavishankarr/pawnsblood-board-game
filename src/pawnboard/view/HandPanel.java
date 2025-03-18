@@ -13,18 +13,18 @@ import pawnboard.model.ReadonlyPawnsGame;
 
 public class HandPanel extends JPanel {
   private List<Card> hand;
-  private CardPanel selectedCardPanel = null; // Track the selected card panel
+  private CardPanel selectedCardPanel = null;
 
   public HandPanel(ReadonlyPawnsGame<PawnCell> model) {
     super();
     this.hand = model.getHand(Player.RED);
-    setLayout(new GridLayout(1, hand.size(), 3, 0)); // Small black gap between cards
-    setBackground(Color.BLACK); // Black background behind cards
+    setLayout(new GridLayout(1, hand.size(), 3, 0));
+    setBackground(Color.BLACK);
     displayHand();
   }
 
   public void displayHand() {
-    removeAll(); // Clear previous cards
+    removeAll();
     for (Card card : hand) {
       CardPanel cardPanel = new CardPanel(card);
       cardPanel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -33,29 +33,29 @@ public class HandPanel extends JPanel {
           handleCardClick(cardPanel);
         }
       });
-      add(cardPanel); // Add each card panel
+      add(cardPanel);
     }
     revalidate();
     repaint();
   }
 
   private void handleCardClick(CardPanel clickedCardPanel) {
-    // If the clicked card is already selected, unselect it (turn it back to blue)
+
     if (clickedCardPanel == selectedCardPanel) {
-      clickedCardPanel.toggleSelection(false); // Deselect the card
+      clickedCardPanel.toggleSelection(false);
       selectedCardPanel = null;
     } else {
-      // Deselect the currently selected card (if any)
+
       if (selectedCardPanel != null) {
-        selectedCardPanel.toggleSelection(false); // Turn it back to blue
+        selectedCardPanel.toggleSelection(false);
       }
 
-      // Select the new card
-      clickedCardPanel.toggleSelection(true); // Turn it cyan
+
+      clickedCardPanel.toggleSelection(true);
       selectedCardPanel = clickedCardPanel;
     }
 
-    repaint(); // Repaint the panel to reflect changes
+    repaint();
   }
 }
 
