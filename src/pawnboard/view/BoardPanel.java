@@ -244,10 +244,15 @@ public class BoardPanel extends JPanel implements HighlightPanelView {
     int clickedCol = (int) (e.getX() / cellWidth);
     int clickedRow = (int) (e.getY() / cellHeight);
 
-    System.out.println("Clicked cell at: (" + clickedRow + ", " + clickedCol + ")");
 
-    highlightCell(clickedRow, clickedCol);
+    if (clickedRow == selectedRow && clickedCol == selectedCol) {
+      clearHighlight();
+    } else {
+      System.out.println("Clicked cell at: (" + clickedRow + ", " + clickedCol + ")");
+      highlightCell(clickedRow, clickedCol);  // Otherwise, highlight the clicked cell
+    }
   }
+
 
   private void highlightCell(Graphics2D g2d, int row, int col) {
     double cellWidth = logicalSize.getWidth() / cols;
@@ -257,4 +262,6 @@ public class BoardPanel extends JPanel implements HighlightPanelView {
     g2d.setColor(new Color(0, 255, 255, 128));
     g2d.fillRect((int) x, (int) y, (int) cellWidth, (int) cellHeight);
   }
+
+
 }
