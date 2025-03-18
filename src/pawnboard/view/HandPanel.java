@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import pawnboard.model.Card;
@@ -169,6 +170,29 @@ public class HandPanel extends JPanel implements HighlightPanelView {
       // Toggle the selection of the card
       handPanel.toggleSelection(cardIndex);
     }
+  }
+
+
+  public static void main(String[] args) {
+
+
+    String path = "docs" + File.separator + "deck.config";
+   PawnGameImpl model = new PawnGameImpl(3,5);
+
+   model.startGame(path, 5);
+
+    // Create a player (either RED or BLUE)
+    Player player = Player.RED;
+
+    // Create the HandPanel
+    HandPanel handPanel = new HandPanel(model, player);
+
+    // Create the frame to display the HandPanel
+    JFrame frame = new JFrame("HandPanel Test");
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setSize(1300, 300);
+    frame.add(handPanel);
+    frame.setVisible(true);
   }
 
 
