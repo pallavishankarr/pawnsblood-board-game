@@ -18,7 +18,7 @@ import pawnboard.model.ReadonlyPawnsGame;
 
 
 
-public class HandPanel extends JPanel {
+public class HandPanel extends JPanel implements HighlightPanelView {
   private final List<Card> hand;
   private final Color color;  // Color for the player
   private static final int PANEL_HEIGHT = 200;
@@ -128,6 +128,21 @@ public class HandPanel extends JPanel {
   // Getters for the selected card index
   public int getSelectedCardIndex() {
     return selectedCardIndex;
+  }
+
+  @Override
+  public void updateBoard() {
+    repaint();
+  }
+
+  @Override
+  public void highlightCell(int row, int col) {
+
+  }
+
+  @Override
+  public void clearHighlight() {
+
   }
 
 
