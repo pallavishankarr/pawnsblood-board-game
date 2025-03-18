@@ -76,7 +76,7 @@ public class HandPanel extends JPanel implements HighlightPanelView {
 
       // Draw influence grid (5x5)
       char[][] grid = card.getInfluenceGrid();
-      int cellSize = (cardWidth - 2 * CARD_BORDER_THICKNESS) / 5;
+      int cellSize = Math.min((cardWidth - 2 * CARD_BORDER_THICKNESS) / 5, (cardHeight - 70) / 5);
       int startY = 50;
 
       for (int row = 0; row < 5; row++) {
@@ -132,9 +132,6 @@ public class HandPanel extends JPanel implements HighlightPanelView {
     int x = col * (cardWidth + CARD_BORDER_THICKNESS);
     if (row >= 0 && row < handSize) {
       toggleSelection(row);
-
-      System.out.println("Card index: " + row + ", Player: "
-              + (color == Color.RED ? "RED" : "BLUE"));
     }
 
 
@@ -170,6 +167,9 @@ public class HandPanel extends JPanel implements HighlightPanelView {
       // Ensure card index doesn't go out of bounds
       if (cardIndex >= 0 && cardIndex < handPanel.hand.size()) {
         handPanel.toggleSelection(cardIndex);
+
+        System.out.println("Card index: " + cardIndex + ", Player: "
+                + (color == Color.RED ? "RED" : "BLUE"));
       }
     }
   }
@@ -190,7 +190,7 @@ public class HandPanel extends JPanel implements HighlightPanelView {
     // Create the frame to display the HandPanel
     JFrame frame = new JFrame("HandPanel Test");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(1300, 300);
+    frame.setSize(1200, 200);
     frame.add(handPanel);
     frame.setVisible(true);
   }
