@@ -44,15 +44,20 @@ public class BoardPanel extends JPanel implements HighlightPanelView {
         handleKeyPress(e);
       }
     });
+
+    setFocusable(true);
+    requestFocusInWindow();
   }
 
   private void handleKeyPress(KeyEvent e) {
     if (e.getKeyChar() == 'c' || e.getKeyChar() == 'C') {
       if (this.isHighlighted() && handPanel.isHighlighted()) {
-        System.out.println("Move confirmed: Placing card at (" + selectedRow + ", " + selectedCol + ")");
+        System.out.println("Move confirmed");
       } else {
         System.out.println("Invalid confirmation: Ensure a card and a board cell are selected.");
       }
+    } else if (e.getKeyChar() == 'p' || e.getKeyChar() == 'P') {
+      System.out.println("Pass turn.");
     }
   }
 

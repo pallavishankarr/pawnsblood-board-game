@@ -8,9 +8,12 @@ import pawnboard.model.PawnGameImpl;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
+import pawnboard.view.BlueFrame;
 import pawnboard.view.GameView;
+import pawnboard.view.GameWindow;
 import pawnboard.view.HandPanel;
 import pawnboard.view.PawnGameTextualView;
+import pawnboard.view.RedFrame;
 
 /**
  * Main method meant to run a sample game of Pawns Game.
@@ -28,27 +31,28 @@ public final class PawnsBoard {
   public static void main(String[] args) {
     String path = "docs" + File.separator + "deck.config";
     PawnGameImpl game = new PawnGameImpl(3,5);
-    GameView view = new PawnGameTextualView(game);
     game.startGame(path,5);
+    GameWindow redView = new RedFrame(game);
+    GameWindow blueView = new BlueFrame(game);
 
-    System.out.println("Initial Board:");
-    System.out.println(view);
-    placeCard(game, view, Player.RED, 0, 1,0);
-    placeCard(game, view, Player.BLUE, 0,1,4);
-    passTurn(game, view, Player.RED);
-    placeCard(game, view, Player.BLUE, 0,2,4);
-    placeCard(game, view, Player.RED, 0,0,0);
-    placeCard(game, view, Player.BLUE, 0,1,3);
-    passTurn(game, view, Player.RED);
-    placeCard(game, view, Player.BLUE, 0,0,4);
-    placeCard(game, view, Player.RED, 0,2,0);
-    placeCard(game, view, Player.BLUE, 1,0,3);
-    placeCard(game, view, Player.RED, 2,2,1);
-    placeCard(game, view, Player.BLUE, 4,0,2);
-    placeCard(game, view, Player.RED, 4,2,2);
-    placeCard(game, view, Player.BLUE, 2,1,2);
-    placeCard(game, view, Player.RED, 4,1,1);
-    System.out.println(game.getWinner());
+//    System.out.println("Initial Board:");
+//    System.out.println(view);
+//    placeCard(game, view, Player.RED, 0, 1,0);
+//    placeCard(game, view, Player.BLUE, 0,1,4);
+//    passTurn(game, view, Player.RED);
+//    placeCard(game, view, Player.BLUE, 0,2,4);
+//    placeCard(game, view, Player.RED, 0,0,0);
+//    placeCard(game, view, Player.BLUE, 0,1,3);
+//    passTurn(game, view, Player.RED);
+//    placeCard(game, view, Player.BLUE, 0,0,4);
+//    placeCard(game, view, Player.RED, 0,2,0);
+//    placeCard(game, view, Player.BLUE, 1,0,3);
+//    placeCard(game, view, Player.RED, 2,2,1);
+//    placeCard(game, view, Player.BLUE, 4,0,2);
+//    placeCard(game, view, Player.RED, 4,2,2);
+//    placeCard(game, view, Player.BLUE, 2,1,2);
+//    placeCard(game, view, Player.RED, 4,1,1);
+//    System.out.println(game.getWinner());
   }
 
   private static void placeCard(PawnGameImpl game, GameView view,
