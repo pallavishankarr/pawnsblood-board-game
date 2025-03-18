@@ -26,7 +26,7 @@ public class RedFrame extends JFrame implements GameWindow {
     this.add(board);
     hand = new HandPanel(model);
     this.add(hand);
-//    redScore = new RedScorePanel(model);
+////    redScore = new RedScorePanel(model);
 //    this.add(redScore);
 //    blueScore = new BlueScorePanel(model);
 //    this.add(blueScore);

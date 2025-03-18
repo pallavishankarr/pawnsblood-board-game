@@ -100,25 +100,21 @@ public class BoardPanel extends JPanel {
   private void drawPawn(Graphics2D g2d, int col, int row, double cellWidth, double cellHeight, Color color, int count) {
     g2d.setColor(color);
 
-    // Compute the exact center of the cell
+    // center of cell
     double centerX = (col + 0.5) * cellWidth;
     double centerY = (row + 0.5) * cellHeight;
 
-    // Base size of a pawn (adjust this factor as needed)
-    double baseSize = Math.min(cellWidth, cellHeight) * 0.1; // Slightly larger for visibility
-    double spacing = baseSize * 1.2; // Distance between pawns
+    // base size of pawn
+    double baseSize = Math.min(cellWidth, cellHeight) * 0.1;
+    double spacing = baseSize * 1.5;
 
-    // Debugging: Check if pawn drawing function is called
-    System.out.println("Drawing " + count + " pawn(s) at (" + col + ", " + row + ") - Center: (" + centerX + "," + centerY + ")");
-
-    // Set offsets based on the number of pawns
     double[][] offsets;
     switch (count) {
       case 1:
-        offsets = new double[][]{{0, 0}}; // Single pawn at center
+        offsets = new double[][]{{0, 0}};
         break;
       case 2:
-        offsets = new double[][]{{-spacing / 2, 0}, {spacing / 2, 0}}; // Side-by-side horizontally
+        offsets = new double[][]{{-spacing / 2, 0}, {spacing / 2, 0}};
         break;
       case 3:
         offsets = new double[][]{{-spacing / 2, -spacing / 2},
@@ -130,7 +126,6 @@ public class BoardPanel extends JPanel {
         return; // Should never happen since max is 3
     }
 
-    // Draw pawns in their respective positions
     for (double[] offset : offsets) {
       double pawnX = centerX + offset[0] - (baseSize / 2);
       double pawnY = centerY + offset[1] - (baseSize / 2);
@@ -145,7 +140,7 @@ public class BoardPanel extends JPanel {
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < cols; col++) {
         Cell cell = model.getCellAt(row, col);
-        if (cell.hasCard()) {  // Ensure cell has a card before drawing
+        if (cell.hasCard()) {
           Color cardColor = (cell.getOwner() == Player.RED) ? Color.PINK : Color.BLUE;
           int value = cell.getCard().getValue();
           drawCard(g2d, row, col, cardColor, value, cellWidth, cellHeight);
@@ -158,28 +153,20 @@ public class BoardPanel extends JPanel {
     double x = col * cellWidth;
     double y = row * cellHeight;
 
-    // Draw card rectangle
     g2d.setColor(color);
     g2d.fillRect((int) x, (int) y, (int) cellWidth, (int) cellHeight);
 
-    // Set text color and font
     g2d.setColor(Color.BLACK);
     g2d.setFont(new Font("Arial", Font.BOLD, (int) (cellHeight * 0.4))); // Smaller font
 
     String valueText = String.valueOf(value);
     FontMetrics metrics = g2d.getFontMetrics();
 
-    // Calculate centered text position
     int textX = (int) (x + (cellWidth - metrics.stringWidth(valueText)) / 2);
     int textY = (int) (y + (cellHeight + metrics.getAscent() - metrics.getDescent()) / 2);
 
-    // Draw the value text
     g2d.drawString(valueText, textX, textY);
   }
-
-
-
-
 
   private void drawLine(Graphics2D g2d, Point2D src, Point2D dst) {
     Point2D logicalSrc = transformModelToLogical().transform(src, null);
@@ -209,18 +196,15 @@ public class BoardPanel extends JPanel {
     double cellWidth = getWidth() / (double) cols;
     double cellHeight = getHeight() / (double) rows;
 
-    // Convert mouse position to grid coordinates
     int clickedCol = (int) (e.getX() / cellWidth);
     int clickedRow = (int) (e.getY() / cellHeight);
 
-    // Update selected cell
     selectedRow = clickedRow;
     selectedCol = clickedCol;
 
-    // Print the logical coordinates (not mouse coordinates)
     System.out.println("Cell clicked: (" + selectedRow + ", " + selectedCol + ")");
 
-    repaint(); // Refresh the board to show the selection
+    repaint();
   }
 
   private void highlightCell(Graphics2D g2d, int row, int col) {
