@@ -25,8 +25,8 @@ public abstract class GameFrame extends JFrame implements GameWindow {
     setLayout(new BorderLayout());
 
     redScore = new ScorePanel(model, Player.RED);
-    board = new BoardPanel(model);
     hand = new HandPanel(model, player); // Pass the respective player
+    board = new BoardPanel(model,hand);
     blueScore = new ScorePanel(model, Player.BLUE);
 
     this.add(redScore, BorderLayout.WEST);
