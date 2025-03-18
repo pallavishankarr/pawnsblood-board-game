@@ -168,7 +168,7 @@ public class HandPanel extends JPanel implements HighlightPanelView {
         handPanel.toggleSelection(cardIndex);
 
         System.out.println("Card index: " + cardIndex + ", Player: "
-                + (color == Color.RED ? "RED" : "BLUE"));
+                + (color == Color.PINK ? "RED" : "BLUE"));
       }
     }
   }
