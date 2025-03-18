@@ -125,12 +125,26 @@ public class HandPanel extends JPanel implements HighlightPanelView {
 
   @Override
   public void highlightCell(int row, int col) {
-    // Implement any specific highlight logic if needed
+    int handSize = hand.size();
+    int panelWidth = getWidth();
+    int cardWidth = panelWidth / handSize - CARD_BORDER_THICKNESS;
+
+    int x = col * (cardWidth + CARD_BORDER_THICKNESS);
+    if (row >= 0 && row < handSize) {
+      toggleSelection(row);
+
+      System.out.println("Card index: " + row + ", Player: "
+              + (color == Color.RED ? "RED" : "BLUE"));
+    }
+
+
   }
 
   @Override
   public void clearHighlight() {
-    // Implement any specific highlight clearing logic if needed
+    selectedCardIndex = -1;
+    repaint();
+
   }
 
   @Override
@@ -149,7 +163,7 @@ public class HandPanel extends JPanel implements HighlightPanelView {
     public void mouseClicked(MouseEvent e) {
       int x = e.getX();
 
-      // Calculate the width of the cards based on the panel size
+
       int cardWidth = handPanel.getWidth() / handPanel.hand.size() - CARD_BORDER_THICKNESS;
       int cardIndex = x / (cardWidth + CARD_BORDER_THICKNESS);
 
