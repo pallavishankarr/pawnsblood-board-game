@@ -57,12 +57,11 @@ public class HandPanel extends JPanel implements HighlightPanelView {
       Card card = hand.get(i);
       int xPosition = i * (cardWidth + CARD_BORDER_THICKNESS);
 
-      // Draw card background
       g.setColor(Color.BLACK);
       g.fillRect(xPosition, 0, cardWidth, cardHeight);
 
       if (i == selectedCardIndex) {
-        g.setColor(Color.CYAN); // Highlight selected card in cyan
+        g.setColor(Color.CYAN);
       } else {
         g.setColor(color); // Use player color for non-selected cards
       }
@@ -77,7 +76,7 @@ public class HandPanel extends JPanel implements HighlightPanelView {
       // Draw influence grid (5x5)
       char[][] grid = card.getInfluenceGrid();
       int cellSize = Math.min((cardWidth - 2 * CARD_BORDER_THICKNESS) / 5, (cardHeight - 70) / 5);
-      int startY = 50;
+      int startY = 70;
 
       for (int row = 0; row < 5; row++) {
         for (int col = 0; col < 5; col++) {
@@ -178,6 +177,7 @@ public class HandPanel extends JPanel implements HighlightPanelView {
     String path = "docs" + File.separator + "deck.config";
     PawnGameImpl model = new PawnGameImpl(3, 5);
     model.startGame(path, 5);
+
 
     model.drawCard(Player.RED);
 
