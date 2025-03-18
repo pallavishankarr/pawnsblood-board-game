@@ -144,6 +144,11 @@ public class HandPanel extends JPanel implements HighlightPanelView {
 
   }
 
+  @Override
+  public boolean isHighlighted() {
+    return (selectedCardIndex != -1);
+  }
+
 
   public class HandPanelMouseListener extends MouseAdapter {
     private final HandPanel handPanel;

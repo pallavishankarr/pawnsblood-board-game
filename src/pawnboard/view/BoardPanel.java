@@ -21,10 +21,12 @@ public class BoardPanel extends JPanel implements HighlightPanelView {
   private final Dimension logicalSize = new Dimension(800, 600);
   private int selectedRow = -1;
   private int selectedCol = -1;
+  private final HandPanel handPanel;
 
-  public BoardPanel(ReadonlyPawnsGame<PawnCell> model) {
+  public BoardPanel(ReadonlyPawnsGame<PawnCell> model, HandPanel handPanel) {
     super();
     this.model = model;
+    this.handPanel = handPanel;
     rows = model.getHeight();
     cols = model.getWidth();
 
@@ -46,7 +48,7 @@ public class BoardPanel extends JPanel implements HighlightPanelView {
 
   private void handleKeyPress(KeyEvent e) {
     if (e.getKeyChar() == 'c' || e.getKeyChar() == 'C') {
-      if (selectedRow != -1 && selectedCol != -1 && cardSelected) {
+      if (this.isHighlighted() && handPanel.isHighlighted()) {
         System.out.println("Move confirmed: Placing card at (" + selectedRow + ", " + selectedCol + ")");
       } else {
         System.out.println("Invalid confirmation: Ensure a card and a board cell are selected.");
@@ -71,6 +73,11 @@ public class BoardPanel extends JPanel implements HighlightPanelView {
     this.selectedRow = -1;
     this.selectedCol = -1;
     updateBoard();
+  }
+
+  @Override
+  public boolean isHighlighted() {
+    return (selectedRow != -1 && selectedCol != -1);
   }
 
   @Override
