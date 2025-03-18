@@ -19,9 +19,9 @@ public class HandPanel extends JPanel {
   private Color color;
 
 
-  public HandPanel(ReadonlyPawnsGame<PawnCell> model) {
+  public HandPanel(ReadonlyPawnsGame<PawnCell> model, Player player) {
     super();
-    if(model.getCurrentPlayer().equals(Player.RED)) {
+    if(player.equals(Player.RED)) {
       this.hand = model.getHand(Player.RED);
       this.color = Color.RED;
     }
@@ -81,11 +81,18 @@ public class HandPanel extends JPanel {
     System.out.print(game.getCurrentPlayer());
 
     game.drawCard(Player.RED);
+    game.passTurn(Player.RED);
+    game.startTurn(Player.BLUE);
+    game.drawCard(Player.BLUE);
+    game.passTurn(Player.BLUE);
+
+    game.startTurn(Player.RED);
+    game.drawCard(Player.RED);
 
     System.out.print(game.getCurrentPlayer());
 
 
-    HandPanel handPanel = new HandPanel(game);
+    HandPanel handPanel = new HandPanel(game, Player.RED);
 
 
     JFrame frame = new JFrame("Hand Panel");
