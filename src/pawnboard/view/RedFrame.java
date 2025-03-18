@@ -14,8 +14,8 @@ public class RedFrame extends JFrame implements GameWindow {
 
   private BoardPanel board;
   private HandPanel hand;
-  private RedScorePanel redScore;
-  private BlueScorePanel blueScore;
+  private ScorePanel redScore;
+  private ScorePanel blueScore;
 
   public RedFrame(ReadonlyPawnsGame<PawnCell> model) {
     super();
@@ -23,14 +23,13 @@ public class RedFrame extends JFrame implements GameWindow {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setLayout(new BorderLayout());
 
-    redScore = new RedScorePanel(model);
+    redScore = new ScorePanel(model, Player.RED);
     this.add(redScore);
     board = new BoardPanel(model);
     this.add(board);
     hand = new HandPanel(model);
     this.add(hand);
-
-    blueScore = new BlueScorePanel(model);
+    blueScore = new ScorePanel(model, Player.BLUE);
     this.add(blueScore);
 
     this.add(redScore, BorderLayout.WEST);  // Left side

@@ -1,21 +1,21 @@
 package pawnboard.view;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.util.List;
-
-import javax.swing.*;
 
 import pawnboard.model.PawnCell;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 
-public class RedScorePanel extends JPanel {
-  private final ReadonlyPawnsGame<PawnCell> model;
+public class ScorePanel extends JPanel {
+  protected final ReadonlyPawnsGame<PawnCell> model;
+  private final Player player;
   private final Dimension logicalSize = new Dimension(100, 600); // Logical reference for scaling
 
-  public RedScorePanel(ReadonlyPawnsGame<PawnCell> model) {
+  public ScorePanel(ReadonlyPawnsGame<PawnCell> model, Player player) {
     this.model = model;
+    this.player = player;
     setPreferredSize(new Dimension(100, 600)); // Ensures correct width
   }
 
@@ -24,7 +24,6 @@ public class RedScorePanel extends JPanel {
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g.create();
 
-    // Apply logical -> physical scaling only if valid
     if (getWidth() > 0 && getHeight() > 0) {
       g2d.transform(transformLogicalToPhysical());
     }
@@ -41,14 +40,13 @@ public class RedScorePanel extends JPanel {
     double rowHeight = logicalSize.getHeight() / rows;
 
     for (int row = 0; row < rows; row++) {
-      int score = model.checkScoreRow(Player.RED, row); // Get Red player's row score
+      int score = model.checkScoreRow(player, row);
 
-      // Center text in the row
       double textX = logicalSize.getWidth() / 2;
       double textY = (row + 0.5) * rowHeight;
 
       g2d.setColor(Color.BLACK);
-      g2d.setFont(new Font("SansSerif", Font.BOLD, 16)); // Adjust font size for visibility
+      g2d.setFont(new Font("SansSerif", Font.BOLD, 16));
       drawCenteredString(g2d, String.valueOf(score), textX, textY);
     }
   }
@@ -69,3 +67,4 @@ public class RedScorePanel extends JPanel {
     return xform;
   }
 }
+
