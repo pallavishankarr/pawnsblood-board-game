@@ -22,7 +22,12 @@ public class RedFrame extends GameFrame {
     String biggerPath = "docs" + File.separator + "biggerDeck";
     PawnGameImpl model = new PawnGameImpl(5, 7);
     model.startGame(biggerPath, 5);
+    model.startTurn(Player.RED);
     model.placeCardAt(Player.RED, 0, 0, 0);
+    model.startTurn(Player.BLUE);
+    model.passTurn(Player.BLUE);
+    model.startTurn(Player.RED);
+    model.passTurn(Player.RED);
     new RedFrame(model);
   }
 }
