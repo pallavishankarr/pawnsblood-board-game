@@ -12,9 +12,11 @@ public class CardPanel extends JPanel {
   private static final int TEXT_HEIGHT = 50;
   private static final int BORDER_THICKNESS = 3;
   private boolean selected = false;
+  private Color color;
 
-  public CardPanel(Card card) {
+  public CardPanel(Card card, Color color) {
     this.card = card;
+    this.color = color;
 
 
     setPreferredSize(new Dimension(
@@ -28,7 +30,7 @@ public class CardPanel extends JPanel {
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
 
-  
+
     g.setColor(Color.BLACK);
     g.fillRect(0, 0, getWidth(), getHeight());
 
@@ -36,7 +38,7 @@ public class CardPanel extends JPanel {
     if (selected) {
       g.setColor(Color.CYAN);
     } else {
-      g.setColor(Color.BLUE);
+      g.setColor(color);
     }
 
     // Draw card background (Blue or Cyan depending on selection)
