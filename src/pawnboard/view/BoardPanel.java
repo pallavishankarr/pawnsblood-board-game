@@ -80,13 +80,9 @@ public class BoardPanel extends JPanel {
         Cell cell = model.getCellAt(row, col);
         int pawnCount = cell.getPawnCount();
 
-        // Debugging: Check if pawn count is retrieved correctly
-        System.out.println("Cell (" + row + "," + col + ") has " + pawnCount + " pawn(s)");
-
         if (pawnCount > 0) {
           Player owner = cell.getOwner();
           if (owner == null) {
-            System.out.println("Warning: Cell (" + row + "," + col + ") has pawns but no owner!");
             continue; // Skip drawing if owner is not assigned
           }
 
@@ -122,7 +118,6 @@ public class BoardPanel extends JPanel {
                 {0, spacing / 2}}; // Triangle formation
         break;
       default:
-        System.out.println("Error: Unexpected pawn count (" + count + ")");
         return; // Should never happen since max is 3
     }
 
@@ -201,9 +196,7 @@ public class BoardPanel extends JPanel {
 
     selectedRow = clickedRow;
     selectedCol = clickedCol;
-
-    System.out.println("Cell clicked: (" + selectedRow + ", " + selectedCol + ")");
-
+    
     repaint();
   }
 

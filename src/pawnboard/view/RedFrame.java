@@ -1,14 +1,13 @@
 package pawnboard.view;
 
-<<<<<<< Updated upstream
-=======
 import java.awt.*;
 import java.io.File;
 
->>>>>>> Stashed changes
 import javax.swing.*;
 
 import pawnboard.model.PawnCell;
+import pawnboard.model.PawnGameImpl;
+import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 
 public class RedFrame extends JFrame implements GameWindow {
@@ -22,24 +21,14 @@ public class RedFrame extends JFrame implements GameWindow {
     super();
     setSize(1200, 600);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-<<<<<<< Updated upstream
-    board = new BoardPanel(model);
-    this.add(board);
-    hand = new HandPanel(model);
-    this.add(hand);
-    redScore = new RedScorePanel(model);
-    //this.add(redScore);
-    blueScore = new BlueScorePanel(model);
-    //this.add(blueScore);
-=======
     setLayout(new BorderLayout());
 
     redScore = new RedScorePanel(model);
     this.add(redScore);
     board = new BoardPanel(model);
     this.add(board);
-//    hand = new HandPanel(model);
-//    this.add(hand);
+    hand = new HandPanel(model);
+    this.add(hand);
 
     blueScore = new BlueScorePanel(model);
     this.add(blueScore);
@@ -47,7 +36,7 @@ public class RedFrame extends JFrame implements GameWindow {
     this.add(redScore, BorderLayout.WEST);  // Left side
     this.add(board, BorderLayout.CENTER);
     this.add(blueScore, BorderLayout.EAST);
->>>>>>> Stashed changes
+    this.add(hand, BorderLayout.SOUTH);
     setVisible(true);
   }
   @Override
@@ -58,5 +47,16 @@ public class RedFrame extends JFrame implements GameWindow {
   @Override
   public void updateView() {
     repaint();
+  }
+
+  // Test Main Method to Launch Frame
+  public static void main(String[] args) {
+    String path = "docs" + File.separator + "deck.config";
+    String biggerPath = "docs" + File.separator + "biggerDeck";
+    // Create a mock ReadonlyPawnsGame instance
+    PawnGameImpl model = new PawnGameImpl(5,7);
+    model.startGame(biggerPath, 5);
+    model.placeCardAt(Player.RED, 0, 0,0);
+    new RedFrame(model);
   }
 }
