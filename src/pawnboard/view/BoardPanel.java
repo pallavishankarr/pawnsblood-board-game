@@ -12,7 +12,7 @@ import pawnboard.model.PawnCell;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 
-public class BoardPanel extends JPanel {
+public class BoardPanel extends JPanel implements HighlightPanelView {
   private final int rows;
   private final int cols;
   private final ReadonlyPawnsGame<PawnCell> model;
@@ -33,6 +33,25 @@ public class BoardPanel extends JPanel {
         handleCellClick(e);
       }
     });
+  }
+
+  @Override
+  public void updateBoard() {
+    repaint();
+  }
+
+  @Override
+  public void highlightCell(int row, int col) {
+    this.selectedRow = row;
+    this.selectedCol = col;
+    updateBoard();
+  }
+
+  @Override
+  public void clearHighlight() {
+    this.selectedRow = -1;
+    this.selectedCol = -1;
+    updateBoard();
   }
 
   @Override
@@ -194,21 +213,15 @@ public class BoardPanel extends JPanel {
     int clickedCol = (int) (e.getX() / cellWidth);
     int clickedRow = (int) (e.getY() / cellHeight);
 
-    selectedRow = clickedRow;
-    selectedCol = clickedCol;
-    
-    repaint();
+    highlightCell(clickedRow, clickedCol);
   }
 
   private void highlightCell(Graphics2D g2d, int row, int col) {
     double cellWidth = logicalSize.getWidth() / cols;
     double cellHeight = logicalSize.getHeight() / rows;
-
     double x = col * cellWidth;
     double y = row * cellHeight;
-
-    g2d.setColor(new Color(0, 255, 255, 128)); // Cyan with transparency
+    g2d.setColor(new Color(0, 255, 255, 128));
     g2d.fillRect((int) x, (int) y, (int) cellWidth, (int) cellHeight);
   }
-
 }
