@@ -2,9 +2,14 @@ package pawnboard;
 
 import java.io.File;
 
+import javax.swing.*;
+
 import pawnboard.model.PawnGameImpl;
+import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
+import pawnboard.model.ReadonlyPawnsGame;
 import pawnboard.view.GameView;
+import pawnboard.view.HandPanel;
 import pawnboard.view.PawnGameTextualView;
 
 /**
