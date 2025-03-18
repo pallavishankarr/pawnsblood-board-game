@@ -1,6 +1,8 @@
 package pawnboard.view;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.*;
@@ -33,6 +35,23 @@ public class BoardPanel extends JPanel implements HighlightPanelView {
         handleCellClick(e);
       }
     });
+    
+    addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        handleKeyPress(e);
+      }
+    });
+  }
+
+  private void handleKeyPress(KeyEvent e) {
+    if (e.getKeyChar() == 'c' || e.getKeyChar() == 'C') {
+      if (selectedRow != -1 && selectedCol != -1 && cardSelected) {
+        System.out.println("Move confirmed: Placing card at (" + selectedRow + ", " + selectedCol + ")");
+      } else {
+        System.out.println("Invalid confirmation: Ensure a card and a board cell are selected.");
+      }
+    }
   }
 
   @Override
@@ -212,6 +231,8 @@ public class BoardPanel extends JPanel implements HighlightPanelView {
 
     int clickedCol = (int) (e.getX() / cellWidth);
     int clickedRow = (int) (e.getY() / cellHeight);
+
+    System.out.println("Clicked cell at: (" + clickedRow + ", " + clickedCol + ")");
 
     highlightCell(clickedRow, clickedCol);
   }
