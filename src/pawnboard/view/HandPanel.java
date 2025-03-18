@@ -28,7 +28,7 @@ public class HandPanel extends JPanel implements HighlightPanelView {
 
     if (player.equals(Player.RED)) {
       this.hand = model.getHand(Player.RED);
-      this.color = Color.RED;
+      this.color = Color.PINK;
     } else {
       this.hand = model.getHand(Player.BLUE);
       this.color = Color.BLUE;
