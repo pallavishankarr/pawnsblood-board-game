@@ -7,36 +7,36 @@ import pawnboard.model.Card;
 
 public class CardPanel extends JPanel {
   private final Card card;
-  private static final int CELL_SIZE = 30; // Each cell size
-  private static final int GRID_SIZE = 5; // 5x5 influence grid
-  private static final int TEXT_HEIGHT = 50; // Space for text at the top
-  private static final int BORDER_THICKNESS = 3; // Black border thickness
-  private boolean selected = false;  // Track if the card is selected
+  private static final int CELL_SIZE = 30;
+  private static final int GRID_SIZE = 5;
+  private static final int TEXT_HEIGHT = 50;
+  private static final int BORDER_THICKNESS = 3;
+  private boolean selected = false;
 
   public CardPanel(Card card) {
     this.card = card;
 
-    // Set the preferred size of the panel
+
     setPreferredSize(new Dimension(
             GRID_SIZE * CELL_SIZE + 2 * BORDER_THICKNESS,
             GRID_SIZE * CELL_SIZE + TEXT_HEIGHT + 2 * BORDER_THICKNESS));
 
-    setBackground(Color.BLACK); // Black border around card
+    setBackground(Color.BLACK);
   }
 
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
 
-    // Draw black border around entire card
+  
     g.setColor(Color.BLACK);
     g.fillRect(0, 0, getWidth(), getHeight());
 
-    // If the card is selected, set the background color to cyan
+
     if (selected) {
-      g.setColor(Color.CYAN);  // Highlight with cyan when selected
+      g.setColor(Color.CYAN);
     } else {
-      g.setColor(Color.BLUE);  // Default color when not selected
+      g.setColor(Color.BLUE);
     }
 
     // Draw card background (Blue or Cyan depending on selection)
@@ -81,10 +81,10 @@ public class CardPanel extends JPanel {
     }
   }
 
-  // Method to toggle the selection state of the card
+
   public void toggleSelection(boolean isSelected) {
     this.selected = isSelected;
-    repaint(); // Repaint the card to reflect the new selection state
+    repaint();
   }
 }
 
