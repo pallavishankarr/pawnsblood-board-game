@@ -20,12 +20,10 @@ import pawnboard.model.ReadonlyPawnsGame;
 
 public class HandPanel extends JPanel implements HighlightPanelView {
   private final List<Card> hand;
-  private final Color color;  // Color for the player
-  private static final int PANEL_HEIGHT = 200;
-  private static final int PANEL_WIDTH = 1200;
-  private static final int TEXT_HEIGHT = 50;  // If needed, this can be adjusted or removed
-  private static final int CARD_BORDER_THICKNESS = 3;  // Border thickness between cards
-  private int selectedCardIndex = -1;  // Index of the selected card (-1 means no card selected)
+  private final Color color;
+  private final Dimension logicalSize = new Dimension(1200, 200);
+  private static final int CARD_BORDER_THICKNESS = 3;
+  private int selectedCardIndex = -1;
 
   public HandPanel(ReadonlyPawnsGame<PawnCell> model, Player player) {
     super();
@@ -38,7 +36,7 @@ public class HandPanel extends JPanel implements HighlightPanelView {
       this.color = Color.BLUE;
     }
 
-    setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+    setPreferredSize(new Dimension((int)logicalSize.getWidth(), (int)logicalSize.getHeight()));
     setBackground(Color.BLACK);
 
     // Add MouseListener to this HandPanel instance
@@ -51,40 +49,38 @@ public class HandPanel extends JPanel implements HighlightPanelView {
     super.paintComponent(g);
 
     int handSize = hand.size();
-    if (handSize == 0) return;
 
-    // Calculate card width to fill the entire width of the panel
-    int cardWidth = (PANEL_WIDTH - (handSize - 1) * CARD_BORDER_THICKNESS) / handSize;
-    int cardHeight = PANEL_HEIGHT; // Full height of the panel
 
-    // Draw each card with calculated width and height
+    int cardWidth = (int)logicalSize.getWidth() / handSize;
+    int cardHeight = (int)logicalSize.getHeight();
+
+
     for (int i = 0; i < handSize; i++) {
       Card card = hand.get(i);
-      int xPosition = i * (cardWidth + CARD_BORDER_THICKNESS);  // Position of the card along the x-axis
+      int xPosition = i * (cardWidth + CARD_BORDER_THICKNESS);
 
-      // Draw the card border (to separate cards visually)
+
       g.setColor(Color.BLACK);
-      g.fillRect(xPosition, 0, cardWidth, cardHeight);  // Border around each card
+      g.fillRect(xPosition, 0, cardWidth, cardHeight);
 
-      // Determine the color for the card: cyan if selected, otherwise the player's color
       if (i == selectedCardIndex) {
-        g.setColor(Color.CYAN);  // Highlight selected cards with cyan
+        g.setColor(Color.CYAN);
       } else {
-        g.setColor(color);  // Use the player's color for unselected cards
+        g.setColor(color);
       }
       g.fillRect(xPosition + CARD_BORDER_THICKNESS, 0, cardWidth - CARD_BORDER_THICKNESS, cardHeight);  // Card background
 
-      // Draw card text (Name, Cost, and Value) at the top
-      g.setColor(Color.WHITE);  // Text color
+
+      g.setColor(Color.WHITE);
       g.drawString(card.getName(), xPosition + CARD_BORDER_THICKNESS + 5, 20);
       g.drawString("Cost: " + card.getPawnCost(), xPosition + CARD_BORDER_THICKNESS + 5, 35);
       g.drawString("Value: " + card.getValue(), xPosition + CARD_BORDER_THICKNESS + 5, 50);
 
       // Get influence grid (5x5)
       char[][] grid = card.getInfluenceGrid();
-      int cellSize = (cardWidth - 2 * CARD_BORDER_THICKNESS) / 6; // Adjust cell size for grid
+      int cellSize = (cardWidth - 2 * CARD_BORDER_THICKNESS) / 6;
 
-      int startY = 50; // Start drawing grid below text area
+      int startY = 50;
 
       // Draw influence grid inside card
       for (int row = 0; row < 5; row++) {
@@ -159,7 +155,7 @@ public class HandPanel extends JPanel implements HighlightPanelView {
       int x = e.getX();
 
 
-      int cardWidth = (PANEL_WIDTH - (handPanel.hand.size() - 1) * CARD_BORDER_THICKNESS) / handPanel.hand.size();
+      int cardWidth = ((int)logicalSize.getWidth()- (handPanel.hand.size() - 1) * CARD_BORDER_THICKNESS) / handPanel.hand.size();
       int cardIndex = x / (cardWidth + CARD_BORDER_THICKNESS);
 
       // Toggle the selection of the card
@@ -175,6 +171,7 @@ public class HandPanel extends JPanel implements HighlightPanelView {
    PawnGameImpl model = new PawnGameImpl(3,5);
 
    model.startGame(path, 5);
+
 
     // Create a player (either RED or BLUE)
     Player player = Player.RED;

@@ -44,13 +44,13 @@ public class BoardPanel extends JPanel implements HighlightPanelView {
     });
   }
 
-  private void handleKeyPress(KeyEvent e) {
+ private void handleKeyPress(KeyEvent e) {
     if (e.getKeyChar() == 'c' || e.getKeyChar() == 'C') {
-      if (selectedRow != -1 && selectedCol != -1 && cardSelected) {
-        System.out.println("Move confirmed: Placing card at (" + selectedRow + ", " + selectedCol + ")");
+     if (selectedRow != -1 && selectedCol != -1 && cardSelected) {
+       System.out.println("Move confirmed: Placing card at (" + selectedRow + ", " + selectedCol + ")");
       } else {
-        System.out.println("Invalid confirmation: Ensure a card and a board cell are selected.");
-      }
+       System.out.println("Invalid confirmation: Ensure a card and a board cell are selected.");
+     }
     }
   }
 
