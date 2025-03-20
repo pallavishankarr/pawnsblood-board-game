@@ -33,7 +33,7 @@ public interface Card {
    * Returns the influence grid which shows what cells state changes.
    * @return a 2D array representing the influence pattern of the grid
    */
-  char[][] getInfluenceGrid();
+  InfluenceType[][] getInfluenceGrid();
 
   /**
    * Returns a list of influence effects that the card has.

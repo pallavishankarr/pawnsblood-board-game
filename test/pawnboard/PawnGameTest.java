@@ -8,6 +8,7 @@ import java.util.List;
 
 import pawnboard.model.Card;
 import pawnboard.model.Cell;
+import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnGameImpl;
@@ -1658,12 +1659,12 @@ public class PawnGameTest {
     game.startGame(path, 5);
 
     Card card = game.getHand(Player.BLUE).get(2);
-    char[][] mirroredGrid = {
-            {'X', 'X', 'X', 'X', 'X'},
-            {'X', 'X', 'I', 'X', 'X'},
-            {'I', 'I', 'C', 'X', 'X'},
-            {'X', 'X', 'X', 'X', 'X'},
-            {'X', 'X', 'X', 'X', 'X'}
+    InfluenceType[][] mirroredGrid = {
+            {InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.I, InfluenceType.I, InfluenceType.C, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X},
     };
 
     assertEquals(card.getInfluenceGrid(), mirroredGrid);
@@ -1847,12 +1848,12 @@ public class PawnGameTest {
   //testing the strategy
   @Test
   public void testMove() {
-    char[][] influenceGrid = new char[][]{
-            {'X', 'X', 'I', 'X', 'X'},
-            {'X', 'I', 'I', 'I', 'X'},
-            {'I', 'I', 'C', 'I', 'I'},
-            {'X', 'I', 'I', 'I', 'X'},
-            {'X', 'X', 'I', 'X', 'X'}
+    InfluenceType[][] influenceGrid = new InfluenceType[][]{
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I, InfluenceType.X},
+            {InfluenceType.I, InfluenceType.I, InfluenceType.C, InfluenceType.I, InfluenceType.I},
+            {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X},
     };
     Card card = new PawnCard("TestCard", 2, 5, influenceGrid);
     Move move = new Move(card, 0, 3);

@@ -65,3 +65,7 @@ when the game is started
 - displays pawn with integers and card placements with an R for red or B for blue
 - helps with visualizing card influencing and the current state of the board
 
+
+Updates Made in Homework 6 
+- Changed the String[][] 2D Grid to creating a enum InfluenceType and create a 
+InfluenceType 2D grid for the influence grid 

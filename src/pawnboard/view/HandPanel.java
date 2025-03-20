@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pawnboard.model.Card;
+import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnGameImpl;
 import pawnboard.model.Player;
@@ -74,7 +75,7 @@ public class HandPanel extends JPanel implements HighlightPanelView {
       g.drawString("Value: " + card.getValue(), xPosition + CARD_BORDER_THICKNESS + 5, 50);
 
       // Draw influence grid (5x5)
-      char[][] grid = card.getInfluenceGrid();
+      InfluenceType[][] grid = card.getInfluenceGrid();
       int cellSize = Math.min((cardWidth - 2 * CARD_BORDER_THICKNESS) / 5, (cardHeight - 70) / 5);
       int startY = 70;
 
@@ -88,10 +89,10 @@ public class HandPanel extends JPanel implements HighlightPanelView {
           g.fillRect(x, y, cellSize, cellSize);
 
           // Highlight Influence Cells
-          if (grid[row][col] == 'I') {
+          if (grid[row][col] == InfluenceType.I) {
             g.setColor(Color.CYAN);  // Influence cells as Cyan
             g.fillRect(x, y, cellSize, cellSize);
-          } else if (grid[row][col] == 'C') {
+          } else if (grid[row][col] == InfluenceType.C) {
             g.setColor(Color.ORANGE);  // Coverage cells as Orange
             g.fillRect(x, y, cellSize, cellSize);
           }

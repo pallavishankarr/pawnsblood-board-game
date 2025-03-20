@@ -350,13 +350,13 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
       throw new IllegalArgumentException("Card cannot be null");
     }
 
-    char[][] influenceGrid = card.getInfluenceGrid();
+    InfluenceType[][] influenceGrid = card.getInfluenceGrid();
     List<InfluenceEffect> influenceEffects = card.getInfluenceEffects();
 
 
     for (int i = 0; i < 5; i++) {
       for (int j = 0; j < 5; j++) {
-        if (influenceGrid[i][j] == 'I') {
+        if (influenceGrid[i][j] == InfluenceType.I) {
           int targetRow = rowIdx + (i - 2);
           int targetCol = colIdx + (j - 2);
 
@@ -432,9 +432,9 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
     playerDeck.remove(0);
   }
 
-  private char[][] mirrorGrid(char[][] grid) {
+  private InfluenceType[][] mirrorGrid(InfluenceType[][] grid) {
     int size = grid.length;
-    char[][] mirrored = new char[size][size];
+    InfluenceType[][] mirrored = new InfluenceType[size][size];
 
     for (int i = 0; i < size; i++) {
       for (int j = 0; j < size; j++) {
@@ -448,7 +448,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
   private List<PawnCard> mirrorDeck(List<PawnCard> deck) {
     List<PawnCard> mirroredDeck = new ArrayList<>();
     for (PawnCard card : deck) {
-      char[][] mirroredGrid = mirrorGrid(card.getInfluenceGrid());
+      InfluenceType[][] mirroredGrid = mirrorGrid(card.getInfluenceGrid());
       mirroredDeck.add(new PawnCard(card.getName(),
               card.getPawnCost(), card.getValue(), mirroredGrid));
     }

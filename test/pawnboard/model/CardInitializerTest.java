@@ -47,12 +47,12 @@ public class CardInitializerTest {
     assertEquals(2, card.getValue());
 
     // Expected influence grid
-    char[][] expectedGrid = {
-            {'X', 'X', 'X', 'X', 'X'},
-            {'X', 'X', 'I', 'X', 'X'},
-            {'X', 'I', 'C', 'I', 'X'},
-            {'X', 'X', 'I', 'X', 'X'},
-            {'X', 'X', 'X', 'X', 'X'}
+    InfluenceType[][] expectedGrid = {
+            {InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.I, InfluenceType.C, InfluenceType.I, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X}
     };
 
     assertArrayEquals(expectedGrid, card.getInfluenceGrid());
@@ -93,12 +93,12 @@ public class CardInitializerTest {
     assertEquals(1, card1.getPawnCost());
     assertEquals(2, card1.getValue());
 
-    char[][] expectedGrid1 = {
-            {'X', 'X', 'X', 'X', 'X'},
-            {'X', 'X', 'I', 'X', 'X'},
-            {'X', 'I', 'C', 'I', 'X'},
-            {'X', 'X', 'I', 'X', 'X'},
-            {'X', 'X', 'X', 'X', 'X'}
+    InfluenceType[][] expectedGrid1 = {
+            {InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.I, InfluenceType.C, InfluenceType.I, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X}
     };
     assertArrayEquals(expectedGrid1, card1.getInfluenceGrid());
 
@@ -108,12 +108,12 @@ public class CardInitializerTest {
     assertEquals(1, card2.getPawnCost());
     assertEquals(1, card2.getValue());
 
-    char[][] expectedGrid2 = {
-            {'X', 'X', 'I', 'X', 'X'},
-            {'X', 'X', 'X', 'X', 'X'},
-            {'X', 'X', 'C', 'X', 'X'},
-            {'X', 'X', 'X', 'X', 'X'},
-            {'X', 'X', 'I', 'X', 'X'}
+    InfluenceType[][] expectedGrid2 = {
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.C, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X}
     };
     assertArrayEquals(expectedGrid2, card2.getInfluenceGrid());
   }

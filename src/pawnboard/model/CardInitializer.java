@@ -18,6 +18,7 @@ public class CardInitializer {
 
   /**
    * Reads a configuration file and initializes a list of PawnCards.
+   *
    * @param path the file path to the deck
    * @return a list of pawn cards created
    */
@@ -40,13 +41,16 @@ public class CardInitializer {
         int value = Integer.parseInt(parts[2]);
 
         // read the grid
-        char[][] influenceGrid = new char[5][5];
+        InfluenceType[][] influenceGrid = new InfluenceType[5][5];
         for (int i = 0; i < 5; i++) {
           line = reader.readLine();
           if (line == null || line.length() != 5) {
             throw new IOException("Invalid grid format.");
           }
-          influenceGrid[i] = line.toCharArray();
+          for (int j = 0; j < 5; j++) {
+            char symbol = line.charAt(j);
+            influenceGrid[i][j] = convertToInfluenceType(symbol);
+          }
         }
 
         if (cardCountMap.getOrDefault(name, 0) < 2) {
@@ -58,5 +62,19 @@ public class CardInitializer {
       System.err.println("Error reading deck file: " + e.getMessage());
     }
     return deck;
+  }
+
+
+  private static InfluenceType convertToInfluenceType(char symbol) {
+    switch (symbol) {
+      case 'X':
+        return InfluenceType.X;
+      case 'I':
+        return InfluenceType.I;
+      case 'C':
+        return InfluenceType.C;
+      default:
+        throw new IllegalArgumentException("Invalid InfluenceType character: " + symbol);
+    }
   }
 }

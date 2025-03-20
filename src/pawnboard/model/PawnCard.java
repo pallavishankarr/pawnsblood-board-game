@@ -17,7 +17,7 @@ public class PawnCard implements Card {
   private final String name;
   private final int cost;
   private final int value;
-  private final char[][] influenceGrid;
+  private final InfluenceType[][] influenceGrid;
   private final List<InfluenceEffect> influenceEffects;
 
   /**
@@ -30,7 +30,7 @@ public class PawnCard implements Card {
    *         if the value is not a positive integer, if the influence grid is not 5x5 and if the
    *         influence grid doesn't have a proper center
    */
-  public PawnCard(String name, int cost, int value, char[][] influenceGrid) {
+  public PawnCard(String name, int cost, int value, InfluenceType[][] influenceGrid) {
     if (cost < 1 || cost > 3) {
       throw new IllegalArgumentException("Cost must be between 1 and 3");
     }
@@ -41,14 +41,14 @@ public class PawnCard implements Card {
       throw new IllegalArgumentException("Influence Grid must have exactly 5 rows.");
     }
 
-    for (char[] row : influenceGrid) {
+    for (InfluenceType[] row : influenceGrid) {
       if (row.length != 5) {
         throw new IllegalArgumentException("Each row in the Influence Grid must " +
                 "have exactly 5 columns.");
       }
     }
 
-    if (influenceGrid[2][2] != 'C') {
+    if (influenceGrid[2][2] != InfluenceType.C) {
       throw new IllegalArgumentException("the center of the grid must contain 'C'");
     }
 
@@ -75,7 +75,7 @@ public class PawnCard implements Card {
   }
 
   @Override
-  public char[][] getInfluenceGrid() {
+  public InfluenceType[][] getInfluenceGrid() {
     return influenceGrid;
   }
 
@@ -89,7 +89,7 @@ public class PawnCard implements Card {
     if (row < 0 || row >= 5 || col < 0 || col >= 5) {
       throw new IllegalArgumentException("Invalid cell coordinates for influence grid.");
     }
-    return influenceGrid[row][col] == 'I';
+    return influenceGrid[row][col] == InfluenceType.I;
   }
 
   @Override

@@ -14,17 +14,17 @@ import static org.junit.Assert.assertTrue;
  */
 public class PawnCardTest {
 
-  private char[][] influenceGrid;
+  private InfluenceType[][] influenceGrid;
   private PawnCard card;
 
   @Before
   public void setUp() {
-    influenceGrid = new char[][] {
-            {'X', 'X', 'I', 'X', 'X'},
-            {'X', 'I', 'I', 'I', 'X'},
-            {'I', 'I', 'C', 'I', 'I'},
-            {'X', 'I', 'I', 'I', 'X'},
-            {'X', 'X', 'I', 'X', 'X'}
+    influenceGrid = new InfluenceType[][] {
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I, InfluenceType.X},
+            {InfluenceType.I, InfluenceType.I, InfluenceType.C, InfluenceType.I, InfluenceType.I},
+            {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X}
     };
     card = new PawnCard("TestCard", 2, 5, influenceGrid);
   }
@@ -45,11 +45,11 @@ public class PawnCardTest {
 
   @Test
   public void testInvalidRowsInfluenceGrid() {
-    char[][] influenceGrid = {
-            {'X', 'X', 'I', 'X', 'X'},
-            {'X', 'I', 'I', 'I', 'X'},
-            {'I', 'I', 'C', 'I', 'I'},
-            {'X', 'I', 'I', 'I', 'X'},
+    InfluenceType[][] influenceGrid = {
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I, InfluenceType.X},
+            {InfluenceType.I, InfluenceType.I, InfluenceType.C, InfluenceType.I, InfluenceType.I},
+            {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I, InfluenceType.X},
     };
     assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 3, 1,
             influenceGrid));
@@ -57,20 +57,20 @@ public class PawnCardTest {
 
   @Test
   public void testInvalidColumnsInfluenceGrid() {
-    char[][] influenceGrid = {
-            {'X', 'X', 'I', 'X'},
-            {'X', 'I', 'I', 'I'},
-            {'I', 'I', 'C', 'I'},
-            {'X', 'I', 'I', 'I'},
-            {'X', 'I', 'I', 'I'}
+    InfluenceType[][] influenceGrid = {
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X,},
+            {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I},
+            {InfluenceType.I, InfluenceType.I, InfluenceType.C, InfluenceType.I},
+            {InfluenceType.X,InfluenceType.I, InfluenceType.I, InfluenceType.I},
+            {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I}
     };
 
-    char[][] influenceGrid2 = {
-            {'X', 'X', 'I', 'X', 'X'},
-            {'X', 'I', 'I', 'I', 'X'},
-            {'I', 'C', 'I', 'I', 'I'},
-            {'X', 'I', 'I', 'I'},
-            {'X', 'X', 'I', 'X', 'X'}
+    InfluenceType[][] influenceGrid2 = {
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X,},
+            {InfluenceType.X, InfluenceType.I, InfluenceType.I,InfluenceType.I, InfluenceType.X},
+            {InfluenceType.I, InfluenceType.C,InfluenceType.I, InfluenceType.I, InfluenceType.I},
+            {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X}
     };
 
     assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 3, 1,
@@ -81,12 +81,12 @@ public class PawnCardTest {
 
   @Test
   public void testInvalidCenterInfluenceGrid() {
-    char[][] influenceGrid = {
-            {'X', 'X', 'I', 'X', 'X'},
-            {'X', 'I', 'I', 'I', 'X'},
-            {'I', 'C', 'I', 'I', 'I'},
-            {'X', 'I', 'I', 'I', 'X'},
-            {'X', 'X', 'I', 'X', 'X'}
+    InfluenceType[][] influenceGrid = {
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X,InfluenceType.X},
+            {InfluenceType.X, InfluenceType.I, InfluenceType.I,InfluenceType.I, InfluenceType.X},
+            {InfluenceType.I, InfluenceType.C,InfluenceType.I, InfluenceType.I, InfluenceType.I},
+            {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I,InfluenceType.X },
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X}
     };
 
     assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", 3, 1,
@@ -98,7 +98,8 @@ public class PawnCardTest {
     assertEquals("TestCard", card.getName());
     assertEquals(2, card.getPawnCost());
     assertEquals(5, card.getValue());
-    assertEquals(influenceGrid, card.getInfluenceGrid());
+    System.out.print(card.getInfluenceGrid().toString());
+    assertEquals(this.influenceGrid, card.getInfluenceGrid());
   }
 
   @Test
@@ -120,12 +121,12 @@ public class PawnCardTest {
 
   @Test
   public void testCardInequality() {
-    char[][] influenceGrid2 = {
-            {'X', 'X', 'I', 'X', 'X'},
-            {'I', 'I', 'I', 'I', 'X'},
-            {'I', 'I', 'C', 'I', 'I'},
-            {'X', 'I', 'I', 'I', 'X'},
-            {'X', 'X', 'I', 'X', 'X'}
+    InfluenceType[][] influenceGrid2 = {
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X,InfluenceType.X},
+            {InfluenceType.I, InfluenceType.I, InfluenceType.I, InfluenceType.I, InfluenceType.X},
+            {InfluenceType.I, InfluenceType.I, InfluenceType.C, InfluenceType.I, InfluenceType.I},
+            {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X,  InfluenceType.I, InfluenceType.X, InfluenceType.X}
     };
     PawnCard card1 = new PawnCard("TestCard", 3, 5, influenceGrid);
     PawnCard card2 = new PawnCard("TestCard", 2, 10, influenceGrid);
