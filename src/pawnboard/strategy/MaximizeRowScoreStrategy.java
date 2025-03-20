@@ -1,5 +1,6 @@
 package pawnboard.strategy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pawnboard.model.Card;
@@ -9,41 +10,45 @@ import pawnboard.model.ReadonlyPawnsGame;
 
 public class MaximizeRowScoreStrategy implements PawnBoardStrategy {
   @Override
-  public Move chooseMove(ReadonlyPawnsGame<PawnCell> model, Player player) {
+  public List<Move> chooseMove(ReadonlyPawnsGame<PawnCell> model, Player player) {
     List<Card> hand = model.getHand(player);
     Player opponent = (player == Player.RED) ? Player.BLUE : Player.RED;
+    List<Move> bestMoves = new ArrayList<Move>();
+    int bestScoreImprovement = Integer.MIN_VALUE;
 
     for (int r = 0; r < model.getHeight(); r++) {
       int playerRowScore = model.checkScoreRow(player, r);
       int opponentRowScore = model.checkScoreRow(opponent, r);
 
-      if (playerRowScore <= opponentRowScore) {
-        for (Card card : hand) {
-          for (int c = 0; c < model.getWidth(); c++) {
-            if (model.placeCardLegal(player, card, r, c)) {
-              int newScore = getHypotheticalRowScore(model, player, r, card, c);
+      for (Card card : hand) {
+        for (int c = 0; c < model.getWidth(); c++) {
+          if (model.placeCardLegal(player, card, r, c)) {
+            int newScore = getHypotheticalRowScore(model, player, card, r, c);
+            int scoreImprovement = newScore - playerRowScore;
 
-              if (newScore >= opponentRowScore) {
-                return new Move(card, r, c);
+            if (newScore > opponentRowScore) {
+              if (scoreImprovement > bestScoreImprovement) {
+                bestMoves.clear();
+                bestScoreImprovement = scoreImprovement;
+              }
+
+              if (scoreImprovement == bestScoreImprovement) {
+                bestMoves.add(new Move(card, r, c));
               }
             }
           }
         }
       }
     }
-
-    // No valid move found
-    return null;
+    return bestMoves;
   }
 
-  private int getHypotheticalRowScore(ReadonlyPawnsGame<PawnCell> model, Player player, int row, Card card, int col) {
+  private int getHypotheticalRowScore(ReadonlyPawnsGame<PawnCell> model, Player player, Card card, int row, int col) {
     if (!model.placeCardLegal(player, card, row, col)) {
       return model.checkScoreRow(player, row);
     }
-
     int currentScore = model.checkScoreRow(player, row);
     int cardValue = card.getValue();
-
     return currentScore + cardValue;
   }
 

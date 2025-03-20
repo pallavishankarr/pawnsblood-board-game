@@ -1,8 +1,10 @@
 package pawnboard.strategy;
+import java.util.List;
+
 import pawnboard.model.PawnCell;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 
 public interface PawnBoardStrategy {
-  Move chooseMove(ReadonlyPawnsGame<PawnCell> model, Player player);
+  List<Move> chooseMove(ReadonlyPawnsGame<PawnCell> model, Player player);
 }

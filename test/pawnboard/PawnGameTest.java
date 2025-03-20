@@ -1850,9 +1850,9 @@ public void testMove() {
     assertEquals(moveString, move.toString());
     assertEquals(0,move.getRow());
     assertEquals(3,move.getCol());
-
-
 }
+
+
 
 
 
