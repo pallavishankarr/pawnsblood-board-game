@@ -1,80 +1,107 @@
 package pawnboard;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import pawnboard.model.Card;
 import pawnboard.model.Cell;
-import pawnboard.model.PawnsGame;
+import pawnboard.model.PawnCell;
 import pawnboard.model.Player;
 
-public class MockPawnGame implements PawnsGame<Cell> {
-  private final List<String> log;
+public class MockPawnGame implements MockGame {
+  private final Appendable log;
+  private final int width;
+  private final int height;
+  private final boolean[][] legalMoves;
+  // Stores { RedScore, BlueScore } per row
+  private Map<Integer, int[]> fakeRowScores;
 
-  public MockPawnGame() {
-    this.log = new ArrayList<>();
+  public MockPawnGame(Appendable log) {
+    this.log = log;
+    this.width = 3; // Set board dimensions
+    this.height = 5;
+    this.legalMoves = new boolean[height][width];
+    this.fakeRowScores = new HashMap<>();
+
+    // Default: all moves are illegal unless specified
+    for (int r = 0; r < height; r++) {
+      fakeRowScores.put(r, new int[]{0, 0}); // Red = 0, Blue = 0
+      Arrays.fill(legalMoves[r], false); // All moves illegal by default
+    }
+  }
+
+  @Override
+  public void setLegalMove(int row, int col) {
+      legalMoves[row][col] = true;
+  }
+
+  @Override
+  public void setFakeRowScore(int row, Player player, int score) {
+    int[] scores = fakeRowScores.get(row);
+    if (player == Player.RED) {
+      scores[0] = score; // Red's score
+    } else {
+      scores[1] = score; // Blue's score
+    }
+    fakeRowScores.put(row, scores);
   }
 
   @Override
   public void startGame(String path, int handSize) {
-    String message = "startGame called with path: " + path + ", handSize: " + handSize;
-    log.add(message);
-    System.out.println(message);
+    logMessage("startGame called with path: " + path + ", handSize: " + handSize);
   }
 
   @Override
   public void placeCardAt(Player player, int cardIdx, int row, int col) {
-    String message = "placeCardAt called with Player: " + player + ", cardIdx: " + cardIdx + ", Position: (" + row + ", " + col + ")";
-    log.add(message);
-    System.out.println(message);
+    logMessage("placeCardAt called with Player: " + player +
+            ", cardIdx: " + cardIdx + ", Position: (" + row + ", " + col + ")");
   }
 
   @Override
   public void passTurn(Player player) {
-    String message = "passTurn called with Player: " + player;
-    log.add(message);
-    System.out.println(message);
+    logMessage("passTurn called with Player: " + player);
   }
 
   @Override
   public void drawCard(Player player) {
-    String message = "drawCard called with Player: " + player;
-    log.add(message);
-    System.out.println(message);
+    logMessage("drawCard called with Player: " + player);
   }
 
   @Override
   public void startTurn(Player player) {
-    String message = "startTurn called with Player: " + player;
-    log.add(message);
-    System.out.println(message);
+    logMessage("startTurn called with Player: " + player);
   }
 
   @Override
   public void applyCardInfluence(int boardRow, int boardCol, Player currentPlayer, Card card) {
-    String message = "applyCardInfluence called at (" + boardRow + ", " + boardCol + ") by Player: " + currentPlayer + " with Card: " + card;
-    log.add(message);
-    System.out.println(message);
+    logMessage("applyCardInfluence at (" + boardRow + "," + boardCol +
+            ") by Player: " + currentPlayer +
+            " with Card: " + (card != null ? card.toString() : "null"));
   }
 
   @Override
   public int getWidth() {
-    return 0;
+    return width;
   }
 
   @Override
   public int getHeight() {
-    return 0;
+    return height;
   }
 
   @Override
   public boolean placeCardLegal(Player player, Card card, int row, int col) {
-    return true;
+    logMessage("Checked legality at (" + row + "," + col + ")");
+    return legalMoves[row][col];
   }
 
   @Override
-  public Cell[][] getBoard() {
-    return new Cell[0][];
+  public PawnCell[][] getBoard() {
+    return null;
   }
 
   @Override
@@ -89,7 +116,8 @@ public class MockPawnGame implements PawnsGame<Cell> {
 
   @Override
   public List<Card> getHand(Player player) {
-    return List.of();
+    logMessage("Checked hand of player: " + player);
+    return new ArrayList<>(); // Empty hand for now
   }
 
   @Override
@@ -109,7 +137,9 @@ public class MockPawnGame implements PawnsGame<Cell> {
 
   @Override
   public int checkScoreRow(Player player, int rowIdx) {
-    return 0;
+    logMessage("Checked row score for player " + player + " at row " + rowIdx);
+    int[] scores = fakeRowScores.get(rowIdx);
+    return player.equals(Player.RED) ? scores[0] : scores[1];
   }
 
   @Override
@@ -120,5 +150,14 @@ public class MockPawnGame implements PawnsGame<Cell> {
   @Override
   public Player getOwnerAt(int row, int col) {
     return null;
+  }
+
+  /** Logs a message to the appendable log */
+  private void logMessage(String message) {
+    try {
+      log.append(message).append("\n");
+    } catch (IOException e) {
+      throw new RuntimeException("Failed to write to log", e);
+    }
   }
 }

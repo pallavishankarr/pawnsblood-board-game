@@ -5,12 +5,13 @@ import java.util.List;
 
 import pawnboard.model.Card;
 import pawnboard.model.PawnCell;
+import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 
 public class MaximizeRowScoreStrategy implements PawnBoardStrategy {
   @Override
-  public List<Move> chooseMove(ReadonlyPawnsGame<PawnCell> model, Player player) {
+  public List<Move> chooseMove(PawnsGame<PawnCell> model, Player player) {
     List<Card> hand = model.getHand(player);
     Player opponent = (player == Player.RED) ? Player.BLUE : Player.RED;
     List<Move> bestMoves = new ArrayList<Move>();

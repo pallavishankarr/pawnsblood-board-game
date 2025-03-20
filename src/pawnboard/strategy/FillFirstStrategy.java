@@ -5,11 +5,12 @@ import java.util.List;
 
 import pawnboard.model.Card;
 import pawnboard.model.PawnCell;
+import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 
 public class FillFirstStrategy implements PawnBoardStrategy {
-  public List<Move> chooseMove(ReadonlyPawnsGame<PawnCell> model, Player player) {
+  public List<Move> chooseMove(PawnsGame<PawnCell> model, Player player) {
     List<Card> hand = model.getHand(player);
     List<Move> possibleMoves = new ArrayList<>();
 

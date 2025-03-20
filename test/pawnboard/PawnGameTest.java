@@ -1,8 +1,10 @@
 package pawnboard;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.List;
 
 import pawnboard.model.Card;
 import pawnboard.model.Cell;
@@ -11,6 +13,7 @@ import pawnboard.model.PawnCell;
 import pawnboard.model.PawnGameImpl;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
+import pawnboard.strategy.FillFirstStrategy;
 import pawnboard.strategy.PawnBoardStrategy;
 import pawnboard.view.GameView;
 import pawnboard.view.PawnGameTextualView;
@@ -35,6 +38,16 @@ public class PawnGameTest {
   String tripleFile = "docs" + File.separator + "tripleFile";
   private Player player;
   private PawnsGame<PawnCell> game;
+  private MockPawnGame mockGame;
+  private FillFirstStrategy fillFirstStrat;
+  private Appendable appendable;
+
+  @Before
+  public void setUp() {
+    appendable = new StringBuilder();
+    mockGame = new MockPawnGame(appendable);
+    fillFirstStrat = new FillFirstStrategy();
+  }
 
   private static void passTurn(PawnGameImpl game, Player player) {
     game.startTurn(player);
@@ -1828,29 +1841,43 @@ public class PawnGameTest {
     assertEquals(copiedCell2.getPawnCount(),
             game.getCellAt(4,0).getPawnCount());
 
-    System.out.println(game.getCellAt(0,0));
+    System.out.println(game.getCellAt(0, 0));
   }
 
- //testing the strategy
-@Test
-public void testMove() {
-  char[][] influenceGrid = new char[][] {
-          {'X', 'X', 'I', 'X', 'X'},
-          {'X', 'I', 'I', 'I', 'X'},
-          {'I', 'I', 'C', 'I', 'I'},
-          {'X', 'I', 'I', 'I', 'X'},
-          {'X', 'X', 'I', 'X', 'X'}
-  };
-  Card card = new PawnCard("TestCard", 2, 5, influenceGrid);
+  //testing the strategy
+  @Test
+  public void testMove() {
+    char[][] influenceGrid = new char[][]{
+            {'X', 'X', 'I', 'X', 'X'},
+            {'X', 'I', 'I', 'I', 'X'},
+            {'I', 'I', 'C', 'I', 'I'},
+            {'X', 'I', 'I', 'I', 'X'},
+            {'X', 'X', 'I', 'X', 'X'}
+    };
+    Card card = new PawnCard("TestCard", 2, 5, influenceGrid);
     Move move = new Move(card, 0, 3);
 
 
     String moveString = "Move{" +
             "card=TestCard (2, 5), row=0, col=3}";
     assertEquals(moveString, move.toString());
-    assertEquals(0,move.getRow());
-    assertEquals(3,move.getCol());
-}
+    assertEquals(0, move.getRow());
+    assertEquals(3, move.getCol());
+  }
+
+  @Test
+  public void testFillFirstStopsAtFirstValidMove() {
+    // only (0,0) is legal
+    mockGame.setLegalMove(0, 0);
+
+    List<Move> chosenMoves = fillFirstStrat.chooseMove(mockGame, Player.RED);
+
+    assertEquals(1, chosenMoves.size());
+  }
+
+
+
+
 
 
 
