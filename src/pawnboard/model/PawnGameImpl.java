@@ -144,7 +144,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
             && col >= 0 && col < board[0].length
             && !board[row][col].hasCard()
             && board[row][col].getOwner() == turn
-            && board[row][col].getPawnCount() >= card.getPawnCost();
+            && board[row][col].getPawnCount() >= card.getPawnCost().getValue();
   }
 
   @Override

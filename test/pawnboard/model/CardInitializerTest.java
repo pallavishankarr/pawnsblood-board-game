@@ -43,7 +43,8 @@ public class CardInitializerTest {
     assertEquals(1, deck.size());
     PawnCard card = deck.get(0);
     assertEquals("Security", card.getName());
-    assertEquals(1, card.getPawnCost());
+    assertEquals(CostEnum.One, card.getPawnCost());
+    assertEquals(1, card.getPawnCost().getValue());
     assertEquals(2, card.getValue());
 
     // Expected influence grid
@@ -90,7 +91,7 @@ public class CardInitializerTest {
     // Verify first card
     PawnCard card1 = deck.get(0);
     assertEquals("Security", card1.getName());
-    assertEquals(1, card1.getPawnCost());
+    assertEquals(CostEnum.One, card1.getPawnCost());
     assertEquals(2, card1.getValue());
 
     InfluenceType[][] expectedGrid1 = {
@@ -105,7 +106,7 @@ public class CardInitializerTest {
     // Verify second card
     PawnCard card2 = deck.get(1);
     assertEquals("Bee", card2.getName());
-    assertEquals(1, card2.getPawnCost());
+    assertEquals(CostEnum.One, card2.getPawnCost());
     assertEquals(1, card2.getValue());
 
     InfluenceType[][] expectedGrid2 = {
@@ -130,13 +131,13 @@ public class CardInitializerTest {
 
     PawnCard firstCard = deck.get(0);
     assertEquals("Security", firstCard.getName());
-    assertEquals(1, firstCard.getPawnCost());
+    assertEquals(CostEnum.One, firstCard.getPawnCost());
     assertEquals(2, firstCard.getValue());
     assertEquals(1, firstCard.getInfluenceEffects().size());
 
     PawnCard lobber = deck.get(3);
     assertEquals("Lobber", lobber.getName());
-    assertEquals(2, lobber.getPawnCost());
+    assertEquals(CostEnum.Two, lobber.getPawnCost());
     assertEquals(1, lobber.getValue());
     assertEquals(1, lobber.getInfluenceEffects().size());
 

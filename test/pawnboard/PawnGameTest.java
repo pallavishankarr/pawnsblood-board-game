@@ -8,6 +8,7 @@ import java.util.List;
 
 import pawnboard.model.Card;
 import pawnboard.model.Cell;
+import pawnboard.model.CostEnum;
 import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
@@ -1855,7 +1856,7 @@ public class PawnGameTest {
             {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I, InfluenceType.X},
             {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X},
     };
-    Card card = new PawnCard("TestCard", 2, 5, influenceGrid);
+    Card card = new PawnCard("TestCard", CostEnum.Two, 5, influenceGrid);
     Move move = new Move(card, 0, 3);
 
 

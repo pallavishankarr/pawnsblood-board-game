@@ -19,9 +19,9 @@ public interface Card {
 
   /**
    * Returns the pawn cost of the card.
-   * @return a integer of the pawn cost
+   * @return a CostEnum of One, Two or Three
    */
-  int getPawnCost();
+  CostEnum getPawnCost();
 
   /**
    * Returns the value which is points of the card added to the score.

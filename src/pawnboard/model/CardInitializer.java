@@ -37,8 +37,10 @@ public class CardInitializer {
         }
 
         String name = parts[0];
-        int cost = Integer.parseInt(parts[1]);
+        int costValue = Integer.parseInt(parts[1]);
         int value = Integer.parseInt(parts[2]);
+
+        CostEnum cost = convertToCostEnum(costValue);
 
         // read the grid
         InfluenceType[][] influenceGrid = new InfluenceType[5][5];
@@ -76,5 +78,14 @@ public class CardInitializer {
       default:
         throw new IllegalArgumentException("Invalid InfluenceType character: " + symbol);
     }
+  }
+
+  private static CostEnum convertToCostEnum(int costValue) {
+    for (CostEnum cost : CostEnum.values()) {
+      if (cost.getValue() == costValue) {
+        return cost;
+      }
+    }
+    throw new IllegalArgumentException("Invalid cost value: " + costValue);
   }
 }

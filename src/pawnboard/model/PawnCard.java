@@ -15,7 +15,7 @@ import pawnboard.influences.InfluenceEffect;
  */
 public class PawnCard implements Card {
   private final String name;
-  private final int cost;
+  private final CostEnum cost;
   private final int value;
   private final InfluenceType[][] influenceGrid;
   private final List<InfluenceEffect> influenceEffects;
@@ -30,9 +30,9 @@ public class PawnCard implements Card {
    *         if the value is not a positive integer, if the influence grid is not 5x5 and if the
    *         influence grid doesn't have a proper center
    */
-  public PawnCard(String name, int cost, int value, InfluenceType[][] influenceGrid) {
-    if (cost < 1 || cost > 3) {
-      throw new IllegalArgumentException("Cost must be between 1 and 3");
+  public PawnCard(String name, CostEnum cost, int value, InfluenceType[][] influenceGrid) {
+    if (cost == null) {
+      throw new IllegalArgumentException("Cost cannot be null");
     }
     if (value <= 0) {
       throw new IllegalArgumentException("Value must be positive integer");
@@ -65,7 +65,7 @@ public class PawnCard implements Card {
   }
 
   @Override
-  public int getPawnCost() {
+  public CostEnum getPawnCost() {
     return cost;
   }
 
@@ -119,7 +119,7 @@ public class PawnCard implements Card {
 
 
   public String toString() {
-    return String.format("%s (%d, %d)", name, cost, value);
+    return String.format("%s (%d, %d)", name, cost.getValue(), value);
   }
 
 }
