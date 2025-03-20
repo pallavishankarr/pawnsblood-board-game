@@ -15,7 +15,6 @@ public class PawnCell implements Cell {
    * Constructs a pawn cell object with nothing in it.
    */
   public PawnCell() {
-    this.owner = null;
     this.pawnCount = 0;
     this.card = null;
   }

@@ -11,8 +11,10 @@ import pawnboard.model.PawnCell;
 import pawnboard.model.PawnGameImpl;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
+import pawnboard.strategy.PawnBoardStrategy;
 import pawnboard.view.GameView;
 import pawnboard.view.PawnGameTextualView;
+import pawnboard.strategy.Move;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -1829,6 +1831,28 @@ public class PawnGameTest {
     System.out.println(game.getCellAt(0,0));
   }
 
+ //testing the strategy
+@Test
+public void testMove() {
+  char[][] influenceGrid = new char[][] {
+          {'X', 'X', 'I', 'X', 'X'},
+          {'X', 'I', 'I', 'I', 'X'},
+          {'I', 'I', 'C', 'I', 'I'},
+          {'X', 'I', 'I', 'I', 'X'},
+          {'X', 'X', 'I', 'X', 'X'}
+  };
+  Card card = new PawnCard("TestCard", 2, 5, influenceGrid);
+    Move move = new Move(card, 0, 3);
+
+
+    String moveString = "Move{" +
+            "card=TestCard (2, 5), row=0, col=3}";
+    assertEquals(moveString, move.toString());
+    assertEquals(0,move.getRow());
+    assertEquals(3,move.getCol());
+
+
+}
 
 
 

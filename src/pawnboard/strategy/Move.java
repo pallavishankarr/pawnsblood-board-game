@@ -28,7 +28,7 @@ public class Move {
   @Override
   public String toString() {
     return "Move{" +
-            "card=" + card +
+            "card=" + card.toString() +
             ", row=" + row +
             ", col=" + col +
             '}';

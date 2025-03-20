@@ -117,4 +117,9 @@ public class PawnCard implements Card {
     return Objects.hash(name, cost, value, Arrays.deepHashCode(influenceGrid));
   }
 
+
+  public String toString() {
+    return String.format("%s (%d, %d)", name, cost, value);
+  }
+
 }
