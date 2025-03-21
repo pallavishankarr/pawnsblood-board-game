@@ -150,7 +150,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
             && board[row][col].getPawnCount() >= card.getPawnCost().getValue();
   }
 
-  @Override
+
   public void passTurn() {
     gameNotStartedCheck();
 

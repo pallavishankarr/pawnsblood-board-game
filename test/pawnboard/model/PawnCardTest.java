@@ -26,7 +26,7 @@ public class PawnCardTest {
             {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I, InfluenceType.X},
             {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X}
     };
-    card = new PawnCard("TestCard", CostEnum.Two, 5, influenceGrid);
+    card = new PawnCard("TestCard", Cost.Two, 5, influenceGrid);
   }
 
   @Test
@@ -39,7 +39,7 @@ public class PawnCardTest {
 
   @Test
   public void testInvalidValue() {
-    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", CostEnum.Three, 0,
+    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", Cost.Three, 0,
             influenceGrid));
   }
 
@@ -51,7 +51,7 @@ public class PawnCardTest {
             {InfluenceType.I, InfluenceType.I, InfluenceType.C, InfluenceType.I, InfluenceType.I},
             {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I, InfluenceType.X},
     };
-    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", CostEnum.Three, 1,
+    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", Cost.Three, 1,
             influenceGrid));
   }
 
@@ -73,9 +73,9 @@ public class PawnCardTest {
             {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X}
     };
 
-    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", CostEnum.Three, 1,
+    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", Cost.Three, 1,
             influenceGrid2));
-    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", CostEnum.Three, 1,
+    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", Cost.Three, 1,
             influenceGrid));
   }
 
@@ -89,14 +89,14 @@ public class PawnCardTest {
             {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X}
     };
 
-    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", CostEnum.Three, 1,
+    assertThrows(IllegalArgumentException.class, () -> new PawnCard("a", Cost.Three, 1,
             influenceGrid));
   }
 
   @Test
   public void testValidCardCreation() {
     assertEquals("TestCard", card.getName());
-    assertEquals(CostEnum.Two, card.getPawnCost());
+    assertEquals(Cost.Two, card.getPawnCost());
     assertEquals(2,card.getPawnCost().getValue());
     assertEquals(5, card.getValue());
     System.out.print(card.getInfluenceGrid().toString());
@@ -116,7 +116,7 @@ public class PawnCardTest {
 
   @Test
   public void testCardEquality() {
-    PawnCard sameCard = new PawnCard("TestCard", CostEnum.Two, 5, influenceGrid);
+    PawnCard sameCard = new PawnCard("TestCard", Cost.Two, 5, influenceGrid);
     assertTrue(sameCard.equals(card));
   }
 
@@ -129,10 +129,10 @@ public class PawnCardTest {
             {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I, InfluenceType.X},
             {InfluenceType.X, InfluenceType.X,  InfluenceType.I, InfluenceType.X, InfluenceType.X}
     };
-    PawnCard card1 = new PawnCard("TestCard", CostEnum.Three, 5, influenceGrid);
-    PawnCard card2 = new PawnCard("TestCard", CostEnum.Two, 10, influenceGrid);
-    PawnCard card3 = new PawnCard("TestCard", CostEnum.Two, 5, influenceGrid2);
-    PawnCard card4 = new PawnCard("DiffName", CostEnum.Two, 5, influenceGrid);
+    PawnCard card1 = new PawnCard("TestCard", Cost.Three, 5, influenceGrid);
+    PawnCard card2 = new PawnCard("TestCard", Cost.Two, 10, influenceGrid);
+    PawnCard card3 = new PawnCard("TestCard", Cost.Two, 5, influenceGrid2);
+    PawnCard card4 = new PawnCard("DiffName", Cost.Two, 5, influenceGrid);
 
     assertFalse(card.equals(card1));
     assertFalse(card.equals(card2));

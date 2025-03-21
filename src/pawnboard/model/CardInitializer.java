@@ -40,7 +40,7 @@ public class CardInitializer {
         int costValue = Integer.parseInt(parts[1]);
         int value = Integer.parseInt(parts[2]);
 
-        CostEnum cost = convertToCostEnum(costValue);
+        Cost cost = convertToCostEnum(costValue);
 
         // read the grid
         InfluenceType[][] influenceGrid = new InfluenceType[5][5];
@@ -80,8 +80,8 @@ public class CardInitializer {
     }
   }
 
-  private static CostEnum convertToCostEnum(int costValue) {
-    for (CostEnum cost : CostEnum.values()) {
+  private static Cost convertToCostEnum(int costValue) {
+    for (Cost cost : Cost.values()) {
       if (cost.getValue() == costValue) {
         return cost;
       }

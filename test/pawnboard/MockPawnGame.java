@@ -62,8 +62,8 @@ public class MockPawnGame implements MockGame {
   }
 
   @Override
-  public void passTurn(Player player) {
-    logMessage("passTurn called with Player: " + player);
+  public void passTurn() {
+    logMessage("passTurn called with Player: " + getCurrentPlayer());
   }
 
   @Override

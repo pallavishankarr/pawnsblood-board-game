@@ -11,7 +11,8 @@ public interface PawnsGame<C extends Cell> extends ReadonlyPawnsGame<C> {
 
   /**
    * Starts the game with the given hand size and initializes the board.
-   * @param path the file path that has the card file
+   * @param deck1 the first deck
+   * @param deck2 the second deck
    * @param handSize the given hand size for each player
    * @throws IllegalStateException if the game has already been started
    * @throws IllegalArgumentException if either players deck is empty,
@@ -40,13 +41,13 @@ public interface PawnsGame<C extends Cell> extends ReadonlyPawnsGame<C> {
   void placeCardAt(Player player, int cardIdx, int row, int col);
 
   /**
-   * Allows a player to pass their turn.
-   * @param player the player passing their turn
+   * Allows the current player to pass their turn.
    * @throws IllegalStateException if the game has not started
    *                               or if the players, turn has not started
    * @throws IllegalArgumentException if it isn't that players turn
    */
-  void passTurn(Player player);
+  void passTurn();
+
 
 
   /**
