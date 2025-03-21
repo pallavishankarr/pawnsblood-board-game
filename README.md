@@ -68,4 +68,12 @@ when the game is started
 
 Updates Made in Homework 6 
 - Changed the String[][] 2D Grid to creating a enum InfluenceType and create a 
-InfluenceType 2D grid for the influence grid 
+InfluenceType 2D grid for the influence grid
+- Changed the Cost from a int to a Cost enum and changed the following tests 
+and related code
+- Change startGame to take in two List of PawnCard decks instead of the file path 
+- Changed drawCard to be private 
+- Changed applyInfluence to be a private method 
+- Changed passTurn to not take in a player since the model stores the currentPlayer 
+- Change cardIntializer to take in two file paths and then changed the following code to return a 
+hash map of a string and deck 

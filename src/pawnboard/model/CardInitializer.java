@@ -19,10 +19,40 @@ public class CardInitializer {
   /**
    * Reads a configuration file and initializes a list of PawnCards.
    *
-   * @param path the file path to the deck
+   * @param path1 the file path to the deck
+   * @param path2 the second file path of the deck
    * @return a list of pawn cards created
    */
-  public static List<PawnCard> initializeDeck(String path) {
+  public static Map<String, List<PawnCard>> initializeDeck(String path1, String path2) {
+    List<PawnCard> deck1 = new ArrayList<>();
+    List<PawnCard> deck2 = new ArrayList<>();
+    Map<String, List<PawnCard>> decks = new HashMap<>();
+
+    deck1 = readDeckFromFile(path1);
+    deck2 = readDeckFromFile(path2);
+
+    if(areDecksIdentical(deck1, deck2)) {
+
+      decks.put("deck1", deck1);
+      decks.put("deck2", deck2);
+
+    }
+
+    else {
+      deck2 = mirrorDeck(deck2);
+      decks.put("deck1", deck1);
+      decks.put("deck2", deck2);
+    }
+
+
+
+
+
+
+    return decks;
+  }
+
+  private static List<PawnCard> readDeckFromFile(String path) {
     List<PawnCard> deck = new ArrayList<>();
     Map<String, Integer> cardCountMap = new HashMap<>();
     File config = new File(path);
@@ -30,7 +60,7 @@ public class CardInitializer {
     try (BufferedReader reader = new BufferedReader(new FileReader(config))) {
       String line;
       while ((line = reader.readLine()) != null) {
-        // parse name and cost
+        // Parse name and cost
         String[] parts = line.trim().split("\\s+");
         if (parts.length != 3) {
           throw new IOException("Invalid format: Expected '<Name> <Cost> <Value>'");
@@ -42,7 +72,7 @@ public class CardInitializer {
 
         Cost cost = convertToCostEnum(costValue);
 
-        // read the grid
+        // Read the grid
         InfluenceType[][] influenceGrid = new InfluenceType[5][5];
         for (int i = 0; i < 5; i++) {
           line = reader.readLine();
@@ -63,8 +93,10 @@ public class CardInitializer {
     } catch (IOException | NumberFormatException e) {
       System.err.println("Error reading deck file: " + e.getMessage());
     }
+
     return deck;
   }
+
 
 
   private static InfluenceType convertToInfluenceType(char symbol) {
@@ -88,4 +120,55 @@ public class CardInitializer {
     }
     throw new IllegalArgumentException("Invalid cost value: " + costValue);
   }
+
+
+  private static boolean areDecksIdentical(List<PawnCard> deck1, List<PawnCard> deck2) {
+    for (int i = 0; i < deck1.size(); i++) {
+      PawnCard card1 = deck1.get(i);
+      PawnCard card2 = deck2.get(i);
+
+      if (!card1.getName().equals(card2.getName()) ||
+              card1.getPawnCost() != card2.getPawnCost() ||
+              card1.getValue() != card2.getValue() ||
+              !areGridsIdentical(card1.getInfluenceGrid(), card2.getInfluenceGrid())) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private static boolean areGridsIdentical(InfluenceType[][] grid1, InfluenceType[][] grid2) {
+    for (int i = 0; i < 5; i++) {
+      for (int j = 0; j < 5; j++) {
+        if (grid1[i][j] != grid2[i][j]) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  private static List<PawnCard> mirrorDeck(List<PawnCard> deck) {
+    List<PawnCard> mirroredDeck = new ArrayList<>();
+    for (PawnCard card : deck) {
+      InfluenceType[][] mirroredGrid = mirrorGrid(card.getInfluenceGrid());
+      mirroredDeck.add(new PawnCard(card.getName(),
+              card.getPawnCost(), card.getValue(), mirroredGrid));
+    }
+    return mirroredDeck;
+  }
+
+  private static InfluenceType[][] mirrorGrid(InfluenceType[][] grid) {
+    int size = grid.length;
+    InfluenceType[][] mirrored = new InfluenceType[size][size];
+
+    for (int i = 0; i < size; i++) {
+      for (int j = 0; j < size; j++) {
+        mirrored[i][j] = grid[i][size - 1 - j]; // Reverse columns
+      }
+    }
+
+    return mirrored;
+  }
+
 }

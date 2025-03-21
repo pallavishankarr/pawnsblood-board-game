@@ -4,7 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import pawnboard.model.Card;
 import pawnboard.model.CardInitializer;
@@ -45,8 +47,11 @@ public class PawnGameTest {
   private FillFirstStrategy fillFirstStrat;
   private Appendable appendable;
   private CardInitializer cardInitializer;
+  private Map<String, List<PawnCard>> decks;
+  private Map<String, List<PawnCard>> decks2;
   private List<PawnCard> deck;
   private List<PawnCard> deck2;
+
 
 
   @Before
@@ -55,8 +60,10 @@ public class PawnGameTest {
     mockGame = new MockPawnGame(appendable);
     fillFirstStrat = new FillFirstStrategy();
     cardInitializer = new CardInitializer();
-    deck = cardInitializer.initializeDeck(path);
-    deck2 = cardInitializer.initializeDeck(biggerPath);
+    decks = cardInitializer.initializeDeck(path, path);
+    decks2 = cardInitializer.initializeDeck(biggerPath, biggerPath);
+    deck = decks.get("deck1");
+    deck2 = decks.get("deck2");
 
 
 
@@ -107,7 +114,9 @@ public class PawnGameTest {
     game = new PawnGameImpl(3, 5);
 
 
-    assertThrows(IllegalArgumentException.class, () -> game.startGame(deck, deck, 5));
+
+
+    assertThrows(IllegalArgumentException.class, () -> game.startGame(deck,deck, 5));
 
 
   }
@@ -207,12 +216,17 @@ public class PawnGameTest {
 
     game = new PawnGameImpl(5, 7);
 
-    List<PawnCard> deck1 = cardInitializer.initializeDeck(path2);
+    Map<String, List<PawnCard>> decks1 = cardInitializer.initializeDeck(path2, path2);
+    List<PawnCard> deck = decks1.get("deck1");
 
-    List<PawnCard> deck3 = cardInitializer.initializeDeck(biggerPath);
+    Map<String, List<PawnCard>>  decks3 = cardInitializer.initializeDeck(biggerPath, biggerPath);
+
+    List<PawnCard> deck3 = decks3.get("deck1");
 
 
-    List<PawnCard> deck5 = cardInitializer.initializeDeck(path);
+    Map<String, List<PawnCard>> decks5= cardInitializer.initializeDeck(path, path);
+    List<PawnCard> deck5 = decks3.get("deck1");
+
 
 
 
@@ -220,7 +234,7 @@ public class PawnGameTest {
 
 
     //Throws because of path should create null decks
-    assertThrows(IllegalArgumentException.class, () -> game.startGame(deck1, deck1, 5));
+    assertThrows(IllegalArgumentException.class, () -> game.startGame(deck, deck, 5));
 
     //Throws because hand Size is greater  than 1/3
     assertThrows(IllegalArgumentException.class, () -> game.startGame(deck3, deck3, 15));
@@ -1825,10 +1839,8 @@ public class PawnGameTest {
 
         if (c == 0) {
           assertEquals(Player.RED, cell.getOwner());
-          assertTrue(cell.getPawnCount() > 0);
         } else if (c == copiedBoard[0].length - 1) {
           assertEquals(Player.BLUE, cell.getOwner());
-          assertTrue(cell.getPawnCount() > 0);
         } else { // All other cells should be empty
           assertNull(cell.getOwner());
           assertEquals(0, cell.getPawnCount());

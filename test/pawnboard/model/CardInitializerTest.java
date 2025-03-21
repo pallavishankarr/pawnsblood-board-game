@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-
+import java.util.Map;
 
 
 import pawnboard.influences.DefaultInfluence;
@@ -37,7 +37,10 @@ public class CardInitializerTest {
     }
 
     // Load deck from file
-    List<PawnCard> deck = CardInitializer.initializeDeck(tempFile.getAbsolutePath());
+    Map<String, List<PawnCard>> deck2 = CardInitializer.initializeDeck(tempFile.getAbsolutePath(),
+            tempFile.getAbsolutePath());
+
+    List<PawnCard> deck = deck2.get("deck1");
 
     // Assertions to check correctness
     assertEquals(1, deck.size());
@@ -83,7 +86,10 @@ public class CardInitializerTest {
     }
 
     // Load deck from file
-    List<PawnCard> deck = CardInitializer.initializeDeck(tempFile.getAbsolutePath());
+    Map<String, List<PawnCard>> deck2 = CardInitializer.initializeDeck(tempFile.getAbsolutePath(),
+            tempFile.getAbsolutePath());
+
+    List<PawnCard> deck = deck2.get("deck1");
 
     // Assertions to check correctness
     assertEquals(2, deck.size());
@@ -124,7 +130,10 @@ public class CardInitializerTest {
   public void testLoadMultipleCards() {
     String path = "docs" + File.separator + "deck.config";
 
-    List<PawnCard> deck = CardInitializer.initializeDeck(path);
+    Map<String, List<PawnCard>> deck2 = CardInitializer.initializeDeck(path,
+            path);
+
+    List<PawnCard> deck = deck2.get("deck1");
 
     assertNotNull(deck);
     assertEquals(20, deck.size());

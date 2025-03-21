@@ -27,7 +27,7 @@ public class DefaultInfluence implements InfluenceEffect {
     }
 
     // If the player owns the cell and pawn count is less than 3, increase pawn count
-    else if (influencedCell.getPawnCount() < 3) {
+    else if (influencedCell.getPawnCount().getValue() < 3) {
       influencedCell.addPawn(currentPlayer);
     }
   }

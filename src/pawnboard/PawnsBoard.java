@@ -1,9 +1,14 @@
 package pawnboard;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.*;
 
+import pawnboard.model.Card;
+import pawnboard.model.CardInitializer;
+import pawnboard.model.PawnCard;
 import pawnboard.model.PawnGameImpl;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
@@ -30,8 +35,11 @@ public final class PawnsBoard {
    */
   public static void main(String[] args) {
     String path = "docs" + File.separator + "deck.config";
+    CardInitializer cardInitializer = new CardInitializer();
+     Map<String, List<PawnCard>> decks  = cardInitializer.initializeDeck(path, path);
+     List<PawnCard> deck = decks.get("deck1");
     PawnGameImpl game = new PawnGameImpl(3,5);
-    game.startGame(path,5);
+    game.startGame(deck,deck,5);
     GameWindow redView = new RedFrame(game);
     GameWindow blueView = new BlueFrame(game);
 
@@ -64,7 +72,7 @@ public final class PawnsBoard {
 
   private static void passTurn(PawnGameImpl game, GameView view, Player player) {
     game.startTurn(player);
-    game.passTurn(player);
+    game.passTurn();
     System.out.println(view);
   }
 

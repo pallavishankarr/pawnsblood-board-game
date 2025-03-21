@@ -29,7 +29,7 @@ public interface Cell {
    * Returns the number of pawns on the cell.
    * @return int of pawns on the cell
    */
-  int getPawnCount();
+  Cost getPawnCount();
 
   /**
    * Changes the ownership to the given Player.
@@ -54,7 +54,6 @@ public interface Cell {
    * @return true if the cell is empty
    */
   boolean isCellEmpty();
-
 
 
 }

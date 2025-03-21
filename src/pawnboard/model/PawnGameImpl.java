@@ -147,7 +147,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
             && col >= 0 && col < board[0].length
             && !board[row][col].hasCard()
             && board[row][col].getOwner() == turn
-            && board[row][col].getPawnCount() >= card.getPawnCost().getValue();
+            && board[row][col].getPawnCount().getValue() >= card.getPawnCost().getValue();
   }
 
 
@@ -196,7 +196,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
       for (int c = 0; c < column; c++) {
         Cell original = this.board[r][c];
         Player originalCellOwner = original.getOwner();
-        int originalPawnCellCount = original.getPawnCount();
+        Cost originalPawnCellCount = original.getPawnCount();
         PawnCell copy = new PawnCell(originalCellOwner, originalPawnCellCount);
 
         if (original.hasCard()) {
@@ -333,7 +333,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
 
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[i].length; j++) {
-        if (board[i][j].getPawnCount() > 0) {
+        if (board[i][j].getPawnCount().getValue() > 0) {
           return false;
         }
       }
@@ -435,28 +435,9 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
     playerDeck.remove(0);
   }
 
-  private InfluenceType[][] mirrorGrid(InfluenceType[][] grid) {
-    int size = grid.length;
-    InfluenceType[][] mirrored = new InfluenceType[size][size];
 
-    for (int i = 0; i < size; i++) {
-      for (int j = 0; j < size; j++) {
-        mirrored[i][j] = grid[i][size - 1 - j]; // Reverse columns
-      }
-    }
 
-    return mirrored;
-  }
 
-  private List<PawnCard> mirrorDeck(List<PawnCard> deck) {
-    List<PawnCard> mirroredDeck = new ArrayList<>();
-    for (PawnCard card : deck) {
-      InfluenceType[][] mirroredGrid = mirrorGrid(card.getInfluenceGrid());
-      mirroredDeck.add(new PawnCard(card.getName(),
-              card.getPawnCost(), card.getValue(), mirroredGrid));
-    }
-    return mirroredDeck;
-  }
 
   private void endTurn() {
     turnStarted = false;
