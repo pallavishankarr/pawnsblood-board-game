@@ -1,5 +1,7 @@
 package pawnboard.model;
 
+import java.util.List;
+
 /**
  * The PawnsGame interface defines the structure and rules for a playable game.
  * It includes methods for initializing the board, starting the game,
@@ -20,7 +22,7 @@ public interface PawnsGame<C extends Cell> extends ReadonlyPawnsGame<C> {
    *                                  if handSize is not positive (i.e. 0 or less)
    *                                  or is greater than a third of the deck size
    */
-  void startGame(String path, int handSize);
+  void startGame(List<PawnCard> deck1, List<PawnCard> deck2, int handSize);
 
   /**
    * Places a card from the players hand to a given position on the board.
