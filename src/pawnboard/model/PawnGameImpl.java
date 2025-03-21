@@ -158,8 +158,8 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
     endTurn();
   }
 
-  @Override
-  public void drawCard(Player player) {
+
+  private void drawCard(Player player) {
     gameNotStartedCheck();
 
     playerNotTurnCheck(player);

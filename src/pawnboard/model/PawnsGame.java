@@ -46,14 +46,6 @@ public interface PawnsGame<C extends Cell> extends ReadonlyPawnsGame<C> {
    */
   void passTurn(Player player);
 
-  /**
-   * Draws a card for the current player.
-   * @param player the player who wants to drawCard
-   * @throws IllegalStateException if the game has not started or if
-   *                               the players turn has not started
-   * @throws IllegalArgumentException if it isn't that players turn
-   */
-  void drawCard(Player player);
 
   /**
    * Starts the turn for the given player.
