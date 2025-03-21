@@ -8,7 +8,7 @@ import java.util.List;
 
 import pawnboard.model.Card;
 import pawnboard.model.Cell;
-import pawnboard.model.CostEnum;
+import pawnboard.model.Cost;
 import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
@@ -17,7 +17,6 @@ import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 import pawnboard.strategy.FillFirstStrategy;
 import pawnboard.strategy.MaximizeRowScoreStrategy;
-import pawnboard.strategy.PawnBoardStrategy;
 import pawnboard.view.GameView;
 import pawnboard.view.PawnGameTextualView;
 import pawnboard.strategy.Move;
@@ -65,7 +64,7 @@ public class PawnGameTest {
 
   private static void passTurn(PawnGameImpl game, Player player) {
     game.startTurn(player);
-    game.passTurn(player);
+    game.passTurn();
   }
 
   //test for Valid Constructor of the PawnsGame Class
@@ -257,94 +256,94 @@ public class PawnGameTest {
     game.startGame(path, 5);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     assertEquals(0, game.getRemainingDeckSize(Player.BLUE));
     assertEquals(0, game.getRemainingDeckSize(Player.RED));
@@ -366,7 +365,7 @@ public class PawnGameTest {
 
     //throws when Opposing player tries to pass turn
     assertThrows(IllegalArgumentException.class, () ->
-            game.passTurn(Player.BLUE));
+            game.passTurn());
 
   }
 
@@ -428,7 +427,7 @@ public class PawnGameTest {
     //adds pawn so that the card can be placed
     Cell cell = game.getCellAt(0, 4);
 
-    game.passTurn(Player.RED);
+    game.passTurn();
     game.startTurn(Player.BLUE);
 
 
@@ -514,13 +513,13 @@ public class PawnGameTest {
     game.placeCardAt(Player.RED, 0, 0, 0);
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.startTurn(Player.RED);
     game.placeCardAt(Player.RED, 0, 1, 0);
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.startTurn(Player.RED);
     game.placeCardAt(Player.RED, 0, 2, 0);
@@ -568,19 +567,19 @@ public class PawnGameTest {
     Card card3 = game.getHand(Player.BLUE).get(2);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 4);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 1, 4);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 2, 4);
@@ -620,25 +619,25 @@ public class PawnGameTest {
     game.placeCardAt(Player.RED, 0, 0, 0);
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.startTurn(Player.RED);
     game.placeCardAt(Player.RED, 0, 1, 0);
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.startTurn(Player.RED);
     game.placeCardAt(Player.RED, 0, 2, 0);
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.startTurn(Player.RED);
     game.placeCardAt(Player.RED, 0, 3, 0);
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.startTurn(Player.RED);
     cell5.addPawn(Player.RED);
@@ -682,33 +681,33 @@ public class PawnGameTest {
 
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 6);
 
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
 
     game.placeCardAt(Player.BLUE, 0, 1, 6);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 2, 6);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 3, 6);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     cell5.addPawn(Player.BLUE);
@@ -740,7 +739,7 @@ public class PawnGameTest {
     Cell cell = game.getCellAt(2, 2);
 
 
-    //Pawn cost not met for placing the card
+    //Pawn Cost not met for placing the card
     assertThrows(IllegalArgumentException.class, () ->
             game.placeCardAt(Player.RED, 2, 2, 2));
   }
@@ -751,10 +750,10 @@ public class PawnGameTest {
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
 
-    game.passTurn(Player.RED);
+    game.passTurn();
     game.startTurn(Player.BLUE);
 
-    //Pawn cost not met for placing the card
+    //Pawn Cost not met for placing the card
     assertThrows(IllegalArgumentException.class, () ->
             game.placeCardAt(Player.BLUE, 0, 1, 2));
   }
@@ -806,7 +805,7 @@ public class PawnGameTest {
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
 
-    game.passTurn(Player.RED);
+    game.passTurn();
     game.startTurn(Player.BLUE);
 
     assertThrows(IllegalArgumentException.class, () ->
@@ -856,7 +855,7 @@ public class PawnGameTest {
     game.startGame(path, 5);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
 
@@ -960,7 +959,7 @@ public class PawnGameTest {
     assertEquals(1, cell2.getPawnCount());
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 4);
@@ -1058,7 +1057,7 @@ public class PawnGameTest {
     assertEquals(1, cell2.getPawnCount());
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 1, 6);
@@ -1132,7 +1131,7 @@ public class PawnGameTest {
     game.placeCardAt(Player.RED, 0, 0, 0);
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
 
     game.startTurn(Player.RED);
@@ -1162,10 +1161,10 @@ public class PawnGameTest {
     game.startGame(path, 5);
     assertEquals(Player.RED, game.getCurrentPlayer());
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
     assertEquals(Player.BLUE, game.getCurrentPlayer());
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
     assertEquals(Player.RED, game.getCurrentPlayer());
 
   }
@@ -1235,7 +1234,7 @@ public class PawnGameTest {
     assertEquals(Player.RED, this.game.getCurrentPlayer());
 
     //Passes the turn so that the player changes
-    this.game.passTurn(Player.RED);
+    this.game.passTurn();
 
     //tests that the turn has been efficiently passed
     assertEquals(Player.BLUE, this.game.getCurrentPlayer());
@@ -1258,7 +1257,7 @@ public class PawnGameTest {
     this.game = new PawnGameImpl(3, 5);
     game.startGame(path, 5);
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 4);
 
@@ -1318,7 +1317,7 @@ public class PawnGameTest {
     game.placeCardAt(Player.RED, 0, 0, 0);
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
     game.startTurn(Player.RED);
 
     game.placeCardAt(Player.RED, 0, 0, 1);
@@ -1329,7 +1328,7 @@ public class PawnGameTest {
 
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 3);
@@ -1371,7 +1370,7 @@ public class PawnGameTest {
     game.placeCardAt(Player.RED, 0, 0, 0);
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
     game.startTurn(Player.RED);
 
     game.placeCardAt(Player.RED, 0, 0, 1);
@@ -1382,7 +1381,7 @@ public class PawnGameTest {
 
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 3);
@@ -1421,32 +1420,32 @@ public class PawnGameTest {
 
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 0);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 1);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 2);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
 
     game.placeCardAt(Player.BLUE, 0, 0, 3);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 4);
@@ -1481,32 +1480,32 @@ public class PawnGameTest {
 
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 0);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 1);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 2);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
 
     game.placeCardAt(Player.BLUE, 0, 0, 3);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 4);
@@ -1549,33 +1548,33 @@ public class PawnGameTest {
     PawnGameTextualView view = new PawnGameTextualView(game);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 4);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 3);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.getCellAt(0, 2).addPawn(Player.BLUE);
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 2);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.getCellAt(0, 1).addPawn(Player.BLUE);
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 1);
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     game.getCellAt(0, 0).addPawn(Player.BLUE);
     game.startTurn(Player.BLUE);
@@ -1596,28 +1595,28 @@ public class PawnGameTest {
     game.placeCardAt(Player.RED, 0, 0, 0);
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.getCellAt(0, 1).addPawn(Player.RED);
     game.startTurn(Player.RED);
     game.placeCardAt(Player.RED, 0, 0, 1);
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.getCellAt(0, 2).addPawn(Player.RED);
     game.startTurn(Player.RED);
     game.placeCardAt(Player.RED, 0, 0, 2);
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.getCellAt(0, 3).addPawn(Player.RED);
     game.startTurn(Player.RED);
     game.placeCardAt(Player.RED, 0, 0, 3);
 
     game.startTurn(Player.BLUE);
-    game.passTurn(Player.BLUE);
+    game.passTurn();
 
     game.getCellAt(0, 4).addPawn(Player.RED);
     game.startTurn(Player.RED);
@@ -1777,7 +1776,7 @@ public class PawnGameTest {
     assertEquals(Player.RED, game.getCurrentPlayer());
 
     game.startTurn(Player.RED);
-    game.passTurn(Player.RED);
+    game.passTurn();
 
     assertEquals(Player.BLUE, game.getCurrentPlayer());
   }
@@ -1868,7 +1867,7 @@ public class PawnGameTest {
             {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I, InfluenceType.X},
             {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X},
     };
-    Card card = new PawnCard("TestCard", CostEnum.Two, 5, influenceGrid);
+    Card card = new PawnCard("TestCard", Cost.Two, 5, influenceGrid);
     Move move = new Move(card, 0, 3);
 
 
@@ -1988,7 +1987,7 @@ public class PawnGameTest {
 
   @Test
   public void testMaxScoreSingleValidMove() {
-    PawnCard card = new PawnCard("Card1", CostEnum.One, 3, influenceGrid);
+    PawnCard card = new PawnCard("Card1", Cost.One, 3, influenceGrid);
     mockGame.addCardToHand(Player.RED, card);
     mockGame.setFakeRowScore(1, Player.RED, 2);
     mockGame.setFakeRowScore(1, Player.BLUE, 4);
@@ -2004,8 +2003,8 @@ public class PawnGameTest {
 
   @Test
   public void testMaxScoreStratChooseFirstBest() {
-    PawnCard weakCard = new PawnCard("WeakCard", CostEnum.One, 2, influenceGrid);
-    PawnCard strongCard = new PawnCard("StrongCard", CostEnum.Two, 5, influenceGrid);
+    PawnCard weakCard = new PawnCard("WeakCard", Cost.One, 2, influenceGrid);
+    PawnCard strongCard = new PawnCard("StrongCard", Cost.Two, 5, influenceGrid);
 
     mockGame.addCardToHand(Player.RED, weakCard);
     mockGame.addCardToHand(Player.RED, strongCard);
@@ -2022,7 +2021,7 @@ public class PawnGameTest {
 
   @Test
   public void testMaxStratIgnoresRowsWherePlayerIsAlreadyWinning() {
-    PawnCard card = new PawnCard("UnusedCard", CostEnum.One, 3, influenceGrid);
+    PawnCard card = new PawnCard("UnusedCard", Cost.One, 3, influenceGrid);
     mockGame.addCardToHand(Player.RED, card);
     mockGame.setFakeRowScore(1, Player.RED, 8);
     mockGame.setFakeRowScore(1, Player.BLUE, 5);
@@ -2034,7 +2033,7 @@ public class PawnGameTest {
 
   @Test
   public void testMaxStratChoosesMoveThatExactlySurpassesOpponent() {
-    PawnCard card = new PawnCard("ExactCard", CostEnum.One, 3, influenceGrid);
+    PawnCard card = new PawnCard("ExactCard", Cost.One, 3, influenceGrid);
     mockGame.addCardToHand(Player.RED, card);
     mockGame.setFakeRowScore(2, Player.RED, 4);
     mockGame.setFakeRowScore(2, Player.BLUE, 6);
@@ -2048,7 +2047,7 @@ public class PawnGameTest {
 
   @Test
   public void testAvoidsMovesThatDoNotSurpassOpponent() {
-    PawnCard card = new PawnCard("LowCard", CostEnum.One, 2, influenceGrid);
+    PawnCard card = new PawnCard("LowCard", Cost.One, 2, influenceGrid);
     mockGame.addCardToHand(Player.RED, card);
     mockGame.setFakeRowScore(2, Player.RED, 3);
     mockGame.setFakeRowScore(2, Player.BLUE, 8);
@@ -2061,7 +2060,7 @@ public class PawnGameTest {
 
   @Test
   public void testMaxStratMoveSelectionWhenOnlyOneLegalMoveAvailable() {
-    PawnCard card = new PawnCard("SoloCard", CostEnum.One, 4, influenceGrid);
+    PawnCard card = new PawnCard("SoloCard", Cost.One, 4, influenceGrid);
     mockGame.addCardToHand(Player.RED, card);
     mockGame.setFakeRowScore(2, Player.RED, 5);
     mockGame.setFakeRowScore(2, Player.BLUE, 7);
@@ -2075,8 +2074,8 @@ public class PawnGameTest {
 
   @Test
   public void testTieBreakerWhenTwoMovesHaveEqualValue() {
-    PawnCard cardA = new PawnCard("CardA", CostEnum.One, 4, influenceGrid);
-    PawnCard cardB = new PawnCard("CardB", CostEnum.One, 4, influenceGrid);
+    PawnCard cardA = new PawnCard("CardA", Cost.One, 4, influenceGrid);
+    PawnCard cardB = new PawnCard("CardB", Cost.One, 4, influenceGrid);
 
     mockGame.addCardToHand(Player.RED, cardA);
     mockGame.addCardToHand(Player.RED, cardB);
@@ -2093,8 +2092,8 @@ public class PawnGameTest {
 
   @Test
   public void testMaxRowStratMultipleRowsPicksBestOne() {
-    PawnCard cardA = new PawnCard("CardA", CostEnum.One, 4, influenceGrid);
-    PawnCard cardB = new PawnCard("CardB", CostEnum.One, 2, influenceGrid);
+    PawnCard cardA = new PawnCard("CardA", Cost.One, 4, influenceGrid);
+    PawnCard cardB = new PawnCard("CardB", Cost.One, 2, influenceGrid);
 
     mockGame.addCardToHand(Player.RED, cardA);
     mockGame.addCardToHand(Player.RED, cardB);
@@ -2117,8 +2116,8 @@ public class PawnGameTest {
 
   @Test
   public void testMaxRowStratMultipleRowsPicksFirstWhenEqual() {
-    PawnCard cardA = new PawnCard("CardA", CostEnum.One, 4, influenceGrid);
-    PawnCard cardB = new PawnCard("CardB", CostEnum.One, 4, influenceGrid);
+    PawnCard cardA = new PawnCard("CardA", Cost.One, 4, influenceGrid);
+    PawnCard cardB = new PawnCard("CardB", Cost.One, 4, influenceGrid);
 
     mockGame.addCardToHand(Player.RED, cardA);
     mockGame.addCardToHand(Player.RED, cardB);
@@ -2141,7 +2140,7 @@ public class PawnGameTest {
 
   @Test
   public void testMaxRowStratNoValidMoveReturnsEmptyList() {
-    PawnCard cardA = new PawnCard("CardA", CostEnum.One, 4, influenceGrid);
+    PawnCard cardA = new PawnCard("CardA", Cost.One, 4, influenceGrid);
 
     mockGame.addCardToHand(Player.RED, cardA);
 
@@ -2159,7 +2158,7 @@ public class PawnGameTest {
 
   @Test
   public void testMaxRowStratNoValidCardReturnsEmptyList() {
-    PawnCard cardA = new PawnCard("CardA", CostEnum.One, 1, influenceGrid);
+    PawnCard cardA = new PawnCard("CardA", Cost.One, 1, influenceGrid);
 
     mockGame.addCardToHand(Player.RED, cardA);
 
@@ -2179,7 +2178,7 @@ public class PawnGameTest {
 
   @Test
   public void testMaxStratHandHasCardsButNoLegalMoves() {
-    PawnCard card = new PawnCard("UnplayableCard", CostEnum.One, 3, influenceGrid);
+    PawnCard card = new PawnCard("UnplayableCard", Cost.One, 3, influenceGrid);
     mockGame.addCardToHand(Player.RED, card);
 
     List<Move> moves = maxRowStrat.chooseMove(mockGame, Player.RED);
@@ -2189,8 +2188,8 @@ public class PawnGameTest {
 
   @Test
   public void testMaxStratMultipleMovesWithSameScoreIncrease() {
-    PawnCard cardA = new PawnCard("CardA", CostEnum.One, 4, influenceGrid);
-    PawnCard cardB = new PawnCard("CardB", CostEnum.One, 4, influenceGrid);
+    PawnCard cardA = new PawnCard("CardA", Cost.One, 4, influenceGrid);
+    PawnCard cardB = new PawnCard("CardB", Cost.One, 4, influenceGrid);
 
     mockGame.addCardToHand(Player.RED, cardA);
     mockGame.addCardToHand(Player.RED, cardB);
@@ -2215,9 +2214,7 @@ public class PawnGameTest {
 
 
 
-
-
-
+  
 
 
 
