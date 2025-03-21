@@ -9,6 +9,9 @@ import java.util.Map;
 
 import pawnboard.model.Card;
 import pawnboard.model.Cell;
+import pawnboard.model.CostEnum;
+import pawnboard.model.InfluenceType;
+import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.Player;
 
@@ -19,13 +22,29 @@ public class MockPawnGame implements MockGame {
   private final boolean[][] legalMoves;
   // Stores { RedScore, BlueScore } per row
   private Map<Integer, int[]> fakeRowScores;
+  private List<PawnCard> redHand;
+  private List<PawnCard> blueHand;
 
   public MockPawnGame(Appendable log) {
     this.log = log;
-    this.width = 3; // Set board dimensions
-    this.height = 5;
+    this.width = 5;
+    this.height = 3;
     this.legalMoves = new boolean[height][width];
     this.fakeRowScores = new HashMap<>();
+
+    InfluenceType[][] influenceGrid = {
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I, InfluenceType.X},
+            {InfluenceType.I, InfluenceType.I, InfluenceType.C, InfluenceType.I, InfluenceType.I},
+            {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X},
+    };
+
+    PawnCard card = new PawnCard("StubCard", CostEnum.One, 1, influenceGrid);
+    this.redHand = new ArrayList<>();
+    this.redHand.add(card);
+    this.blueHand = new ArrayList<>();
+    this.blueHand.add(card);
 
     // Default: all moves are illegal unless specified
     for (int r = 0; r < height; r++) {
@@ -51,6 +70,17 @@ public class MockPawnGame implements MockGame {
   }
 
   @Override
+  public void addCardToHand(Player player, PawnCard card) {
+    if (player == Player.RED) {
+      redHand.add(card);
+    }
+    else {
+      blueHand.add(card);
+    }
+    logMessage("Card added to " + player + "'s hand: " + card.getName());
+  }
+
+  @Override
   public void startGame(String path, int handSize) {
     logMessage("startGame called with path: " + path + ", handSize: " + handSize);
   }
@@ -67,20 +97,8 @@ public class MockPawnGame implements MockGame {
   }
 
   @Override
-  public void drawCard(Player player) {
-    logMessage("drawCard called with Player: " + player);
-  }
-
-  @Override
   public void startTurn(Player player) {
     logMessage("startTurn called with Player: " + player);
-  }
-
-  @Override
-  public void applyCardInfluence(int boardRow, int boardCol, Player currentPlayer, Card card) {
-    logMessage("applyCardInfluence at (" + boardRow + "," + boardCol +
-            ") by Player: " + currentPlayer +
-            " with Card: " + (card != null ? card.toString() : "null"));
   }
 
   @Override
@@ -117,7 +135,7 @@ public class MockPawnGame implements MockGame {
   @Override
   public List<Card> getHand(Player player) {
     logMessage("Checked hand of player: " + player);
-    return new ArrayList<>(); // Empty hand for now
+    return player == Player.RED ? new ArrayList<>(redHand) : new ArrayList<>(blueHand);
   }
 
   @Override

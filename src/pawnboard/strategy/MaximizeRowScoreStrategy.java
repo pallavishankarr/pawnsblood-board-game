@@ -14,28 +14,24 @@ public class MaximizeRowScoreStrategy implements PawnBoardStrategy {
   public List<Move> chooseMove(PawnsGame<PawnCell> model, Player player) {
     List<Card> hand = model.getHand(player);
     Player opponent = (player == Player.RED) ? Player.BLUE : Player.RED;
-    List<Move> bestMoves = new ArrayList<Move>();
-    int bestScoreImprovement = Integer.MIN_VALUE;
+    List<Move> bestMoves = new ArrayList<>();
 
     for (int r = 0; r < model.getHeight(); r++) {
       int playerRowScore = model.checkScoreRow(player, r);
       int opponentRowScore = model.checkScoreRow(opponent, r);
 
+      if (playerRowScore > opponentRowScore) {
+        continue;
+      }
+
       for (Card card : hand) {
         for (int c = 0; c < model.getWidth(); c++) {
           if (model.placeCardLegal(player, card, r, c)) {
             int newScore = getHypotheticalRowScore(model, player, card, r, c);
-            int scoreImprovement = newScore - playerRowScore;
 
             if (newScore > opponentRowScore) {
-              if (scoreImprovement > bestScoreImprovement) {
-                bestMoves.clear();
-                bestScoreImprovement = scoreImprovement;
-              }
-
-              if (scoreImprovement == bestScoreImprovement) {
-                bestMoves.add(new Move(card, r, c));
-              }
+              bestMoves.add(new Move(card, r, c));
+              return bestMoves;
             }
           }
         }

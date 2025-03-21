@@ -180,7 +180,7 @@ public class HandPanel extends JPanel implements HighlightPanelView {
     model.startGame(path, 5);
 
 
-    model.drawCard(Player.RED);
+//    model.drawCard(Player.RED);
 
     // Create a player (either RED or BLUE)
     Player player = Player.RED;

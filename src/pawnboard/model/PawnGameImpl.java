@@ -56,17 +56,14 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
   }
 
   @Override
-  public void startGame(List<PawnCard> deck1, List<PawnCard> deck2, int handSize) {
+  public void startGame(String path, int handSize) {
 
     if (gameStarted) {
       throw new IllegalStateException("Game has already started.");
     }
 
-    List<PawnCard> redDeck =  deck1;
-    List<PawnCard> blueDeck =  deck2;
-
-
-
+    List<PawnCard> redDeck = CardInitializer.initializeDeck(path);
+    List<PawnCard> blueDeck = mirrorDeck(redDeck);
 
     if (redDeck.isEmpty() || blueDeck.isEmpty()) {
       throw new IllegalArgumentException("Decks cannot be null or empty.");
@@ -150,8 +147,13 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
             && board[row][col].getPawnCount().getValue() >= card.getPawnCost().getValue();
   }
 
+<<<<<<< Updated upstream
 
   public void passTurn() {
+=======
+  @Override
+  public void passTurn(Player player) {
+>>>>>>> Stashed changes
     gameNotStartedCheck();
 
     playerNotTurnCheck(getCurrentPlayer());
