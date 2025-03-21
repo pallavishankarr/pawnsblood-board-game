@@ -338,8 +338,8 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
     return true;
   }
 
-  @Override
-  public void applyCardInfluence(int rowIdx, int colIdx, Player currentPlayer, Card card) {
+
+  private void applyCardInfluence(int rowIdx, int colIdx, Player currentPlayer, Card card) {
     gameNotStartedCheck();
 
     if (rowIdx < 0 || rowIdx >= row || colIdx < 0 || colIdx >= column) {

@@ -55,16 +55,5 @@ public interface PawnsGame<C extends Cell> extends ReadonlyPawnsGame<C> {
    */
   void startTurn(Player player);
 
-  /**
-   * Applies the influence of a placed card to the board.
-   * Each affected cell is modified according to the games influence rules.
-   * @param boardRow         the row index of the placed card (0-index)
-   * @param boardCol the column index of the placed card (0-index based)
-   * @param currentPlayer    the player placing the card
-   * @param card the card making an influence
-   * @throws IllegalStateException    if the game is not started
-   * @throws IllegalArgumentException if row or col is not a position on the
-   *                                  board, or if the card is null
-   */
-  void applyCardInfluence(int boardRow, int boardCol, Player currentPlayer, Card card);
+
 }
