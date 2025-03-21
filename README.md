@@ -77,3 +77,4 @@ and related code
 - Changed passTurn to not take in a player since the model stores the currentPlayer 
 - Change cardIntializer to take in two file paths and then changed the following code to return a 
 hash map of a string and deck 
+- Changed PawnCount to become a enum 

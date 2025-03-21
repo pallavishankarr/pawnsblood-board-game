@@ -2,6 +2,7 @@ package pawnboard.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import pawnboard.influences.InfluenceEffect;
 
@@ -56,14 +57,15 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
   }
 
   @Override
-  public void startGame(String path, int handSize) {
+  public void startGame(List<PawnCard> deck1, List<PawnCard> deck2, int handSize) {
 
     if (gameStarted) {
       throw new IllegalStateException("Game has already started.");
     }
 
-    List<PawnCard> redDeck = CardInitializer.initializeDeck(path);
-    List<PawnCard> blueDeck = mirrorDeck(redDeck);
+    List<PawnCard> redDeck = deck1;
+    List<PawnCard> blueDeck = deck2;
+
 
     if (redDeck.isEmpty() || blueDeck.isEmpty()) {
       throw new IllegalArgumentException("Decks cannot be null or empty.");
@@ -147,320 +149,312 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
             && board[row][col].getPawnCount().getValue() >= card.getPawnCost().getValue();
   }
 
-<<<<<<< Updated upstream
+
 
   public void passTurn() {
-=======
-  @Override
-  public void passTurn(Player player) {
->>>>>>> Stashed changes
-    gameNotStartedCheck();
 
-    playerNotTurnCheck(getCurrentPlayer());
+      gameNotStartedCheck();
 
-    turnNotStartedCheck(getCurrentPlayer());
+      playerNotTurnCheck(getCurrentPlayer());
 
-    endTurn();
-  }
+      turnNotStartedCheck(getCurrentPlayer());
 
-
-  private void drawCard(Player player) {
-    gameNotStartedCheck();
-
-    playerNotTurnCheck(player);
-
-    turnNotStartedCheck(player);
-
-    List<PawnCard> playerDeck = (player == Player.RED) ? playerRedDeck : playerBlueDeck;
-    List<PawnCard> playerHand = (player == Player.RED) ? playerRedHand : playerBlueHand;
-
-    if (!playerDeck.isEmpty()) {
-      playerHand.add(playerDeck.remove(0));
+      endTurn();
     }
-  }
 
-  @Override
-  public void startTurn(Player player) {
-    gameNotStartedCheck();
 
-    playerNotTurnCheck(player);
+    private void drawCard (Player player){
+      gameNotStartedCheck();
 
-    turnStarted = true;
-    drawCard(player);
-  }
+      playerNotTurnCheck(player);
 
-  @Override
-  public PawnCell[][] getBoard() {
-    gameNotStartedCheck();
-    PawnCell[][] newBoard = new PawnCell[row][column];
+      turnNotStartedCheck(player);
 
-    for (int r = 0; r < row; r++) {
-      for (int c = 0; c < column; c++) {
-        Cell original = this.board[r][c];
-        Player originalCellOwner = original.getOwner();
-        Cost originalPawnCellCount = original.getPawnCount();
-        PawnCell copy = new PawnCell(originalCellOwner, originalPawnCellCount);
+      List<PawnCard> playerDeck = (player == Player.RED) ? playerRedDeck : playerBlueDeck;
+      List<PawnCard> playerHand = (player == Player.RED) ? playerRedHand : playerBlueHand;
 
-        if (original.hasCard()) {
-          Card originalCard = original.getCard();
-          copy.placeCard(originalCard);
-        }
-
-        newBoard[r][c] = copy;
+      if (!playerDeck.isEmpty()) {
+        playerHand.add(playerDeck.remove(0));
       }
     }
-    return newBoard;
-  }
 
+    @Override
+    public void startTurn (Player player){
+      gameNotStartedCheck();
 
-  @Override
-  public Cell getCellAt(int row, int col) {
-    if (row >= this.row || col >= this.column || row < 0 || col < 0) {
-      throw new IllegalArgumentException("Row or column is out of board bounds.");
-    }
-    return board[row][col];
-  }
+      playerNotTurnCheck(player);
 
-  @Override
-  public Player getCurrentPlayer() {
-    gameNotStartedCheck();
-
-    return turn;
-  }
-
-  @Override
-  public Player getOwnerAt(int row, int column) {
-    gameNotStartedCheck();
-
-    return board[row][column].getOwner();
-  }
-
-  @Override
-  public List<Card> getHand(Player player) {
-    gameNotStartedCheck();
-
-    if (player == Player.RED) {
-      return new ArrayList<>(playerRedHand);
-    }
-    return new ArrayList<>(playerBlueHand);
-  }
-
-  @Override
-  public int getRemainingDeckSize(Player player) {
-    gameNotStartedCheck();
-
-    if (player == Player.RED) {
-      return playerRedDeck.size();
-    }
-    return playerBlueDeck.size();
-  }
-
-  @Override
-  public String getWinner() {
-    gameNotStartedCheck();
-
-    int redScore = checkScore(Player.RED);
-    int blueScore = checkScore(Player.BLUE);
-
-    if (redScore > blueScore) {
-      return Player.RED.toString();
-    }
-    else if (blueScore > redScore) {
-      return Player.BLUE.toString();
+      turnStarted = true;
+      drawCard(player);
     }
 
-    else {
-      return "Tie";
+    @Override
+    public PawnCell[][] getBoard () {
+      gameNotStartedCheck();
+      PawnCell[][] newBoard = new PawnCell[row][column];
+
+      for (int r = 0; r < row; r++) {
+        for (int c = 0; c < column; c++) {
+          Cell original = this.board[r][c];
+          Player originalCellOwner = original.getOwner();
+          Count originalPawnCellCount = original.getPawnCount();
+          PawnCell copy = new PawnCell(originalCellOwner, originalPawnCellCount);
+
+          if (original.hasCard()) {
+            Card originalCard = original.getCard();
+            copy.placeCard(originalCard);
+          }
+
+          newBoard[r][c] = copy;
+        }
+      }
+      return newBoard;
     }
-  }
 
-  @Override
-  public int checkScore(Player player) {
-    gameNotStartedCheck();
 
-    int score = 0;
+    @Override
+    public Cell getCellAt ( int row, int col){
+      if (row >= this.row || col >= this.column || row < 0 || col < 0) {
+        throw new IllegalArgumentException("Row or column is out of board bounds.");
+      }
+      return board[row][col];
+    }
 
-    for (int row = 0; row < this.row; row++) {
-      if (rowWinner(row) == player) {
-        score += checkScoreRow(player, row);
+    @Override
+    public Player getCurrentPlayer () {
+      gameNotStartedCheck();
+
+      return turn;
+    }
+
+    @Override
+    public Player getOwnerAt ( int row, int column){
+      gameNotStartedCheck();
+
+      return board[row][column].getOwner();
+    }
+
+    @Override
+    public List<Card> getHand (Player player){
+      gameNotStartedCheck();
+
+      if (player == Player.RED) {
+        return new ArrayList<>(playerRedHand);
+      }
+      return new ArrayList<>(playerBlueHand);
+    }
+
+    @Override
+    public int getRemainingDeckSize (Player player){
+      gameNotStartedCheck();
+
+      if (player == Player.RED) {
+        return playerRedDeck.size();
+      }
+      return playerBlueDeck.size();
+    }
+
+    @Override
+    public String getWinner () {
+      gameNotStartedCheck();
+
+      int redScore = checkScore(Player.RED);
+      int blueScore = checkScore(Player.BLUE);
+
+      if (redScore > blueScore) {
+        return Player.RED.toString();
+      } else if (blueScore > redScore) {
+        return Player.BLUE.toString();
       } else {
-        score += 0;
+        return "Tie";
       }
     }
-    return score;
-  }
 
-  @Override
-  public int checkScoreRow(Player player, int rowIdx) {
-    if (rowIdx < 0 || rowIdx >= row) {
-      throw new IllegalArgumentException("Row index out of bounds");
-    }
+    @Override
+    public int checkScore (Player player){
+      gameNotStartedCheck();
 
-    int score = 0;
+      int score = 0;
 
-    for (int col = 0; col < this.column; col++) {
-      Cell cell = board[rowIdx][col];
-      if (cell.hasCard()) {
-        Card card = cell.getCard();
-        if (cell.getOwner() == player) {
-          score += card.getValue();
+      for (int row = 0; row < this.row; row++) {
+        if (rowWinner(row) == player) {
+          score += checkScoreRow(player, row);
+        } else {
+          score += 0;
         }
       }
-    }
-    return score;
-  }
-
-  private Player rowWinner(int rowIdx) {
-    gameNotStartedCheck();
-
-    if (rowIdx < 0 || rowIdx >= row) {
-      throw new IllegalArgumentException("Row index out of bounds");
+      return score;
     }
 
-    int redScore = checkScoreRow(Player.RED, rowIdx);
-    int blueScore = checkScoreRow(Player.BLUE, rowIdx);
+    @Override
+    public int checkScoreRow (Player player,int rowIdx){
+      if (rowIdx < 0 || rowIdx >= row) {
+        throw new IllegalArgumentException("Row index out of bounds");
+      }
 
-    if (redScore > blueScore) {
-      return Player.RED;
-    } else if (blueScore > redScore) {
-      return Player.BLUE;
-    } else {
-      return null;
-    }
-  }
+      int score = 0;
 
-  @Override
-  public boolean isGameOver() {
-    gameNotStartedCheck();
-
-    for (int i = 0; i < board.length; i++) {
-      for (int j = 0; j < board[i].length; j++) {
-        if (board[i][j].getPawnCount().getValue() > 0) {
-          return false;
+      for (int col = 0; col < this.column; col++) {
+        Cell cell = board[rowIdx][col];
+        if (cell.hasCard()) {
+          Card card = cell.getCard();
+          if (cell.getOwner() == player) {
+            score += card.getValue();
+          }
         }
       }
-    }
-    return true;
-  }
-
-
-  private void applyCardInfluence(int rowIdx, int colIdx, Player currentPlayer, Card card) {
-    gameNotStartedCheck();
-
-    if (rowIdx < 0 || rowIdx >= row || colIdx < 0 || colIdx >= column) {
-      throw new IllegalArgumentException("Row index out of bounds");
+      return score;
     }
 
-    if (card == null) {
-      throw new IllegalArgumentException("Card cannot be null");
+    private Player rowWinner( int rowIdx){
+      gameNotStartedCheck();
+
+      if (rowIdx < 0 || rowIdx >= row) {
+        throw new IllegalArgumentException("Row index out of bounds");
+      }
+
+      int redScore = checkScoreRow(Player.RED, rowIdx);
+      int blueScore = checkScoreRow(Player.BLUE, rowIdx);
+
+      if (redScore > blueScore) {
+        return Player.RED;
+      } else if (blueScore > redScore) {
+        return Player.BLUE;
+      } else {
+        return null;
+      }
     }
 
-    InfluenceType[][] influenceGrid = card.getInfluenceGrid();
-    List<InfluenceEffect> influenceEffects = card.getInfluenceEffects();
+    @Override
+    public boolean isGameOver () {
+      gameNotStartedCheck();
+
+      for (int i = 0; i < board.length; i++) {
+        for (int j = 0; j < board[i].length; j++) {
+          if (board[i][j].getPawnCount().getValue() > 0) {
+            return false;
+          }
+        }
+      }
+      return true;
+    }
 
 
-    for (int i = 0; i < 5; i++) {
-      for (int j = 0; j < 5; j++) {
-        if (influenceGrid[i][j] == InfluenceType.I) {
-          int targetRow = rowIdx + (i - 2);
-          int targetCol = colIdx + (j - 2);
+    private void applyCardInfluence ( int rowIdx, int colIdx, Player currentPlayer, Card card){
+      gameNotStartedCheck();
 
-          try {
-            if (getCellAt(targetRow, targetCol).hasCard()) {
-              continue;
+      if (rowIdx < 0 || rowIdx >= row || colIdx < 0 || colIdx >= column) {
+        throw new IllegalArgumentException("Row index out of bounds");
+      }
+
+      if (card == null) {
+        throw new IllegalArgumentException("Card cannot be null");
+      }
+
+      InfluenceType[][] influenceGrid = card.getInfluenceGrid();
+      List<InfluenceEffect> influenceEffects = card.getInfluenceEffects();
+
+
+      for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+          if (influenceGrid[i][j] == InfluenceType.I) {
+            int targetRow = rowIdx + (i - 2);
+            int targetCol = colIdx + (j - 2);
+
+            try {
+              if (getCellAt(targetRow, targetCol).hasCard()) {
+                continue;
+              }
+
+              for (InfluenceEffect effect : influenceEffects) {
+                effect.apply(this, targetRow, targetCol, currentPlayer);
+              }
+
+            } catch (IllegalArgumentException e) {
+              // Ignore out-of-bounds cells
             }
-
-            for (InfluenceEffect effect : influenceEffects) {
-              effect.apply(this, targetRow, targetCol, currentPlayer);
-            }
-
-          } catch (IllegalArgumentException e) {
-            // Ignore out-of-bounds cells
           }
         }
       }
     }
-  }
 
-  private void initializeBoard() {
-    this.board = new Cell[row][column];
-    for (int i = 0; i < row; i++) {
-      for (int j = 0; j < column; j++) {
-        this.board[i][j] = new PawnCell();
+    private void initializeBoard() {
+      this.board = new Cell[row][column];
+      for (int i = 0; i < row; i++) {
+        for (int j = 0; j < column; j++) {
+          this.board[i][j] = new PawnCell();
 
-        if (j == 0) {
-          board[i][j].addPawn(Player.RED);
-        } else if (j == column - 1) {
-          board[i][j].addPawn(Player.BLUE);
+          if (j == 0) {
+            board[i][j].addPawn(Player.RED);
+          } else if (j == column - 1) {
+            board[i][j].addPawn(Player.BLUE);
+          }
         }
       }
     }
-  }
 
-  private void initializeHand(List<PawnCard> deck, List<PawnCard> hand) {
-    for (int i = 0; i < handSize; i++) {
-      hand.add(deck.remove(0));
-    }
-  }
-
-  private void placeCardAtHelper(List<PawnCard> playerHand, Player player,
-                                 int cardIdx, int row, int col) {
-
-    if (cardIdx < 0 || cardIdx >= playerHand.size()) {
-      throw new IllegalArgumentException("CardIdx out of bounds");
+    private void initializeHand (List < PawnCard > deck, List < PawnCard > hand){
+      for (int i = 0; i < handSize; i++) {
+        hand.add(deck.remove(0));
+      }
     }
 
+    private void placeCardAtHelper (List < PawnCard > playerHand, Player player,
+    int cardIdx, int row, int col){
 
-    if (playerHand.size() < handSize) {
-      throw new IllegalArgumentException("Cannot play card. " +
-              "Hand size cannot drop below " + handSize);
+      if (cardIdx < 0 || cardIdx >= playerHand.size()) {
+        throw new IllegalArgumentException("CardIdx out of bounds");
+      }
+
+
+      if (playerHand.size() < handSize) {
+        throw new IllegalArgumentException("Cannot play card. " +
+                "Hand size cannot drop below " + handSize);
+      }
+
+      Card card = playerHand.get(cardIdx);
+
+      if (!this.placeCardLegal(player, card, row, col)) {
+        throw new IllegalArgumentException("card cannot be placed here");
+      }
+
+      Cell cell = this.board[row][col];
+
+      cell.placeCard(card);
+      playerHand.remove(cardIdx);
+      applyCardInfluence(row, col, player, card);
+
     }
 
-    Card card = playerHand.get(cardIdx);
+    private void drawCardHelper (List < PawnCard > playerDeck,
+            List < PawnCard > playerHand){
 
-    if (!this.placeCardLegal(player, card, row, col)) {
-      throw new IllegalArgumentException("card cannot be placed here");
+      playerHand.add(playerDeck.get(0));
+      playerDeck.remove(0);
     }
 
-    Cell cell = this.board[row][col];
 
-    cell.placeCard(card);
-    playerHand.remove(cardIdx);
-    applyCardInfluence(row, col, player, card);
-
-  }
-
-  private void drawCardHelper(List<PawnCard> playerDeck,
-                              List<PawnCard> playerHand) {
-
-    playerHand.add(playerDeck.get(0));
-    playerDeck.remove(0);
-  }
-
-
-
-
-
-  private void endTurn() {
-    turnStarted = false;
-    turn = (turn == Player.RED) ? Player.BLUE : Player.RED;
-  }
-
-  private void gameNotStartedCheck() {
-    if (!gameStarted) {
-      throw new IllegalStateException("Game has not started.");
+    private void endTurn() {
+      turnStarted = false;
+      turn = (turn == Player.RED) ? Player.BLUE : Player.RED;
     }
-  }
 
-  private void playerNotTurnCheck(Player player) {
-    if (player != turn) {
-      throw new IllegalArgumentException("It is not " + player + "'s turn.");
+    private void gameNotStartedCheck() {
+      if (!gameStarted) {
+        throw new IllegalStateException("Game has not started.");
+      }
     }
-  }
 
-  private void turnNotStartedCheck(Player player) {
-    if (!turnStarted) {
-      throw new IllegalStateException("You must start your turn before playing a card.");
+    private void playerNotTurnCheck (Player player){
+      if (player != turn) {
+        throw new IllegalArgumentException("It is not " + player + "'s turn.");
+      }
     }
-  }
+
+    private void turnNotStartedCheck (Player player){
+      if (!turnStarted) {
+        throw new IllegalStateException("You must start your turn before playing a card.");
+      }
+    }
+
 }

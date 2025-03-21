@@ -30,7 +30,7 @@ public class PawnGameTextualView implements GameView {
         Cell cell = model.getCellAt(row, col);
         StringBuilder cellRepresentation = new StringBuilder();
 
-        if (cell.getPawnCount() > 0) {
+        if (cell.getPawnCount().getValue() > 0) {
           cellRepresentation.append(cell.getPawnCount());
         }
 
@@ -38,7 +38,7 @@ public class PawnGameTextualView implements GameView {
           Card card = cell.getCard();
           String owner = (cell.getOwner() == Player.RED) ? "R" : "B";
           cellRepresentation.append(owner);
-        } else if (cell.getPawnCount() == 0) {
+        } else if (cell.getPawnCount().getValue() == 0) {
           cellRepresentation.append("_");
         }
 

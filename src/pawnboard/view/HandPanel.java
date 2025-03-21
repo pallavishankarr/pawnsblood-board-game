@@ -8,9 +8,12 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import pawnboard.model.Card;
+import pawnboard.model.CardInitializer;
 import pawnboard.model.InfluenceType;
+import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnGameImpl;
 import pawnboard.model.Player;
@@ -176,8 +179,11 @@ public class HandPanel extends JPanel implements HighlightPanelView {
 
   public static void main(String[] args) {
     String path = "docs" + File.separator + "deck.config";
+    CardInitializer cardInitializer = new CardInitializer();
+    Map<String, List<PawnCard>> decks = cardInitializer.initializeDeck(path, path);
+    List<PawnCard> deck = decks.get("deck1");
     PawnGameImpl model = new PawnGameImpl(3, 5);
-    model.startGame(path, 5);
+    model.startGame(deck, deck, 5);
 
 
 //    model.drawCard(Player.RED);

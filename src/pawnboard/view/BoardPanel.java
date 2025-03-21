@@ -128,7 +128,7 @@ public class BoardPanel extends JPanel implements HighlightPanelView {
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < cols; col++) {
         Cell cell = model.getCellAt(row, col);
-        int pawnCount = cell.getPawnCount();
+        int pawnCount = cell.getPawnCount().getValue();
 
         if (pawnCount > 0) {
           Player owner = cell.getOwner();

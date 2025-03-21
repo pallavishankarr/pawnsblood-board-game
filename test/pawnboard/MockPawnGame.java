@@ -9,7 +9,8 @@ import java.util.Map;
 
 import pawnboard.model.Card;
 import pawnboard.model.Cell;
-import pawnboard.model.CostEnum;
+import pawnboard.model.Cost;
+
 import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
@@ -40,7 +41,7 @@ public class MockPawnGame implements MockGame {
             {InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X},
     };
 
-    PawnCard card = new PawnCard("StubCard", CostEnum.One, 1, influenceGrid);
+    PawnCard card = new PawnCard("StubCard", Cost.One, 1, influenceGrid);
     this.redHand = new ArrayList<>();
     this.redHand.add(card);
     this.blueHand = new ArrayList<>();
@@ -81,8 +82,8 @@ public class MockPawnGame implements MockGame {
   }
 
   @Override
-  public void startGame(String path, int handSize) {
-    logMessage("startGame called with path: " + path + ", handSize: " + handSize);
+  public void startGame(List<PawnCard> deck1, List<PawnCard> deck2, int handSize) {
+    logMessage("startGame called with path: " + deck1 + deck2 +  ", handSize: " + handSize);
   }
 
   @Override

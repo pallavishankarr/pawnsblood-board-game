@@ -20,7 +20,7 @@ public class PawnCellTest {
   @Before
   public void setUp() {
     this.cell1 = new PawnCell();
-    this.cell2 = new PawnCell(Player.RED, 2);
+    this.cell2 = new PawnCell(Player.RED, Count.Two);
     this.cell3 = new PawnCell();
   }
 
@@ -33,7 +33,7 @@ public class PawnCellTest {
     assertFalse(this.cell1.hasCard());
 
     //checks the initialization of PawnCell with a different constructor
-    assertEquals(2, this.cell2.getPawnCount());
+    assertEquals(2, this.cell2.getPawnCount().getValue());
     assertEquals(Player.RED, this.cell2.getOwner());
     assertFalse(this.cell2.hasCard());
 
@@ -43,7 +43,7 @@ public class PawnCellTest {
   public void testInvalidConstructorCell() {
     assertThrows(IllegalArgumentException.class, ()
         -> {
-      new PawnCell(null, 5);
+      new PawnCell(null, null);
     });
 
   }
@@ -52,13 +52,13 @@ public class PawnCellTest {
   public void testCellAddPawn() {
 
     this.cell1.addPawn(Player.RED);
-    assertEquals(1, this.cell1.getPawnCount());
+    assertEquals(1, this.cell1.getPawnCount().getValue());
     this.cell1.addPawn(Player.RED);
-    assertEquals(2, this.cell1.getPawnCount());
+    assertEquals(2, this.cell1.getPawnCount().getValue());
 
     //adds a pawn for the Blue Player
     this.cell1.addPawn(Player.BLUE);
-    assertEquals(2, this.cell1.getPawnCount());
+    assertEquals(2, this.cell1.getPawnCount().getValue());
   }
 
   //Test to get the owner of a Cel
@@ -71,9 +71,9 @@ public class PawnCellTest {
 
   @Test
   public void testGetPawnCount() {
-    assertEquals(0, this.cell1.getPawnCount());
+    assertEquals(0, this.cell1.getPawnCount().getValue());
     cell1.addPawn(Player.RED);
-    assertEquals(1, this.cell1.getPawnCount());
+    assertEquals(1, this.cell1.getPawnCount().getValue());
 
   }
 

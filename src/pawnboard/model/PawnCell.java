@@ -8,15 +8,17 @@ package pawnboard.model;
 public class PawnCell implements Cell {
 
   private Player owner;
-  private Cost pawnCount;
+  private Count pawnCount;
   private Card card;
-  private boolean hasPawn;
+
 
   /**
    * Constructs a pawn cell object with nothing in it.
    */
   public PawnCell() {
     this.card = null;
+    this.pawnCount = Count.Zero;
+
   }
 
   /**
@@ -27,7 +29,7 @@ public class PawnCell implements Cell {
    * @throws IllegalArgumentException if the pawn count is less than 0 or greater
    *                                  than 3
    */
-  public PawnCell(Player owner, Cost pawnCount) {
+  public PawnCell(Player owner, Count pawnCount) {
 
     this.owner = owner;
     this.pawnCount = pawnCount;
@@ -44,16 +46,16 @@ public class PawnCell implements Cell {
       return;
     }
 
-    else if(pawnCount == Cost.One) {
-      pawnCount = Cost.Two;
+    else if(pawnCount == Count.One) {
+      pawnCount = Count.Two;
     }
 
-    else if(pawnCount == Cost.Two) {
-      pawnCount = Cost.Three;
+    else if(pawnCount == Count.Two) {
+      pawnCount = Count.Three;
     }
 
     else
-      pawnCount = Cost.One;
+      pawnCount = Count.One;
 
   }
 
@@ -63,7 +65,7 @@ public class PawnCell implements Cell {
       throw new IllegalArgumentException("Card cannot be null");
     }
     this.card = card;
-    this.hasPawn = false;
+    this.pawnCount = Count.Zero;
   }
 
   @Override
@@ -72,7 +74,7 @@ public class PawnCell implements Cell {
   }
 
   @Override
-  public Cost getPawnCount() {
+  public Count getPawnCount() {
     return this.pawnCount;
   }
 
@@ -93,6 +95,6 @@ public class PawnCell implements Cell {
 
   @Override
   public boolean isCellEmpty() {
-    return (!hasPawn && !hasCard());
+    return (pawnCount == Count.Zero && !hasCard());
   }
 }
