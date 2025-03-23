@@ -2,13 +2,18 @@ package pawnboard.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.util.List;
+import java.util.Map;
 
+import pawnboard.model.CardInitializer;
+import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
+import pawnboard.model.PawnGameImpl;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 
 public abstract class GameFrame extends JFrame implements GameWindow {
-
   protected BoardPanel board;
   protected HandPanel hand;
   protected ScorePanel redScore;
@@ -25,7 +30,7 @@ public abstract class GameFrame extends JFrame implements GameWindow {
     setLayout(new BorderLayout());
 
     redScore = new ScorePanel(model, Player.RED);
-    hand = new HandPanel(model, player); // Pass the respective player
+    hand = new HandPanel(model, player);
     board = new BoardPanel(model,hand);
     blueScore = new ScorePanel(model, Player.BLUE);
 
@@ -34,7 +39,7 @@ public abstract class GameFrame extends JFrame implements GameWindow {
     this.add(blueScore, BorderLayout.EAST);
     this.add(hand, BorderLayout.SOUTH);
 
-    setVisible(true);
+    display();
   }
 
   @Override
@@ -47,7 +52,16 @@ public abstract class GameFrame extends JFrame implements GameWindow {
     repaint();
   }
 
-  // Abstract method to define frame-specific behavior
-  public abstract void initialize();
+  public static void main(String[] args) {
+    String biggerPath = "docs" + File.separator + "biggerDeck";
+    CardInitializer cardInitializer = new CardInitializer();
+    Map<String, java.util.List<PawnCard>> decks = cardInitializer.initializeDeck(biggerPath, biggerPath);
+    List<PawnCard> deck = decks.get("deck1");
+    PawnGameImpl model = new PawnGameImpl(5, 7);
+    model.startGame(deck, deck, 5);
+    new RedFrame(model);
+    new BlueFrame(model);
+  }
+
 }
 
