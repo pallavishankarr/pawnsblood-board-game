@@ -8,7 +8,7 @@ import pawnboard.model.PawnCell;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 
-public class ScorePanel extends JPanel implements ScorePanelView {
+public class ScorePanel extends JPanel implements GameObserver {
   protected final ReadonlyPawnsGame<PawnCell> model;
   private final Player player;
   private final Dimension logicalSize = new Dimension(100, 600); // Logical reference for scaling
@@ -17,11 +17,6 @@ public class ScorePanel extends JPanel implements ScorePanelView {
     this.model = model;
     this.player = player;
     setPreferredSize(new Dimension(100, 600)); // Ensures correct width
-  }
-
-  @Override
-  public void updateScore() {
-    repaint();
   }
 
   @Override
@@ -70,6 +65,11 @@ public class ScorePanel extends JPanel implements ScorePanelView {
     AffineTransform xform = new AffineTransform();
     xform.scale(scaleX, scaleY);
     return xform;
+  }
+
+  @Override
+  public void gameStateChanged() {
+    repaint();
   }
 }
 

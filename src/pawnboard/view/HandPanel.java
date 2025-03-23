@@ -19,7 +19,7 @@ import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 
 
-public class HandPanel extends JPanel implements HighlightPanelView {
+public class HandPanel extends JPanel implements HighlightPanel {
   private final List<Card> hand;
   private final Color color;
   private int selectedCardIndex = -1;
@@ -120,13 +120,7 @@ public class HandPanel extends JPanel implements HighlightPanelView {
     return selectedCardIndex;
   }
 
-  @Override
-  public void updateBoard() {
-    repaint();
-  }
-
-  @Override
-  public void highlightCell(int row, int col) {
+  private void highlightCell(int row, int col) {
     int handSize = hand.size();
     int panelWidth = getWidth();
     int cardWidth = panelWidth / handSize - CARD_BORDER_THICKNESS;
@@ -139,8 +133,7 @@ public class HandPanel extends JPanel implements HighlightPanelView {
 
   }
 
-  @Override
-  public void clearHighlight() {
+  private void clearHighlight() {
     selectedCardIndex = -1;
     repaint();
 
@@ -149,6 +142,11 @@ public class HandPanel extends JPanel implements HighlightPanelView {
   @Override
   public boolean isHighlighted() {
     return (selectedCardIndex != -1);
+  }
+
+  @Override
+  public void gameStateChanged() {
+    repaint();
   }
 
   public class HandPanelMouseListener extends MouseAdapter {

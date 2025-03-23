@@ -14,7 +14,7 @@ import pawnboard.model.PawnCell;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 
-public class BoardPanel extends JPanel implements HighlightPanelView {
+public class BoardPanel extends JPanel implements HighlightPanel {
   private final int rows;
   private final int cols;
   private final ReadonlyPawnsGame<PawnCell> model;
@@ -53,31 +53,26 @@ public class BoardPanel extends JPanel implements HighlightPanelView {
     if (e.getKeyChar() == 'c' || e.getKeyChar() == 'C') {
       if (this.isHighlighted() && handPanel.isHighlighted()) {
         System.out.println("Move confirmed");
+        gameStateChanged();
       } else {
         System.out.println("Invalid confirmation: Ensure a card and a board cell are selected.");
       }
     } else if (e.getKeyChar() == 'p' || e.getKeyChar() == 'P') {
       System.out.println("Pass turn.");
+      gameStateChanged();
     }
   }
 
-  @Override
-  public void updateBoard() {
-    repaint();
-  }
-
-  @Override
-  public void highlightCell(int row, int col) {
+  private void highlightCell(int row, int col) {
     this.selectedRow = row;
     this.selectedCol = col;
-    updateBoard();
+    gameStateChanged();
   }
 
-  @Override
-  public void clearHighlight() {
+  private void clearHighlight() {
     this.selectedRow = -1;
     this.selectedCol = -1;
-    updateBoard();
+    gameStateChanged();
   }
 
   @Override
@@ -251,6 +246,8 @@ public class BoardPanel extends JPanel implements HighlightPanelView {
       System.out.println("Clicked cell at: (" + clickedRow + ", " + clickedCol + ")");
       highlightCell(clickedRow, clickedCol);  // Otherwise, highlight the clicked cell
     }
+
+    gameStateChanged();
   }
 
 
@@ -264,4 +261,8 @@ public class BoardPanel extends JPanel implements HighlightPanelView {
   }
 
 
+  @Override
+  public void gameStateChanged() {
+    repaint();
+  }
 }
