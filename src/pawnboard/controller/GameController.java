@@ -16,7 +16,8 @@ public interface GameController {
   /**
    * Starts and plays the game using user input from the player.
    * @param model state of the game
-   * @param view view for the model
+   * @param redView view for the red View
+   * @param blueView view for the blue View
    * @param redFilePath file path of the red player deck
    * @param blueFilePath file path of the blue player deck
    * @param handSize the starting handSize
@@ -25,7 +26,7 @@ public interface GameController {
    *    transmit output, or if the game cannot be started
    * @throws IllegalArgumentException if the model or view are null
    */
-  <C extends Cell> void playGame(PawnsGame<PawnCell> model, GameWindow view,
+  <C extends Cell> void playGame(PawnsGame<PawnCell> model, GameWindow redView, GameWindow blueView,
                                  String redFilePath, String blueFilePath, int handSize);
 
   void handleCardClick(int cardIdx, Player player);
