@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import pawnboard.influences.InfluenceEffect;
+import pawnboard.view.GameObserver;
 
 /**
  * Represents the logic of the 2 player Pawn Board game.
@@ -25,6 +26,8 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
   private Player turn;
   private int handSize;
   private boolean turnStarted;
+  private final List<GameObserver> observers;
+
 
   /**
    * Constructs a new PawnGameImpl object with the given board dimensions.
@@ -48,6 +51,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
     this.row = row;
     this.column = column;
     this.turnStarted = false;
+    observers = new ArrayList<>();
 
     // INVARIANT: the board does not have null values
     // We decided to enforce this because it prevents null pointer
@@ -99,6 +103,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
     this.gameStarted = true;
     this.turn = Player.RED;
     this.turnStarted = true;
+    notifyObservers();
   }
 
   @Override
@@ -135,6 +140,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
       placeCardAtHelper(playerBlueHand, player, cardIdx, row, col);
     }
 
+    notifyObservers();
     endTurn();
   }
 
@@ -158,6 +164,8 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
       playerNotTurnCheck(getCurrentPlayer());
 
       turnNotStartedCheck(getCurrentPlayer());
+
+      notifyObservers();
 
       endTurn();
     }
@@ -186,6 +194,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
 
       turnStarted = true;
       drawCard(player);
+      notifyObservers();
     }
 
     @Override
@@ -234,7 +243,23 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
       return board[row][column].getOwner();
     }
 
-    @Override
+  @Override
+  public void addObserver(GameObserver observer) {
+    observers.add(observer);
+  }
+
+  @Override
+  public void removeObserver(GameObserver observer) {
+    observers.remove(observer);
+  }
+
+  private void notifyObservers() {
+    for (GameObserver observer : observers) {
+      observer.gameStateChanged();
+    }
+  }
+
+  @Override
     public List<Card> getHand (Player player){
       gameNotStartedCheck();
 
@@ -354,6 +379,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
       InfluenceType[][] influenceGrid = card.getInfluenceGrid();
       List<InfluenceEffect> influenceEffects = card.getInfluenceEffects();
 
+      boolean stateChanged = false;
 
       for (int i = 0; i < 5; i++) {
         for (int j = 0; j < 5; j++) {
@@ -368,6 +394,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
 
               for (InfluenceEffect effect : influenceEffects) {
                 effect.apply(this, targetRow, targetCol, currentPlayer);
+                stateChanged = true;
               }
 
             } catch (IllegalArgumentException e) {
@@ -375,6 +402,9 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
             }
           }
         }
+      }
+      if (stateChanged) {
+        notifyObservers();
       }
     }
 
@@ -437,6 +467,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
     private void endTurn() {
       turnStarted = false;
       turn = (turn == Player.RED) ? Player.BLUE : Player.RED;
+      notifyObservers();
     }
 
     private void gameNotStartedCheck() {

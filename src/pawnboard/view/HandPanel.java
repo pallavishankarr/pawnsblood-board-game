@@ -6,12 +6,11 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import pawnboard.model.Card;
-import pawnboard.model.CardInitializer;
+import pawnboard.controller.CardInitializer;
 import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
@@ -20,17 +19,17 @@ import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 
 
-public class HandPanel extends JPanel implements HighlightPanelView {
+public class HandPanel extends JPanel implements HighlightPanel {
   private final List<Card> hand;
   private final Color color;
   private int selectedCardIndex = -1;
-  private int highlightedRow = -1;
-  private int highlightedColumn = -1;
+  private ReadonlyPawnsGame<PawnCell> model;
 
   private static final int CARD_BORDER_THICKNESS = 3;
 
   public HandPanel(ReadonlyPawnsGame<PawnCell> model, Player player) {
     super();
+    this.model = model;
 
     if (player.equals(Player.RED)) {
       this.hand = model.getHand(Player.RED);
@@ -41,78 +40,82 @@ public class HandPanel extends JPanel implements HighlightPanelView {
     }
 
     setBackground(Color.BLACK);
+
+    model.addObserver(this);
     this.addMouseListener(new HandPanelMouseListener(this));
   }
 
   @Override
   public Dimension getPreferredSize() {
-    return new Dimension(getWidth(), 200);
+    // Set the preferred size to be based on the panel's width and a fixed height
+    return new Dimension(getWidth(), 200);  // Default height, can adjust as needed
   }
 
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
+
     int handSize = hand.size();
-    int panelWidth = getWidth();
-    int cardWidth = panelWidth / handSize - CARD_BORDER_THICKNESS;
-    int cardHeight = getHeight();
+    int panelWidth = getWidth(); // Get current panel width
+    int cardWidth = panelWidth / handSize - CARD_BORDER_THICKNESS; // Calculate card width based on the panel width
+    int cardHeight = getHeight(); // Use full height for each card
 
     for (int i = 0; i < handSize; i++) {
       Card card = hand.get(i);
       int xPosition = i * (cardWidth + CARD_BORDER_THICKNESS);
 
-      drawCardBackground(g, xPosition, cardWidth, cardHeight, i);
-      drawCardInfo(g, card, xPosition);
-      drawInfluenceGrid(g, card, xPosition, cardWidth, cardHeight);
-    }
-  }
+      g.setColor(Color.BLACK);
+      g.fillRect(xPosition, 0, cardWidth, cardHeight);
 
-  private void drawCardBackground(Graphics g, int xPosition, int cardWidth, int cardHeight, int index) {
-    g.setColor(Color.BLACK);
-    g.fillRect(xPosition, 0, cardWidth, cardHeight);
-    g.setColor(index == selectedCardIndex ? Color.CYAN : color);
-    g.fillRect(xPosition + CARD_BORDER_THICKNESS, 0, cardWidth - CARD_BORDER_THICKNESS, cardHeight);
-  }
+      if (i == selectedCardIndex) {
+        g.setColor(Color.CYAN);
+      } else {
+        g.setColor(color); // Use player color for non-selected cards
+      }
+      g.fillRect(xPosition + CARD_BORDER_THICKNESS, 0, cardWidth - CARD_BORDER_THICKNESS, cardHeight);
 
-  private void drawCardInfo(Graphics g, Card card, int xPosition) {
-    g.setColor(Color.WHITE);
-    g.drawString(card.getName(), xPosition + CARD_BORDER_THICKNESS + 5, 20);
-    g.drawString("Cost: " + card.getPawnCost(), xPosition + CARD_BORDER_THICKNESS + 5, 35);
-    g.drawString("Value: " + card.getValue(), xPosition + CARD_BORDER_THICKNESS + 5, 50);
-  }
+      // Draw card information
+      g.setColor(Color.WHITE);
+      g.drawString(card.getName(), xPosition + CARD_BORDER_THICKNESS + 5, 20);
+      g.drawString("Cost: " + card.getPawnCost(), xPosition + CARD_BORDER_THICKNESS + 5, 35);
+      g.drawString("Value: " + card.getValue(), xPosition + CARD_BORDER_THICKNESS + 5, 50);
 
-  private void drawInfluenceGrid(Graphics g, Card card, int xPosition, int cardWidth, int cardHeight) {
-    InfluenceType[][] grid = card.getInfluenceGrid();
-    int cellSize = Math.min((cardWidth - 2 * CARD_BORDER_THICKNESS) / 5, (cardHeight - 70) / 5);
-    int startY = 70;
+      // Draw influence grid (5x5)
+      InfluenceType[][] grid = card.getInfluenceGrid();
+      int cellSize = Math.min((cardWidth - 2 * CARD_BORDER_THICKNESS) / 5, (cardHeight - 70) / 5);
+      int startY = 70;
 
-    for (int row = 0; row < 5; row++) {
-      for (int col = 0; col < 5; col++) {
-        int x = xPosition + CARD_BORDER_THICKNESS + col * cellSize;
-        int y = startY + row * cellSize;
+      for (int row = 0; row < 5; row++) {
+        for (int col = 0; col < 5; col++) {
+          int x = xPosition + CARD_BORDER_THICKNESS + col * cellSize;
+          int y = startY + row * cellSize;
 
-        g.setColor(Color.DARK_GRAY);
-        g.fillRect(x, y, cellSize, cellSize);
-
-        if (grid[row][col] == InfluenceType.I) {
-          g.setColor(Color.CYAN);
+          // Default grid cell (Dark Gray)
+          g.setColor(Color.DARK_GRAY);
           g.fillRect(x, y, cellSize, cellSize);
-        } else if (grid[row][col] == InfluenceType.C) {
-          g.setColor(Color.ORANGE);
-          g.fillRect(x, y, cellSize, cellSize);
+
+          // Highlight Influence Cells
+          if (grid[row][col] == InfluenceType.I) {
+            g.setColor(Color.CYAN);  // Influence cells as Cyan
+            g.fillRect(x, y, cellSize, cellSize);
+          } else if (grid[row][col] == InfluenceType.C) {
+            g.setColor(Color.ORANGE);  // Coverage cells as Orange
+            g.fillRect(x, y, cellSize, cellSize);
+          }
+
+          // Draw black border for each cell
+          g.setColor(Color.BLACK);
+          g.drawRect(x, y, cellSize, cellSize);
         }
-
-        g.setColor(Color.BLACK);
-        g.drawRect(x, y, cellSize, cellSize);
       }
     }
   }
 
   public void toggleSelection(int index) {
     if (index == selectedCardIndex) {
-      selectedCardIndex = -1;
+      selectedCardIndex = -1;  // Deselect card
     } else {
-      selectedCardIndex = index;
+      selectedCardIndex = index;  // Select new card
     }
     repaint();
   }
@@ -121,27 +124,33 @@ public class HandPanel extends JPanel implements HighlightPanelView {
     return selectedCardIndex;
   }
 
-  @Override
-  public void updateBoard() {
-    repaint();
+  private void highlightCell(int row, int col) {
+    int handSize = hand.size();
+    int panelWidth = getWidth();
+    int cardWidth = panelWidth / handSize - CARD_BORDER_THICKNESS;
+
+    int x = col * (cardWidth + CARD_BORDER_THICKNESS);
+    if (row >= 0 && row < handSize) {
+      toggleSelection(row);
+    }
+
+
   }
 
-  @Override
-  public void highlightCell(int row, int col) {
-    this.highlightedRow = row;
-    this.highlightedColumn = col;
-    repaint();
-  }
-
-  @Override
-  public void clearHighlight() {
+  private void clearHighlight() {
     selectedCardIndex = -1;
     repaint();
+
   }
 
   @Override
   public boolean isHighlighted() {
     return (selectedCardIndex != -1);
+  }
+
+  @Override
+  public void gameStateChanged() {
+    repaint();
   }
 
   public class HandPanelMouseListener extends MouseAdapter {
@@ -154,18 +163,20 @@ public class HandPanel extends JPanel implements HighlightPanelView {
     @Override
     public void mouseClicked(MouseEvent e) {
       int x = e.getX();
+
+
       int cardWidth = handPanel.getWidth() / handPanel.hand.size() - CARD_BORDER_THICKNESS;
       int cardIndex = x / (cardWidth + CARD_BORDER_THICKNESS);
 
+      // Ensure card index doesn't go out of bounds
       if (cardIndex >= 0 && cardIndex < handPanel.hand.size()) {
         handPanel.toggleSelection(cardIndex);
-        System.out.println("Card index: " + cardIndex + ", Player: " + (color == Color.PINK ? "RED" : "BLUE"));
+
+        System.out.println("Card index: " + cardIndex + ", Player: "
+                + (color == Color.PINK ? "RED" : "BLUE"));
       }
     }
   }
-
-
-
 
   public static void main(String[] args) {
     String path = "docs" + File.separator + "deck.config";

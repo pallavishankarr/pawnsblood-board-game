@@ -16,6 +16,7 @@ public class ScorePanel extends JPanel implements GameObserver {
   public ScorePanel(ReadonlyPawnsGame<PawnCell> model, Player player) {
     this.model = model;
     this.player = player;
+    model.addObserver(this);
     setPreferredSize(new Dimension(100, 600)); // Ensures correct width
   }
 
