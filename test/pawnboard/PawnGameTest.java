@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import pawnboard.model.Card;
-import pawnboard.model.CardInitializer;
+import pawnboard.controller.CardInitializer;
 import pawnboard.model.Cell;
 import pawnboard.model.Cost;
 import pawnboard.model.InfluenceType;

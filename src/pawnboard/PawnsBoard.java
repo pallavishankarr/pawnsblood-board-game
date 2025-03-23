@@ -4,20 +4,13 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.*;
-
-import pawnboard.model.Card;
-import pawnboard.model.CardInitializer;
+import pawnboard.controller.CardInitializer;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnGameImpl;
-import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
-import pawnboard.model.ReadonlyPawnsGame;
 import pawnboard.view.BlueFrame;
 import pawnboard.view.GameView;
 import pawnboard.view.GameWindow;
-import pawnboard.view.HandPanel;
-import pawnboard.view.PawnGameTextualView;
 import pawnboard.view.RedFrame;
 
 /**

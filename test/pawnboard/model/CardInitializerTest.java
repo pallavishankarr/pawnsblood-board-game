@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 
+import pawnboard.controller.CardInitializer;
 import pawnboard.influences.DefaultInfluence;
 
 import static org.junit.Assert.assertEquals;

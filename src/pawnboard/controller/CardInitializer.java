@@ -1,4 +1,4 @@
-package pawnboard.model;
+package pawnboard.controller;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import pawnboard.model.Cost;
+import pawnboard.model.InfluenceType;
+import pawnboard.model.PawnCard;
 
 /**
  * Initializes a deck of PawnCards from a given a file path.

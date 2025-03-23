@@ -1,8 +1,11 @@
 package pawnboard.controller;
 
+import pawnboard.model.Card;
 import pawnboard.model.Cell;
+import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
+import pawnboard.model.Player;
 import pawnboard.view.GameWindow;
 
 /**
@@ -24,4 +27,10 @@ public interface GameController {
    */
   <C extends Cell> void playGame(PawnsGame<PawnCell> model, GameWindow view,
                                  String redFilePath, String blueFilePath, int handSize);
+
+  void handleCardClick(int cardIdx, Player player);
+
+  void handleCellClick(int row, int col);
+
+  void handleKeyPress(char key);
 }
