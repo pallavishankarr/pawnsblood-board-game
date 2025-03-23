@@ -23,11 +23,13 @@ public class HandPanel extends JPanel implements HighlightPanel {
   private final List<Card> hand;
   private final Color color;
   private int selectedCardIndex = -1;
+  private ReadonlyPawnsGame<PawnCell> model;
 
   private static final int CARD_BORDER_THICKNESS = 3;
 
   public HandPanel(ReadonlyPawnsGame<PawnCell> model, Player player) {
     super();
+    this.model = model;
 
     if (player.equals(Player.RED)) {
       this.hand = model.getHand(Player.RED);
@@ -38,6 +40,8 @@ public class HandPanel extends JPanel implements HighlightPanel {
     }
 
     setBackground(Color.BLACK);
+
+    model.addObserver(this);
     this.addMouseListener(new HandPanelMouseListener(this));
   }
 

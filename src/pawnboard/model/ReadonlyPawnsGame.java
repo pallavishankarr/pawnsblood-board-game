@@ -2,6 +2,8 @@ package pawnboard.model;
 
 import java.util.List;
 
+import pawnboard.view.GameObserver;
+
 public interface ReadonlyPawnsGame<C extends Cell> {
 
   /**
@@ -109,4 +111,8 @@ public interface ReadonlyPawnsGame<C extends Cell> {
    */
   Player getOwnerAt(int row, int col);
 
+  // observer methods
+  void addObserver(GameObserver observer);
+
+  void removeObserver(GameObserver observer);
 }

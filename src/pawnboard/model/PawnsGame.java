@@ -2,6 +2,8 @@ package pawnboard.model;
 
 import java.util.List;
 
+import pawnboard.view.GameObserver;
+
 /**
  * The PawnsGame interface defines the structure and rules for a playable game.
  * It includes methods for initializing the board, starting the game,
@@ -52,11 +54,10 @@ public interface PawnsGame<C extends Cell> extends ReadonlyPawnsGame<C> {
 
   /**
    * Starts the turn for the given player.
+   * Will draw a card for the given player.
    * @param player the player whose turn is starting
    * @throws IllegalStateException if the game has not started yet
    * @throws IllegalArgumentException if it isn't that players turn yet
    */
   void startTurn(Player player);
-
-
 }

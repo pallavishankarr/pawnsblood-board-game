@@ -30,6 +30,8 @@ public class BoardPanel extends JPanel implements HighlightPanel {
     rows = model.getHeight();
     cols = model.getWidth();
 
+    model.addObserver(this);
+
     // Add Mouse Listener
     addMouseListener(new MouseAdapter() {
       @Override
