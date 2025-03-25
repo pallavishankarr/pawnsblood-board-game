@@ -2410,8 +2410,7 @@ public class PawnGameTest {
     mockGame.setLegalMove(0, 0);
     mockGame.setLegalMove(1, 1);
 
-    // Make sure to set the controlled cells correctly for the test case.
-    // Add logic to ensure controlled cells count works as expected
+
     int controlledCells = 2; // Example value for testing
 
     List<Move> moves = strategy.chooseMove(mockGame, player);
@@ -2443,7 +2442,7 @@ public class PawnGameTest {
 
     assertNotNull(moves);
     assertEquals(1, moves.size());
-    assertEquals(0, moves.get(0).getRow()); // Should prefer the top-left corner move (0, 0)
+    assertEquals(0, moves.get(0).getRow());
   }
 
   @Test
@@ -2451,14 +2450,9 @@ public class PawnGameTest {
     MockPawnGame mockGame = new MockPawnGame(new StringBuilder());
     ControlStrategy strategy = new ControlStrategy();
     Player player = Player.RED;
-
-
-
-
-
     List<Move> moves = strategy.chooseMove(mockGame, player);
 
-    System.out.print((moves));
+    assertTrue(moves.isEmpty());
   }
 
 
@@ -2472,6 +2466,7 @@ public class PawnGameTest {
     PawnCard card = new PawnCard("Test Card", Cost.One, 1, new InfluenceType[][]{
             {InfluenceType.X, InfluenceType.I, InfluenceType.C, InfluenceType.I, InfluenceType.X},
             {InfluenceType.I, InfluenceType.I, InfluenceType.C, InfluenceType.I, InfluenceType.I},
+
     });
     mockGame.addCardToHand(player, card);
 

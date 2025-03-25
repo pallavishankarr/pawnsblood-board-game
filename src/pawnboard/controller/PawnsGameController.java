@@ -23,7 +23,7 @@ import pawnboard.view.RedFrame;
 
 
 
-public class PawnsGameController implements GameController {
+public class PawnsGameController implements GameController<PawnCell, Player, PawnCard> {
   private final Readable input;
   private final Appendable output;
   private int selectedCardIdx = -1;
@@ -44,10 +44,12 @@ public class PawnsGameController implements GameController {
     this.output = output;
   }
 
+
   @Override
-  public <C extends Cell> void playGame(PawnsGame<PawnCell> model, GameWindow redView,
-                                        GameWindow blueView, String redFilePath,
-                                        String blueFilePath, int handSize) {
+  public void playGame(PawnsGame<PawnCell, Player, PawnCard> model, GameWindow redView, GameWindow blueView,
+                       String redFilePath, String blueFilePath, int handSize) {
+
+
     if (model == null || redView == null || blueView == null ||
             redFilePath == null || blueFilePath == null) {
       throw new IllegalArgumentException("Invalid arguments provided.");
@@ -169,7 +171,7 @@ public class PawnsGameController implements GameController {
     }
   }
 
-  private boolean hasGameStarted(PawnsGame<PawnCell> model) {
+  private boolean hasGameStarted(PawnsGame<PawnCell, Player, PawnCard> model) {
     try {
       model.getHand(Player.RED);  // Try accessing a player's hand
       return true;  // No exception = game started
