@@ -36,6 +36,7 @@ Pawns Board is a two-player strategy game inspired by Queen’s Blood. The game 
  the board, move validation, and altering the board as the model
 is supposed to store the state of the program, logic, and ensuring
 that the state is correct.
+-  introduced the ReadsOnly interface to provide controlled, read-only access to the game's state.
 
 ### Player (Player)
 - enum representation of RED and BLUE players
@@ -65,8 +66,43 @@ when the game is started
 - displays pawn with integers and card placements with an R for red or B for blue
 - helps with visualizing card influencing and the current state of the board
 
+### Controller 
+- added the CardInitializer to be part of our controller package 
+- Created the game controller interface
+- Created the stub controller which handles card click and print out the index of the card clicked 
+and the player which owns the card
+- Also handles the cell click which also prints out the index of the cell
+- Handles the key press which after selecting card and cell player can confirm their move 
+by pressing "C" or "c" or they could press "p" or "P" to pass the turn 
 
-Updates Made in Homework 6 
+### Strategies 
+Fill First Strategy 
+- places a card in the first available legal spot on the board, starting from the top-left. 
+- prioritizes quick board filling and uses the player's hand to find the first valid move.
+- Picks the first valid move.
+- Throws exceptions if model/player is null or if the game is over.
+Maximize Row Strategy 
+-  aims to maximize the player's score on a row by placing a card in a position that improves 
+their row score more than the opponent’s.
+- Prioritizes placing cards to maximize the player's row score.
+- Avoids placing in rows where the player’s score is already higher than the opponent’s.
+- Caches legal moves to avoid repeating checks.
+
+
+
+### GUI
+- sets up and displays the game window, including the board, player hands, and score panels. 
+-  ensures that the game model and player are initialized properly
+- Hand panel for tracking the hand and making sure cards get added when a card is drawn 
+- RedFrame displays the game window for the red player 
+- Blue Frame displays teh game window for the blue player 
+- Score panel displays teh score on either side of each row 
+
+
+
+
+
+Changes for Part 2 
 - Changed the String[][] 2D Grid to creating a enum InfluenceType and create a 
 InfluenceType 2D grid for the influence grid
 - Changed the Cost from a int to a Cost enum and changed the following tests 
@@ -75,10 +111,22 @@ and related code
 - Changed drawCard to be private 
 - Changed applyInfluence to be a private method 
 - Changed passTurn to not take in a player since the model stores the currentPlayer 
-- Change card Initalizer  to take in two file paths and then changed the following code to return a 
+- Change card initializer to take in two file paths and then changed the following code to return a 
 hash map of a string and deck 
 - Changed PawnCount to become a enum 
-- Stub controller created 
-- C or c for confirm the move 
-- P or p for passing the move 
-- 
+- - We  changed our PawnsGame Implementation to add the types of the Player and PawnCard, and keeping
+    the PawnCell already there
+
+
+
+
+### Extra Credit Strategy 
+
+- We were able to add one extra strategy which is the MaxControlStrategy which can be found 
+in the strategy folder
+-  A strategy for selecting moves in Pawns Board game by maximizing the number of owned cells. 
+If multiple positions yield the same number of controlled cells, the uppermost-leftmost position 
+is chosen. If multiple cards yield the same number of controlled cells, the leftmost card in hand is 
+chosen.
+- We have added strategy tests for this strategy in our PawnGameTest and can 
+be found at the end of it. 
