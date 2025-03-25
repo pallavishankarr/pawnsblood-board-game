@@ -31,8 +31,8 @@ public interface ReadonlyPawnsGame<C extends Cell<P, T>, P extends Player, T ext
    * Determines if the placing card with a given card is legal.
    * @param player the player placing the card
    * @param card the card being placed
-   * @param row row of where card should be placed
-   * @param col col of where card should be placed
+   * @param row row of where card should be placed (0-index based)
+   * @param col col of where card should be placed (0-index based)
    * @return boolean based on if not placing card is legal
    * @throws IllegalStateException if the game hasn't started
    */
@@ -47,8 +47,8 @@ public interface ReadonlyPawnsGame<C extends Cell<P, T>, P extends Player, T ext
 
   /**
    * Returns the cell at the indicated position on the board.
-   * @param row the row to access
-   * @param col the column to acess
+   * @param row the row to access (0-index based)
+   * @param col the column to access (0-index based)
    * @return the cell in the valid position
    * @throws IllegalArgumentException if the row and column are not a valid location
    *                                  for a Cell on the board
@@ -96,7 +96,7 @@ public interface ReadonlyPawnsGame<C extends Cell<P, T>, P extends Player, T ext
   /**
    * Checks the Score of the row based on the Player.
    * @param player player that score is being checked
-   * @param rowIdx the row index that is being checked
+   * @param rowIdx the row index that is being checked (0-index based)
    * @return the score of the
    * @throws IllegalArgumentException if the rowIdx is out of row bounds
    */
@@ -111,8 +111,8 @@ public interface ReadonlyPawnsGame<C extends Cell<P, T>, P extends Player, T ext
 
   /**
    * Determines which Player owns the cell at a given coordinate.
-   * @param row row number of the index
-   * @param col column number of the index
+   * @param row row number of the index (0-index based)
+   * @param col column number of the index (0-index based)
    * @return Player which owns the cell
    * @throws IllegalStateException if the game has not started
    */

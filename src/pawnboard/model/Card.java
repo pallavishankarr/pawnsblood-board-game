@@ -39,12 +39,12 @@ public interface Card {
    * Returns a list of influence effects that the card has.
    * @return a list of influence effects
    */
-  List<InfluenceEffect> getInfluenceEffects();
+  List<InfluenceEffect<PawnCell, Player, PawnCard>> getInfluenceEffects();
 
   /**
    * Determines if the Card affects cell of the given row and column.
-   * @param row row index of the cell
-   * @param col col index of the cell
+   * @param row row index of the cell (0-index based)
+   * @param col col index of the cell (0-index based)
    * @return true if the cell is affected by the card or false if not
    * @throws IllegalArgumentException if the row and col indexes are invalid
    */

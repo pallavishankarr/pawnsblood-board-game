@@ -17,8 +17,8 @@ public class Move<T extends Card> {
   /**
    * Constructs a move with the given card and placement coordinates.
    * @param card the card to be placed
-   * @param row the row
-   * @param col the col
+   * @param row the row (0-index based)
+   * @param col the col (0-index based)
    * @throws IllegalArgumentException if the card is null
    */
   public Move(T card, int row, int col) {

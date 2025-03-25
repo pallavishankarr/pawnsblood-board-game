@@ -10,7 +10,8 @@ import pawnboard.view.GameObserver;
  * Represents the logic of the 2 player Pawn Board game.
  * Maintains the game state including the rectangular board, player decks, turns, and
  * move validation.
- * Note: 0-index based
+ * The game board is represented as a 2D grid with rows and columns
+ * indexed starting from 0 (0-index based). The top-left cell of the board is at (0, 0).
  */
 public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard> {
 
@@ -30,9 +31,10 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard> {
 
   /**
    * Constructs a new PawnGameImpl object with the given board dimensions.
-   *
+   * The game board is represented as a 2D grid with rows and columns
+   * indexed starting from 0 (0-index based). The top-left cell of the board is at (0, 0).
    * @param row    the number of rows in the board (must be positive)
-   * @param column the number of columsn in the board (must be odd and >1)
+   * @param column the number of column in the board (must be odd and >1)
    * @throws IllegalArgumentException if the row is not a positive integer or column is not
    *                                  odd and greater than 1.
    */
