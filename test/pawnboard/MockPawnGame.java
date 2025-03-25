@@ -138,7 +138,7 @@ public class MockPawnGame implements MockGame {
   }
 
   @Override
-  public List<Card> getHand(Player player) {
+  public List<PawnCard> getHand(Player player) {
     logMessage("Checked hand of player: " + player);
     return player == Player.RED ? new ArrayList<>(redHand) : new ArrayList<>(blueHand);
   }

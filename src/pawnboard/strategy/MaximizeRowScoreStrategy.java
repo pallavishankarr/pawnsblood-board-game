@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import pawnboard.model.Card;
+import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
@@ -14,7 +15,7 @@ import pawnboard.model.ReadonlyPawnsGame;
 public class MaximizeRowScoreStrategy implements PawnBoardStrategy {
   @Override
   public List<Move> chooseMove(PawnsGame<PawnCell> model, Player player) {
-    List<Card> hand = model.getHand(player);
+    List<PawnCard> hand = model.getHand(player);
     Player opponent = (player == Player.RED) ? Player.BLUE : Player.RED;
     List<Move> bestMoves = new ArrayList<>();
 
@@ -28,7 +29,7 @@ public class MaximizeRowScoreStrategy implements PawnBoardStrategy {
         continue;
       }
 
-      for (Card card : hand) {
+      for (PawnCard card : hand) {
         boolean moveMade = false;
 
         for (int c = 0; c < model.getWidth(); c++) {

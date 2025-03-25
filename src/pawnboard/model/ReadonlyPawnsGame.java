@@ -61,7 +61,7 @@ public interface ReadonlyPawnsGame<C extends Cell> {
    * @return a copy of the player's current hand
    * @throws IllegalStateException if the game has not started
    */
-  List<Card> getHand(Player player);
+  List<PawnCard> getHand(Player player);
 
   /**
    * Returns the number of cards left in a player's deck.

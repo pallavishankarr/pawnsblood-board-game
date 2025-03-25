@@ -268,7 +268,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
   }
 
   @Override
-    public List<Card> getHand (Player player){
+    public List<PawnCard> getHand (Player player){
       gameNotStartedCheck();
 
       if (player == Player.RED) {

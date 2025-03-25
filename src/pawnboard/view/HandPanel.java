@@ -20,7 +20,7 @@ import pawnboard.model.ReadonlyPawnsGame;
 
 
 public class HandPanel extends JPanel implements HighlightPanel {
-  private final List<Card> hand;
+  private final List<PawnCard> hand;
   private final Color color;
   private int selectedCardIndex = -1;
   private ReadonlyPawnsGame<PawnCell> model;

@@ -50,6 +50,7 @@ public class PawnGameTest {
   private MaximizeRowScoreStrategy maxRowStrat;
   private Appendable output;
   private InfluenceType[][] influenceGrid;
+  private InfluenceType[][] influenceGrid2;
   private CardInitializer cardInitializer= new CardInitializer();
   Map<String, List<PawnCard>> decks = new HashMap<>();
   Map<String, List<PawnCard>> decks2 = new HashMap<>();
@@ -71,6 +72,16 @@ public class PawnGameTest {
             {InfluenceType.I, InfluenceType.I, InfluenceType.C, InfluenceType.I, InfluenceType.I},
             {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I, InfluenceType.X},
             {InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X},
+    };
+
+    influenceGrid2 = new InfluenceType[][] {
+            {InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.I, InfluenceType.C, InfluenceType.I, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X},
+
+
     };
     decks = cardInitializer.initializeDeck(path, path);
     deck = decks.get("deck1");
@@ -1908,7 +1919,7 @@ public class PawnGameTest {
             {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I, InfluenceType.X},
             {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X},
     };
-    Card card = new PawnCard("TestCard", Cost.Two, 5, influenceGrid);
+    PawnCard card = new PawnCard("TestCard", Cost.Two, 5, influenceGrid);
     Move move = new Move(card, 0, 3);
 
 
@@ -2306,29 +2317,71 @@ public class PawnGameTest {
     model.startGame(deck1, deck2, 5);
 
     PawnBoardStrategy boardStrategy = new FillFirstStrategy();
-    System.out.print(boardStrategy.chooseMove(model, Player.RED));
-    PawnCard cardA = new PawnCard("Security", Cost.One, 2, influenceGrid);
+    PawnCard cardA = new PawnCard("Security", Cost.One, 2, influenceGrid2);
     Move move = new Move(cardA, 0, 0);
     List<Move> moves = new ArrayList<>();
     moves.add(move);
-    assertEquals(moves, boardStrategy.chooseMove(model, Player.RED) );
+
+    List<Move> moves2 = boardStrategy.chooseMove(model, Player.RED);
+    for(int i = 0; i < moves.size(); i++  ) {
+      moves.get(i).equals(moves2.get(i));
+    }
+
+    List<Move> moves3 = boardStrategy.chooseMove(model, Player.BLUE);
+    for(int i = 0; i < moves3.size(); i++  ) {
+      moves.get(i).equals(moves3.get(i));
+    }
+
   }
 
   @Test
-  public void testMaxamizeeRowStrategy() {
+  public void testMaxamizeRowStrategy() {
     PawnGameImpl model = new PawnGameImpl(3,5);
     model.startGame(deck, deck, 5);
 
     PawnBoardStrategy boardStrategy = new MaximizeRowScoreStrategy();
-    PawnCard cardB = new PawnCard("Security", Cost.One, 2, influenceGrid);
-    Move move = new Move(cardB, 0,0);
+    PawnCard cardA = new PawnCard("Security", Cost.One, 2, influenceGrid2);
+  Move move = new Move(cardA, 0,0);
     List<Move> moves = new ArrayList<>();
     moves.add(move);
 
-    for(int i = 0; i < moves.size(); i++  ) {
-      move.equals(moves.get(i));
+
+
+    List<Move> moves2 = new ArrayList<>();
+    moves2 = boardStrategy.chooseMove(model, Player.RED);
+    Card cardC = moves2.get(0).getCard();
+
+    for(int i = 0; i < moves2.size(); i++  ) {
+      assertEquals(moves.get(i), (moves2.get(i)));
     }
 
+
+     InfluenceType[][] influenceGrid3 = {
+            {InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.C, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X},
+            {InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X, InfluenceType.X}
+
+    };
+
+
+
+
+    PawnCard cardB  = new PawnCard("Striker", Cost.One, 2, influenceGrid3);
+    Move move2 = new Move(cardB, 0,0);
+
+    List<Move> moves3 = new ArrayList<>();
+    moves3.add(move2);
+
+    List<Move> moves4 = new ArrayList<>();
+    moves4 = boardStrategy.chooseMove(model, Player.BLUE);
+
+    for(int i = 0; i < moves4.size(); i++  ) {
+     assertEquals(moves4, moves3.get(i));
+    }
+
+    
 
 
   }

@@ -61,7 +61,7 @@ configure the deck since the deck is only constructed
 when the game is started
 
 ### Textual View
-- provides text based reprsentation of the board
+- provides text based representation of the board
 - displays pawn with integers and card placements with an R for red or B for blue
 - helps with visualizing card influencing and the current state of the board
 
@@ -75,6 +75,10 @@ and related code
 - Changed drawCard to be private 
 - Changed applyInfluence to be a private method 
 - Changed passTurn to not take in a player since the model stores the currentPlayer 
-- Change cardIntializer to take in two file paths and then changed the following code to return a 
+- Change card Initalizer  to take in two file paths and then changed the following code to return a 
 hash map of a string and deck 
 - Changed PawnCount to become a enum 
+- Stub controller created 
+- C or c for confirm the move 
+- P or p for passing the move 
+- 

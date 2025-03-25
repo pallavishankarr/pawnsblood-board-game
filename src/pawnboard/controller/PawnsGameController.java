@@ -89,7 +89,7 @@ public class PawnsGameController implements GameController {
       return;
     }
 
-    List<Card> hand = model.getHand(currentPlayer);
+    List<PawnCard> hand = model.getHand(currentPlayer);
     if (cardIdx < 0 || cardIdx >= hand.size()) {
       appendOutput("Invalid card selection.\n");
       return;

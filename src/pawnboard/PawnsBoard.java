@@ -72,8 +72,8 @@ public final class PawnsBoard {
     placeCard(model, blueFrame, Player.BLUE, 4,0,2);
     placeCard(model, redFrame, Player.RED, 4,2,2);
     placeCard(model, blueFrame, Player.BLUE, 2,1,2);
-    placeCard(model, redFrame, Player.RED, 4,1,1);
-    System.out.println(model.getWinner());
+   placeCard(model, redFrame, Player.RED, 4,1,1);
+   System.out.println(model.getWinner());
   }
 
   private static void placeCard(PawnGameImpl game, GameWindow window ,
