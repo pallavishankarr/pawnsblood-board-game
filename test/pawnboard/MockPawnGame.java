@@ -67,7 +67,7 @@ public class MockPawnGame implements MockGame<PawnCell, Player, PawnCard> {
 
   @Override
   public void setLegalMove(int row, int col) {
-    if (row > width || col > height || row < 0 || col < 0) {
+    if (row > height || col > width || row < 0 || col < 0) {
       throw new IllegalArgumentException("row or or column out of bounds");
     }
       legalMoves[row][col] = true;

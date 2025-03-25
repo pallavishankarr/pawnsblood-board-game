@@ -32,7 +32,6 @@ public class MaximizeRowScoreStrategy implements PawnBoardStrategy<PawnCell, Pla
     List<PawnCard> hand = model.getHand(player);
     Player opponent = (player == Player.RED) ? Player.BLUE : Player.RED;
     List<Move<PawnCard>> bestMoves = new ArrayList<>();
-    Set<String> legalMovesCache = new HashSet<>();
     for (int r = 0; r < model.getHeight(); r++) {
       int playerRowScore = model.checkScoreRow(player, r);
       int opponentRowScore = model.checkScoreRow(opponent, r);
@@ -40,6 +39,7 @@ public class MaximizeRowScoreStrategy implements PawnBoardStrategy<PawnCell, Pla
         continue;
       }
       for (PawnCard card : hand) {
+        Set<String> legalMovesCache = new HashSet<>();
         if (tryPlacingCard(model, player, card, r, opponentRowScore, bestMoves, legalMovesCache)) {
           return bestMoves;
         }

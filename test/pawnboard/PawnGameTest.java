@@ -11,7 +11,6 @@ import java.util.Map;
 
 import pawnboard.model.Card;
 import pawnboard.controller.CardInitializer;
-import pawnboard.model.Cell;
 import pawnboard.model.Cost;
 import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCard;
@@ -1705,8 +1704,8 @@ public class PawnGameTest {
     assertEquals(1, cell3.getPawnCount().getValue());
 
     Card card = game.getHand(Player.RED).get(0);
-//    game.applyCardInfluence(0, 0, Player.RED,
-//            card);
+    game.placeCardAt(Player.RED, 0, 0, 0);
+
 
     //checks that the pawn count of the cells after card influence is applied
     assertEquals(1, cell2.getPawnCount().getValue());
@@ -2050,10 +2049,10 @@ public class PawnGameTest {
 
   @Test
   public void testMaxScoreSingleValidMove() {
-    PawnCard card = new PawnCard("Card1", Cost.One, 3, influenceGrid);
+    PawnCard card = new PawnCard("Card1", Cost.One, 5, influenceGrid);
     mockGame.addCardToHand(Player.RED, card);
-    mockGame.setFakeRowScore(1, Player.RED, 2);
-    mockGame.setFakeRowScore(1, Player.BLUE, 4);
+    mockGame.setFakeRowScore(1, Player.RED, 1);
+    mockGame.setFakeRowScore(1, Player.BLUE, 3);
     mockGame.setLegalMove(1, 2);
 
     List<Move<PawnCard>> moves = maxRowStrat.chooseMove(mockGame, Player.RED);
@@ -2346,7 +2345,7 @@ public class PawnGameTest {
   }
 
   @Test
-  public void testMaxamizeRowStrategy() {
+  public void testMaximizeRowStrategy() {
     PawnGameImpl model = new PawnGameImpl(3, 5);
     model.startGame(deck, deck2, 5);
 
@@ -2388,8 +2387,6 @@ public class PawnGameTest {
     for (int i = 0; i < moves4.size(); i++) {
       assertEquals(moves3.get(i), moves4.get(i));
     }
-
-
   }
 
 
