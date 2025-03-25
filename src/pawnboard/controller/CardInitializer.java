@@ -47,12 +47,6 @@ public class CardInitializer {
       decks.put("deck1", deck1);
       decks.put("deck2", deck2);
     }
-
-
-
-
-
-
     return decks;
   }
 

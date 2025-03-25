@@ -47,7 +47,7 @@ public class PawnGameTest {
   private MockPawnGame mockGame;
   private FillFirstStrategy fillFirstStrat;
   private MaximizeRowScoreStrategy maxRowStrat;
-  private Appendable appendable;
+  private Appendable output;
   private InfluenceType[][] influenceGrid;
   private CardInitializer cardInitializer= new CardInitializer();
   Map<String, List<PawnCard>> decks = new HashMap<>();
@@ -60,8 +60,8 @@ public class PawnGameTest {
 
   @Before
   public void setUp() {
-    appendable = new StringBuilder();
-    mockGame = new MockPawnGame(appendable);
+    output = new StringBuilder();
+    mockGame = new MockPawnGame(output);
     fillFirstStrat = new FillFirstStrategy();
     maxRowStrat = new MaximizeRowScoreStrategy();
     influenceGrid = new InfluenceType[][]{
@@ -2245,6 +2245,28 @@ public class PawnGameTest {
 
     assertEquals(1, moves.size());
     assertEquals(cardA, moves.get(0).getCard());
+  }
+
+  @Test
+  public void testMaxStratTranscript() {
+    CardInitializer cardInitializer = new CardInitializer();
+    Map<String, List<PawnCard>> deck = cardInitializer.initializeDeck(path, path);
+    Map.Entry<String, List<PawnCard>> firstEntry = deck.entrySet().iterator().next();
+    List<PawnCard> redDeck = firstEntry.getValue();
+
+    for (PawnCard card : redDeck) {
+      mockGame.addCardToHand(Player.RED, card);
+    }
+
+    mockGame.setFakeRowScore(0, Player.RED, 0);
+    mockGame.setFakeRowScore(0, Player.BLUE, 20);
+    mockGame.setFakeRowScore(1, Player.RED, 4);
+    mockGame.setFakeRowScore(1, Player.BLUE, 5);
+    mockGame.setLegalMove(0, 2);
+    mockGame.setLegalMove(1, 3);
+
+    List<Move> moves = maxRowStrat.chooseMove(mockGame, Player.RED);
+    System.out.println(output.toString());
   }
 
 
