@@ -81,35 +81,41 @@ Contains various strategies that players can use to make decisions during the ga
 ### 9. `src/pawnboard/view/` (Textual and GUI Views)
 Responsible for rendering the game view, either as text or through a graphical user interface.
 
-- **`BoardPanel.java`**:
-- **`RedFrame.java`**:
-- **`GameFrame.java`**:
-- **`ScorePanel.java`**:
-- **`BlueFrame.java`**:
-- **`PawnGameTextualView.java`**:
-- **`HandPanel.java`**:
-- **`GameWindow.java`**:
-- **`HighlightPanel.java`**:
-- **`GameObserver.java`**:
-- **`GameView.java`**:
+- **`BoardPanel.java`**: Creates the panel for the board 
+- **`RedFrame.java`**: Frame for the Red Player that extends the GameFrame. 
+- **`GameFrame.java`**: Implementation for the Game Window that shows the board panel, hand panel 
+and Score panel. 
+- **`ScorePanel.java`**: Has the score of each row when cards get placed 
+- **`BlueFrame.java`**:Frame for the Blue Player that extends  the GameFrame.
+- **`PawnGameTextualView.java`**: Implementation of the GameView and returns where a Card has been
+placed and teh score of each player 
+- **`HandPanel.java`**: Creates the Hand Panel and holds the cards of each player 
+- **`GameWindow.java`**: Interface for the game window which displays the view and updates it 
+- **`HighlightPanel.java`**: Interface for any panel that needs to be highlighted 
+- **`GameObserver.java`**: Interface for the observer when the game state has changed. 
+- **`GameView.java`**:Creates the Game View interface for the textual View 
 
 ---
 
 ### 10. `src/tests/pawnboard/` (Unit Tests)
 Contains the unit tests for the game logic, strategies, and components to ensure correctness.
 
-- **`PawnGameTest.java`**: 
-- **`MockPawnGame.java`**: 
-- **`MockGame.java`**: 
+
+
+- **`PawnGameTest.java`**: Tests all the public methods in the Pawn Game Implementation. 
+- **`MockPawnGame.java`**: Creates the MockGame implementation to test the strategies 
+- **`MockGame.java`**: Creates the MockGame interface that is used to test the strategies. 
 
 ---
 
 ### 11. `src/tests/pawnboard/model` (Unit Tests)
-Contains the unit tests for the game logic, strategies, and components to ensure correctness.
+Contains the unit tests for the PawnCell , PawnCard and CardInitializer components
 
-- **`PawnCellTest.java`**:
-- **`PawnCardTest.java`**:
-- **`CardInitializerTest.java`**:
+
+- **`PawnCellTest.java`**: Test the methods within the PawnCell which is used to create the Cells of the Board
+- **`PawnCardTest.java`**: Tests the methods withing the PawnCard which stores the values of the Card and is utilized in
+  the PawnGame Implementation.
+- **`CardInitializerTest.java`**: Test the creation of decks and testing the file paths. 
 
 
 
