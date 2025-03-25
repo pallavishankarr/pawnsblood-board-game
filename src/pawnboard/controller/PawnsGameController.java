@@ -6,17 +6,13 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
-import pawnboard.model.Card;
-import pawnboard.model.Cell;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnGameImpl;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 import pawnboard.view.BlueFrame;
-import pawnboard.view.GameFrame;
 import pawnboard.view.GameWindow;
 
 import pawnboard.view.RedFrame;
@@ -86,6 +82,9 @@ public class PawnsGameController implements GameController<PawnCell, Player, Paw
 
   @Override
   public void handleCardClick(int cardIdx, Player player) {
+    if (cardIdx < 0) {
+      throw new IllegalArgumentException("cardidx must be positive");
+    }
     if (player != currentPlayer) {
       appendOutput("It's not your turn!\n");
       return;
@@ -110,6 +109,9 @@ public class PawnsGameController implements GameController<PawnCell, Player, Paw
 
   @Override
   public void handleCellClick(int row, int col) {
+    if (row < 0 || col < 0) {
+      throw new IllegalArgumentException("row and col must be positive")
+    }
     if (selectedCardIdx == -1) {
       appendOutput("Select a card first before choosing a cell.\n");
       return;
