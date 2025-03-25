@@ -1,7 +1,6 @@
 package pawnboard.view;
 
 import pawnboard.model.Card;
-import pawnboard.model.Cell;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
@@ -15,6 +14,7 @@ public class PawnGameTextualView implements GameView {
 
   /**
    * Creates a PawnGameTextualView object.
+   *
    * @param model the model of the game
    */
   public PawnGameTextualView(PawnsGame<PawnCell, Player, PawnCard> model) {

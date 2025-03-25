@@ -6,6 +6,7 @@ package pawnboard.view;
 public interface HighlightPanel {
   /**
    * Determines whether an element in panel is currently highlighted.
+   *
    * @return true if an element in panel or panel is highlighted, false if not
    */
   boolean isHighlighted();

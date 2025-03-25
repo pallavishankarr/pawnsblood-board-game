@@ -1,7 +1,6 @@
 package pawnboard.view;
 
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -9,7 +8,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import pawnboard.model.Card;
+import javax.swing.*;
+
 import pawnboard.controller.CardInitializer;
 import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCard;
@@ -25,17 +25,16 @@ import pawnboard.model.ReadonlyPawnsGame;
  * Updates the GUI when the game state changes.
  */
 public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
+  private static final int CARD_BORDER_THICKNESS = 3;
   private final List<PawnCard> hand;
   private final Color color;
   private int selectedCardIndex = -1;
-  private ReadonlyPawnsGame<PawnCell, Player, PawnCard> model;
-
-  private static final int CARD_BORDER_THICKNESS = 3;
+  private final ReadonlyPawnsGame<PawnCell, Player, PawnCard> model;
 
   /**
    * Constructs a HandPanel for a specific player in the game.
    *
-   * @param model The game model that represents the state of the game.
+   * @param model  The game model that represents the state of the game.
    * @param player The player whose hand is to be displayed.
    * @throws IllegalArgumentException if the model is null
    */
@@ -58,6 +57,32 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
 
     model.addObserver(this);
     this.addMouseListener(new HandPanelMouseListener(this));
+  }
+
+  public static void main(String[] args) {
+    String path = "docs" + File.separator + "deck.config";
+    CardInitializer cardInitializer = new CardInitializer();
+    Map<String, List<PawnCard>> decks = CardInitializer.initializeDeck(path, path);
+    List<PawnCard> deck = decks.get("deck1");
+    PawnGameImpl model = new PawnGameImpl(3, 5);
+    model.startGame(deck, deck, 5);
+
+
+//    model.drawCard(Player.RED);
+
+    // Create a player (either RED or BLUE)
+    Player player = Player.RED;
+
+
+    // Create the HandPanel
+    HandPanel handPanel = new HandPanel(model, player);
+
+    // Create the frame to display the HandPanel
+    JFrame frame = new JFrame("HandPanel Test");
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setSize(1200, 200);
+    frame.add(handPanel);
+    frame.setVisible(true);
   }
 
   @Override
@@ -135,7 +160,6 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
     g.drawRect(x, y, cellSize, cellSize);
   }
 
-
   public void toggleSelection(int index) {
     if (index == selectedCardIndex) {
       selectedCardIndex = -1;  // Deselect card
@@ -201,32 +225,6 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
                 + (color == Color.PINK ? "RED" : "BLUE"));
       }
     }
-  }
-
-  public static void main(String[] args) {
-    String path = "docs" + File.separator + "deck.config";
-    CardInitializer cardInitializer = new CardInitializer();
-    Map<String, List<PawnCard>> decks = cardInitializer.initializeDeck(path, path);
-    List<PawnCard> deck = decks.get("deck1");
-    PawnGameImpl model = new PawnGameImpl(3, 5);
-    model.startGame(deck, deck, 5);
-
-
-//    model.drawCard(Player.RED);
-
-    // Create a player (either RED or BLUE)
-    Player player = Player.RED;
-
-
-    // Create the HandPanel
-    HandPanel handPanel = new HandPanel(model, player);
-
-    // Create the frame to display the HandPanel
-    JFrame frame = new JFrame("HandPanel Test");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(1200, 200);
-    frame.add(handPanel);
-    frame.setVisible(true);
   }
 }
 
