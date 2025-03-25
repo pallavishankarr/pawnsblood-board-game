@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pawnboard.model.Card;
+import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
@@ -23,10 +24,10 @@ public class FillFirstStrategy implements PawnBoardStrategy {
       throw new IllegalStateException("Cannot choose a move when the game is over.");
     }
 
-    List<Card> hand = model.getHand(player);
+    List<PawnCard> hand = model.getHand(player);
     List<Move> possibleMoves = new ArrayList<>();
 
-    for (Card card : hand) {
+    for (PawnCard card : hand) {
       for (int r = 0; r < model.getHeight(); r++) {
         for (int c = 0; c < model.getWidth(); c++) {
           if (model.placeCardLegal(player, card, r, c)) {

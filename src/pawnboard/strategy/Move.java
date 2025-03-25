@@ -1,13 +1,16 @@
 package pawnboard.strategy;
 
+import java.util.Objects;
+
 import pawnboard.model.Card;
+import pawnboard.model.PawnCard;
 
 /**
  * Represents a move in the Pawns Board game.
  * A move consists of a card, a row, and a column on the board.
  */
 public class Move {
-  private final Card card;
+  private final PawnCard card;
   private final int row;
   private final int col;
 
@@ -18,7 +21,7 @@ public class Move {
    * @param col the col
    * @throws IllegalArgumentException if the card is null
    */
-  public Move(Card card, int row, int col) {
+  public Move(PawnCard card, int row, int col) {
     if (card == null) {
       throw new IllegalArgumentException("card cannot be null");
     }
@@ -56,6 +59,13 @@ public class Move {
     } else {
       return false;
     }
+
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(card, row, col);
+
 
   }
 

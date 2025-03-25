@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import pawnboard.model.Card;
+import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
@@ -27,7 +28,7 @@ public class MaximizeRowScoreStrategy implements PawnBoardStrategy {
     if (model.isGameOver()) {
       throw new IllegalStateException("Cannot choose a move when the game is over.");
     }
-    List<Card> hand = model.getHand(player);
+    List<PawnCard> hand = model.getHand(player);
     Player opponent = (player == Player.RED) ? Player.BLUE : Player.RED;
     List<Move> bestMoves = new ArrayList<>();
     Set<String> legalMovesCache = new HashSet<>();
@@ -37,7 +38,7 @@ public class MaximizeRowScoreStrategy implements PawnBoardStrategy {
       if (playerRowScore > opponentRowScore) {
         continue;
       }
-      for (Card card : hand) {
+      for (PawnCard card : hand) {
         if (tryPlacingCard(model, player, card, r, opponentRowScore, bestMoves, legalMovesCache)) {
           return bestMoves;
         }
@@ -46,7 +47,7 @@ public class MaximizeRowScoreStrategy implements PawnBoardStrategy {
     return bestMoves;
   }
 
-  private boolean tryPlacingCard(PawnsGame<PawnCell> model, Player player, Card card, int row,
+  private boolean tryPlacingCard(PawnsGame<PawnCell> model, Player player, PawnCard card, int row,
                                  int opponentRowScore, List<Move> bestMoves, Set<String> legalMovesCache) {
     for (int col = 0; col < model.getWidth(); col++) {
       String moveKey = row + "," + col;

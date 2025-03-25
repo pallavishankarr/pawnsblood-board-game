@@ -2378,10 +2378,10 @@ public class PawnGameTest {
     moves4 = boardStrategy.chooseMove(model, Player.BLUE);
 
     for(int i = 0; i < moves4.size(); i++  ) {
-     assertEquals(moves4, moves3.get(i));
+     assertEquals( moves3.get(i), moves4.get(i));
     }
 
-    
+
 
 
   }

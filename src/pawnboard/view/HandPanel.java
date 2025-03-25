@@ -25,7 +25,7 @@ import pawnboard.model.ReadonlyPawnsGame;
  * Updates the GUI when the game state changes.
  */
 public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
-  private final List<Card> hand;
+  private final List<PawnCard> hand;
   private final Color color;
   private int selectedCardIndex = -1;
   private ReadonlyPawnsGame<PawnCell> model;
