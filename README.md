@@ -20,27 +20,27 @@ Pawns Board is a two-player strategy game inspired by Queen’s Blood. The game 
 The codebase for Pawns Board is organized into several directories, each focusing on different aspects of the game. Below is a "map" to help you navigate through the source code and understand where different components are located.
 
 ### 1. `docs/` ()
-Contains the deck files for card reading
+Contains the deck files for card reading 
 - **`triplefile`**: 
 - **`biggerDeck`**:
 - **`deck.config`**:
 
-### 1. `GameScreenshots/` ()
+### 2. `GameScreenshots/` ()
 - **`NonTrivialPoint.png`**:
 - **`BluePlayerSelect.png`**:
 - **`RedPlayerSelect.png`**:
 - **`StartOfGame.png`**:
 
-### 1. `src/` (Root Source Directory)
+### 3. `src/` (Root Source Directory)
 This is the root directory containing the main game logic and components.
 - **`UserPlayerInterfacePlan.txt`**:
 
-### 2. `src/pawnboard` ()
+### 4. `src/pawnboard` ()
 - **`PawnsBoard.java`**:
 - **`strategy-transcript-score.txt`**:
 - **`strategy-transcript-first.txt`**:
 
-### 3. `src/pawnboard/controller/` (Game Controller)
+### 5. `src/pawnboard/controller/` (Game Controller)
 This directory manages interactions between the game's model and the user interface, including player input handling.
 
 - **`GameController.java`**: Interface defining actions like card clicks, cell clicks, and passing turns.
@@ -48,11 +48,11 @@ This directory manages interactions between the game's model and the user interf
 - **`PawnsGameController.java`**: A stub for simulating user input, including card and cell selections, and passing turns.
 ---
 
-### 4. 'src/pawnboard/influences/' (Influence Effects)
+### 6. 'src/pawnboard/influences/' (Influence Effects)
 - **`InfluenceEffect.java`**: 
 - **`DefaultInfluence.java`**:
 
-### 5. `src/pawnboard/boardmodel/` (Game Model)
+### 7. `src/pawnboard/boardmodel/` (Game Model)
 This directory contains the core classes that define the game logic, rules, and board management.
 
 - **`PawnsGame.java`**:
@@ -68,7 +68,7 @@ This directory contains the core classes that define the game logic, rules, and 
 - **`Player.java`**:
 ---
 
-### 6. `src/pawnboard/strategy/` (Player Strategies)
+### 8. `src/pawnboard/strategy/` (Player Strategies)
 Contains various strategies that players can use to make decisions during the game.
 - **`MaximizeRowStrategy.java`**: A strategy that prioritizes maximizing the player's score on a row.
 - **`PawnBoardStrategy.java`**:
@@ -78,7 +78,7 @@ Contains various strategies that players can use to make decisions during the ga
 
 ---
 
-### 7. `src/pawnboard/view/` (Textual and GUI Views)
+### 9. `src/pawnboard/view/` (Textual and GUI Views)
 Responsible for rendering the game view, either as text or through a graphical user interface.
 
 - **`BoardPanel.java`**:
@@ -95,7 +95,7 @@ Responsible for rendering the game view, either as text or through a graphical u
 
 ---
 
-### 6. `src/tests/pawnboard/` (Unit Tests)
+### 10. `src/tests/pawnboard/` (Unit Tests)
 Contains the unit tests for the game logic, strategies, and components to ensure correctness.
 
 - **`PawnGameTest.java`**: 
@@ -104,7 +104,7 @@ Contains the unit tests for the game logic, strategies, and components to ensure
 
 ---
 
-### 6. `src/tests/pawnboard/model` (Unit Tests)
+### 11. `src/tests/pawnboard/model` (Unit Tests)
 Contains the unit tests for the game logic, strategies, and components to ensure correctness.
 
 - **`PawnCellTest.java`**:
