@@ -2259,15 +2259,19 @@ public class PawnGameTest {
       mockGame.addCardToHand(Player.RED, card);
     }
 
-    mockGame.setFakeRowScore(0, Player.RED, 0);
-    mockGame.setFakeRowScore(0, Player.BLUE, 20);
-    mockGame.setFakeRowScore(1, Player.RED, 4);
-    mockGame.setFakeRowScore(1, Player.BLUE, 5);
+    mockGame.setFakeRowScore(0, Player.RED, 20);
+    mockGame.setFakeRowScore(0, Player.BLUE, 0);
+    mockGame.setFakeRowScore(1, Player.RED, 0);
+    mockGame.setFakeRowScore(1, Player.BLUE, 20);
+    mockGame.setFakeRowScore(2, Player.RED, 5);
+    mockGame.setFakeRowScore(2, Player.BLUE, 5);
     mockGame.setLegalMove(0, 2);
     mockGame.setLegalMove(1, 3);
+    mockGame.setLegalMove(2, 4);
+
 
     List<Move> moves = maxRowStrat.chooseMove(mockGame, Player.RED);
-    System.out.println(output.toString());
+    System.out.println(output.toString() + "Chosen Move: (" + moves.get(0) + ")");
   }
 
   @Test
