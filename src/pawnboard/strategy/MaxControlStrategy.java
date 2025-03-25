@@ -71,9 +71,7 @@ public class MaxControlStrategy implements PawnBoardStrategy<PawnCell, Player, P
       return true;
     }
     if (newControlledCells == maxControlledCells) {
-      if (bestMove == null || newRow < bestMove.getRow() || (newRow == bestMove.getRow() && newCol < bestMove.getCol())) {
-        return true;
-      }
+      return bestMove == null || newRow < bestMove.getRow() || (newRow == bestMove.getRow() && newCol < bestMove.getCol());
     }
     return false;
   }
