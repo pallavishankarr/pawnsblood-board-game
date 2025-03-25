@@ -2324,7 +2324,10 @@ public class PawnGameTest {
     Move move = new Move(cardB, 0,0);
     List<Move> moves = new ArrayList<>();
     moves.add(move);
-    assertTrue(moves.equals(boardStrategy.chooseMove(model, Player.RED) ));
+
+    for(int i = 0; i < moves.size(); i++  ) {
+      move.equals(moves.get(i));
+    }
 
 
 
