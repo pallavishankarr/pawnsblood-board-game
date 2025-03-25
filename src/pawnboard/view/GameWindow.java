@@ -14,6 +14,6 @@ public interface GameWindow {
    * Updates the game view to reflect the latest game state.
    * This method should be called whenever the game state changes
    * to ensure GUI remains up to date.
-    */
+   */
   void updateView();
 }

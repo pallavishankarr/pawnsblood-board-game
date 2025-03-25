@@ -5,11 +5,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
-import pawnboard.model.Cell;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.Player;
@@ -20,22 +20,23 @@ import pawnboard.model.ReadonlyPawnsGame;
  * Updates board of game interactions, highlights cells, renders the game state.
  * This panel is a game observer, listens for the game state changes and user interactions
  * (mouse click and key presses).
- * */
+ */
 public class BoardPanel extends JPanel implements GameObserver, HighlightPanel {
   private final int rows;
   private final int cols;
   private final ReadonlyPawnsGame<PawnCell, Player, PawnCard> model;
   private final Dimension logicalSize = new Dimension(800, 600);
+  private final HandPanel handPanel;
   private int selectedRow = -1;
   private int selectedCol = -1;
-  private final HandPanel handPanel;
 
   /**
    * Constructs a board panel object with the game model, and hande panel.
    * Initializes the panel, adds mouse and key listeners, and registers the panel
    * as an observer of the game.
    * Board panel needs hand panel to detect if the hand panel is highlighted.
-   * @param model the game model to observe
+   *
+   * @param model     the game model to observe
    * @param handPanel the hand panel for card selection
    * @throws IllegalArgumentException if the model or hand panel is null
    */
@@ -58,7 +59,7 @@ public class BoardPanel extends JPanel implements GameObserver, HighlightPanel {
         handleCellClick(e);
       }
     });
-    
+
     addKeyListener(new KeyAdapter() {
       @Override
       public void keyPressed(KeyEvent e) {

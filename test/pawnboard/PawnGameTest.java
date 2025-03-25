@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import pawnboard.model.Card;
 import pawnboard.controller.CardInitializer;
+import pawnboard.model.Card;
 import pawnboard.model.Cost;
 import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCard;
@@ -18,13 +18,13 @@ import pawnboard.model.PawnCell;
 import pawnboard.model.PawnGameImpl;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
-import pawnboard.strategy.MaxControlStrategy;
 import pawnboard.strategy.FillFirstStrategy;
+import pawnboard.strategy.MaxControlStrategy;
 import pawnboard.strategy.MaximizeRowScoreStrategy;
+import pawnboard.strategy.Move;
 import pawnboard.strategy.PawnBoardStrategy;
 import pawnboard.view.GameView;
 import pawnboard.view.PawnGameTextualView;
-import pawnboard.strategy.Move;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -43,6 +43,12 @@ public class PawnGameTest {
   String path = "docs" + File.separator + "deck.config";
   String biggerPath = "docs" + File.separator + "biggerDeck";
   String tripleFile = "docs" + File.separator + "tripleFile";
+  Map<String, List<PawnCard>> decks = new HashMap<>();
+  Map<String, List<PawnCard>> decks2 = new HashMap<>();
+  List<PawnCard> deck = new ArrayList<>();
+  List<PawnCard> deck2 = new ArrayList<>();
+  List<PawnCard> deck3 = new ArrayList<>();
+  List<PawnCard> deck4 = new ArrayList<>();
   private Player player;
   private PawnsGame<PawnCell, Player, PawnCard> game;
   private MockPawnGame mockGame;
@@ -51,14 +57,12 @@ public class PawnGameTest {
   private Appendable output;
   private InfluenceType[][] influenceGrid;
   private InfluenceType[][] influenceGrid2;
-  private CardInitializer cardInitializer = new CardInitializer();
-  Map<String, List<PawnCard>> decks = new HashMap<>();
-  Map<String, List<PawnCard>> decks2 = new HashMap<>();
-  List<PawnCard> deck = new ArrayList<>();
-  List<PawnCard> deck2 = new ArrayList<>();
-  List<PawnCard> deck3 = new ArrayList<>();
-  List<PawnCard> deck4= new ArrayList<>();
+  private final CardInitializer cardInitializer = new CardInitializer();
 
+  private static void passTurn(PawnGameImpl game, Player player) {
+    game.startTurn(player);
+    game.passTurn();
+  }
 
   @Before
   public void setUp() {
@@ -83,20 +87,15 @@ public class PawnGameTest {
 
 
     };
-    decks = cardInitializer.initializeDeck(path, path);
+    decks = CardInitializer.initializeDeck(path, path);
     deck = decks.get("deck1");
     deck2 = decks.get("deck2");
-    decks2 = cardInitializer.initializeDeck(biggerPath, biggerPath);
+    decks2 = CardInitializer.initializeDeck(biggerPath, biggerPath);
     deck3 = decks2.get("deck1");
     deck4 = decks2.get("deck2");
     deck4 = decks2.get("deck2");
 
 
-  }
-
-  private static void passTurn(PawnGameImpl game, Player player) {
-    game.startTurn(player);
-    game.passTurn();
   }
 
   //test for Valid Constructor of the PawnsGame Class
@@ -136,7 +135,7 @@ public class PawnGameTest {
   @Test
   public void testInvalidCardDeck() {
 
-    Map<String, List<PawnCard>> decks3 = cardInitializer.initializeDeck(tripleFile, tripleFile);
+    Map<String, List<PawnCard>> decks3 = CardInitializer.initializeDeck(tripleFile, tripleFile);
     List<PawnCard> deck = decks3.get("deck1");
 
 
@@ -234,7 +233,7 @@ public class PawnGameTest {
   public void testIllegalStartGame() {
     String path2 = "CardList";
 
-    Map<String, List<PawnCard>> deck3 = cardInitializer.initializeDeck(path2, path2);
+    Map<String, List<PawnCard>> deck3 = CardInitializer.initializeDeck(path2, path2);
     List<PawnCard> deck5 = deck3.get("deck1");
     List<PawnCard> deck6 = deck3.get("deck2");
 
@@ -437,7 +436,7 @@ public class PawnGameTest {
 
     //Gets the card at the cell at row : 0 col : 0
     PawnCell cell2 = game.getCellAt(0, 0);
-    PawnCard card2 = (PawnCard) cell2.getCard();
+    PawnCard card2 = cell2.getCard();
 
     PawnCell cell3 = game.getCellAt(0, 1);
     PawnCell cell4 = game.getCellAt(1, 0);
@@ -478,7 +477,7 @@ public class PawnGameTest {
 
     //Gets the card at the cell at row : 0 col : 0
     PawnCell cell2 = game.getCellAt(0, 4);
-    PawnCard card2 = (PawnCard) cell2.getCard();
+    PawnCard card2 = cell2.getCard();
 
     PawnCell cell3 = game.getCellAt(2, 4);
     PawnCell cell4 = game.getCellAt(1, 4);
@@ -634,7 +633,7 @@ public class PawnGameTest {
   @Test
   public void testPlaceCardAtEdgesRedBigger() {
     this.game = new PawnGameImpl(5, 7);
-    Map<String, List<PawnCard>> decks3 = cardInitializer.initializeDeck(biggerPath, biggerPath);
+    Map<String, List<PawnCard>> decks3 = CardInitializer.initializeDeck(biggerPath, biggerPath);
     List<PawnCard> deck5 = decks3.get("deck1");
     List<PawnCard> deck6 = decks3.get("deck2");
 
@@ -703,7 +702,7 @@ public class PawnGameTest {
   @Test
   public void testPlaceCardAtEdgesBlueBigger() {
     this.game = new PawnGameImpl(5, 7);
-    Map<String, List<PawnCard>> decks3 = cardInitializer.initializeDeck(biggerPath, biggerPath);
+    Map<String, List<PawnCard>> decks3 = CardInitializer.initializeDeck(biggerPath, biggerPath);
     List<PawnCard> deck5 = decks3.get("deck1");
     List<PawnCard> deck6 = decks3.get("deck2");
     game.startGame(deck5, deck6, 5);
@@ -875,7 +874,7 @@ public class PawnGameTest {
 
     //Gets the card at the cell at row : 0 col : 0
     PawnCell cell2 = game.getCellAt(0, 0);
-    PawnCard card2 = (PawnCard) cell2.getCard();
+    PawnCard card2 = cell2.getCard();
 
     PawnCell cell3 = game.getCellAt(0, 1);
     PawnCell cell4 = game.getCellAt(1, 0);
@@ -916,7 +915,7 @@ public class PawnGameTest {
 
     //Gets the card at the cell at row : 0 col : 0
     PawnCell cell2 = game.getCellAt(0, 4);
-    PawnCard card2 = (PawnCard) cell2.getCard();
+    PawnCard card2 = cell2.getCard();
 
     PawnCell cell3 = game.getCellAt(2, 4);
     PawnCell cell4 = game.getCellAt(1, 4);
@@ -1020,7 +1019,7 @@ public class PawnGameTest {
   @Test
   public void testPlaceCardApplyInfluenceBiggerRed() {
     game = new PawnGameImpl(5, 7);
-    Map<String, List<PawnCard>> decks3 = cardInitializer.initializeDeck(biggerPath, biggerPath);
+    Map<String, List<PawnCard>> decks3 = CardInitializer.initializeDeck(biggerPath, biggerPath);
     List<PawnCard> deck5 = decks3.get("deck1");
     List<PawnCard> deck6 = decks3.get("deck2");
     game.startGame(deck5, deck6, 5);
@@ -1074,7 +1073,7 @@ public class PawnGameTest {
   @Test
   public void testApplyInfluenceBlueCardPlacedBigger() {
     game = new PawnGameImpl(5, 7);
-    Map<String, List<PawnCard>> decks3 = cardInitializer.initializeDeck(biggerPath, biggerPath);
+    Map<String, List<PawnCard>> decks3 = CardInitializer.initializeDeck(biggerPath, biggerPath);
     List<PawnCard> deck5 = decks3.get("deck1");
     List<PawnCard> deck6 = decks3.get("deck2");
     game.startGame(deck5, deck6, 5);
@@ -1849,7 +1848,7 @@ public class PawnGameTest {
   @Test
   public void testGetBoardCopy() {
     game = new PawnGameImpl(5, 7);
-    Map<String, List<PawnCard>> decks3 = cardInitializer.initializeDeck(biggerPath, biggerPath);
+    Map<String, List<PawnCard>> decks3 = CardInitializer.initializeDeck(biggerPath, biggerPath);
     List<PawnCard> deck5 = decks3.get("deck1");
     List<PawnCard> deck6 = decks3.get("deck2");
 
@@ -1868,10 +1867,9 @@ public class PawnGameTest {
   @Test
   public void testGetBoardCopyPawnPlacement() {
     game = new PawnGameImpl(5, 7);
-    Map<String, List<PawnCard>> decks3 = cardInitializer.initializeDeck(biggerPath, biggerPath);
+    Map<String, List<PawnCard>> decks3 = CardInitializer.initializeDeck(biggerPath, biggerPath);
     List<PawnCard> deck5 = decks3.get("deck1");
     List<PawnCard> deck6 = decks3.get("deck2");
-
 
 
     game.startGame(deck5, deck6, 5);
@@ -1898,7 +1896,7 @@ public class PawnGameTest {
   @Test
   public void testGetBoardCopy2() {
     game = new PawnGameImpl(5, 7);
-    Map<String, List<PawnCard>> decks3 = cardInitializer.initializeDeck(biggerPath, biggerPath);
+    Map<String, List<PawnCard>> decks3 = CardInitializer.initializeDeck(biggerPath, biggerPath);
     List<PawnCard> deck5 = decks3.get("deck1");
     List<PawnCard> deck6 = decks3.get("deck2");
 
@@ -2272,7 +2270,7 @@ public class PawnGameTest {
   @Test
   public void testMaxStratTranscript() {
     CardInitializer cardInitializer = new CardInitializer();
-    Map<String, List<PawnCard>> deck = cardInitializer.initializeDeck(path, path);
+    Map<String, List<PawnCard>> deck = CardInitializer.initializeDeck(path, path);
     Map.Entry<String, List<PawnCard>> firstEntry = deck.entrySet().iterator().next();
     List<PawnCard> redDeck = firstEntry.getValue();
 
@@ -2298,7 +2296,7 @@ public class PawnGameTest {
   @Test
   public void testFillFirstTranscript() {
     CardInitializer cardInitializer = new CardInitializer();
-    Map<String, List<PawnCard>> deck = cardInitializer.initializeDeck(path, path);
+    Map<String, List<PawnCard>> deck = CardInitializer.initializeDeck(path, path);
     Map.Entry<String, List<PawnCard>> firstEntry = deck.entrySet().iterator().next();
     List<PawnCard> redDeck = firstEntry.getValue();
 
@@ -2320,7 +2318,7 @@ public class PawnGameTest {
     PawnGameImpl model = new PawnGameImpl(3, 5);
 
     CardInitializer cardInitializer = new CardInitializer();
-    Map<String, List<PawnCard>> decks = cardInitializer.initializeDeck(path, path);
+    Map<String, List<PawnCard>> decks = CardInitializer.initializeDeck(path, path);
     List<PawnCard> deck1 = decks.get("deck1");
     List<PawnCard> deck2 = decks.get("deck2");
 
@@ -2375,8 +2373,7 @@ public class PawnGameTest {
     };
 
 
-    PawnCard cardB = new PawnCard("Striker", Cost.One, 2, influenceGrid3);
-    Move<PawnCard> move2 = new Move<PawnCard>(cardB, 0, 0);
+    Move<PawnCard> move2 = new Move<PawnCard>(cardA, 0, 0);
 
     List<Move<PawnCard>> moves3 = new ArrayList<>();
     moves3.add(move2);
@@ -2432,8 +2429,6 @@ public class PawnGameTest {
   }
 
 
-
-
   @Test
   public void testChooseMoveWithTiebreaker() {
     MockPawnGame mockGame = new MockPawnGame(new StringBuilder());
@@ -2463,7 +2458,6 @@ public class PawnGameTest {
     List<Move<PawnCard>> moves = strategy.chooseMove(mockGame, player);
     assertTrue(moves.isEmpty());
   }
-
 
 
 }

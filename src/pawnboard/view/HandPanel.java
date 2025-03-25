@@ -1,7 +1,6 @@
 package pawnboard.view;
 
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -9,7 +8,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import pawnboard.model.Card;
+import javax.swing.*;
+
 import pawnboard.controller.CardInitializer;
 import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCard;
@@ -25,17 +25,16 @@ import pawnboard.model.ReadonlyPawnsGame;
  * Updates the GUI when the game state changes.
  */
 public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
+  private static final int CARD_BORDER_THICKNESS = 3;
   private final List<PawnCard> hand;
   private final Color color;
   private int selectedCardIndex = -1;
-  private ReadonlyPawnsGame<PawnCell, Player, PawnCard> model;
-
-  private static final int CARD_BORDER_THICKNESS = 3;
+  private final ReadonlyPawnsGame<PawnCell, Player, PawnCard> model;
 
   /**
    * Constructs a HandPanel for a specific player in the game.
    *
-   * @param model The game model that represents the state of the game.
+   * @param model  The game model that represents the state of the game.
    * @param player The player whose hand is to be displayed.
    * @throws IllegalArgumentException if the model is null
    */
@@ -60,6 +59,32 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
     this.addMouseListener(new HandPanelMouseListener(this));
   }
 
+  public static void main(String[] args) {
+    String path = "docs" + File.separator + "deck.config";
+    CardInitializer cardInitializer = new CardInitializer();
+    Map<String, List<PawnCard>> decks = CardInitializer.initializeDeck(path, path);
+    List<PawnCard> deck = decks.get("deck1");
+    PawnGameImpl model = new PawnGameImpl(3, 5);
+    model.startGame(deck, deck, 5);
+
+
+//    model.drawCard(Player.RED);
+
+    // Create a player (either RED or BLUE)
+    Player player = Player.RED;
+
+
+    // Create the HandPanel
+    HandPanel handPanel = new HandPanel(model, player);
+
+    // Create the frame to display the HandPanel
+    JFrame frame = new JFrame("HandPanel Test");
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setSize(1200, 200);
+    frame.add(handPanel);
+    frame.setVisible(true);
+  }
+
   @Override
   public Dimension getPreferredSize() {
     // Set the preferred size to be based on the panel's width and a fixed height
@@ -71,59 +96,68 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
     super.paintComponent(g);
 
     int handSize = hand.size();
-    int panelWidth = getWidth(); // Get current panel width
-    int cardWidth = panelWidth / handSize - CARD_BORDER_THICKNESS; // Calculate card width based on the panel width
-    int cardHeight = getHeight(); // Use full height for each card
+    int panelWidth = getWidth();
+    int cardWidth = panelWidth / handSize - CARD_BORDER_THICKNESS;
+    int cardHeight = getHeight();
 
     for (int i = 0; i < handSize; i++) {
-      Card card = hand.get(i);
+      PawnCard card = hand.get(i);
       int xPosition = i * (cardWidth + CARD_BORDER_THICKNESS);
 
-      g.setColor(Color.BLACK);
-      g.fillRect(xPosition, 0, cardWidth, cardHeight);
+      drawCardBackground(g, xPosition, cardWidth, cardHeight, i);
+      drawCardDetails(g, xPosition, card, cardWidth, cardHeight);
+      drawInfluenceGrid(g, card, xPosition, cardWidth, cardHeight);
+    }
+  }
 
-      if (i == selectedCardIndex) {
-        g.setColor(Color.CYAN);
-      } else {
-        g.setColor(color); // Use player color for non-selected cards
-      }
-      g.fillRect(xPosition + CARD_BORDER_THICKNESS, 0, cardWidth - CARD_BORDER_THICKNESS, cardHeight);
+  private void drawCardBackground(Graphics g, int xPosition, int cardWidth, int cardHeight, int cardIndex) {
+    g.setColor(Color.BLACK);
+    g.fillRect(xPosition, 0, cardWidth, cardHeight);
 
-      // Draw card information
-      g.setColor(Color.WHITE);
-      g.drawString(card.getName(), xPosition + CARD_BORDER_THICKNESS + 5, 20);
-      g.drawString("Cost: " + card.getPawnCost(), xPosition + CARD_BORDER_THICKNESS + 5, 35);
-      g.drawString("Value: " + card.getValue(), xPosition + CARD_BORDER_THICKNESS + 5, 50);
+    if (cardIndex == selectedCardIndex) {
+      g.setColor(Color.CYAN);
+    } else {
+      g.setColor(color);
+    }
+    g.fillRect(xPosition + CARD_BORDER_THICKNESS, 0, cardWidth - CARD_BORDER_THICKNESS, cardHeight);
+  }
 
-      // Draw influence grid (5x5)
-      InfluenceType[][] grid = card.getInfluenceGrid();
-      int cellSize = Math.min((cardWidth - 2 * CARD_BORDER_THICKNESS) / 5, (cardHeight - 70) / 5);
-      int startY = 70;
+  private void drawCardDetails(Graphics g, int xPosition, PawnCard card, int cardWidth, int cardHeight) {
+    g.setColor(Color.WHITE);
+    g.drawString(card.getName(), xPosition + CARD_BORDER_THICKNESS + 5, 20);
+    g.drawString("Cost: " + card.getPawnCost(), xPosition + CARD_BORDER_THICKNESS + 5, 35);
+    g.drawString("Value: " + card.getValue(), xPosition + CARD_BORDER_THICKNESS + 5, 50);
+  }
 
-      for (int row = 0; row < 5; row++) {
-        for (int col = 0; col < 5; col++) {
-          int x = xPosition + CARD_BORDER_THICKNESS + col * cellSize;
-          int y = startY + row * cellSize;
+  private void drawInfluenceGrid(Graphics g, PawnCard card, int xPosition, int cardWidth, int cardHeight) {
+    InfluenceType[][] grid = card.getInfluenceGrid();
+    int cellSize = Math.min((cardWidth - 2 * CARD_BORDER_THICKNESS) / 5, (cardHeight - 70) / 5);
+    int startY = 70;
 
-          // Default grid cell (Dark Gray)
-          g.setColor(Color.DARK_GRAY);
-          g.fillRect(x, y, cellSize, cellSize);
+    for (int row = 0; row < 5; row++) {
+      for (int col = 0; col < 5; col++) {
+        int x = xPosition + CARD_BORDER_THICKNESS + col * cellSize;
+        int y = startY + row * cellSize;
 
-          // Highlight Influence Cells
-          if (grid[row][col] == InfluenceType.I) {
-            g.setColor(Color.CYAN);  // Influence cells as Cyan
-            g.fillRect(x, y, cellSize, cellSize);
-          } else if (grid[row][col] == InfluenceType.C) {
-            g.setColor(Color.ORANGE);  // Coverage cells as Orange
-            g.fillRect(x, y, cellSize, cellSize);
-          }
-
-          // Draw black border for each cell
-          g.setColor(Color.BLACK);
-          g.drawRect(x, y, cellSize, cellSize);
-        }
+        drawGridCell(g, grid[row][col], x, y, cellSize);
       }
     }
+  }
+
+  private void drawGridCell(Graphics g, InfluenceType influence, int x, int y, int cellSize) {
+    g.setColor(Color.DARK_GRAY);
+    g.fillRect(x, y, cellSize, cellSize);
+
+    if (influence == InfluenceType.I) {
+      g.setColor(Color.CYAN);
+      g.fillRect(x, y, cellSize, cellSize);
+    } else if (influence == InfluenceType.C) {
+      g.setColor(Color.ORANGE);
+      g.fillRect(x, y, cellSize, cellSize);
+    }
+
+    g.setColor(Color.BLACK);
+    g.drawRect(x, y, cellSize, cellSize);
   }
 
   public void toggleSelection(int index) {
@@ -191,31 +225,6 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
                 + (color == Color.PINK ? "RED" : "BLUE"));
       }
     }
-  }
-
-  public static void main(String[] args) {
-    String path = "docs" + File.separator + "deck.config";
-    CardInitializer cardInitializer = new CardInitializer();
-    Map<String, List<PawnCard>> decks = cardInitializer.initializeDeck(path, path);
-    List<PawnCard> deck = decks.get("deck1");
-    PawnGameImpl model = new PawnGameImpl(3, 5);
-    model.startGame(deck, deck, 5);
-
-
-//    model.drawCard(Player.RED);
-
-    // Create a player (either RED or BLUE)
-    Player player = Player.RED;
-
-    // Create the HandPanel
-    HandPanel handPanel = new HandPanel(model, player);
-
-    // Create the frame to display the HandPanel
-    JFrame frame = new JFrame("HandPanel Test");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(1200, 200);
-    frame.add(handPanel);
-    frame.setVisible(true);
   }
 }
 
