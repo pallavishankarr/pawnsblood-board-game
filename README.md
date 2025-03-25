@@ -130,6 +130,12 @@ Contains the unit tests for the PawnCell , PawnCard and CardInitializer componen
 5. Alternate turns until there are no more pawns on the board 
 6. A player wins on row basis, meaning that the player earns points for controlling rows. The player with the highest total wins the game.
 
+### Class Invariant : 
+- INVARIANT: the board does not have null values
+-  We decided to enforce this because it prevents null pointer
+exceptions as there cannot be any null values and ensures that
+the board data is consistent.
+
 ## Key Components
 ### Game Model (PawnsBoardGame)
 - controls the game state, turn-taking, and win conditions
