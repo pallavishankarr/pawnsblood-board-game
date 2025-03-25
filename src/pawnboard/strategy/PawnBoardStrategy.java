@@ -19,7 +19,7 @@ public interface PawnBoardStrategy {
    * @param player the player for whom the move is being chosen
    * @return a list of valid moves for the player; an empty list if no moves are possible
    * @throws IllegalArgumentException if the model or player is null
-   * @throws IllegalStateException if the game has not started or is over
+   * @throws IllegalStateException if the game is over
    */
   List<Move> chooseMove(PawnsGame<PawnCell> model, Player player);
 }

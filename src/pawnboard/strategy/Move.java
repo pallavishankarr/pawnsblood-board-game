@@ -47,7 +47,7 @@ public class Move {
             ", col=" + col +
             '}';
   }
-  
+
   @Override
   public boolean equals(Object o) {
     if (o instanceof Move) {
