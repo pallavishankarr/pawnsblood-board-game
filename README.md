@@ -20,62 +20,62 @@ Pawns Board is a two-player strategy game inspired by Queen’s Blood. The game 
 The codebase for Pawns Board is organized into several directories, each focusing on different aspects of the game. Below is a "map" to help you navigate through the source code and understand where different components are located.
 
 ### 1. `docs/` ()
-Contains the deck files for card reading 
-- **`triplefile`**: 
-- **`biggerDeck`**:
-- **`deck.config`**:
+Contains the deck files of the cards
+- **`triplefile`**: file of cards with cards repeated thrice
+- **`biggerDeck`**: file of cards with larger amount of cards, contains duplicates
+- **`deck.config`**: file of cards with 20 cards
 
 ### 2. `GameScreenshots/` ()
-- **`NonTrivialPoint.png`**:
-- **`BluePlayerSelect.png`**:
-- **`RedPlayerSelect.png`**:
-- **`StartOfGame.png`**:
+Contains screenshots of the game states
+- **`NonTrivialPoint.png`**: screenshot of the game at a nontrivial point
+- **`BluePlayerSelect.png`**: screenshot of game with blue player selecting card and cell
+- **`RedPlayerSelect.png`**: screenshot of game with red player selecting card and cell
+- **`StartOfGame.png`**: screenshot of game at the beginning
 
 ### 3. `src/` (Root Source Directory)
 This is the root directory containing the main game logic and components.
-- **`UserPlayerInterfacePlan.txt`**:
+- **`UserPlayerInterfacePlan.txt`**: file of our plan for implementing AI user and players
 
 ### 4. `src/pawnboard` ()
-- **`PawnsBoard.java`**:
-- **`strategy-transcript-score.txt`**:
-- **`strategy-transcript-first.txt`**:
+This directory contains the core game logic and structure.
+- **`PawnsBoard.java`**: Main class to run the program
+- **`strategy-transcript-score.txt`**: Text file of a Max Score strategy 
+- **`strategy-transcript-first.txt`**: Text file of Fill First strategy
 
 ### 5. `src/pawnboard/controller/` (Game Controller)
 This directory manages interactions between the game's model and the user interface, including player input handling.
-
-- **`GameController.java`**: Interface defining actions like card clicks, cell clicks, and passing turns.
+- **`GameController.java`**: Interface defining controller actions.
 - **`CardInitializer.java`**: Loads card data from files and initializes the card decks for the game.
 - **`PawnsGameController.java`**: A stub for simulating user input, including card and cell selections, and passing turns.
 ---
 
 ### 6. 'src/pawnboard/influences/' (Influence Effects)
-- **`InfluenceEffect.java`**: 
-- **`DefaultInfluence.java`**:
+This directory contains classes that define how cards influence the board when placed. These effects are used to modify the state of the game by affecting pawns and other cells around the card placement.
+- **`InfluenceEffect.java`**: Interface defining behaviors of an influence.
+- **`DefaultInfluence.java`**: Class of default influence that a card can have.
 
 ### 7. `src/pawnboard/boardmodel/` (Game Model)
 This directory contains the core classes that define the game logic, rules, and board management.
-
-- **`PawnsGame.java`**:
-- **`Count.java`**:
-- **`ReadonlyPawnsGame.java`**:
-- **`Cell.java`**:
-- **`PawnGameImpl.java`**:
-- **`PawnCell.java`**:
-- **`PawnCard.java`**:
-- **`Cost.java`**:
-- **`Card.java`**:
-- **`InfluenceType.java`**:
-- **`Player.java`**:
+- **`PawnsGame.java`**: Interface defining the methods for managing the PawnBoard game.
+- **`Count.java`**: Enumeration class of the amount of pawns.
+- **`ReadonlyPawnsGame.java`**: This class provides a read-only view of the game. It allows access to the current game state without modifying it, which can be useful for observers or components that need to display game data without altering it.
+- **`Cell.java`**: Interface that represents a generic cell on the board.
+- **`PawnGameImpl.java`**: This is the primary class that represents the state of the game. It handles the game flow, including turn-taking, card placements, pawn management, and enforcing game rules.
+- **`PawnCell.java`**:This class represents a specific type of cell on the board.
+- **`PawnCard.java`**: This class represents the cards in the game.
+- **`Cost.java`**: Enumeration class with the cost of a card.
+- **`Card.java`**: Interface that defines common methods for all types of cards in the game.
+- **`InfluenceType.java`**: Enumeration class of the types of influences.
+- **`Player.java`**: Enumeration class of each player.
 ---
 
 ### 8. `src/pawnboard/strategy/` (Player Strategies)
 Contains various strategies that players can use to make decisions during the game.
 - **`MaximizeRowStrategy.java`**: A strategy that prioritizes maximizing the player's score on a row.
-- **`PawnBoardStrategy.java`**:
+- **`PawnBoardStrategy.java`**: Interface for different strategies. It defines the methods and structure that all specific strategies must follow in order to make decisions during the game.
 - **`FillFirstStrategy.java`**: A strategy that quickly fills the board by placing a card in the first available legal spot.
 - **`MaxControlStrategy.java`**: An extra credit strategy that maximizes the number of controlled cells. In case of ties, it prioritizes the uppermost-leftmost position.
-- **`Move.java`**: 
-
+- **`Move.java`**: A class that represents a possible move in the game.
 ---
 
 ### 9. `src/pawnboard/view/` (Textual and GUI Views)
