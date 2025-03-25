@@ -2269,6 +2269,24 @@ public class PawnGameTest {
     System.out.println(output.toString());
   }
 
+  @Test
+  public void testFillFirstTranscript() {
+    CardInitializer cardInitializer = new CardInitializer();
+    Map<String, List<PawnCard>> deck = cardInitializer.initializeDeck(path, path);
+    Map.Entry<String, List<PawnCard>> firstEntry = deck.entrySet().iterator().next();
+    List<PawnCard> redDeck = firstEntry.getValue();
+
+    for (PawnCard card : redDeck) {
+      mockGame.addCardToHand(Player.RED, card);
+    }
+
+    mockGame.setLegalMove(1, 4);
+    mockGame.setLegalMove(2, 4);
+
+
+    List<Move> moves = fillFirstStrat.chooseMove(mockGame, Player.RED);
+    System.out.println(output.toString() + "Chosen Move: (" + moves.get(0) + ")");
+  }
 
 
 

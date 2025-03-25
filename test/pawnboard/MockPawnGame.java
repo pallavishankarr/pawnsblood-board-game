@@ -58,6 +58,8 @@ public class MockPawnGame implements MockGame {
   @Override
   public void setLegalMove(int row, int col) {
       legalMoves[row][col] = true;
+      logMessage("Legal move created at: (" + row + ", " + col + ")");
+
   }
 
   @Override
@@ -69,6 +71,7 @@ public class MockPawnGame implements MockGame {
       scores[1] = score; // Blue's score
     }
     fakeRowScores.put(row, scores);
+    logMessage("Row " + row + " score for player" + player + ": " + score);
   }
 
   @Override
