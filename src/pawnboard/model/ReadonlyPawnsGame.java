@@ -111,8 +111,23 @@ public interface ReadonlyPawnsGame<C extends Cell> {
    */
   Player getOwnerAt(int row, int col);
 
-  // observer methods
+  /**
+   * Adds an observer to the game.
+   * The observer will be notified of game state changes.
+   * If the observer is already added, it will not be added again.
+   *
+   * @param observer the observer to be added
+   * @throws IllegalArgumentException if the observer is null
+   */
   void addObserver(GameObserver observer);
 
+
+  /**
+   * Removes an observer from the game.
+   * If the observer is not present, no action is taken.
+   *
+   * @param observer the observer to be removed
+   * @throws IllegalArgumentException if the observer is null
+   */
   void removeObserver(GameObserver observer);
 }

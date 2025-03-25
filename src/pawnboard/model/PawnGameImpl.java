@@ -245,11 +245,19 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
 
   @Override
   public void addObserver(GameObserver observer) {
-    observers.add(observer);
+    if (observer == null) {
+      throw new IllegalArgumentException("Observer cannot be null.");
+    }
+    if (!observers.contains(observer)) {
+      observers.add(observer);
+    }
   }
 
   @Override
   public void removeObserver(GameObserver observer) {
+    if (observer == null) {
+      throw new IllegalArgumentException("Observer cannot be null.");
+    }
     observers.remove(observer);
   }
 
