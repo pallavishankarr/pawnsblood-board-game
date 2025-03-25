@@ -1,8 +1,9 @@
 package pawnboard.view;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+
+import javax.swing.*;
 
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
@@ -21,7 +22,8 @@ public class ScorePanel extends JPanel implements GameObserver {
 
   /**
    * Constructs a ScorePanel for the specified player and game model.
-   * @param model the game model to observe
+   *
+   * @param model  the game model to observe
    * @param player the player whose score will be displayed
    * @throws IllegalArgumentException if the model is null
    */

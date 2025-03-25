@@ -7,6 +7,7 @@ public interface GameView {
 
   /**
    * Returns a textual representation of the current game state.
+   *
    * @return a formatted string representing the game.
    */
   String toString();

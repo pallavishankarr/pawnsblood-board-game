@@ -1,10 +1,11 @@
 package pawnboard.view;
 
-import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+
+import javax.swing.*;
 
 import pawnboard.controller.CardInitializer;
 import pawnboard.model.PawnCard;
@@ -21,16 +22,17 @@ import pawnboard.model.ReadonlyPawnsGame;
  * This abstract class is extended by specific implementationsfor each player.
  */
 public abstract class GameFrame extends JFrame implements GameWindow {
+  protected final ReadonlyPawnsGame<PawnCell, Player, PawnCard> model;
+  protected final Player player;  // Each frame is associated with a specific player
   protected BoardPanel board;
   protected HandPanel hand;
   protected ScorePanel redScore;
   protected ScorePanel blueScore;
-  protected final ReadonlyPawnsGame<PawnCell, Player, PawnCard> model;
-  protected final Player player;  // Each frame is associated with a specific player
 
   /**
    * Constructs a GameFrame for a specific player and game model.
-   * @param model the model to observe
+   *
+   * @param model  the model to observe
    * @param player the player associated with the game frame
    * @throws IllegalArgumentException if the model is null
    */
@@ -48,7 +50,7 @@ public abstract class GameFrame extends JFrame implements GameWindow {
 
     redScore = new ScorePanel(model, Player.RED);
     hand = new HandPanel(model, player);
-    board = new BoardPanel(model,hand);
+    board = new BoardPanel(model, hand);
     blueScore = new ScorePanel(model, Player.BLUE);
 
     this.add(redScore, BorderLayout.WEST);
@@ -59,6 +61,17 @@ public abstract class GameFrame extends JFrame implements GameWindow {
     display();
   }
 
+  public static void main(String[] args) {
+    String biggerPath = "docs" + File.separator + "biggerDeck";
+    CardInitializer cardInitializer = new CardInitializer();
+    Map<String, java.util.List<PawnCard>> decks = CardInitializer.initializeDeck(biggerPath, biggerPath);
+    List<PawnCard> deck = decks.get("deck1");
+    PawnGameImpl model = new PawnGameImpl(5, 7);
+    model.startGame(deck, deck, 5);
+    new RedFrame(model);
+    new BlueFrame(model);
+  }
+
   @Override
   public void display() {
     setVisible(true);
@@ -67,17 +80,6 @@ public abstract class GameFrame extends JFrame implements GameWindow {
   @Override
   public void updateView() {
     repaint();
-  }
-
-  public static void main(String[] args) {
-    String biggerPath = "docs" + File.separator + "biggerDeck";
-    CardInitializer cardInitializer = new CardInitializer();
-    Map<String, java.util.List<PawnCard>> decks = cardInitializer.initializeDeck(biggerPath, biggerPath);
-    List<PawnCard> deck = decks.get("deck1");
-    PawnGameImpl model = new PawnGameImpl(5, 7);
-    model.startGame(deck, deck, 5);
-    new RedFrame(model);
-    new BlueFrame(model);
   }
 
 }
