@@ -16,6 +16,7 @@ import pawnboard.model.PawnGameImpl;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 import pawnboard.view.BlueFrame;
+import pawnboard.view.GameFrame;
 import pawnboard.view.GameWindow;
 
 import pawnboard.view.RedFrame;
@@ -25,11 +26,12 @@ import pawnboard.view.RedFrame;
 public class PawnsGameController implements GameController {
   private final Readable input;
   private final Appendable output;
-  private int selectedCardIdx = -1; // Track selected card index (-1 means no selection)
-  private Player currentPlayer;// Track the current player
+  private int selectedCardIdx = -1;
+  private Player currentPlayer;
   private PawnsGame<PawnCell> model;
   private GameWindow redView;
   private GameWindow blueView;
+  private boolean gameOver = false;
 
   public PawnsGameController(Readable input, Appendable output) {
     if (input == null || output == null) {
@@ -43,14 +45,13 @@ public class PawnsGameController implements GameController {
   public <C extends Cell> void playGame(PawnsGame<PawnCell> model, GameWindow redView,
                                         GameWindow blueView, String redFilePath,
                                         String blueFilePath, int handSize) {
-    if (model == null || redView == null || blueView == null ||
+    if (redView == null || blueView == null ||
             redFilePath == null || blueFilePath == null) {
       throw new IllegalArgumentException("Invalid arguments provided.");
     }
     if (handSize < 1) {
       throw new IllegalArgumentException("Hand size must be greater than 0");
     }
-
 
     this.model = model;
     this.redView = redView;
@@ -66,55 +67,74 @@ public class PawnsGameController implements GameController {
 
     Scanner sc = new Scanner(input);
 
-    // Update GUI before the game starts
     redView.updateView();
     blueView.updateView();
 
-    while (!model.isGameOver()) {
+    // **Game Loop**
+    while (!gameOver && !model.isGameOver()) {
       try {
-        output.append("Enter a command (, p, q): \n");
-        output.append(model.toString()).append("\n");
+        output.append("\nCurrent Player: " + currentPlayer.toString() + "\n");
+        output.append("Enter move: (place [card_index] [row] [col], pass, confirm, quit)\n");
+        output.append("> ");
 
-        if (!sc.hasNext()) {
-          break;
+
+        if (!sc.hasNextLine()) {
+          break; // Exit if no more input
         }
 
-        String command = sc.nextLine().trim();
-        String[] parts = command.split(" ");
-
-        if (command.equalsIgnoreCase("quit")) {
-          output.append("Game ended by user.\n");
-          break;
-        } else if (command.equalsIgnoreCase("pass")) {
-          model.passTurn();
-          currentPlayer = model.getCurrentPlayer(); // Update current player
-        } else if (parts.length == 4 && parts[0].equalsIgnoreCase("place")) {
-          try {
-            int cardIndex = Integer.parseInt(parts[1]);
-            int row = Integer.parseInt(parts[2]);
-            int col = Integer.parseInt(parts[3]);
-            model.placeCardAt(currentPlayer, cardIndex, row, col);
-          } catch (NumberFormatException e) {
-            output.append("Invalid move format. Use: place <index> <row> <col>\n");
-          }
-        } else {
-          output.append("Invalid command. Try again.\n");
+        String userInput = sc.nextLine().trim();
+        if (userInput.isEmpty()) {
+          continue;
         }
 
+        // Process user input
+        String[] tokens = userInput.split("\\s+");
+        switch (tokens[0].toLowerCase()) {
+          case "place":
+            if (tokens.length == 4) {
+              try {
+                int cardIndex = Integer.parseInt(tokens[1]);
+                int row = Integer.parseInt(tokens[2]);
+                int col = Integer.parseInt(tokens[3]);
+                model.placeCardAt(currentPlayer,cardIndex, row, col);
+              } catch (NumberFormatException e) {
+                output.append("Invalid input. Usage: place [card_index] [row] [col]\n");
+              }
+            } else {
+              output.append("Usage: place [card_index] [row] [col]\n");
+            }
+            break;
 
+          case "pass":
+            handleKeyPress('p');
+            break;
+
+          case "confirm":
+            handleKeyPress('c');
+            break;
+
+          case "quit":
+            handleKeyPress('q');
+            break;
+
+          default:
+            output.append("Unknown command. Use place, pass, confirm, or quit.\n");
+            break;
+        }
+
+        // Refresh game state
         redView.updateView();
         blueView.updateView();
 
       } catch (IOException e) {
-        throw new IllegalStateException("Failed to write to output", e);
+        throw new IllegalStateException("Error writing to output", e);
       }
     }
 
     try {
-      output.append("Game Over!\n");
-      output.append("Winner: ").append(model.getWinner()).append("\n");
+      output.append("\nGame Over! " + model.getWinner() + " wins!\n");
     } catch (IOException e) {
-      throw new IllegalStateException("Failed to write to output", e);
+      throw new IllegalStateException("Error writing final output", e);
     }
   }
 
@@ -140,6 +160,14 @@ public class PawnsGameController implements GameController {
     }
 
     selectedCardIdx = cardIdx;
+
+    // Print to console (stub controller requirement)
+    System.out.println("Card clicked: Index " + cardIdx + ", Player: " + currentPlayer.toString());
+
+    // Visually highlight the card in the UI
+    redView.updateView();
+    blueView.updateView();
+
     try {
       output.append("Card selected: " + hand.get(cardIdx).toString() + "\n");
     } catch (IOException e) {
@@ -158,8 +186,17 @@ public class PawnsGameController implements GameController {
       return;
     }
 
+    // Print to console (stub controller requirement)
+    System.out.println("Cell clicked: Row " + row + ", Column " + col);
+
+    // Highlight the cell in the UI
+    redView.updateView();
+    blueView.updateView();
+
     try {
       model.placeCardAt(currentPlayer, selectedCardIdx, row, col);
+      currentPlayer = model.getCurrentPlayer();
+
       output.append("Card placed at (" + row + ", " + col + ").\n");
       selectedCardIdx = -1; // Reset selection after placing
       redView.updateView();
@@ -178,15 +215,20 @@ public class PawnsGameController implements GameController {
     try {
       if (key == 'p' || key == 'P') {
         model.passTurn();
-        output.append("Turn passed.\n");
+        output.append("Turn passed \n");
+        System.out.println("Key pressed: P (Pass)");
         currentPlayer = model.getCurrentPlayer();
         redView.updateView();
         blueView.updateView();
+      } else if (key == '\n' || key == 'c' || key == 'C') {  // Enter or 'C' for confirm
+        System.out.println("Key pressed: Enter/C (Confirm Move)");
+        output.append("Move confirmed.\n");
       } else if (key == 'q' || key == 'Q') {
         output.append("Game ended by user.\n");
-        System.exit(0);
+        gameOver = true; // Stop the game loop
+        System.out.println("Key pressed: Q (Quit Game)");
       } else {
-        output.append("Invalid key press. Use 'p' to pass, 'q' to quit.\n");
+        output.append("Invalid key press. Use 'p' to pass, 'c' to confirm, 'q' to quit.\n");
       }
     } catch (IOException e) {
       throw new IllegalStateException("Failed to write to output", e);
@@ -195,8 +237,9 @@ public class PawnsGameController implements GameController {
 
 
 
+
 public static void main(String[] args) {
-    String simulatedInput = "place 0 0 0\npass\nquit\n";
+    String simulatedInput = "place 0 0 0";
     Readable input = new StringReader(simulatedInput);
     Appendable output = new StringWriter();
 
@@ -207,9 +250,10 @@ public static void main(String[] args) {
     List<PawnCard> deck2 = decks.get("deck2");
 
 
-    PawnGameImpl model = new PawnGameImpl(5, 7);
+    PawnGameImpl model = new PawnGameImpl(3, 5);
     PawnsGameController controller = new PawnsGameController(input, output);
-    model.startGame(deck1,deck2, 5);
+
+
 
     GameWindow redView = new RedFrame(model);
     GameWindow blueView = new BlueFrame(model);
