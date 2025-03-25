@@ -4,6 +4,13 @@ import java.util.List;
 
 import pawnboard.view.GameObserver;
 
+/**
+ * Represents a read-only version of the PawnsGame model.
+ * It allows access to the board state and legal move checks without modifying the game state.
+ * @param <C> the type of cells on the board
+ * @param <P> the type of player
+ * @param <T> the type of cards used in the game
+ */
 public interface ReadonlyPawnsGame<C extends Cell<P, T>, P extends Player, T extends Card> {
 
   /**

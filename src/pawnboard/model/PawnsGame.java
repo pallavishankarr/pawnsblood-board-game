@@ -6,6 +6,9 @@ import java.util.List;
  * The PawnsGame interface defines the structure and rules for a playable game.
  * It includes methods for initializing the board, starting the game,
  * handling players, and determining game outcomes.
+ * @param <C> the type of cell on the boardto use
+ * @param <P> the type of player to use
+ * @param <T> the type of card to use
  */
 public interface PawnsGame<C extends Cell<P, T>, P extends Player, T extends Card> extends ReadonlyPawnsGame<C, P, T> {
 

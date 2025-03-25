@@ -10,6 +10,9 @@ import pawnboard.model.Player;
 
 /**
  * Represents the types of influences a card can have on the board.
+ * @param <C> the type of cell to use
+ * @param <P> the type of player to ue
+ * @param <T> the type of card to use
  */
 public interface InfluenceEffect<C extends Cell<P, T>, P extends Player, T extends Card> {
 

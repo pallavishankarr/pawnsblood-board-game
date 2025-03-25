@@ -3,7 +3,6 @@ import java.util.List;
 
 import pawnboard.model.Card;
 import pawnboard.model.Cell;
-import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 
@@ -11,6 +10,9 @@ import pawnboard.model.Player;
  * Represents a strategy for selecting moves in the Pawns Board game.
  * Implementations of this interface define how a move is
  * chosen based on the current game state.
+ * @param <C> the type of cell on the board
+ * @param <P> the type of player
+ * @param <T> the type of card the game plays with
  */
 public interface PawnBoardStrategy<C extends Cell<P, T>, P extends Player, T extends Card> {
   /**

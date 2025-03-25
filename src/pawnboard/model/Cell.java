@@ -4,6 +4,8 @@ package pawnboard.model;
  * Represents a single cell on the game board in Pawns Board.
  * A cell can contain pawns or a placed card, and ownership
  * can change.
+ * @param <P> the type of player
+ * @param <T> the type of card the game plays with
  */
 public interface Cell<P extends Player, T extends Card> {
 

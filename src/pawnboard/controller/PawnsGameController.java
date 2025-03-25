@@ -17,8 +17,11 @@ import pawnboard.view.GameWindow;
 
 import pawnboard.view.RedFrame;
 
-
-
+/**
+ * Represents controller for the PawnsBoard game.
+ * Manages the game flow, handles user input, and updates view.
+ *
+ */
 public class PawnsGameController implements GameController<PawnCell, Player, PawnCard> {
   private final Readable input;
   private final Appendable output;
@@ -32,6 +35,12 @@ public class PawnsGameController implements GameController<PawnCell, Player, Paw
   private boolean gameOver = false;
   private boolean gameStarted = false;
 
+  /**
+   * Constructs a PawnsGameController with the specified input and output streams.
+   * @param input the input stream for reading user input
+   * @param output the output stream for writing game messages
+   * @throws IllegalArgumentException if either input or output is null
+   */
   public PawnsGameController(Readable input, Appendable output) {
     if (input == null || output == null) {
       throw new IllegalArgumentException("Input and output must not be null");
@@ -39,7 +48,6 @@ public class PawnsGameController implements GameController<PawnCell, Player, Paw
     this.input = input;
     this.output = output;
   }
-
 
   @Override
   public void playGame(PawnsGame<PawnCell, Player, PawnCard> model, GameWindow redView, GameWindow blueView,
@@ -110,7 +118,7 @@ public class PawnsGameController implements GameController<PawnCell, Player, Paw
   @Override
   public void handleCellClick(int row, int col) {
     if (row < 0 || col < 0) {
-      throw new IllegalArgumentException("row and col must be positive")
+      throw new IllegalArgumentException("row and col must be positive");
     }
     if (selectedCardIdx == -1) {
       appendOutput("Select a card first before choosing a cell.\n");
