@@ -8,12 +8,27 @@ import pawnboard.model.PawnCell;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 
+/**
+ * Represents a panel that displays the score of each row of a player.
+ * Listens to changes in the game state and updates the displayed score accordingly.
+ * The score is displayed for each row on the game board.
+ */
 public class ScorePanel extends JPanel implements GameObserver {
   protected final ReadonlyPawnsGame<PawnCell> model;
   private final Player player;
   private final Dimension logicalSize = new Dimension(100, 600); // Logical reference for scaling
 
+  /**
+   * Constructs a ScorePanel for the specified player and game model.
+   * @param model the game model to observe
+   * @param player the player whose score will be displayed
+   * @throws IllegalArgumentException if the model is null
+   */
   public ScorePanel(ReadonlyPawnsGame<PawnCell> model, Player player) {
+    if (model == null) {
+      throw new IllegalArgumentException("model cannot be null");
+    }
+
     this.model = model;
     this.player = player;
     model.addObserver(this);
