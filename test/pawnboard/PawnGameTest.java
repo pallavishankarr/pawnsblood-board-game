@@ -19,6 +19,7 @@ import pawnboard.model.PawnCell;
 import pawnboard.model.PawnGameImpl;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
+import pawnboard.strategy.ControlStrategy;
 import pawnboard.strategy.FillFirstStrategy;
 import pawnboard.strategy.MaximizeRowScoreStrategy;
 import pawnboard.strategy.PawnBoardStrategy;
@@ -2384,6 +2385,43 @@ public class PawnGameTest {
 
 
 
+
+
+
+  }
+
+
+  @Test
+  public void testControlStratNoValidMove() {
+    PawnBoardStrategy controlStrat  = new ControlStrategy();
+
+    List<Move> chosenMoves = controlStrat.chooseMove(mockGame, Player.RED);
+    assertEquals(0, chosenMoves.size());
+  }
+
+
+
+  @Test
+  public void testControlStratStopsAtFirstValidMove() {
+    mockGame.setLegalMove(1, 2);
+    PawnBoardStrategy controlStrat  = new ControlStrategy();
+    List<Move> chosenMoves = controlStrat.chooseMove(mockGame, Player.RED);
+    assertEquals(1, chosenMoves.size());
+    assertEquals(1, chosenMoves.get(0).getRow());
+    assertEquals(2, chosenMoves.get(0).getCol());
+  }
+
+
+  @Test
+  public void testControlStratOnlyOneLegalMove() {
+    mockGame.setLegalMove(2, 4);
+
+    PawnBoardStrategy controlStrat = new ControlStrategy();
+
+    List<Move> chosenMoves = controlStrat.chooseMove(mockGame, Player.RED);
+    assertEquals(1, chosenMoves.size());
+    assertEquals(2, chosenMoves.get(0).getRow());
+    assertEquals(4, chosenMoves.get(0).getCol());
   }
 
 
@@ -2395,7 +2433,12 @@ public class PawnGameTest {
 
 
 
-  
+
+
+
+
+
+
 
 
 
