@@ -1,3 +1,4 @@
+Checked hand of player: Red
 Card added to Red's hand: Security
 Card added to Red's hand: Bee
 Card added to Red's hand: Mandragora
@@ -18,6 +19,8 @@ Card added to Red's hand: Scholar
 Card added to Red's hand: Invoker
 Card added to Red's hand: Corsair
 Card added to Red's hand: Enforcer
+Legal move created at: (1, 4)
+Legal move created at: (2, 4)
 Checked hand of player: Red
 Checked legality at (0,0)
 Checked legality at (0,1)
@@ -29,3 +32,4 @@ Checked legality at (1,1)
 Checked legality at (1,2)
 Checked legality at (1,3)
 Checked legality at (1,4)
+Chosen Move: (Move{card=Security (1, 2), row=1, col=4})

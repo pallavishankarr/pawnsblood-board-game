@@ -1,14 +1,17 @@
 package pawnboard;
 
 import java.io.File;
+import java.io.StringReader;
 import java.util.List;
 import java.util.Map;
 
 import pawnboard.controller.CardInitializer;
+import pawnboard.controller.PawnsGameController;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnGameImpl;
 import pawnboard.model.Player;
 import pawnboard.view.BlueFrame;
+import pawnboard.view.GameFrame;
 import pawnboard.view.GameView;
 import pawnboard.view.GameWindow;
 import pawnboard.view.RedFrame;
@@ -28,13 +31,21 @@ public final class PawnsBoard {
    */
   public static void main(String[] args) {
     String path = "docs" + File.separator + "deck.config";
-    CardInitializer cardInitializer = new CardInitializer();
-     Map<String, List<PawnCard>> decks  = cardInitializer.initializeDeck(path, path);
-     List<PawnCard> deck = decks.get("deck1");
-    PawnGameImpl game = new PawnGameImpl(3,5);
-    game.startGame(deck,deck,5);
-    GameWindow redView = new RedFrame(game);
-    GameWindow blueView = new BlueFrame(game);
+    Readable input = new StringReader("");
+    Appendable output = new StringBuilder();
+
+    PawnGameImpl model = new PawnGameImpl(3, 5);
+    PawnsGameController controller = new PawnsGameController(input, output);
+    RedFrame redFrame = new RedFrame(model);
+    BlueFrame blueFrame = new BlueFrame(model);
+
+    controller.playGame(model, redFrame, blueFrame, path, path, 5);
+
+    System.out.println(output.toString());
+
+    redFrame.setVisible(true);
+    blueFrame.setVisible(true);
+
 
 //    System.out.println("Initial Board:");
 //    System.out.println(view);
