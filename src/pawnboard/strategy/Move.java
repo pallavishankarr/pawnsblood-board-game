@@ -33,4 +33,17 @@ public class Move {
             ", col=" + col +
             '}';
   }
+
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof Move) {
+      Move move = (Move) o;
+      return row == move.row && col == move.col && card.equals(move.card);
+    } else {
+      return false;
+    }
+
+  }
+
 }

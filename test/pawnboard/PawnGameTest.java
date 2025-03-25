@@ -2312,6 +2312,20 @@ public class PawnGameTest {
     List<Move> moves = new ArrayList<>();
     moves.add(move);
     assertEquals(moves, boardStrategy.chooseMove(model, Player.RED) );
+  }
+
+  @Test
+  public void testMaxamizeeRowStrategy() {
+    PawnGameImpl model = new PawnGameImpl(3,5);
+    model.startGame(deck, deck, 5);
+
+    PawnBoardStrategy boardStrategy = new MaximizeRowScoreStrategy();
+    PawnCard cardB = new PawnCard("Security", Cost.One, 2, influenceGrid);
+    Move move = new Move(cardB, 0,0);
+    List<Move> moves = new ArrayList<>();
+    moves.add(move);
+    assertTrue(moves.equals(boardStrategy.chooseMove(model, Player.RED) ));
+
 
 
   }
