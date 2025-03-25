@@ -216,7 +216,7 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
 
     // Create a player (either RED or BLUE)
     Player player = Player.RED;
-    
+
 
     // Create the HandPanel
     HandPanel handPanel = new HandPanel(model, player);

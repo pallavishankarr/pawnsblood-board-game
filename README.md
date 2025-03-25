@@ -77,16 +77,16 @@ by pressing "C" or "c" or they could press "p" or "P" to pass the turn
 
 ### Strategies 
 Fill First Strategy 
-- places a card in the first available legal spot on the board, starting from the top-left. 
-- prioritizes quick board filling and uses the player's hand to find the first valid move.
-- Picks the first valid move.
-- Throws exceptions if model/player is null or if the game is over.
+- places a card in the first available legal spot on the board, starting from the top-left
+- prioritizes quick board filling and uses the player's hand to find the first valid move
+- Picks the first valid move
+- Throws exceptions if model/player is null or if the game is over
 Maximize Row Strategy 
 -  aims to maximize the player's score on a row by placing a card in a position that improves 
-their row score more than the opponent’s.
-- Prioritizes placing cards to maximize the player's row score.
-- Avoids placing in rows where the player’s score is already higher than the opponent’s.
-- Caches legal moves to avoid repeating checks.
+their row score more than the opponent’s
+- Prioritizes placing cards to maximize the player's row score
+- Avoids placing in rows where the player’s score is already higher than the opponent’s
+- Caches legal moves to avoid repeating checks
 
 
 
@@ -107,6 +107,8 @@ Changes for Part 2
 InfluenceType 2D grid for the influence grid
 - Changed the Cost from a int to a Cost enum and changed the following tests 
 and related code
+- Changes the Count from a int to a Count enum and changed the following tests 
+and related code
 - Change startGame to take in two List of PawnCard decks instead of the file path 
 - Changed drawCard to be private 
 - Changed applyInfluence to be a private method 
@@ -114,7 +116,7 @@ and related code
 - Change card initializer to take in two file paths and then changed the following code to return a 
 hash map of a string and deck 
 - Changed PawnCount to become a enum 
-- - We  changed our PawnsGame Implementation to add the types of the Player and PawnCard, and keeping
+- We  changed our PawnsGame Implementation to add the types of the Player and PawnCard, and keeping
     the PawnCell already there
 
 
