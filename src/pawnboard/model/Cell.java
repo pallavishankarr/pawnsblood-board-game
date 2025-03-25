@@ -5,25 +5,25 @@ package pawnboard.model;
  * A cell can contain pawns or a placed card, and ownership
  * can change.
  */
-public interface Cell {
+public interface Cell<P extends Player, T extends Card> {
 
   /**
    * Adds a pawn to the cell.
    * @param player the player who owns the cell
    */
-  void addPawn(Player player);
+  void addPawn(P player);
 
   /**
    * Places a card on the cell and removes any pawns on the cell.
    * @throws IllegalArgumentException if the card is null
    */
-  void placeCard(Card card);
+  void placeCard(T card);
 
   /**
    * Gets the owner of the cell.
    * @return Player who owns the cell
    */
-  Player getOwner();
+  P getOwner();
 
   /**
    * Returns the number of pawns on the cell.
@@ -34,7 +34,7 @@ public interface Cell {
   /**
    * Changes the ownership to the given Player.
    */
-  void changeOwnership(Player player);
+  void changeOwnership(P player);
 
   /**
    * Determines if the Cell contains a card.
@@ -46,7 +46,7 @@ public interface Cell {
    * Returns the card of the cell.
    * @return Card that the cell has placed on
    */
-  Card getCard();
+  T getCard();
 
   /**
    * Checks if the cell is empty.

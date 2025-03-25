@@ -11,7 +11,7 @@ import pawnboard.model.Player;
  *  Represents a mock version of a pawn game that simulates basic game operations.
  *  Provides methods for setting legal moves, row scores, and adding cards for testing.
  */
-public interface MockGame extends PawnsGame<PawnCell> {
+public interface MockGame<C extends Cell, P extends Player, T extends Card> extends PawnsGame<C, P, T> {
 
   /**
    * Sets a legal move at the specified position on the board.
@@ -28,7 +28,7 @@ public interface MockGame extends PawnsGame<PawnCell> {
    * @param score the score to set for the specified player at the row
    * @throws IllegalArgumentException if row out of bounds, or score is less than 0
    */
-  void setFakeRowScore(int row, Player player, int score);
+  void setFakeRowScore(int row, P player, int score);
 
   /**
    * Adds a card to the specified player's hand.
@@ -36,5 +36,5 @@ public interface MockGame extends PawnsGame<PawnCell> {
    * @param card the to be added to the player's hand
    * @throws IllegalArgumentException if card is null
    */
-  void addCardToHand(Player player, PawnCard card);
+  void addCardToHand(P player, T card);
 }

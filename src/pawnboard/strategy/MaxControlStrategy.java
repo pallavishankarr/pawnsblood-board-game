@@ -14,9 +14,9 @@ import pawnboard.model.Player;
  * If multiple positions yield the same number of controlled cells, the uppermost-leftmost position is chosen.
  * If multiple cards yield the same number of controlled cells, the leftmost card in hand is chosen.
  **/
-public class ControlStrategy implements PawnBoardStrategy {
+public class MaxControlStrategy implements PawnBoardStrategy<PawnCell, Player, PawnCard> {
   @Override
-  public List<Move> chooseMove(PawnsGame<PawnCell> model, Player player) {
+  public List<Move<PawnCard>> chooseMove(PawnsGame<PawnCell, Player, PawnCard> model, Player player) {
     if (model == null || player == null) {
       throw new IllegalArgumentException("Model and player cannot be null.");
     }
@@ -25,7 +25,7 @@ public class ControlStrategy implements PawnBoardStrategy {
     }
 
     List<PawnCard> hand = model.getHand(player);
-    Move bestMove = null;
+    Move<PawnCard> bestMove = null;
     int maxControlledCells = -1;
 
     for (PawnCard card : hand) {
@@ -34,7 +34,7 @@ public class ControlStrategy implements PawnBoardStrategy {
           if (model.placeCardLegal(player, card, row, col)) {
             int controlledCells = countControlledCells(model, player, card, row, col);
             if (isBetterMove(bestMove, card, row, col, controlledCells, maxControlledCells)) {
-              bestMove = new Move(card, row, col);
+              bestMove = new Move<PawnCard>(card, row, col);
               maxControlledCells = controlledCells;
             }
           }
@@ -44,8 +44,8 @@ public class ControlStrategy implements PawnBoardStrategy {
 
     return bestMove != null ? List.of(bestMove) : Collections.emptyList();
   }
-  
-  private int countControlledCells(PawnsGame<PawnCell> model, Player player, PawnCard card, int row, int col) {
+
+  private int countControlledCells(PawnsGame<PawnCell, Player, PawnCard> model, Player player, PawnCard card, int row, int col) {
     int capturedCells = 0;
     InfluenceType[][] influenceGrid = card.getInfluenceGrid();
     Player opponent = (player == Player.RED) ? Player.BLUE : Player.RED;
@@ -66,7 +66,7 @@ public class ControlStrategy implements PawnBoardStrategy {
     return capturedCells;
   }
 
-  private boolean isBetterMove(Move bestMove, PawnCard newCard, int newRow, int newCol, int newControlledCells, int maxControlledCells) {
+  private boolean isBetterMove(Move<PawnCard> bestMove, PawnCard newCard, int newRow, int newCol, int newControlledCells, int maxControlledCells) {
     if (newControlledCells > maxControlledCells) {
       return true;
     }

@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
+import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
@@ -14,7 +15,7 @@ import pawnboard.model.ReadonlyPawnsGame;
  * The score is displayed for each row on the game board.
  */
 public class ScorePanel extends JPanel implements GameObserver {
-  protected final ReadonlyPawnsGame<PawnCell> model;
+  protected final ReadonlyPawnsGame<PawnCell, Player, PawnCard> model;
   private final Player player;
   private final Dimension logicalSize = new Dimension(100, 600); // Logical reference for scaling
 
@@ -24,7 +25,7 @@ public class ScorePanel extends JPanel implements GameObserver {
    * @param player the player whose score will be displayed
    * @throws IllegalArgumentException if the model is null
    */
-  public ScorePanel(ReadonlyPawnsGame<PawnCell> model, Player player) {
+  public ScorePanel(ReadonlyPawnsGame<PawnCell, Player, PawnCard> model, Player player) {
     if (model == null) {
       throw new IllegalArgumentException("model cannot be null");
     }

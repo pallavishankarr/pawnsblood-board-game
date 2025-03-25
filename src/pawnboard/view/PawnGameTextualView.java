@@ -2,6 +2,8 @@ package pawnboard.view;
 
 import pawnboard.model.Card;
 import pawnboard.model.Cell;
+import pawnboard.model.PawnCard;
+import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 
@@ -9,13 +11,13 @@ import pawnboard.model.Player;
  * Represents the textual view of a pawn game.
  */
 public class PawnGameTextualView implements GameView {
-  private final PawnsGame model;
+  private final PawnsGame<PawnCell, Player, PawnCard> model;
 
   /**
    * Creates a PawnGameTextualView object.
    * @param model the model of the game
    */
-  public PawnGameTextualView(PawnsGame model) {
+  public PawnGameTextualView(PawnsGame<PawnCell, Player, PawnCard> model) {
     this.model = model;
   }
 
@@ -27,7 +29,7 @@ public class PawnGameTextualView implements GameView {
       sb.append(model.checkScoreRow(Player.RED, row)).append(" ");
 
       for (int col = 0; col < model.getWidth(); col++) {
-        Cell cell = model.getCellAt(row, col);
+        PawnCell cell = model.getCellAt(row, col);
         StringBuilder cellRepresentation = new StringBuilder();
 
         if (cell.getPawnCount().getValue() > 0) {

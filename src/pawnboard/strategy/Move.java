@@ -9,8 +9,8 @@ import pawnboard.model.PawnCard;
  * Represents a move in the Pawns Board game.
  * A move consists of a card, a row, and a column on the board.
  */
-public class Move {
-  private final PawnCard card;
+public class Move<T extends Card> {
+  private final T card;
   private final int row;
   private final int col;
 
@@ -21,7 +21,7 @@ public class Move {
    * @param col the col
    * @throws IllegalArgumentException if the card is null
    */
-  public Move(PawnCard card, int row, int col) {
+  public Move(T card, int row, int col) {
     if (card == null) {
       throw new IllegalArgumentException("card cannot be null");
     }
@@ -30,7 +30,7 @@ public class Move {
     this.col = col;
   }
 
-  public Card getCard() {
+  public T getCard() {
     return card;
   }
 
@@ -54,7 +54,7 @@ public class Move {
   @Override
   public boolean equals(Object o) {
     if (o instanceof Move) {
-      Move move = (Move) o;
+      Move<T> move = (Move<T>) o;
       return row == move.row && col == move.col && card.equals(move.card);
     } else {
       return false;

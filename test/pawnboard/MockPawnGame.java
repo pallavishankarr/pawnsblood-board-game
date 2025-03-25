@@ -14,6 +14,7 @@ import pawnboard.model.Cost;
 import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
+import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 import pawnboard.view.GameObserver;
 
@@ -21,7 +22,7 @@ import pawnboard.view.GameObserver;
  * Represents a mock version of the pawn game for testing.
  * Includes a log system to record actions performed.
  */
-public class MockPawnGame implements MockGame {
+public class MockPawnGame implements MockGame<PawnCell, Player, PawnCard> {
   private final Appendable log;
   private final int width;
   private final int height;
@@ -136,7 +137,7 @@ public class MockPawnGame implements MockGame {
   }
 
   @Override
-  public boolean placeCardLegal(Player player, Card card, int row, int col) {
+  public boolean placeCardLegal(Player player, PawnCard card, int row, int col) {
     logMessage("Checked legality at (" + row + "," + col + ")");
     return legalMoves[row][col];
   }

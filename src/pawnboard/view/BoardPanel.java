@@ -10,6 +10,7 @@ import java.awt.geom.*;
 import javax.swing.*;
 
 import pawnboard.model.Cell;
+import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
@@ -23,7 +24,7 @@ import pawnboard.model.ReadonlyPawnsGame;
 public class BoardPanel extends JPanel implements GameObserver, HighlightPanel {
   private final int rows;
   private final int cols;
-  private final ReadonlyPawnsGame<PawnCell> model;
+  private final ReadonlyPawnsGame<PawnCell, Player, PawnCard> model;
   private final Dimension logicalSize = new Dimension(800, 600);
   private int selectedRow = -1;
   private int selectedCol = -1;
@@ -38,7 +39,7 @@ public class BoardPanel extends JPanel implements GameObserver, HighlightPanel {
    * @param handPanel the hand panel for card selection
    * @throws IllegalArgumentException if the model or hand panel is null
    */
-  public BoardPanel(ReadonlyPawnsGame<PawnCell> model, HandPanel handPanel) {
+  public BoardPanel(ReadonlyPawnsGame<PawnCell, Player, PawnCard> model, HandPanel handPanel) {
     super();
     if (model == null || handPanel == null) {
       throw new IllegalArgumentException("Model or handPanel is null");
@@ -142,7 +143,7 @@ public class BoardPanel extends JPanel implements GameObserver, HighlightPanel {
 
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < cols; col++) {
-        Cell cell = model.getCellAt(row, col);
+        PawnCell cell = model.getCellAt(row, col);
         int pawnCount = cell.getPawnCount().getValue();
 
         if (pawnCount > 0) {
@@ -199,7 +200,7 @@ public class BoardPanel extends JPanel implements GameObserver, HighlightPanel {
 
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < cols; col++) {
-        Cell cell = model.getCellAt(row, col);
+        PawnCell cell = model.getCellAt(row, col);
         if (cell.hasCard()) {
           Color cardColor = (cell.getOwner() == Player.RED) ? Color.PINK : Color.BLUE;
           int value = cell.getCard().getValue();

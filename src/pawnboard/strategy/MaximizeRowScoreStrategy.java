@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import pawnboard.model.Card;
+import pawnboard.model.Cell;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
@@ -18,10 +19,10 @@ import pawnboard.model.ReadonlyPawnsGame;
  * and tries to surpass their score. Selects the first possible card and row to accomplish
  * this task.
  */
-public class MaximizeRowScoreStrategy implements PawnBoardStrategy {
+public class MaximizeRowScoreStrategy implements PawnBoardStrategy<PawnCell, Player, PawnCard> {
 
   @Override
-  public List<Move> chooseMove(PawnsGame<PawnCell> model, Player player) {
+  public List<Move<PawnCard>> chooseMove(PawnsGame<PawnCell, Player, PawnCard> model, Player player) {
     if (model == null || player == null) {
       throw new IllegalArgumentException("Model and player cannot be null.");
     }
@@ -30,7 +31,7 @@ public class MaximizeRowScoreStrategy implements PawnBoardStrategy {
     }
     List<PawnCard> hand = model.getHand(player);
     Player opponent = (player == Player.RED) ? Player.BLUE : Player.RED;
-    List<Move> bestMoves = new ArrayList<>();
+    List<Move<PawnCard>> bestMoves = new ArrayList<>();
     Set<String> legalMovesCache = new HashSet<>();
     for (int r = 0; r < model.getHeight(); r++) {
       int playerRowScore = model.checkScoreRow(player, r);
@@ -47,8 +48,8 @@ public class MaximizeRowScoreStrategy implements PawnBoardStrategy {
     return bestMoves;
   }
 
-  private boolean tryPlacingCard(PawnsGame<PawnCell> model, Player player, PawnCard card, int row,
-                                 int opponentRowScore, List<Move> bestMoves, Set<String> legalMovesCache) {
+  private boolean tryPlacingCard(PawnsGame<PawnCell, Player, PawnCard> model, Player player, PawnCard card, int row,
+                                 int opponentRowScore, List<Move<PawnCard>> bestMoves, Set<String> legalMovesCache) {
     for (int col = 0; col < model.getWidth(); col++) {
       String moveKey = row + "," + col;
       if (legalMovesCache.contains(moveKey)) {
@@ -57,7 +58,7 @@ public class MaximizeRowScoreStrategy implements PawnBoardStrategy {
       if (model.placeCardLegal(player, card, row, col)) {
         int newScore = getHypotheticalRowScore(model, player, card, row, col);
         if (newScore > opponentRowScore) {
-          bestMoves.add(new Move(card, row, col));
+          bestMoves.add(new Move<PawnCard>(card, row, col));
           legalMovesCache.add(moveKey);
           return true;
         }
@@ -67,7 +68,7 @@ public class MaximizeRowScoreStrategy implements PawnBoardStrategy {
     return false;
   }
 
-  private int getHypotheticalRowScore(ReadonlyPawnsGame<PawnCell> model, Player player, Card card, int row, int col) {
+  private int getHypotheticalRowScore(ReadonlyPawnsGame<PawnCell, Player, PawnCard> model, Player player, Card card, int row, int col) {
     if (card == null) {
       throw new IllegalArgumentException("Card cannot be null.");
     }
@@ -79,6 +80,5 @@ public class MaximizeRowScoreStrategy implements PawnBoardStrategy {
     int cardValue = card.getValue();
     return currentScore + cardValue;
   }
-
 }
 

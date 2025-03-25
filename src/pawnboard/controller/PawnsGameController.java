@@ -30,7 +30,7 @@ public class PawnsGameController implements GameController {
   private int selectedRow = -1;
   private int selectedCol = -1;
   private Player currentPlayer;
-  private PawnsGame<PawnCell> model;
+  private PawnsGame<PawnCell, Player, PawnCard> model;
   private GameWindow redView;
   private GameWindow blueView;
   private boolean gameOver = false;

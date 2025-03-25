@@ -1,6 +1,8 @@
 package pawnboard.strategy;
 import java.util.List;
 
+import pawnboard.model.Card;
+import pawnboard.model.Cell;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
@@ -10,7 +12,7 @@ import pawnboard.model.Player;
  * Implementations of this interface define how a move is
  * chosen based on the current game state.
  */
-public interface PawnBoardStrategy {
+public interface PawnBoardStrategy<C extends Cell, P extends Player, T extends Card> {
   /**
    * Chooses list of possible moves for the given player based on the game state.
    * The strategy determines the best or valid move that can be made.
@@ -21,5 +23,5 @@ public interface PawnBoardStrategy {
    * @throws IllegalArgumentException if the model or player is null
    * @throws IllegalStateException if the game is over
    */
-  List<Move> chooseMove(PawnsGame<PawnCell> model, Player player);
+  List<Move<T>> chooseMove(PawnsGame<C, P, T> model, P player);
 }

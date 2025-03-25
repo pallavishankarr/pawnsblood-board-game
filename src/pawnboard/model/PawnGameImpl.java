@@ -12,11 +12,11 @@ import pawnboard.view.GameObserver;
  * move validation.
  * Note: 0-index based
  */
-public class PawnGameImpl implements PawnsGame<PawnCell> {
+public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard> {
 
   private final int row;
   private final int column;
-  private Cell[][] board;
+  private PawnCell[][] board;
   private List<PawnCard> playerRedDeck;
   private List<PawnCard> playerBlueDeck;
   private List<PawnCard> playerRedHand;
@@ -116,6 +116,17 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
   }
 
   @Override
+  public boolean placeCardLegal(Player player, PawnCard card, int row, int col) {
+    gameNotStartedCheck();
+
+    return row >= 0 && row < board.length
+            && col >= 0 && col < board[0].length
+            && !board[row][col].hasCard()
+            && board[row][col].getOwner() == turn
+            && board[row][col].getPawnCount().getValue() >= card.getPawnCost().getValue();
+  }
+
+  @Override
   public void placeCardAt(Player player, int cardIdx, int row, int col) {
     gameNotStartedCheck();
 
@@ -142,19 +153,6 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
     notifyObservers();
     endTurn();
   }
-
-  @Override
-  public boolean placeCardLegal(Player player, Card card, int row, int col) {
-    gameNotStartedCheck();
-
-    return row >= 0 && row < board.length
-            && col >= 0 && col < board[0].length
-            && !board[row][col].hasCard()
-            && board[row][col].getOwner() == turn
-            && board[row][col].getPawnCount().getValue() >= card.getPawnCost().getValue();
-  }
-
-
 
   public void passTurn() {
 
@@ -203,13 +201,13 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
 
       for (int r = 0; r < row; r++) {
         for (int c = 0; c < column; c++) {
-          Cell original = this.board[r][c];
+          PawnCell original = this.board[r][c];
           Player originalCellOwner = original.getOwner();
           Count originalPawnCellCount = original.getPawnCount();
           PawnCell copy = new PawnCell(originalCellOwner, originalPawnCellCount);
 
           if (original.hasCard()) {
-            Card originalCard = original.getCard();
+            PawnCard originalCard = original.getCard();
             copy.placeCard(originalCard);
           }
 
@@ -221,7 +219,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
 
 
     @Override
-    public Cell getCellAt ( int row, int col){
+    public PawnCell getCellAt ( int row, int col){
       if (row >= this.row || col >= this.column || row < 0 || col < 0) {
         throw new IllegalArgumentException("Row or column is out of board bounds.");
       }
@@ -327,9 +325,9 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
       int score = 0;
 
       for (int col = 0; col < this.column; col++) {
-        Cell cell = board[rowIdx][col];
+        PawnCell cell = board[rowIdx][col];
         if (cell.hasCard()) {
-          Card card = cell.getCard();
+          PawnCard card = cell.getCard();
           if (cell.getOwner() == player) {
             score += card.getValue();
           }
@@ -372,7 +370,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
     }
 
 
-    private void applyCardInfluence ( int rowIdx, int colIdx, Player currentPlayer, Card card){
+    private void applyCardInfluence ( int rowIdx, int colIdx, Player currentPlayer, PawnCard card){
       gameNotStartedCheck();
 
       if (rowIdx < 0 || rowIdx >= row || colIdx < 0 || colIdx >= column) {
@@ -416,7 +414,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
     }
 
     private void initializeBoard() {
-      this.board = new Cell[row][column];
+      this.board = new PawnCell[row][column];
       for (int i = 0; i < row; i++) {
         for (int j = 0; j < column; j++) {
           this.board[i][j] = new PawnCell();
@@ -430,13 +428,13 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
       }
     }
 
-    private void initializeHand (List < PawnCard > deck, List < PawnCard > hand){
+    private void initializeHand (List <PawnCard> deck, List <PawnCard> hand){
       for (int i = 0; i < handSize; i++) {
         hand.add(deck.remove(0));
       }
     }
 
-    private void placeCardAtHelper (List < PawnCard > playerHand, Player player,
+    private void placeCardAtHelper (List <PawnCard> playerHand, Player player,
     int cardIdx, int row, int col){
 
       if (cardIdx < 0 || cardIdx >= playerHand.size()) {
@@ -449,13 +447,13 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
                 "Hand size cannot drop below " + handSize);
       }
 
-      Card card = playerHand.get(cardIdx);
+      PawnCard card = playerHand.get(cardIdx);
 
       if (!this.placeCardLegal(player, card, row, col)) {
         throw new IllegalArgumentException("card cannot be placed here");
       }
 
-      Cell cell = this.board[row][col];
+      PawnCell cell = this.board[row][col];
 
       cell.placeCard(card);
       playerHand.remove(cardIdx);
@@ -463,8 +461,8 @@ public class PawnGameImpl implements PawnsGame<PawnCell> {
 
     }
 
-    private void drawCardHelper (List < PawnCard > playerDeck,
-            List < PawnCard > playerHand){
+    private void drawCardHelper (List <PawnCard> playerDeck,
+            List <PawnCard> playerHand){
 
       playerHand.add(playerDeck.get(0));
       playerDeck.remove(0);

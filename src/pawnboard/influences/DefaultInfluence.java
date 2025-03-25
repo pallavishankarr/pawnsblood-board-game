@@ -1,6 +1,7 @@
 package pawnboard.influences;
 
 import pawnboard.model.Cell;
+import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
@@ -9,11 +10,11 @@ import pawnboard.model.Player;
  * Represents an influence where a pawn is added to an empty cell.
  * Or increases the pawn count if the player owns the cell.
  */
-public class DefaultInfluence implements InfluenceEffect {
+public class DefaultInfluence implements InfluenceEffect<PawnCell, Player, PawnCard> {
 
   @Override
-  public void apply(PawnsGame<PawnCell> game, int row, int col, Player currentPlayer) {
-    Cell influencedCell = game.getCellAt(row, col);
+  public void apply(PawnsGame<PawnCell, Player, PawnCard> game, int row, int col, Player currentPlayer) {
+    PawnCell influencedCell = game.getCellAt(row, col);
 
     // If the cell is empty, add a pawn
     if (influencedCell.isCellEmpty()) {

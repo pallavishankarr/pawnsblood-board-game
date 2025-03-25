@@ -28,7 +28,7 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
   private final List<PawnCard> hand;
   private final Color color;
   private int selectedCardIndex = -1;
-  private ReadonlyPawnsGame<PawnCell> model;
+  private ReadonlyPawnsGame<PawnCell, Player, PawnCard> model;
 
   private static final int CARD_BORDER_THICKNESS = 3;
 
@@ -39,7 +39,7 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
    * @param player The player whose hand is to be displayed.
    * @throws IllegalArgumentException if the model is null
    */
-  public HandPanel(ReadonlyPawnsGame<PawnCell> model, Player player) {
+  public HandPanel(ReadonlyPawnsGame<PawnCell, Player, PawnCard> model, Player player) {
     super();
     if (model == null) {
       throw new IllegalArgumentException("model cannot be null");

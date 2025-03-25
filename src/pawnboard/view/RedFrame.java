@@ -1,4 +1,5 @@
 package pawnboard.view;
+import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
@@ -12,7 +13,7 @@ public class RedFrame extends GameFrame {
    * Constructs a RedFrame object for the red player and initializes the game.
    * @param model the model that holds current state
    */
-  public RedFrame(ReadonlyPawnsGame<PawnCell> model) {
+  public RedFrame(ReadonlyPawnsGame<PawnCell, Player, PawnCard> model) {
     super(model, Player.RED);
   }
 }

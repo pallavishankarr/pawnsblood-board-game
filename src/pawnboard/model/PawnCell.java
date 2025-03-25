@@ -5,11 +5,11 @@ package pawnboard.model;
  * of the owner, pawn count of the cell, card of the cell  and if the cell
  * is empty or not.
  */
-public class PawnCell implements Cell {
+public class PawnCell implements Cell<Player, PawnCard> {
 
   private Player owner;
   private Count pawnCount;
-  private Card card;
+  private PawnCard card;
 
 
   /**
@@ -62,7 +62,7 @@ public class PawnCell implements Cell {
   }
 
   @Override
-  public void placeCard(Card card) {
+  public void placeCard(PawnCard card) {
     if (card == null) {
       throw new IllegalArgumentException("Card cannot be null");
     }
@@ -91,7 +91,7 @@ public class PawnCell implements Cell {
   }
 
   @Override
-  public Card getCard() {
+  public PawnCard getCard() {
     return this.card;
   }
 

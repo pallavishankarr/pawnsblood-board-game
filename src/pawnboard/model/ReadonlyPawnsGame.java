@@ -4,7 +4,7 @@ import java.util.List;
 
 import pawnboard.view.GameObserver;
 
-public interface ReadonlyPawnsGame<C extends Cell> {
+public interface ReadonlyPawnsGame<C extends Cell<P, T>, P extends Player, T extends Card> {
 
   /**
    * Retrieves the number of cells that make up the width of the board.
@@ -29,7 +29,7 @@ public interface ReadonlyPawnsGame<C extends Cell> {
    * @return boolean based on if not placing card is legal
    * @throws IllegalStateException if the game hasn't started
    */
-  boolean placeCardLegal(Player player, Card card, int row, int col) ;
+  boolean placeCardLegal(P player, T card, int row, int col) ;
 
   /**
    * Returns a deep copy of the current board state.
@@ -46,7 +46,7 @@ public interface ReadonlyPawnsGame<C extends Cell> {
    * @throws IllegalArgumentException if the row and column are not a valid location
    *                                  for a Cell on the board
    */
-  Cell getCellAt(int row, int col);
+  C getCellAt(int row, int col);
 
   /**
    * Gets the current player.
@@ -61,7 +61,7 @@ public interface ReadonlyPawnsGame<C extends Cell> {
    * @return a copy of the player's current hand
    * @throws IllegalStateException if the game has not started
    */
-  List<PawnCard> getHand(Player player);
+  List<PawnCard> getHand(P player);
 
   /**
    * Returns the number of cards left in a player's deck.
@@ -69,7 +69,7 @@ public interface ReadonlyPawnsGame<C extends Cell> {
    * @return the number of cards left in the players deck.
    * @throws IllegalStateException if the game has not started
    */
-  int getRemainingDeckSize(Player player);
+  int getRemainingDeckSize(P player);
 
   /**
    * Gets the winner of the game.
@@ -84,7 +84,7 @@ public interface ReadonlyPawnsGame<C extends Cell> {
    * @return the integer of the Score
    * @throws IllegalStateException if the game has not started
    */
-  int checkScore(Player player);
+  int checkScore(P player);
 
   /**
    * Checks the Score of the row based on the Player.
@@ -93,7 +93,7 @@ public interface ReadonlyPawnsGame<C extends Cell> {
    * @return the score of the
    * @throws IllegalArgumentException if the rowIdx is out of row bounds
    */
-  int checkScoreRow(Player player, int rowIdx);
+  int checkScoreRow(P player, int rowIdx);
 
   /**
    * Determines if the game has ended.
