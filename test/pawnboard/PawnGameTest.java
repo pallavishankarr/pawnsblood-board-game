@@ -2375,8 +2375,8 @@ public class PawnGameTest {
     };
 
 
-    PawnCard cardB = new PawnCard("Striker", Cost.One, 2, influenceGrid3);
-    Move<PawnCard> move2 = new Move<PawnCard>(cardB, 0, 0);
+
+    Move<PawnCard> move2 = new Move<PawnCard>(cardA, 0, 0);
 
     List<Move<PawnCard>> moves3 = new ArrayList<>();
     moves3.add(move2);
