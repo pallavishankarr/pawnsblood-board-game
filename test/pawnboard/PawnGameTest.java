@@ -2307,9 +2307,11 @@ public class PawnGameTest {
 
     PawnBoardStrategy boardStrategy = new FillFirstStrategy();
     System.out.print(boardStrategy.chooseMove(model, Player.RED));
-    PawnCard cardA = new PawnCard("Security", Cost.One, 4, influenceGrid);
-    Move move = new Move(cardA, 0, 2);
-    List<Move> moves = (List<Move>) move;
+    PawnCard cardA = new PawnCard("Security", Cost.One, 2, influenceGrid);
+    Move move = new Move(cardA, 0, 0);
+    List<Move> moves = new ArrayList<>();
+    moves.add(move);
+    assertEquals(moves, boardStrategy.chooseMove(model, Player.RED) );
 
 
   }
