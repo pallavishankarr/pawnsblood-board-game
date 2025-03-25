@@ -2450,13 +2450,7 @@ public class PawnGameTest {
     MockPawnGame mockGame = new MockPawnGame(new StringBuilder());
     PawnBoardStrategy<PawnCell, Player, PawnCard> strategy = new MaxControlStrategy();
     Player player = Player.RED;
-<<<<<<< Updated upstream
-    List<Move> moves = strategy.chooseMove(mockGame, player);
-=======
-
     List<Move<PawnCard>> moves = strategy.chooseMove(mockGame, player);
->>>>>>> Stashed changes
-
     assertTrue(moves.isEmpty());
   }
 
