@@ -13,6 +13,14 @@ import pawnboard.model.PawnGameImpl;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 
+/**
+ * Represents a window frame for the game.
+ * Contains panels for displaying the game board, the player's hand, and scores of
+ * of both players. It sets up the overall layout and provides necessray functionality
+ * to update the game view.
+ *
+ * This abstract class is extended by specific implementationsfor each player.
+ */
 public abstract class GameFrame extends JFrame implements GameWindow {
   protected BoardPanel board;
   protected HandPanel hand;
@@ -21,8 +29,18 @@ public abstract class GameFrame extends JFrame implements GameWindow {
   protected final ReadonlyPawnsGame<PawnCell> model;
   protected final Player player;  // Each frame is associated with a specific player
 
+  /**
+   * Constructs a GameFrame for a specific player and game model.
+   * @param model the model to observe
+   * @param player the player associated with the game frame
+   * @throws IllegalArgumentException if the model is null
+   */
   public GameFrame(ReadonlyPawnsGame<PawnCell> model, Player player) {
     super();
+    if (model == null) {
+      throw new IllegalArgumentException("model cannot be null");
+    }
+
     this.model = model;
     this.player = player;
     setSize(1200, 600);

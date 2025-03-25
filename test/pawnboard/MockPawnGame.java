@@ -17,6 +17,10 @@ import pawnboard.model.PawnCell;
 import pawnboard.model.Player;
 import pawnboard.view.GameObserver;
 
+/**
+ * Represents a mock version of the pawn game for testing.
+ * Includes a log system to record actions performed.
+ */
 public class MockPawnGame implements MockGame {
   private final Appendable log;
   private final int width;
@@ -27,6 +31,11 @@ public class MockPawnGame implements MockGame {
   private List<PawnCard> redHand;
   private List<PawnCard> blueHand;
 
+  /**
+   * Constructs a MockPawnGame object with the log.
+   * The game is initialized with a predefined board size.
+   * @param log the appendable
+   */
   public MockPawnGame(Appendable log) {
     this.log = log;
     this.width = 5;
@@ -57,6 +66,9 @@ public class MockPawnGame implements MockGame {
 
   @Override
   public void setLegalMove(int row, int col) {
+    if (row > width || col > height || row < 0 || col < 0) {
+      throw new IllegalArgumentException("row or or column out of bounds");
+    }
       legalMoves[row][col] = true;
       logMessage("Legal move created at: (" + row + ", " + col + ")");
 
@@ -64,6 +76,10 @@ public class MockPawnGame implements MockGame {
 
   @Override
   public void setFakeRowScore(int row, Player player, int score) {
+    if (row < 0 || row > width || score < 0) {
+      throw new IllegalArgumentException("row or score out of bounds");
+    }
+
     int[] scores = fakeRowScores.get(row);
     if (player == Player.RED) {
       scores[0] = score; // Red's score
@@ -76,6 +92,9 @@ public class MockPawnGame implements MockGame {
 
   @Override
   public void addCardToHand(Player player, PawnCard card) {
+    if (card == null) {
+      throw new IllegalArgumentException("card cannot be null");
+    }
     if (player == Player.RED) {
       redHand.add(card);
     }

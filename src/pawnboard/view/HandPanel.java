@@ -18,17 +18,32 @@ import pawnboard.model.PawnGameImpl;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 
-
-public class HandPanel extends JPanel implements HighlightPanel {
-  private final List<PawnCard> hand;
+/**
+ * Represents the hand of a cards for a player in the game.
+ * Allows the player to view and select cards and displays relevant information
+ * such as card name, cost, value, and influence grid.
+ * Updates the GUI when the game state changes.
+ */
+public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
+  private final List<Card> hand;
   private final Color color;
   private int selectedCardIndex = -1;
   private ReadonlyPawnsGame<PawnCell> model;
 
   private static final int CARD_BORDER_THICKNESS = 3;
 
+  /**
+   * Constructs a HandPanel for a specific player in the game.
+   *
+   * @param model The game model that represents the state of the game.
+   * @param player The player whose hand is to be displayed.
+   * @throws IllegalArgumentException if the model is null
+   */
   public HandPanel(ReadonlyPawnsGame<PawnCell> model, Player player) {
     super();
+    if (model == null) {
+      throw new IllegalArgumentException("model cannot be null");
+    }
     this.model = model;
 
     if (player.equals(Player.RED)) {
