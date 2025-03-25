@@ -78,7 +78,8 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard> {
       throw new IllegalArgumentException("Decks must be the same size");
     }
 
-    if (redDeck.contains(null) || blueDeck.contains(null)) {
+    if (redDeck.contains(null) || blueDeck.contains(null) ||
+    redDeck == null || blueDeck == null) {
       throw new IllegalArgumentException("Decks contain null elements.");
     }
 

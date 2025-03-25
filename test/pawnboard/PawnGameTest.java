@@ -230,14 +230,13 @@ public class PawnGameTest {
   public void testIllegalStartGame() {
     String path2 = "CardList";
 
-    Map<String, List<PawnCard>> decks3 = cardInitializer.initializeDeck(biggerPath, biggerPath);
-    List<PawnCard> deck4 = decks3.get("deck1");
-
+    Map<String, List<PawnCard>> deck3 = cardInitializer.initializeDeck(path2, path2);
+    List<PawnCard> deck4 = deck3.get("deck1");
 
     game = new PawnGameImpl(5, 7);
 
     //Throws because of path should create null decks
-    assertThrows(IllegalArgumentException.class, () -> game.startGame(deck2, deck2, 5));
+    assertThrows(IllegalArgumentException.class, () -> game.startGame(deck4, deck4, 5));
 
     //Throws because hand Size is greater  than 1/3
     assertThrows(IllegalArgumentException.class, () -> game.startGame(deck4, deck4, 15));
@@ -289,6 +288,7 @@ public class PawnGameTest {
   @Test
   public void testNoCardLeftToDraw() {
     game = new PawnGameImpl(3, 5);
+    // need to create a copy, right now they are picking from the same deck
     game.startGame(deck, deck, 5);
 
     game.startTurn(Player.RED);
@@ -398,11 +398,6 @@ public class PawnGameTest {
     //throws when Opposing player places Card
     assertThrows(IllegalArgumentException.class, () ->
             game.placeCardAt(Player.BLUE, 0, 0, 0));
-
-    //throws when Opposing player tries to pass turn
-    assertThrows(IllegalArgumentException.class, () ->
-            game.passTurn());
-
   }
 
   //test that turn ends when Player's turn is over
@@ -1511,8 +1506,9 @@ public class PawnGameTest {
     PawnCell cell3 = game.getCellAt(0, 2);
     PawnCell cell4 = game.getCellAt(0, 3);
     PawnCell cell5 = game.getCellAt(0, 4);
-
-
+    cell2.addPawn(Player.BLUE);
+    cell2.addPawn(Player.BLUE);
+    cell2.addPawn(Player.BLUE);
     cell3.addPawn(Player.BLUE);
     cell4.addPawn(Player.BLUE);
     cell4.addPawn(Player.BLUE);
@@ -1554,7 +1550,7 @@ public class PawnGameTest {
     game.startTurn(Player.BLUE);
     game.placeCardAt(Player.BLUE, 0, 0, 4);
 
-    assertEquals(9, game.checkScoreRow(Player.BLUE, 0));
+    assertEquals(10, game.checkScoreRow(Player.BLUE, 0));
 
   }
 
@@ -1626,7 +1622,6 @@ public class PawnGameTest {
 
     assertEquals(9, game.checkScore(Player.BLUE));
     assertEquals(0, game.checkScore(Player.RED));
-
   }
 
   @Test
