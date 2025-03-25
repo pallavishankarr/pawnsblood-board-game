@@ -21,6 +21,7 @@ import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 import pawnboard.strategy.FillFirstStrategy;
 import pawnboard.strategy.MaximizeRowScoreStrategy;
+import pawnboard.strategy.PawnBoardStrategy;
 import pawnboard.view.GameView;
 import pawnboard.view.PawnGameTextualView;
 import pawnboard.strategy.Move;
@@ -2287,6 +2288,30 @@ public class PawnGameTest {
     List<Move> moves = fillFirstStrat.chooseMove(mockGame, Player.RED);
     System.out.println(output.toString() + "Chosen Move: (" + moves.get(0) + ")");
   }
+
+
+  @Test
+  public void testFillFirstStrategy() {
+    PawnGameImpl model = new PawnGameImpl(3, 5);
+
+    CardInitializer cardInitializer = new CardInitializer();
+    Map<String, List<PawnCard>> decks = cardInitializer.initializeDeck(path, path);
+    List<PawnCard> deck1 = decks.get("deck1");
+    List<PawnCard> deck2 = decks.get("deck2");
+
+    model.startGame(deck1, deck2, 5);
+
+    PawnBoardStrategy boardStrategy = new FillFirstStrategy();
+    System.out.print(boardStrategy.chooseMove(model, Player.RED));
+    PawnCard cardA = new PawnCard("Security", Cost.One, 4, influenceGrid);
+    Move move = new Move(cardA, 0, 2);
+    List<Move> moves = (List<Move>) move;
+
+
+  }
+
+
+
 
 
 

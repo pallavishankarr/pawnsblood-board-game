@@ -28,14 +28,18 @@ public class CardInitializer {
    * @return a list of pawn cards created
    */
   public static Map<String, List<PawnCard>> initializeDeck(String path1, String path2) {
-    List<PawnCard> deck1 = new ArrayList<>();
+
+
+    List<PawnCard> deck1  = new ArrayList<>();
     List<PawnCard> deck2 = new ArrayList<>();
     Map<String, List<PawnCard>> decks = new HashMap<>();
 
-    deck1 = readDeckFromFile(path1);
-    deck2 = readDeckFromFile(path2);
+     deck1 = readDeckFromFile(path1);
+     deck2 = readDeckFromFile(path2);
 
     if(areDecksIdentical(deck1, deck2)) {
+
+      deck2 = mirrorDeck(deck2);
 
       decks.put("deck1", deck1);
       decks.put("deck2", deck2);
@@ -43,7 +47,8 @@ public class CardInitializer {
     }
 
     else {
-      deck2 = mirrorDeck(deck2);
+
+
       decks.put("deck1", deck1);
       decks.put("deck2", deck2);
     }
@@ -168,5 +173,6 @@ public class CardInitializer {
 
     return mirrored;
   }
+
 
 }
