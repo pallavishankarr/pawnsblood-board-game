@@ -39,24 +39,26 @@ public class PawnCell implements Cell {
   public void  addPawn(Player player) {
     if (this.isCellEmpty()) {
       this.owner = player;
-
+      this.pawnCount = Count.One;
     }
 
     else if (!this.owner.equals(player)) {
       return;
     }
 
-    else if(pawnCount == Count.One) {
-      pawnCount = Count.Two;
+    else {
+      switch (pawnCount) {
+        case One:
+          pawnCount = Count.Two;
+          break;
+        case Two:
+          pawnCount = Count.Three;
+          break;
+        case Three:
+          System.out.println("Max pawn count reached. Staying at Three.");
+          return;  // Prevents resetting to One
+      }
     }
-
-    else if(pawnCount == Count.Two) {
-      pawnCount = Count.Three;
-    }
-
-    else
-      pawnCount = Count.One;
-
   }
 
   @Override

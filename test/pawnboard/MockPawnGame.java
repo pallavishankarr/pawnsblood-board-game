@@ -15,6 +15,7 @@ import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.Player;
+import pawnboard.view.GameObserver;
 
 public class MockPawnGame implements MockGame {
   private final Appendable log;
@@ -169,6 +170,14 @@ public class MockPawnGame implements MockGame {
   @Override
   public Player getOwnerAt(int row, int col) {
     return null;
+  }
+
+  @Override
+  public void addObserver(GameObserver observer) {
+  }
+
+  @Override
+  public void removeObserver(GameObserver observer) {
   }
 
   /** Logs a message to the appendable log */
