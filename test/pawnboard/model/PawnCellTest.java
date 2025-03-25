@@ -13,9 +13,9 @@ import static org.junit.Assert.assertTrue;
  * Represents tests for a pawn cell.
  */
 public class PawnCellTest {
-  private Cell cell1;
-  private Cell cell2;
-  private Cell cell3;
+  private Cell<Player, PawnCard> cell1;
+  private Cell<Player, PawnCard>  cell2;
+  private Cell<Player, PawnCard>  cell3;
 
   @Before
   public void setUp() {
@@ -28,7 +28,7 @@ public class PawnCellTest {
   public void testValidConstructorCell() {
 
     //checks the initialization of PawnCell with empty constructor
-    assertEquals(0, this.cell1.getPawnCount());
+    assertEquals(Count.Zero, this.cell1.getPawnCount());
     assertNull(this.cell1.getOwner());
     assertFalse(this.cell1.hasCard());
 

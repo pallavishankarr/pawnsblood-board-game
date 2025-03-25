@@ -11,7 +11,7 @@ import pawnboard.model.Player;
  *  Represents a mock version of a pawn game that simulates basic game operations.
  *  Provides methods for setting legal moves, row scores, and adding cards for testing.
  */
-public interface MockGame<C extends Cell, P extends Player, T extends Card> extends PawnsGame<C, P, T> {
+public interface MockGame<C extends Cell<P, T>, P extends Player, T extends Card> extends PawnsGame<C, P, T> {
 
   /**
    * Sets a legal move at the specified position on the board.

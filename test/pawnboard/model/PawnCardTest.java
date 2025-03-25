@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
@@ -117,7 +118,7 @@ public class PawnCardTest {
   @Test
   public void testCardEquality() {
     PawnCard sameCard = new PawnCard("TestCard", Cost.Two, 5, influenceGrid);
-    assertTrue(sameCard.equals(card));
+    assertEquals(sameCard, card);
   }
 
   @Test
@@ -134,9 +135,9 @@ public class PawnCardTest {
     PawnCard card3 = new PawnCard("TestCard", Cost.Two, 5, influenceGrid2);
     PawnCard card4 = new PawnCard("DiffName", Cost.Two, 5, influenceGrid);
 
-    assertFalse(card.equals(card1));
-    assertFalse(card.equals(card2));
-    assertFalse(card.equals(card3));
-    assertFalse(card.equals(card4));
+    assertNotEquals(card, card1);
+    assertNotEquals(card, card2);
+    assertNotEquals(card, card3);
+    assertNotEquals(card, card4);
   }
 }

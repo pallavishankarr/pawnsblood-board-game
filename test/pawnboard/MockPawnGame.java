@@ -148,7 +148,7 @@ public class MockPawnGame implements MockGame<PawnCell, Player, PawnCard> {
   }
 
   @Override
-  public Cell getCellAt(int row, int col) {
+  public PawnCell getCellAt(int row, int col) {
     return null;
   }
 
