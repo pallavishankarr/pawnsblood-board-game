@@ -12,7 +12,7 @@ import pawnboard.model.Player;
  * Implementations of this interface define how a move is
  * chosen based on the current game state.
  */
-public interface PawnBoardStrategy<C extends Cell, P extends Player, T extends Card> {
+public interface PawnBoardStrategy<C extends Cell<P, T>, P extends Player, T extends Card> {
   /**
    * Chooses list of possible moves for the given player based on the game state.
    * The strategy determines the best or valid move that can be made.
