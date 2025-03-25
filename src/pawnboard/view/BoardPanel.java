@@ -14,7 +14,13 @@ import pawnboard.model.PawnCell;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 
-public class BoardPanel extends JPanel implements HighlightPanel {
+/**
+ * A panel that represents the board of the game.
+ * Updates board of game interactions, highlights cells, renders the game state.
+ * This panel is a game observer, listens for the game state changes and user interactions
+ * (mouse click and key presses).
+ * */
+public class BoardPanel extends JPanel implements GameObserver, HighlightPanel {
   private final int rows;
   private final int cols;
   private final ReadonlyPawnsGame<PawnCell> model;
@@ -23,8 +29,20 @@ public class BoardPanel extends JPanel implements HighlightPanel {
   private int selectedCol = -1;
   private final HandPanel handPanel;
 
+  /**
+   * Constructs a board panel object with the game model, and hande panel.
+   * Initializes the panel, adds mouse and key listeners, and registers the panel
+   * as an observer of the game.
+   * Board panel needs hand panel to detect if the hand panel is highlighted.
+   * @param model the game model to observe
+   * @param handPanel the hand panel for card selection
+   * @throws IllegalArgumentException if the model or hand panel is null
+   */
   public BoardPanel(ReadonlyPawnsGame<PawnCell> model, HandPanel handPanel) {
     super();
+    if (model == null || handPanel == null) {
+      throw new IllegalArgumentException("Model or handPanel is null");
+    }
     this.model = model;
     this.handPanel = handPanel;
     rows = model.getHeight();

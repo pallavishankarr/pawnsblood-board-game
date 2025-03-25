@@ -22,7 +22,7 @@ public class FillFirstStrategy implements PawnBoardStrategy {
     if (model.isGameOver()) {
       throw new IllegalStateException("Cannot choose a move when the game is over.");
     }
-    
+
     List<Card> hand = model.getHand(player);
     List<Move> possibleMoves = new ArrayList<>();
 

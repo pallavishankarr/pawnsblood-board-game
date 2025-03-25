@@ -19,7 +19,7 @@ import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 
 
-public class HandPanel extends JPanel implements HighlightPanel {
+public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
   private final List<Card> hand;
   private final Color color;
   private int selectedCardIndex = -1;
