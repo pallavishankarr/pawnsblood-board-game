@@ -163,7 +163,7 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
     g.drawRect(x, y, cellSize, cellSize);
   }
 
-  public void toggleSelection(int index) {
+  private void toggleSelection(int index) {
     if (index == selectedCardIndex) {
       selectedCardIndex = -1;  // Deselect card
     } else {
@@ -205,10 +205,10 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
     repaint();
   }
 
-  public class HandPanelMouseListener extends MouseAdapter {
+  private class HandPanelMouseListener extends MouseAdapter {
     private final HandPanel handPanel;
 
-    public HandPanelMouseListener(HandPanel handPanel) {
+    private HandPanelMouseListener(HandPanel handPanel) {
       this.handPanel = handPanel;
     }
 
