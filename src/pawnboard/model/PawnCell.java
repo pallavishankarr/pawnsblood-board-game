@@ -30,7 +30,7 @@ public class PawnCell implements Cell<Player, PawnCard> {
    *                                  than 3
    */
   public PawnCell(Player owner, Count pawnCount) {
-    if(owner == null) {
+    if (owner == null) {
       throw new IllegalArgumentException("Owner cannot be null");
     }
 

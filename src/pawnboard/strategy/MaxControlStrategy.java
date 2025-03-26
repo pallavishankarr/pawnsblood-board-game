@@ -70,7 +70,8 @@ public class MaxControlStrategy implements PawnBoardStrategy<PawnCell, Player, P
   }
 
   private boolean isBetterMove(Move<PawnCard> bestMove, PawnCard newCard,
-                               int newRow, int newCol, int newControlledCells, int maxControlledCells) {
+                               int newRow, int newCol, int newControlledCells,
+                               int maxControlledCells) {
     if (newControlledCells > maxControlledCells) {
       return true;
     }
