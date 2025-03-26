@@ -1,11 +1,11 @@
 package pawnboard.view;
 
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import pawnboard.controller.CardInitializer;
 import pawnboard.model.PawnCard;
@@ -61,10 +61,15 @@ public abstract class GameFrame extends JFrame implements GameWindow {
     display();
   }
 
+  /**
+   * Allows to run the game frame.
+   * @param args arguments
+   */
   public static void main(String[] args) {
     String biggerPath = "docs" + File.separator + "biggerDeck";
     CardInitializer cardInitializer = new CardInitializer();
-    Map<String, java.util.List<PawnCard>> decks = CardInitializer.initializeDeck(biggerPath, biggerPath);
+    Map<String, java.util.List<PawnCard>> decks =
+            CardInitializer.initializeDeck(biggerPath, biggerPath);
     List<PawnCard> deck = decks.get("deck1");
     PawnGameImpl model = new PawnGameImpl(5, 7);
     model.startGame(deck, deck, 5);
