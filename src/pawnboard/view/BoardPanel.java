@@ -1,6 +1,12 @@
 package pawnboard.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -8,7 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
@@ -107,10 +113,8 @@ public class BoardPanel extends JPanel implements GameObserver, HighlightPanel {
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g.create();
 
-    // Apply logical -> physical scaling
     g2d.transform(transformLogicalToPhysical());
 
-    // Background color
     g2d.setColor(Color.DARK_GRAY);
     g2d.fillRect(0, 0, logicalSize.width, logicalSize.height);
 
@@ -150,7 +154,7 @@ public class BoardPanel extends JPanel implements GameObserver, HighlightPanel {
         if (pawnCount > 0) {
           Player owner = cell.getOwner();
           if (owner == null) {
-            continue; // Skip drawing if owner is not assigned
+            continue;
           }
 
           Color pawnColor = (owner == Player.RED) ? Color.PINK : Color.BLUE;
@@ -160,7 +164,8 @@ public class BoardPanel extends JPanel implements GameObserver, HighlightPanel {
     }
   }
 
-  private void drawPawn(Graphics2D g2d, int col, int row, double cellWidth, double cellHeight, Color color, int count) {
+  private void drawPawn(Graphics2D g2d, int col, int row,
+                        double cellWidth, double cellHeight, Color color, int count) {
     g2d.setColor(color);
 
     // center of cell
@@ -181,17 +186,18 @@ public class BoardPanel extends JPanel implements GameObserver, HighlightPanel {
         break;
       case 3:
         offsets = new double[][]{{-spacing / 2, -spacing / 2},
-                {spacing / 2, -spacing / 2},
-                {0, spacing / 2}}; // Triangle formation
+            {spacing / 2, -spacing / 2},
+            {0, spacing / 2}};
         break;
       default:
-        return; // Should never happen since max is 3
+        return;
     }
 
     for (double[] offset : offsets) {
       double pawnX = centerX + offset[0] - (baseSize / 2);
       double pawnY = centerY + offset[1] - (baseSize / 2);
-      g2d.fillOval((int) Math.round(pawnX), (int) Math.round(pawnY), (int) Math.round(baseSize), (int) Math.round(baseSize));
+      g2d.fillOval((int) Math.round(pawnX), (int) Math.round(pawnY),
+              (int) Math.round(baseSize), (int) Math.round(baseSize));
     }
   }
 
@@ -267,7 +273,7 @@ public class BoardPanel extends JPanel implements GameObserver, HighlightPanel {
       clearHighlight();
     } else {
       System.out.println("Clicked cell at: (" + clickedRow + ", " + clickedCol + ")");
-      highlightCell(clickedRow, clickedCol);  // Otherwise, highlight the clicked cell
+      highlightCell(clickedRow, clickedCol);
     }
 
     gameStateChanged();

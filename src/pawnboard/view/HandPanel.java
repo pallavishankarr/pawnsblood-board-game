@@ -62,6 +62,10 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
     this.addMouseListener(new HandPanelMouseListener(this));
   }
 
+  /**
+   * Allows to run the hand panel and see screen.
+   * @param args arguments
+   */
   public static void main(String[] args) {
     String path = "docs" + File.separator + "deck.config";
     CardInitializer cardInitializer = new CardInitializer();
@@ -69,18 +73,8 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
     List<PawnCard> deck = decks.get("deck1");
     PawnGameImpl model = new PawnGameImpl(3, 5);
     model.startGame(deck, deck, 5);
-
-
-//    model.drawCard(Player.RED);
-
-    // Create a player (either RED or BLUE)
     Player player = Player.RED;
-
-
-    // Create the HandPanel
     HandPanel handPanel = new HandPanel(model, player);
-
-    // Create the frame to display the HandPanel
     JFrame frame = new JFrame("HandPanel Test");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setSize(1200, 200);
@@ -167,7 +161,7 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
     if (index == selectedCardIndex) {
       selectedCardIndex = -1;  // Deselect card
     } else {
-      selectedCardIndex = index;  // Select new card
+      selectedCardIndex = index;
     }
     repaint();
   }
