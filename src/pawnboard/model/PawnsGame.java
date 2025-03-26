@@ -10,7 +10,8 @@ import java.util.List;
  * @param <P> the type of player to use
  * @param <T> the type of card to use
  */
-public interface PawnsGame<C extends Cell<P, T>, P extends Player, T extends Card> extends ReadonlyPawnsGame<C, P, T> {
+public interface PawnsGame<C extends Cell<P, T>, P extends Player, T extends Card> extends
+        ReadonlyPawnsGame<C, P, T> {
 
   /**
    * Starts the game with the given hand size and initializes the board.
@@ -26,7 +27,7 @@ public interface PawnsGame<C extends Cell<P, T>, P extends Player, T extends Car
    *                                  if handSize is not positive (i.e. 0 or less)
    *                                  or is greater than a third of the deck size
    */
-  void startGame(List<T> deck1, List<T>deck2 , int handSize);
+  void startGame(List<T> deck1, List<T> deck2 , int handSize);
 
   /**
    * Places a card from the players hand to a given position on the board.
