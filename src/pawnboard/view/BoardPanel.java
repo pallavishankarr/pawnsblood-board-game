@@ -217,7 +217,8 @@ public class BoardPanel extends JPanel implements GameObserver, HighlightPanel {
     }
   }
 
-  private void drawCard(Graphics2D g2d, int row, int col, Color color, int value, double cellWidth, double cellHeight) {
+  private void drawCard(Graphics2D g2d, int row, int col, Color color, int value,
+                        double cellWidth, double cellHeight) {
     double x = col * cellWidth;
     double y = row * cellHeight;
 
