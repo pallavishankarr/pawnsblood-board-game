@@ -50,8 +50,8 @@ public class PawnsGameController implements GameController<PawnCell, Player, Paw
   }
 
   @Override
-  public void playGame(PawnsGame<PawnCell, Player, PawnCard> model, GameWindow redView, GameWindow blueView,
-                       String redFilePath, String blueFilePath, int handSize) {
+  public void playGame(PawnsGame<PawnCell, Player, PawnCard> model, GameWindow redView,
+                       GameWindow blueView,String redFilePath, String blueFilePath, int handSize) {
 
 
     if (model == null || redView == null || blueView == null ||
@@ -62,7 +62,7 @@ public class PawnsGameController implements GameController<PawnCell, Player, Paw
       throw new IllegalArgumentException("Hand size must be greater than 0");
     }
 
-    if(!hasGameStarted(model)) {
+    if (!hasGameStarted(model)) {
       this.model = model;
       this.redView = redView;
       this.blueView = blueView;

@@ -1,5 +1,8 @@
 package pawnboard.model;
 
+/**
+ * The Enum for the Cost of the card which could be one of the value 1, 2 or 3.
+ */
 public enum Cost {
   One(1),
   Two(2),

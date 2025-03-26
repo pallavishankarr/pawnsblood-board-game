@@ -1,5 +1,8 @@
 package pawnboard.model;
 
+/**
+ * Enum for the Count of a Pawn on a Cell which could be 0, 1, 2 or 3.
+ */
 public enum Count {
   Zero(0),
   One(1),

@@ -34,10 +34,10 @@ public class CardInitializer {
     List<PawnCard> deck2 = new ArrayList<>();
     Map<String, List<PawnCard>> decks = new HashMap<>();
 
-     deck1 = readDeckFromFile(path1);
-     deck2 = readDeckFromFile(path2);
+    deck1 = readDeckFromFile(path1);
+    deck2 = readDeckFromFile(path2);
 
-    if(areDecksIdentical(deck1, deck2)) {
+    if (areDecksIdentical(deck1, deck2)) {
 
       deck2 = mirrorDeck(deck2);
 

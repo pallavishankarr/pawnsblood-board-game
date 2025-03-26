@@ -57,6 +57,9 @@ public class PawnCell implements Cell<Player, PawnCard> {
         case Three:
           System.out.println("Max pawn count reached. Staying at Three.");
           return;  // Prevents resetting to One
+
+        default:
+          break;
       }
     }
   }

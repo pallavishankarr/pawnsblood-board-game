@@ -1,4 +1,5 @@
 package pawnboard.influences;
+
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
@@ -11,7 +12,8 @@ import pawnboard.model.Player;
 public class DefaultInfluence implements InfluenceEffect<PawnCell, Player, PawnCard> {
 
   @Override
-  public void apply(PawnsGame<PawnCell, Player, PawnCard> game, int row, int col, Player currentPlayer) {
+  public void apply(PawnsGame<PawnCell, Player, PawnCard> game, int row, int col,
+                    Player currentPlayer) {
     PawnCell influencedCell = game.getCellAt(row, col);
 
     // If the cell is empty, add a pawn

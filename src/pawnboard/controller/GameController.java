@@ -24,7 +24,7 @@ public interface GameController<C extends Cell<P, T>, P extends Player, T extend
    * @param blueFilePath file path of the blue player deck
    * @param handSize the starting handSize
    * @throws IllegalStateException if controller is unable to successfully recieve input,
-   *    transmit output, or if the game cannot be started
+   *                               transmit output, or if the game cannot be started
    * @throws IllegalArgumentException if the model or view are null
    */
   void playGame(PawnsGame<C, P, T> model, GameWindow redView, GameWindow blueView,
