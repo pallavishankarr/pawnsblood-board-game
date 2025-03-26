@@ -32,6 +32,7 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
   private final List<PawnCard> hand;
   private final Color color;
   private int selectedCardIndex = -1;
+  private final ReadonlyPawnsGame<PawnCell, Player, PawnCard> model;
 
   /**
    * Constructs a HandPanel for a specific player in the game.
@@ -45,6 +46,7 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
     if (model == null) {
       throw new IllegalArgumentException("model cannot be null");
     }
+    this.model = model;
 
     if (player.equals(Player.RED)) {
       this.hand = model.getHand(Player.RED);
@@ -60,10 +62,6 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
     this.addMouseListener(new HandPanelMouseListener(this));
   }
 
-  /**
-   * Allows to run to see the hand panel.
-   * @param args arguments
-   */
   public static void main(String[] args) {
     String path = "docs" + File.separator + "deck.config";
     CardInitializer cardInitializer = new CardInitializer();
@@ -72,10 +70,17 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
     PawnGameImpl model = new PawnGameImpl(3, 5);
     model.startGame(deck, deck, 5);
 
+
+//    model.drawCard(Player.RED);
+
+    // Create a player (either RED or BLUE)
     Player player = Player.RED;
 
+
+    // Create the HandPanel
     HandPanel handPanel = new HandPanel(model, player);
 
+    // Create the frame to display the HandPanel
     JFrame frame = new JFrame("HandPanel Test");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setSize(1200, 200);
@@ -85,7 +90,8 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
 
   @Override
   public Dimension getPreferredSize() {
-    return new Dimension(getWidth(), 200);
+    // Set the preferred size to be based on the panel's width and a fixed height
+    return new Dimension(getWidth(), 200);  // Default height, can adjust as needed
   }
 
   @Override
@@ -119,16 +125,14 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
     g.fillRect(xPosition + CARD_BORDER_THICKNESS, 0, cardWidth - CARD_BORDER_THICKNESS, cardHeight);
   }
 
-  private void drawCardDetails(Graphics g, int xPosition, PawnCard card,
-                               int cardWidth, int cardHeight) {
+  private void drawCardDetails(Graphics g, int xPosition, PawnCard card, int cardWidth, int cardHeight) {
     g.setColor(Color.WHITE);
     g.drawString(card.getName(), xPosition + CARD_BORDER_THICKNESS + 5, 20);
     g.drawString("Cost: " + card.getPawnCost(), xPosition + CARD_BORDER_THICKNESS + 5, 35);
     g.drawString("Value: " + card.getValue(), xPosition + CARD_BORDER_THICKNESS + 5, 50);
   }
 
-  private void drawInfluenceGrid(Graphics g, PawnCard card, int xPosition,
-                                 int cardWidth, int cardHeight) {
+  private void drawInfluenceGrid(Graphics g, PawnCard card, int xPosition, int cardWidth, int cardHeight) {
     InfluenceType[][] grid = card.getInfluenceGrid();
     int cellSize = Math.min((cardWidth - 2 * CARD_BORDER_THICKNESS) / 5, (cardHeight - 70) / 5);
     int startY = 70;
@@ -159,8 +163,7 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
     g.drawRect(x, y, cellSize, cellSize);
   }
 
-
-  public void toggleSelection(int index) {
+  private void toggleSelection(int index) {
     if (index == selectedCardIndex) {
       selectedCardIndex = -1;  // Deselect card
     } else {
@@ -202,10 +205,10 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
     repaint();
   }
 
-  public class HandPanelMouseListener extends MouseAdapter {
+  private class HandPanelMouseListener extends MouseAdapter {
     private final HandPanel handPanel;
 
-    public HandPanelMouseListener(HandPanel handPanel) {
+    private HandPanelMouseListener(HandPanel handPanel) {
       this.handPanel = handPanel;
     }
 

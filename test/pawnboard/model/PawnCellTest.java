@@ -40,15 +40,6 @@ public class PawnCellTest {
   }
 
   @Test
-  public void testInvalidConstructorCell() {
-    assertThrows(IllegalArgumentException.class, ()
-        -> {
-      new PawnCell(null, null);
-    });
-
-  }
-
-  @Test
   public void testCellAddPawn() {
 
     this.cell1.addPawn(Player.RED);

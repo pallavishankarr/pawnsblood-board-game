@@ -23,7 +23,6 @@ import pawnboard.view.RedFrame;
  *
  */
 public class PawnsGameController implements GameController<PawnCell, Player, PawnCard> {
-  private final Readable input;
   private final Appendable output;
   private int selectedCardIdx = -1;
   private int selectedRow = -1;
@@ -45,7 +44,6 @@ public class PawnsGameController implements GameController<PawnCell, Player, Paw
     if (input == null || output == null) {
       throw new IllegalArgumentException("Input and output must not be null");
     }
-    this.input = input;
     this.output = output;
   }
 
@@ -183,18 +181,18 @@ public class PawnsGameController implements GameController<PawnCell, Player, Paw
 
   private boolean hasGameStarted(PawnsGame<PawnCell, Player, PawnCard> model) {
     try {
-      model.getHand(Player.RED);  // Try accessing a player's hand
-      return true;  // No exception = game started
+      model.getHand(Player.RED);
+      return true;
     } catch (IllegalStateException e) {
-      return false; // Exception = game not started
+      return false;
     }
   }
 
 
-
-
-
-
+  /**
+   * Main method to test the controller.
+   * @param args argument
+   */
   public static void main(String[] args) {
     String simulatedInput = "place 0 0 0";
     Readable input = new StringReader(simulatedInput);
@@ -207,19 +205,18 @@ public class PawnsGameController implements GameController<PawnCell, Player, Paw
     List<PawnCard> deck1 = decks.get("deck1");
     List<PawnCard> deck2 = decks.get("deck2");
 
-    // Create the game model
+
     PawnGameImpl model = new PawnGameImpl(3, 5);
 
-    // Create the controller
+
     PawnsGameController controller = new PawnsGameController(input, output);
 
     model.startGame(deck1, deck2, 5);
 
-    // Create the views
+
     GameWindow redView = new RedFrame(model);
     GameWindow blueView = new BlueFrame(model);
 
-    // Start the game using playGame (this will initialize the game properly)
     controller.playGame(model, redView, blueView, deckPath, deckPath, 5);
 
     System.out.println(output.toString());
