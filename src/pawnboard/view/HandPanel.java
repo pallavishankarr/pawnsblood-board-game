@@ -32,7 +32,6 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
   private final List<PawnCard> hand;
   private final Color color;
   private int selectedCardIndex = -1;
-  private final ReadonlyPawnsGame<PawnCell, Player, PawnCard> model;
 
   /**
    * Constructs a HandPanel for a specific player in the game.
@@ -46,7 +45,6 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
     if (model == null) {
       throw new IllegalArgumentException("model cannot be null");
     }
-    this.model = model;
 
     if (player.equals(Player.RED)) {
       this.hand = model.getHand(Player.RED);
@@ -107,7 +105,8 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
     }
   }
 
-  private void drawCardBackground(Graphics g, int xPosition, int cardWidth, int cardHeight, int cardIndex) {
+  private void drawCardBackground(Graphics g, int xPosition, int cardWidth,
+                                  int cardHeight, int cardIndex) {
     g.setColor(Color.BLACK);
     g.fillRect(xPosition, 0, cardWidth, cardHeight);
 
@@ -119,14 +118,16 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
     g.fillRect(xPosition + CARD_BORDER_THICKNESS, 0, cardWidth - CARD_BORDER_THICKNESS, cardHeight);
   }
 
-  private void drawCardDetails(Graphics g, int xPosition, PawnCard card, int cardWidth, int cardHeight) {
+  private void drawCardDetails(Graphics g, int xPosition, PawnCard card,
+                               int cardWidth, int cardHeight) {
     g.setColor(Color.WHITE);
     g.drawString(card.getName(), xPosition + CARD_BORDER_THICKNESS + 5, 20);
     g.drawString("Cost: " + card.getPawnCost(), xPosition + CARD_BORDER_THICKNESS + 5, 35);
     g.drawString("Value: " + card.getValue(), xPosition + CARD_BORDER_THICKNESS + 5, 50);
   }
 
-  private void drawInfluenceGrid(Graphics g, PawnCard card, int xPosition, int cardWidth, int cardHeight) {
+  private void drawInfluenceGrid(Graphics g, PawnCard card, int xPosition,
+                                 int cardWidth, int cardHeight) {
     InfluenceType[][] grid = card.getInfluenceGrid();
     int cellSize = Math.min((cardWidth - 2 * CARD_BORDER_THICKNESS) / 5, (cardHeight - 70) / 5);
     int startY = 70;
@@ -214,7 +215,6 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
       int cardWidth = handPanel.getWidth() / handPanel.hand.size() - CARD_BORDER_THICKNESS;
       int cardIndex = x / (cardWidth + CARD_BORDER_THICKNESS);
 
-      // Ensure card index doesn't go out of bounds
       if (cardIndex >= 0 && cardIndex < handPanel.hand.size()) {
         handPanel.toggleSelection(cardIndex);
 
