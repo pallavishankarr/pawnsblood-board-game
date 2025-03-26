@@ -32,13 +32,13 @@ public interface PlayerActionPublisher<C extends Card> {
    * @param row The row where the card is placed.
    * @param col The column where the card is placed.
    */
-  void publishMove(AbstractPlayer player, Card card, int row, int col);
+  void publishMove(UserPlayer player, Card card, int row, int col);
 
   /**
    * Notifies registered listeners when a player passes their turn.
    *
    * @param player The player who is passing.
    */
-  void publishPass(AbstractPlayer player);
+  void publishPass(UserPlayer player);
 
 }
