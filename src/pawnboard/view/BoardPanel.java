@@ -124,7 +124,7 @@ public class BoardPanel extends JPanel implements GameObserver, HighlightPanel {
 
     // Highlight selected cell
     if (selectedRow != -1 && selectedCol != -1) {
-      highlightCell(g2d, selectedRow, selectedCol);
+      highlightCellHelper(g2d, selectedRow, selectedCol);
     }
   }
 
@@ -280,7 +280,7 @@ public class BoardPanel extends JPanel implements GameObserver, HighlightPanel {
   }
 
 
-  private void highlightCell(Graphics2D g2d, int row, int col) {
+  private void highlightCellHelper(Graphics2D g2d, int row, int col) {
     double cellWidth = logicalSize.getWidth() / cols;
     double cellHeight = logicalSize.getHeight() / rows;
     double x = col * cellWidth;
