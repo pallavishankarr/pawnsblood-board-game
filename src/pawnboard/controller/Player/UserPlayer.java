@@ -1,4 +1,4 @@
 package pawnboard.controller.Player;
 
-public class UserPlayer {
+public interface UserPlayer {
 }
