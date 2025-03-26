@@ -2,8 +2,6 @@ package pawnboard;
 
 import pawnboard.model.Card;
 import pawnboard.model.Cell;
-import pawnboard.model.PawnCard;
-import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 
@@ -11,7 +9,8 @@ import pawnboard.model.Player;
  *  Represents a mock version of a pawn game that simulates basic game operations.
  *  Provides methods for setting legal moves, row scores, and adding cards for testing.
  */
-public interface MockGame<C extends Cell<P, T>, P extends Player, T extends Card> extends PawnsGame<C, P, T> {
+public interface MockGame<C extends Cell<P, T>,
+        P extends Player, T extends Card> extends PawnsGame<C, P, T> {
 
   /**
    * Sets a legal move at the specified position on the board.

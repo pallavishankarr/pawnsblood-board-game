@@ -11,12 +11,14 @@ import pawnboard.model.Player;
 
 /**
  * A strategy for selecting moves in Pawns Board game by maximizing the number of owned cells.
- * If multiple positions yield the same number of controlled cells, the uppermost-leftmost position is chosen.
+ * If multiple positions yield the same number of controlled cells,
+ * the uppermost-leftmost position is chosen.
  * If multiple cards yield the same number of controlled cells, the leftmost card in hand is chosen.
  **/
 public class MaxControlStrategy implements PawnBoardStrategy<PawnCell, Player, PawnCard> {
   @Override
-  public List<Move<PawnCard>> chooseMove(PawnsGame<PawnCell, Player, PawnCard> model, Player player) {
+  public List<Move<PawnCard>> chooseMove(PawnsGame<PawnCell, Player,
+          PawnCard> model, Player player) {
     if (model == null || player == null) {
       throw new IllegalArgumentException("Model and player cannot be null.");
     }
@@ -45,7 +47,8 @@ public class MaxControlStrategy implements PawnBoardStrategy<PawnCell, Player, P
     return bestMove != null ? List.of(bestMove) : Collections.emptyList();
   }
 
-  private int countControlledCells(PawnsGame<PawnCell, Player, PawnCard> model, Player player, PawnCard card, int row, int col) {
+  private int countControlledCells(PawnsGame<PawnCell, Player, PawnCard> model,
+                                   Player player, PawnCard card, int row, int col) {
     int capturedCells = 0;
     InfluenceType[][] influenceGrid = card.getInfluenceGrid();
     Player opponent = (player == Player.RED) ? Player.BLUE : Player.RED;
@@ -66,12 +69,14 @@ public class MaxControlStrategy implements PawnBoardStrategy<PawnCell, Player, P
     return capturedCells;
   }
 
-  private boolean isBetterMove(Move<PawnCard> bestMove, PawnCard newCard, int newRow, int newCol, int newControlledCells, int maxControlledCells) {
+  private boolean isBetterMove(Move<PawnCard> bestMove, PawnCard newCard,
+                               int newRow, int newCol, int newControlledCells, int maxControlledCells) {
     if (newControlledCells > maxControlledCells) {
       return true;
     }
     if (newControlledCells == maxControlledCells) {
-      return bestMove == null || newRow < bestMove.getRow() || (newRow == bestMove.getRow() && newCol < bestMove.getCol());
+      return bestMove == null || newRow < bestMove.getRow() ||
+              (newRow == bestMove.getRow() && newCol < bestMove.getCol());
     }
     return false;
   }

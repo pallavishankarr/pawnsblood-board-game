@@ -3,7 +3,6 @@ package pawnboard.strategy;
 import java.util.Objects;
 
 import pawnboard.model.Card;
-import pawnboard.model.PawnCard;
 
 /**
  * Represents a move in the Pawns Board game.

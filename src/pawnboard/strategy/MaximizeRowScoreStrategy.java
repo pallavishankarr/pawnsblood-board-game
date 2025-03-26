@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import pawnboard.model.Card;
-import pawnboard.model.Cell;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
@@ -22,7 +21,8 @@ import pawnboard.model.ReadonlyPawnsGame;
 public class MaximizeRowScoreStrategy implements PawnBoardStrategy<PawnCell, Player, PawnCard> {
 
   @Override
-  public List<Move<PawnCard>> chooseMove(PawnsGame<PawnCell, Player, PawnCard> model, Player player) {
+  public List<Move<PawnCard>> chooseMove(PawnsGame<PawnCell,
+          Player, PawnCard> model, Player player) {
     if (model == null || player == null) {
       throw new IllegalArgumentException("Model and player cannot be null.");
     }
@@ -48,8 +48,9 @@ public class MaximizeRowScoreStrategy implements PawnBoardStrategy<PawnCell, Pla
     return bestMoves;
   }
 
-  private boolean tryPlacingCard(PawnsGame<PawnCell, Player, PawnCard> model, Player player, PawnCard card, int row,
-                                 int opponentRowScore, List<Move<PawnCard>> bestMoves, Set<String> legalMovesCache) {
+  private boolean tryPlacingCard(PawnsGame<PawnCell, Player, PawnCard> model, Player player,
+                                 PawnCard card, int row, int opponentRowScore,
+                                 List<Move<PawnCard>> bestMoves, Set<String> legalMovesCache) {
     for (int col = 0; col < model.getWidth(); col++) {
       String moveKey = row + "," + col;
       if (legalMovesCache.contains(moveKey)) {
@@ -68,7 +69,8 @@ public class MaximizeRowScoreStrategy implements PawnBoardStrategy<PawnCell, Pla
     return false;
   }
 
-  private int getHypotheticalRowScore(ReadonlyPawnsGame<PawnCell, Player, PawnCard> model, Player player, Card card, int row, int col) {
+  private int getHypotheticalRowScore(ReadonlyPawnsGame<PawnCell,
+          Player, PawnCard> model, Player player, Card card, int row, int col) {
     if (card == null) {
       throw new IllegalArgumentException("Card cannot be null.");
     }

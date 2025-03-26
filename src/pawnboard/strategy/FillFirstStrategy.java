@@ -14,7 +14,9 @@ import pawnboard.model.Player;
  *  * placing the first card that can be legally placed.
  */
 public class FillFirstStrategy implements PawnBoardStrategy<PawnCell, Player, PawnCard> {
-  public List<Move<PawnCard>> chooseMove(PawnsGame<PawnCell, Player, PawnCard> model, Player player) {
+  @Override
+  public List<Move<PawnCard>> chooseMove(PawnsGame<PawnCell, Player,
+          PawnCard> model, Player player) {
     if (model == null || player == null) {
       throw new IllegalArgumentException("Model and player cannot be null.");
     }

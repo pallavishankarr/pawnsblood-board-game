@@ -499,34 +499,34 @@ public class PawnGameTest {
     game = new PawnGameImpl(3, 5);
 
     assertThrows(IllegalStateException.class, ()
-            -> game.placeCardAt(Player.BLUE, 0, 0, 0));
+        -> game.placeCardAt(Player.BLUE, 0, 0, 0));
 
     game.startGame(deck, deck2, 5);
 
     //Not person's turn
     assertThrows(IllegalArgumentException.class, ()
-            -> game.placeCardAt(Player.BLUE, 0, 0, 0));
+        -> game.placeCardAt(Player.BLUE, 0, 0, 0));
 
     //Don't have right pawns
     assertThrows(IllegalArgumentException.class, ()
-            -> game.placeCardAt(Player.RED, 0, 0, 4));
+        -> game.placeCardAt(Player.RED, 0, 0, 4));
 
     //No pawns on
     assertThrows(IllegalArgumentException.class, ()
-            -> game.placeCardAt(Player.RED, 0, 1, 2));
+        -> game.placeCardAt(Player.RED, 0, 1, 2));
 
     //Out of bounds
     assertThrows(IllegalArgumentException.class, ()
-            -> game.placeCardAt(Player.RED, 0, 3, 5));
+        -> game.placeCardAt(Player.RED, 0, 3, 5));
 
     //Out of bounds for hand size
     assertThrows(IllegalArgumentException.class, ()
-            -> game.placeCardAt(Player.RED, 5, 0, 0));
+        -> game.placeCardAt(Player.RED, 5, 0, 0));
 
     game.placeCardAt(Player.RED, 0, 0, 0);
 
     assertThrows(IllegalStateException.class, ()
-            -> game.placeCardAt(Player.RED, 0, 0, 0));
+        -> game.placeCardAt(Player.RED, 0, 0, 0));
   }
 
   //test place card for every edge
@@ -1185,7 +1185,7 @@ public class PawnGameTest {
 
 
     assertThrows(IllegalArgumentException.class,
-            () -> game.placeCardAt(Player.RED, 0, 0, 0));
+        () -> game.placeCardAt(Player.RED, 0, 0, 0));
   }
 
   //test Place Card when there is opposing Card that has been placed
@@ -1198,7 +1198,7 @@ public class PawnGameTest {
     game.placeCardAt(Player.RED, 0, 0, 0);
     game.startTurn(Player.BLUE);
     assertThrows(IllegalArgumentException.class, ()
-            -> game.placeCardAt(Player.BLUE, 0, 0, 0));
+        -> game.placeCardAt(Player.BLUE, 0, 0, 0));
   }
 
   //test for Pass Turn through the game
@@ -2290,6 +2290,7 @@ public class PawnGameTest {
 
 
     List<Move<PawnCard>> moves = maxRowStrat.chooseMove(mockGame, Player.RED);
+    assertEquals(1, moves.size());
     System.out.println(output.toString() + "Chosen Move: (" + moves.get(0) + ")");
   }
 
@@ -2309,6 +2310,7 @@ public class PawnGameTest {
 
 
     List<Move<PawnCard>> moves = fillFirstStrat.chooseMove(mockGame, Player.RED);
+    assertEquals(1, moves.size());
     System.out.println(output.toString() + "Chosen Move: (" + moves.get(0) + ")");
   }
 
@@ -2339,6 +2341,7 @@ public class PawnGameTest {
     for (int i = 0; i < moves3.size(); i++) {
       moves.get(i).equals(moves3.get(i));
     }
+    assertEquals(1, moves.size());
 
   }
 

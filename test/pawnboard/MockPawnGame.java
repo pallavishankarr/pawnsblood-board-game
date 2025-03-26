@@ -7,14 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import pawnboard.model.Card;
-import pawnboard.model.Cell;
 import pawnboard.model.Cost;
 
 import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
-import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 import pawnboard.view.GameObserver;
 
@@ -35,6 +32,7 @@ public class MockPawnGame implements MockGame<PawnCell, Player, PawnCard> {
   /**
    * Constructs a MockPawnGame object with the log.
    * The game is initialized with a predefined board size.
+   *
    * @param log the appendable
    */
   public MockPawnGame(Appendable log) {
@@ -70,8 +68,8 @@ public class MockPawnGame implements MockGame<PawnCell, Player, PawnCard> {
     if (row > height || col > width || row < 0 || col < 0) {
       throw new IllegalArgumentException("row or or column out of bounds");
     }
-      legalMoves[row][col] = true;
-      logMessage("Legal move created at: (" + row + ", " + col + ")");
+    legalMoves[row][col] = true;
+    logMessage("Legal move created at: (" + row + ", " + col + ")");
 
   }
 
@@ -98,8 +96,7 @@ public class MockPawnGame implements MockGame<PawnCell, Player, PawnCard> {
     }
     if (player == Player.RED) {
       redHand.add(card);
-    }
-    else {
+    } else {
       blueHand.add(card);
     }
     logMessage("Card added to " + player + "'s hand: " + card.getName());
@@ -107,7 +104,7 @@ public class MockPawnGame implements MockGame<PawnCell, Player, PawnCard> {
 
   @Override
   public void startGame(List<PawnCard> deck1, List<PawnCard> deck2, int handSize) {
-    logMessage("startGame called with path: " + deck1 + deck2 +  ", handSize: " + handSize);
+    logMessage("startGame called with path: " + deck1 + deck2 + ", handSize: " + handSize);
   }
 
   @Override
@@ -197,13 +194,17 @@ public class MockPawnGame implements MockGame<PawnCell, Player, PawnCard> {
 
   @Override
   public void addObserver(GameObserver observer) {
+    // don't need to add observers for mock
   }
 
   @Override
   public void removeObserver(GameObserver observer) {
+    // don't need to remove observers for mock
   }
 
-  /** Logs a message to the appendable log */
+  /**
+   * Logs a message to the appendable log.
+   */
   private void logMessage(String message) {
     try {
       log.append(message).append("\n");

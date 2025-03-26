@@ -385,7 +385,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard> {
       }
 
       InfluenceType[][] influenceGrid = card.getInfluenceGrid();
-      List<InfluenceEffect> influenceEffects = card.getInfluenceEffects();
+      List<InfluenceEffect<PawnCell, Player, PawnCard>> influenceEffects = card.getInfluenceEffects();
 
       boolean stateChanged = false;
 

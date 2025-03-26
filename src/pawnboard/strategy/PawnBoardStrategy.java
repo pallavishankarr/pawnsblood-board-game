@@ -1,6 +1,6 @@
 package pawnboard.strategy;
-import java.util.List;
 
+import java.util.List;
 import pawnboard.model.Card;
 import pawnboard.model.Cell;
 import pawnboard.model.PawnsGame;

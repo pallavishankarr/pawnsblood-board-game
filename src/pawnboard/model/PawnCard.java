@@ -18,7 +18,7 @@ public class PawnCard implements Card {
   private final Cost cost;
   private final int value;
   private final InfluenceType[][] influenceGrid;
-  private final List<InfluenceEffect> influenceEffects;
+  private final List<InfluenceEffect<PawnCell, Player, PawnCard>> influenceEffects;
 
   /**
    * Constructs a PawnCard object.
@@ -80,7 +80,7 @@ public class PawnCard implements Card {
   }
 
   @Override
-  public List<InfluenceEffect> getInfluenceEffects() {
+  public List<InfluenceEffect<PawnCell, Player, PawnCard>> getInfluenceEffects() {
     return influenceEffects;
   }
 
