@@ -2,12 +2,6 @@ package pawnboard.controller.Player;
 
 import pawnboard.view.GameView;
 
-public class HumanPlayer implements AbstractPlayer{
-  
+public class HumanPlayer {
 
-
-  @Override
-  public void makeMove() {
-
-  }
 }
