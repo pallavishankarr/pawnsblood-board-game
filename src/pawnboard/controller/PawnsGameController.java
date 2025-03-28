@@ -23,7 +23,7 @@ import pawnboard.view.RedFrame;
  *
  */
 public class PawnsGameController implements GameController<PawnCell, Player, PawnCard>,
-PlayerActionListener {
+PlayerActionListener, ModelStatusListener {
   private final Appendable output;
   private int selectedCardIdx = -1;
   private int selectedRow = -1;
@@ -240,6 +240,42 @@ PlayerActionListener {
   @Override
   public void onPassTurn() {
     handleKeyPress('p');
+  }
+
+  @Override
+  public void onTurnChanged() {
+    currentPlayer = model.getCurrentPlayer();
+
+
+    redView.updateView();
+    blueView.updateView();
+
+
+    appendOutput("It is now " + currentPlayer + "'s turn.\n");
+  }
+
+  @Override
+  public void onScoreUpdate() {
+    redView.updateView();
+    blueView.updateView();
+    appendOutput("Score updated:\n");
+    appendOutput("Red: " + model.checkScore(Player.RED) + "\n");
+    appendOutput("Blue: " + model.checkScore(Player.BLUE) + "\n");
+  }
+
+
+  @Override
+  public void onGameOver() {
+    String winner = model.getWinner();  // Assuming model has a method getWinner()
+    appendOutput("Game Over! The winner is: " + winner + "\n");
+
+
+    redView.updateView();
+    blueView.updateView();
+
+    
+    gameOver = true;
+
   }
 }
 
