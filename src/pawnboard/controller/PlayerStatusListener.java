@@ -8,6 +8,7 @@ public interface PlayerStatusListener {
 
   /**
    * Called when a player selects a card from their hand.
+   *
    * @param cardIdx the index of the selected card (0-index based)
    * @throws IllegalArgumentException if the cardIdx is not a positive integer
    */
@@ -15,6 +16,7 @@ public interface PlayerStatusListener {
 
   /**
    * Called when a player selects a cell on the game board.
+   *
    * @param row the row index of the selected cell (0-index based)
    * @param col the column of the selected cell (0-index based)
    * @throws IllegalArgumentException if the row or col is not a positive integer
@@ -31,5 +33,4 @@ public interface PlayerStatusListener {
    */
   void onPassTurn();
 
-  }
 }
