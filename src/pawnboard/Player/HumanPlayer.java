@@ -17,10 +17,7 @@ public class HumanPlayer implements UserPlayer {
     this.pawnGame = pawnGame;
     this.playerActionListener = playerActionListener;
   }
-<<<<<<< Updated upstream
-  private final
 
-=======
 
 
   @Override
@@ -80,5 +77,5 @@ public class HumanPlayer implements UserPlayer {
   private char getKeyPressFromInput() {
     return 'c';
   }
->>>>>>> Stashed changes
+
 }
