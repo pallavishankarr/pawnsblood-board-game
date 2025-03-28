@@ -3,6 +3,7 @@ package pawnboard.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import pawnboard.controller.ModelStatusListener;
 import pawnboard.influences.InfluenceEffect;
 import pawnboard.view.GameObserver;
 
@@ -13,7 +14,7 @@ import pawnboard.view.GameObserver;
  * The game board is represented as a 2D grid with rows and columns
  * indexed starting from 0 (0-index based). The top-left cell of the board is at (0, 0).
  */
-public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard> {
+public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddModelStatusListener {
 
   private final int row;
   private final int column;
@@ -27,7 +28,8 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard> {
   private Player turn;
   private int handSize;
   private boolean turnStarted;
-
+  private List<ModelStatusListener> listeners;
+  private ModelStatusListener listener;
 
   /**
    * Constructs a new PawnGameImpl object with the given board dimensions.
@@ -54,6 +56,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard> {
     this.column = column;
     this.turnStarted = false;
     observers = new ArrayList<>();
+    listeners = new ArrayList<>();
 
     // INVARIANT: the board does not have null values
     // We decided to enforce this because it prevents null pointer
@@ -168,6 +171,8 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard> {
     turnNotStartedCheck(getCurrentPlayer());
 
     notifyObservers();
+
+    listener.onTurnChanged();
 
     endTurn();
   }
@@ -338,6 +343,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard> {
         }
       }
     }
+    listener.onScoreUpdate();
     return score;
   }
 
@@ -371,6 +377,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard> {
         }
       }
     }
+    listener.onGameOver();
     return true;
   }
 
@@ -478,6 +485,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard> {
     turnStarted = false;
     turn = (turn == Player.RED) ? Player.BLUE : Player.RED;
     notifyObservers();
+
   }
 
   private void gameNotStartedCheck() {
@@ -498,4 +506,14 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard> {
     }
   }
 
+  @Override
+  public void addsModelStatusListener(ModelStatusListener listener) throws IllegalArgumentException {
+    if(listener == null) {
+      throw new IllegalArgumentException("Listener cannot be null");
+    }
+
+    listeners.add(listener);
+
+
+  }
 }
