@@ -71,6 +71,8 @@ PlayerActionListener, ModelStatusListener {
       redView.getHandPanel().addPlayerActionListener(this);
       blueView.getHandPanel().addPlayerActionListener(this);
 
+      this.model.addsModelStatusListener(this);
+
       // Initialize decks and start the game
       CardInitializer cardInitializer = new CardInitializer();
       Map<String, List<PawnCard>> decks = cardInitializer.initializeDeck(redFilePath, blueFilePath);
@@ -273,7 +275,7 @@ PlayerActionListener, ModelStatusListener {
     redView.updateView();
     blueView.updateView();
 
-    
+
     gameOver = true;
 
   }
