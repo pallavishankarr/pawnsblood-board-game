@@ -22,7 +22,8 @@ import pawnboard.view.RedFrame;
  * Manages the game flow, handles user input, and updates view.
  *
  */
-public class PawnsGameController implements GameController<PawnCell, Player, PawnCard> {
+public class PawnsGameController implements GameController<PawnCell, Player, PawnCard>,
+PlayerActionListener {
   private final Appendable output;
   private int selectedCardIdx = -1;
   private int selectedRow = -1;
@@ -65,6 +66,11 @@ public class PawnsGameController implements GameController<PawnCell, Player, Paw
       this.redView = redView;
       this.blueView = blueView;
 
+      redView.getBoardPanel().addPlayerActionListener(this);
+      blueView.getBoardPanel().addPlayerActionListener(this);
+      redView.getHandPanel().addPlayerActionListener(this);
+      blueView.getHandPanel().addPlayerActionListener(this);
+
       // Initialize decks and start the game
       CardInitializer cardInitializer = new CardInitializer();
       Map<String, List<PawnCard>> decks = cardInitializer.initializeDeck(redFilePath, blueFilePath);
@@ -86,14 +92,9 @@ public class PawnsGameController implements GameController<PawnCell, Player, Paw
     blueView.updateView();
   }
 
-  @Override
-  public void handleCardClick(int cardIdx, Player player) {
+  private void handleCardClick(int cardIdx) {
     if (cardIdx < 0) {
       throw new IllegalArgumentException("cardidx must be positive");
-    }
-    if (player != currentPlayer) {
-      appendOutput("It's not your turn!\n");
-      return;
     }
 
     List<PawnCard> hand = model.getHand(currentPlayer);
@@ -113,8 +114,7 @@ public class PawnsGameController implements GameController<PawnCell, Player, Paw
     blueView.updateView();
   }
 
-  @Override
-  public void handleCellClick(int row, int col) {
+  private void handleCellClick(int row, int col) {
     if (row < 0 || col < 0) {
       throw new IllegalArgumentException("row and col must be positive");
     }
@@ -133,8 +133,7 @@ public class PawnsGameController implements GameController<PawnCell, Player, Paw
     blueView.updateView();
   }
 
-  @Override
-  public void handleKeyPress(char key) {
+  private void handleKeyPress(char key) {
     if (key == 'c' || key == 'C') {  // Confirm Move
       if (selectedCardIdx == -1 || selectedRow == -1 || selectedCol == -1) {
         appendOutput("Select a card and a cell before confirming.\n");
@@ -223,8 +222,25 @@ public class PawnsGameController implements GameController<PawnCell, Player, Paw
   }
 
 
+  @Override
+  public void onCardClick(int cardIdx) {
+    handleCardClick(cardIdx);
+  }
 
+  @Override
+  public void onCellClick(int row, int col) {
+    handleCellClick(row, col);
+  }
 
+  @Override
+  public void onConfirmTurn() {
+    handleKeyPress('c');
+  }
+
+  @Override
+  public void onPassTurn() {
+    handleKeyPress('p');
+  }
 }
 
 

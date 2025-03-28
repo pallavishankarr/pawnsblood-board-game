@@ -29,32 +29,4 @@ public interface GameController<C extends Cell<P, T>, P extends Player, T extend
    */
   void playGame(PawnsGame<C, P, T> model, GameWindow redView, GameWindow blueView,
                                  String redFilePath, String blueFilePath, int handSize);
-
-  /**
-   * Handles a card click event from the player.
-   * This method processes the action of selecting a card, such as placing it on the board or
-   * taking another related action based on the game's rules.
-   * @param cardIdx the index of the card that was clicked (0-index based)
-   * @param player the player who clicked the card
-   * @throws IllegalArgumentException if the cardIdx is not a positive integer
-   */
-  void handleCardClick(int cardIdx, P player);
-
-  /**
-   * Handles a cell click event from the player.
-   * This method processes the action of selecting a cell on the game board, such as placing a
-   * card or interacting with the pawns on that cell.
-   * @param row the row index of the cell that was clicked (0-index based)
-   * @param col the column index of the cell that was clicked (0-index based)
-   * @throws IllegalArgumentException if the row or col is not a positive integer
-   */
-  void handleCellClick(int row, int col);
-
-  /**
-   * Handles a key press event during the game.
-   * This method processes keyboard inputs to trigger certain actions within the game, such as
-   * using hotkeys to pass a turn or undo a move.
-   * @param key the key pressed by the player
-   */
-  void handleKeyPress(char key);
 }

@@ -87,5 +87,15 @@ public abstract class GameFrame extends JFrame implements GameWindow {
     repaint();
   }
 
+  @Override
+  public BoardPanel getBoardPanel() {
+    return this.board;
+  }
+
+  @Override
+  public HandPanel getHandPanel() {
+    return this.hand;
+  }
+
 }
 

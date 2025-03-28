@@ -16,4 +16,16 @@ public interface GameWindow {
    * to ensure GUI remains up to date.
    */
   void updateView();
+
+  /**
+   * Returns the board panel of the game window.
+   * @return the board panel
+   */
+  BoardPanel getBoardPanel();
+
+  /**
+   * Returns the hand panel of the game window.
+   * @return the hand panel
+   */
+  HandPanel getHandPanel();
 }
