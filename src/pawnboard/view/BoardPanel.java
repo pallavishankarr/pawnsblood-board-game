@@ -16,6 +16,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.JPanel;
 
+import pawnboard.controller.PlayerActionListener;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.Player;
@@ -27,7 +28,7 @@ import pawnboard.model.ReadonlyPawnsGame;
  * This panel is a game observer, listens for the game state changes and user interactions
  * (mouse click and key presses).
  */
-public class BoardPanel extends JPanel implements GameObserver, HighlightPanel {
+public class BoardPanel extends JPanel implements GameObserver, HighlightPanel, PlayerActionPublisher {
   private final int rows;
   private final int cols;
   private final ReadonlyPawnsGame<PawnCell, Player, PawnCard> model;
@@ -35,6 +36,7 @@ public class BoardPanel extends JPanel implements GameObserver, HighlightPanel {
   private final HandPanel handPanel;
   private int selectedRow = -1;
   private int selectedCol = -1;
+  private PlayerActionListener playerActionListener;
 
   /**
    * Constructs a board panel object with the game model, and hande panel.
@@ -82,12 +84,21 @@ public class BoardPanel extends JPanel implements GameObserver, HighlightPanel {
       if (this.isHighlighted() && handPanel.isHighlighted()) {
         System.out.println("Move confirmed");
         gameStateChanged();
+
+        if (playerActionListener != null) {
+          playerActionListener.onCardClick(handPanel.getSelectedCardIndex()); // Pass the selected card index
+          playerActionListener.onConfirmTurn();
+        }
       } else {
         System.out.println("Invalid confirmation: Ensure a card and a board cell are selected.");
       }
     } else if (e.getKeyChar() == 'p' || e.getKeyChar() == 'P') {
       System.out.println("Pass turn.");
       gameStateChanged();
+
+      if (playerActionListener != null) {
+        playerActionListener.onPassTurn();
+      }
     }
   }
 
@@ -277,6 +288,10 @@ public class BoardPanel extends JPanel implements GameObserver, HighlightPanel {
     }
 
     gameStateChanged();
+
+    if (playerActionListener != null) {
+      playerActionListener.onCellClick(clickedRow, clickedCol);
+    }
   }
 
 
@@ -293,5 +308,10 @@ public class BoardPanel extends JPanel implements GameObserver, HighlightPanel {
   @Override
   public void gameStateChanged() {
     repaint();
+  }
+
+  @Override
+  public void addPlayerActionListener(PlayerActionListener listener) {
+    this.playerActionListener = listener;
   }
 }

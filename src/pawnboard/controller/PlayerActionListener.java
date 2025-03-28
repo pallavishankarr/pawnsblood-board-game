@@ -4,7 +4,7 @@ package pawnboard.controller;
  * Represents methods for handling player actions in the game.
  * Allows for the observer to listen and process player actions.
  */
-public interface PlayerStatusListener {
+public interface PlayerActionListener {
 
   /**
    * Called when a player selects a card from their hand.

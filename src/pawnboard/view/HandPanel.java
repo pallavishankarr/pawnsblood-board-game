@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import pawnboard.controller.CardInitializer;
+import pawnboard.controller.PlayerActionListener;
 import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
@@ -27,11 +28,12 @@ import pawnboard.model.ReadonlyPawnsGame;
  * such as card name, cost, value, and influence grid.
  * Updates the GUI when the game state changes.
  */
-public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
+public class HandPanel extends JPanel implements GameObserver, HighlightPanel, PlayerActionPublisher {
   private static final int CARD_BORDER_THICKNESS = 3;
   private final List<PawnCard> hand;
   private final Color color;
   private int selectedCardIndex = -1;
+  private PlayerActionListener playerActionListener;
 
   /**
    * Constructs a HandPanel for a specific player in the game.
@@ -200,6 +202,11 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
     repaint();
   }
 
+  @Override
+  public void addPlayerActionListener(PlayerActionListener listener) {
+    this.playerActionListener = listener;
+  }
+
   private class HandPanelMouseListener extends MouseAdapter {
     private final HandPanel handPanel;
 
@@ -217,6 +224,10 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel {
 
       if (cardIndex >= 0 && cardIndex < handPanel.hand.size()) {
         handPanel.toggleSelection(cardIndex);
+
+        if (handPanel.playerActionListener != null) {
+          handPanel.playerActionListener.onCardClick(cardIndex);
+        }
 
         System.out.println("Card index: " + cardIndex + ", Player: "
                 + (color == Color.PINK ? "RED" : "BLUE"));
