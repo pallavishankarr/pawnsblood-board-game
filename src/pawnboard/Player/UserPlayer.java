@@ -2,7 +2,7 @@ package pawnboard.Player;
 
 
 
-/** 
+/**
  * The UserPlayer interface represents a player who actively participates in the game
  * by making moves such as placing a card or passing their turn.
  */
