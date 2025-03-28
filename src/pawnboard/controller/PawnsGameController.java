@@ -7,11 +7,16 @@ import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
 
+import pawnboard.Player.HumanPlayer;
+import pawnboard.Player.MachinePlayer;
+import pawnboard.Player.UserPlayer;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnGameImpl;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
+import pawnboard.strategy.FillFirstStrategy;
+import pawnboard.strategy.PawnBoardStrategy;
 import pawnboard.view.BlueFrame;
 import pawnboard.view.GameWindow;
 
@@ -22,39 +27,53 @@ import pawnboard.view.RedFrame;
  * Manages the game flow, handles user input, and updates view.
  *
  */
-public class PawnsGameController implements GameController<PawnCell, Player, PawnCard>,
+public class PawnsGameController implements GameController,
 PlayerActionListener, ModelStatusListener {
   private final Appendable output;
+  private final PawnsGame<PawnCell, Player, PawnCard> model;
+  private Player currentPlayer;
+  private final UserPlayer userPlayer;
+  private final GameWindow playerView;
+  private UserPlayer opponentPlayer;
+  private GameWindow opponentView;
+  private boolean gameOver = false;
   private int selectedCardIdx = -1;
   private int selectedRow = -1;
   private int selectedCol = -1;
-  private Player currentPlayer;
-  private PawnsGame<PawnCell, Player, PawnCard> model;
-  private GameWindow redView;
-  private GameWindow blueView;
-  private boolean gameOver = false;
-  private boolean gameStarted = false;
 
   /**
    * Constructs a PawnsGameController with the specified input and output streams.
-   * @param input the input stream for reading user input
-   * @param output the output stream for writing game messages
-   * @throws IllegalArgumentException if either input or output is null
+   * @param model the game model that manages the state of the game
+   * @param userPlayer the UserPlayer instance representing this player
+   * @param playerView the view for the specific player
+   * @param opponentPlayer the opponent UserPlayer
+   * @param opponentView the opponent's view
+   * @param output the appendable output to show game messages
+   * @throws IllegalArgumentException if model, userPlayer, playerView, or output are null
    */
-  public PawnsGameController(Readable input, Appendable output) {
-    if (input == null || output == null) {
-      throw new IllegalArgumentException("Input and output must not be null");
+  public PawnsGameController(PawnsGame<PawnCell, Player, PawnCard> model,
+                             UserPlayer userPlayer, GameWindow playerView,
+                             UserPlayer opponentPlayer, GameWindow opponentView,
+                             Appendable output) {
+    if (model == null || userPlayer == null || playerView == null || output == null ||
+            opponentPlayer == null || opponentView == null) {
+      throw new IllegalArgumentException("Model, userPlayer, playerView, and output must not be null");
     }
+    this.model = model;
+    this.userPlayer = userPlayer;
+    this.playerView = playerView;
     this.output = output;
+    this.opponentPlayer = opponentPlayer;
+    this.opponentView = opponentView;
+
+    playerView.getHandPanel().addPlayerActionListener(this);
+    playerView.getBoardPanel().addPlayerActionListener(this);
+    model.addsModelStatusListener(this);
   }
 
   @Override
-  public void playGame(PawnsGame<PawnCell, Player, PawnCard> model, GameWindow redView,
-                       GameWindow blueView,String redFilePath, String blueFilePath, int handSize) {
-
-
-    if (model == null || redView == null || blueView == null ||
-            redFilePath == null || blueFilePath == null) {
+  public void playGame(String redFilePath, String blueFilePath, int handSize) {
+    if (redFilePath == null || blueFilePath == null) {
       throw new IllegalArgumentException("Invalid arguments provided.");
     }
     if (handSize < 1) {
@@ -62,36 +81,19 @@ PlayerActionListener, ModelStatusListener {
     }
 
     if (!hasGameStarted(model)) {
-      this.model = model;
-      this.redView = redView;
-      this.blueView = blueView;
-
-      redView.getBoardPanel().addPlayerActionListener(this);
-      blueView.getBoardPanel().addPlayerActionListener(this);
-      redView.getHandPanel().addPlayerActionListener(this);
-      blueView.getHandPanel().addPlayerActionListener(this);
-
-      this.model.addsModelStatusListener(this);
-
-      // Initialize decks and start the game
       CardInitializer cardInitializer = new CardInitializer();
       Map<String, List<PawnCard>> decks = cardInitializer.initializeDeck(redFilePath, blueFilePath);
       List<PawnCard> deck1 = decks.get("deck1");
       List<PawnCard> deck2 = decks.get("deck2");
       model.startGame(deck1, deck2, handSize);
       currentPlayer = model.getCurrentPlayer();
-
-
+      updateView();
     }
+  }
 
-    this.model = model;
-    this.redView = redView;
-    this.blueView = blueView;
-
-    currentPlayer = model.getCurrentPlayer();
-
-    redView.updateView();
-    blueView.updateView();
+  private void updateView() {
+    playerView.updateView(); // Refresh the current player's view
+    opponentView.updateView(); // Refresh the opponent's view
   }
 
   private void handleCardClick(int cardIdx) {
@@ -111,9 +113,7 @@ PlayerActionListener, ModelStatusListener {
 
     appendOutput("Card selected: " + hand.get(cardIdx).toString() + "\n");
 
-    // Visually highlight the card
-    redView.updateView();
-    blueView.updateView();
+    updateView();
   }
 
   private void handleCellClick(int row, int col) {
@@ -130,9 +130,7 @@ PlayerActionListener, ModelStatusListener {
 
     appendOutput("Cell selected: (" + row + ", " + col + "). Press confirm to place the card.\n");
 
-    // Visually highlight the selected cell
-    redView.updateView();
-    blueView.updateView();
+    updateView();
   }
 
   private void handleKeyPress(char key) {
@@ -153,8 +151,7 @@ PlayerActionListener, ModelStatusListener {
 
         // Move to next player
         currentPlayer = model.getCurrentPlayer();
-        redView.updateView();
-        blueView.updateView();
+        updateView();
       } catch (IllegalArgumentException e) {
         appendOutput("Invalid move: " + e.getMessage() + "\n");
       }
@@ -162,8 +159,7 @@ PlayerActionListener, ModelStatusListener {
       model.passTurn();
       appendOutput("Turn passed.\n");
       currentPlayer = model.getCurrentPlayer();
-      redView.updateView();
-      blueView.updateView();
+      updateView();
     } else if (key == 'q' || key == 'Q') {  // Quit Game
       appendOutput("Game ended by user.\n");
       gameOver = true;
@@ -189,41 +185,6 @@ PlayerActionListener, ModelStatusListener {
     }
   }
 
-
-  /**
-   * Main method to test the controller.
-   * @param args argument
-   */
-  public static void main(String[] args) {
-    String simulatedInput = "place 0 0 0";
-    Readable input = new StringReader(simulatedInput);
-    Appendable output = new StringWriter();
-
-    String deckPath = "docs" + File.separator + "deck.config";
-
-    CardInitializer cardInitializer = new CardInitializer();
-    Map<String, List<PawnCard>> decks = cardInitializer.initializeDeck(deckPath, deckPath);
-    List<PawnCard> deck1 = decks.get("deck1");
-    List<PawnCard> deck2 = decks.get("deck2");
-
-
-    PawnGameImpl model = new PawnGameImpl(3, 5);
-
-
-    PawnsGameController controller = new PawnsGameController(input, output);
-
-    model.startGame(deck1, deck2, 5);
-
-
-    GameWindow redView = new RedFrame(model);
-    GameWindow blueView = new BlueFrame(model);
-
-    controller.playGame(model, redView, blueView, deckPath, deckPath, 5);
-
-    System.out.println(output.toString());
-  }
-
-
   @Override
   public void onCardClick(int cardIdx) {
     handleCardClick(cardIdx);
@@ -247,19 +208,13 @@ PlayerActionListener, ModelStatusListener {
   @Override
   public void onTurnChanged() {
     currentPlayer = model.getCurrentPlayer();
-
-
-    redView.updateView();
-    blueView.updateView();
-
-
+    updateView();
     appendOutput("It is now " + currentPlayer + "'s turn.\n");
   }
 
   @Override
   public void onScoreUpdate() {
-    redView.updateView();
-    blueView.updateView();
+    updateView();
     appendOutput("Score updated:\n");
     appendOutput("Red: " + model.checkScore(Player.RED) + "\n");
     appendOutput("Blue: " + model.checkScore(Player.BLUE) + "\n");
@@ -270,14 +225,35 @@ PlayerActionListener, ModelStatusListener {
   public void onGameOver() {
     String winner = model.getWinner();  // Assuming model has a method getWinner()
     appendOutput("Game Over! The winner is: " + winner + "\n");
-
-
-    redView.updateView();
-    blueView.updateView();
-
-
+    updateView();
     gameOver = true;
+  }
 
+  public static void main(String[] args) {
+    String deckPath = "docs" + File.separator + "deck.config";
+
+    CardInitializer cardInitializer = new CardInitializer();
+    Map<String, List<PawnCard>> decks = cardInitializer.initializeDeck(deckPath, deckPath);
+    List<PawnCard> deck1 = decks.get("deck1");
+    List<PawnCard> deck2 = decks.get("deck2");
+
+    PawnGameImpl model = new PawnGameImpl(3, 5);
+    GameWindow redView = new RedFrame(model);
+    GameWindow blueView = new BlueFrame(model);
+
+    PawnBoardStrategy strat = new FillFirstStrategy();
+
+    UserPlayer redPlayer = new HumanPlayer(Player.RED, model, );
+    UserPlayer bluePlayer = new MachinePlayer(Player.BLUE, model, strat);
+
+
+    Appendable output = new StringWriter();
+
+    PawnsGameController controller = new PawnsGameController(model, redPlayer, redView, bluePlayer, blueView, output);
+
+    controller.playGame(deckPath, deckPath, 5);
+
+    System.out.println(output.toString());
   }
 }
 

@@ -6,6 +6,7 @@ import pawnboard.model.Player;
 
 public class HumanPlayer {
   private final Player player;
+<<<<<<< Updated upstream
   private final PawnsGame pawnGame;
   private final PlayerActionListener playerActionListener;
 
@@ -14,4 +15,7 @@ public class HumanPlayer {
     this.pawnGame = pawnGame;
     this.playerActionListener = playerActionListener;
   }
+=======
+  private final
+>>>>>>> Stashed changes
 }

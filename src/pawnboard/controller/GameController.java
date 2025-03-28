@@ -9,17 +9,11 @@ import pawnboard.view.GameWindow;
 /**
  * Driver of the PawnsBoard game. Reads user input to determine whether a player
  * shall pass or place a card, and displays the current game state.
- * @param <C> the type of cell to be used
- * @param <P> the type of player to be used
- * @param <T> the type of card to be used
  */
-public interface GameController<C extends Cell<P, T>, P extends Player, T extends Card> {
+public interface GameController {
 
   /**
    * Starts and plays the game using user input from the player.
-   * @param model state of the game
-   * @param redView view for the red View
-   * @param blueView view for the blue View
    * @param redFilePath file path of the red player deck
    * @param blueFilePath file path of the blue player deck
    * @param handSize the starting handSize
@@ -27,6 +21,5 @@ public interface GameController<C extends Cell<P, T>, P extends Player, T extend
    *                               transmit output, or if the game cannot be started
    * @throws IllegalArgumentException if the model or view are null
    */
-  void playGame(PawnsGame<C, P, T> model, GameWindow redView, GameWindow blueView,
-                                 String redFilePath, String blueFilePath, int handSize);
+  void playGame(String redFilePath, String blueFilePath, int handSize);
 }
