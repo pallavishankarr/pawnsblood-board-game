@@ -251,7 +251,7 @@ PlayerActionListener, ModelStatusListener {
 
     PawnsGameController controller = new PawnsGameController(model, redPlayer, redView, bluePlayer, blueView, output);
 
-    
+    ((HumanPlayer) redPlayer).addPlayerActionListener(controller); 
 
     controller.playGame(deckPath, deckPath, 5);
 
