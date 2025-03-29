@@ -34,7 +34,6 @@ public final class PawnsBoard {
     Appendable output = new StringBuilder();
 
     PawnGameImpl model = new PawnGameImpl(3, 5);
-    PawnsGameController controller = new PawnsGameController(input, output);
 
     CardInitializer cardInitializer = new CardInitializer();
     Map<String, List<PawnCard>> decks = CardInitializer.initializeDeck(path, path);
@@ -47,7 +46,8 @@ public final class PawnsBoard {
     BlueFrame blueFrame = new BlueFrame(model);
 
 
-    controller.playGame(model, redFrame, blueFrame, path, path, 5);
+    //PawnsGameController controller = new PawnsGameController(model, redFrame, blueFrame, path, path, 5);
+
 
     System.out.println(output);
 

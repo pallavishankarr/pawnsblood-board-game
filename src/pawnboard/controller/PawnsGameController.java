@@ -243,13 +243,15 @@ PlayerActionListener, ModelStatusListener {
 
     PawnBoardStrategy strat = new FillFirstStrategy();
 
-    UserPlayer redPlayer = new HumanPlayer(Player.RED, model, );
     UserPlayer bluePlayer = new MachinePlayer(Player.BLUE, model, strat);
 
+    UserPlayer redPlayer = new HumanPlayer(Player.RED, model);
 
     Appendable output = new StringWriter();
 
     PawnsGameController controller = new PawnsGameController(model, redPlayer, redView, bluePlayer, blueView, output);
+
+    
 
     controller.playGame(deckPath, deckPath, 5);
 

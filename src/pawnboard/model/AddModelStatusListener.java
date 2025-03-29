@@ -4,7 +4,7 @@ package pawnboard.model;
 import pawnboard.controller.ModelStatusListener;
 
 /**
- * Interface that extends ModelStatusListener and allows adding a ModelStatusListener.
+ * Interface that adds the ModelStatusListener and allows adding a ModelStatusListener.
  */
 public interface AddModelStatusListener {
 

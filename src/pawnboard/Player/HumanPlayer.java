@@ -3,79 +3,103 @@ package pawnboard.Player;
 import java.util.List;
 
 import pawnboard.controller.PlayerActionListener;
+import pawnboard.model.Card;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
+import pawnboard.view.PlayerActionPublisher;
 
-public class HumanPlayer implements UserPlayer {
+public class HumanPlayer implements UserPlayer, PlayerActionPublisher {
   private final Player player;
   private final PawnsGame pawnGame;
-  private final PlayerActionListener playerActionListener;
+  private  PlayerActionPublisher playerActionPublisher;
+  private  PlayerActionListener playerActionListener;
+  private List<PawnCard> playerHand;
 
-  public HumanPlayer(Player player, PawnsGame pawnGame, PlayerActionListener playerActionListener) {
+  public HumanPlayer(Player player, PawnsGame pawnGame){
     this.player = player;
     this.pawnGame = pawnGame;
-    this.playerActionListener = playerActionListener;
+
   }
 
+  @Override
+  public void addPlayerActionListener(PlayerActionListener listener) {
+    this.playerActionListener = listener;
 
+  }
 
   @Override
   public void makeMove() {
+    // Ensure it's this player's turn
     if (pawnGame.getCurrentPlayer() != player) {
       throw new IllegalStateException("It's not this player's turn.");
     }
 
-    List<PawnCard> playerHand = pawnGame.getHand(player);
+    // Get the current hand of the player
+    playerHand = pawnGame.getHand(player);
 
+    // Check if the player has cards available to play
     if (playerHand.isEmpty()) {
       throw new IllegalStateException("No cards available to play.");
     }
 
-    // Auto-select the first card (can be replaced with actual user input logic)
-    int cardIdx = 0;
+    // Simulating player card selection (this would be replaced by actual user input logic)
+    int cardIdx = getUserCardSelection();
     playerActionListener.onCardClick(cardIdx);
 
-    int selectedRow = -1;
-    int selectedCol = -1;
-
-    // Loop to find a legal move for the selected card
-    for (int r = 0; r < pawnGame.getHeight(); r++) {
-      for (int c = 0; c < pawnGame.getWidth(); c++) {
-        if (pawnGame.placeCardLegal(player, playerHand.get(cardIdx), r, c)) {
-          selectedRow = r;
-          selectedCol = c;
-          break;
-        }
-      }
-      if (selectedRow != -1) break;
-    }
-
-    if (selectedRow == -1 || selectedCol == -1) {
+    // Check for valid moves after selecting the card
+    if (!selectAndMakeMove(cardIdx)) {
       throw new IllegalStateException("No legal moves available.");
     }
 
-    // Select the board cell
-    playerActionListener.onCellClick(selectedRow, selectedCol);
-
-    // Now we need to wait for the user's confirmation (check for a key press)
-    char keyPress = getKeyPressFromInput();
-
-    if (keyPress == 'c' || keyPress == 'C') {  // Confirm Move
+    // Confirm the move or pass the turn
+    char keyPress = getUserKeyPress();  // This should capture the actual key press
+    if (keyPress == 'c' || keyPress == 'C') {
       playerActionListener.onConfirmTurn();
-    } else if (keyPress == 'p' || keyPress == 'P') {  // Pass Turn
+    } else if (keyPress == 'p' || keyPress == 'P') {
       playerActionListener.onPassTurn();
     } else {
       throw new IllegalArgumentException("Invalid key press. Use 'c' to confirm, 'p' to pass.");
     }
-
-
-
-
   }
 
-  private char getKeyPressFromInput() {
-    return 'c';
+  /**
+   * A helper method to simulate getting the user's card selection.
+   * In a real implementation, this would be replaced by an actual user input mechanism.
+   */
+  private int getUserCardSelection() {
+    // Placeholder for actual user input. For now, we'll select the first card.
+    return 0;  // Assuming the first card is selected.
   }
+
+  /**
+   * A helper method to simulate getting the user's key press ('c' or 'p').
+   * This method should be replaced with actual user input capture.
+   */
+  private char getUserKeyPress() {
+    // Placeholder for actual user input. Simulating 'c' for confirm.
+    return 'c';  // Example: User presses 'c' to confirm.
+  }
+
+  /**
+   * Try to find a legal move for the given card.
+   * If a legal move is found, trigger the cell click action.
+   */
+  private boolean selectAndMakeMove(int cardIdx) {
+    for (int r = 0; r < pawnGame.getHeight(); r++) {
+      for (int c = 0; c < pawnGame.getWidth(); c++) {
+        PawnCard card = playerHand.get(cardIdx);
+        if (pawnGame.placeCardLegal(player, card, r, c)) {
+          // Notify the controller to select the valid move on the board
+          playerActionListener.onCellClick(r, c);
+          return true; // Legal move found
+        }
+      }
+    }
+    return false;
+  }
+
+
+
 
 }

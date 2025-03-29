@@ -512,6 +512,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
       throw new IllegalArgumentException("Listener cannot be null");
     }
 
+    this.listener = listener;
     listeners.add(listener);
 
 
