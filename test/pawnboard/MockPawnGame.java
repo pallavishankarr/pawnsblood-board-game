@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import pawnboard.controller.ModelStatusListener;
 import pawnboard.model.Cost;
 
 import pawnboard.model.InfluenceType;
@@ -211,5 +212,10 @@ public class MockPawnGame implements MockGame<PawnCell, Player, PawnCard> {
     } catch (IOException e) {
       throw new RuntimeException("Failed to write to log", e);
     }
+  }
+
+  @Override
+  public void addsModelStatusListener(ModelStatusListener listener) throws IllegalArgumentException {
+    //don't need addsModelStatusListener for the mock
   }
 }
