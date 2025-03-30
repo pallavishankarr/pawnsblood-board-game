@@ -58,7 +58,7 @@ public class MachinePlayer implements UserPlayer {
 
   @Override
   public Player getPlayer() {
-    return player; 
+    return player;
   }
 
   private int findCardIndex(List<PawnCard> hand, PawnCard card) {
