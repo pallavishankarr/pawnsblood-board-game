@@ -65,6 +65,12 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     initializeBoard();
   }
 
+
+  public void playGame() {
+    int playerIdx = 0;
+    notifyAll();
+  }
+
   @Override
   public void startGame(List<PawnCard> deck1, List<PawnCard> deck2, int handSize) {
 
