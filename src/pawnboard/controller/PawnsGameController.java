@@ -238,6 +238,8 @@ PlayerActionListener, ModelStatusListener {
     List<PawnCard> deck2 = decks.get("deck2");
 
     PawnGameImpl model = new PawnGameImpl(3, 5);
+
+    model.startGame(deck1, deck2, 5);
     GameWindow redView = new RedFrame(model);
     GameWindow blueView = new BlueFrame(model);
 
@@ -252,6 +254,9 @@ PlayerActionListener, ModelStatusListener {
     PawnsGameController controller = new PawnsGameController(model, redPlayer, redView, bluePlayer, blueView, output);
 
     ((HumanPlayer) redPlayer).addPlayerActionListener(controller);
+
+
+
 
     controller.playGame(deckPath, deckPath, 5);
 

@@ -56,6 +56,11 @@ public class MachinePlayer implements UserPlayer {
     }
   }
 
+  @Override
+  public Player getPlayer() {
+    return player; 
+  }
+
   private int findCardIndex(List<PawnCard> hand, PawnCard card) {
     for (int i = 0; i < hand.size(); i++) {
       if (hand.get(i).equals(card)) {

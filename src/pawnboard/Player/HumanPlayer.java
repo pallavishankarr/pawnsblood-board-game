@@ -63,6 +63,11 @@ public class HumanPlayer implements UserPlayer, PlayerActionPublisher {
     }
   }
 
+  @Override
+  public Player getPlayer() {
+    return player;
+  }
+
   /**
    * A helper method to simulate getting the user's card selection.
    * In a real implementation, this would be replaced by an actual user input mechanism.

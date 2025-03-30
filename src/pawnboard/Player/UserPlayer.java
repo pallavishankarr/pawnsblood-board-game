@@ -1,5 +1,7 @@
 package pawnboard.Player;
 
+import pawnboard.model.Player;
+
 
 
 /**
@@ -11,4 +13,6 @@ public interface UserPlayer {
    * Player makes a move either by placing a card or passing a turn.
    */
   void makeMove();
+
+  Player getPlayer();
 }
