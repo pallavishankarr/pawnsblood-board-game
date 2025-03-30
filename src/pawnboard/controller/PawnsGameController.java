@@ -31,11 +31,9 @@ public class PawnsGameController implements GameController,
 PlayerActionListener, ModelStatusListener {
   private final Appendable output;
   private final PawnsGame<PawnCell, Player, PawnCard> model;
-  private Player currentPlayer;
+  private Player player;
   private final UserPlayer userPlayer;
   private final GameWindow playerView;
-  private UserPlayer opponentPlayer;
-  private GameWindow opponentView;
   private boolean gameOver = false;
   private int selectedCardIdx = -1;
   private int selectedRow = -1;
@@ -43,28 +41,24 @@ PlayerActionListener, ModelStatusListener {
 
   /**
    * Constructs a PawnsGameController with the specified input and output streams.
-   * @param model the game model that manages the state of the game
+   *
+   * @param model      the game model that manages the state of the game
    * @param userPlayer the UserPlayer instance representing this player
    * @param playerView the view for the specific player
-   * @param opponentPlayer the opponent UserPlayer
-   * @param opponentView the opponent's view
-   * @param output the appendable output to show game messages
+   * @param output     the appendable output to show game messages
    * @throws IllegalArgumentException if model, userPlayer, playerView, or output are null
    */
   public PawnsGameController(PawnsGame<PawnCell, Player, PawnCard> model,
                              UserPlayer userPlayer, GameWindow playerView,
-                             UserPlayer opponentPlayer, GameWindow opponentView,
                              Appendable output) {
-    if (model == null || userPlayer == null || playerView == null || output == null ||
-            opponentPlayer == null || opponentView == null) {
+    if (model == null || userPlayer == null || playerView == null || output == null) {
       throw new IllegalArgumentException("Model, userPlayer, playerView, and output must not be null");
     }
     this.model = model;
+    this.player = userPlayer.getPlayer(); // Get the specific Player (RED or BLUE)
     this.userPlayer = userPlayer;
     this.playerView = playerView;
     this.output = output;
-    this.opponentPlayer = opponentPlayer;
-    this.opponentView = opponentView;
 
     playerView.getHandPanel().addPlayerActionListener(this);
     playerView.getBoardPanel().addPlayerActionListener(this);
@@ -76,8 +70,17 @@ PlayerActionListener, ModelStatusListener {
     if (redFilePath == null || blueFilePath == null) {
       throw new IllegalArgumentException("Invalid arguments provided.");
     }
+
+    if (gameOver) {
+      throw new IllegalStateException("Game has already ended.");
+    }
+
     if (handSize < 1) {
       throw new IllegalArgumentException("Hand size must be greater than 0");
+    }
+
+    if (!model.getCurrentPlayer().equals(this.player)) {
+      return;
     }
 
     if (!hasGameStarted(model)) {
@@ -86,14 +89,12 @@ PlayerActionListener, ModelStatusListener {
       List<PawnCard> deck1 = decks.get("deck1");
       List<PawnCard> deck2 = decks.get("deck2");
       model.startGame(deck1, deck2, handSize);
-      currentPlayer = model.getCurrentPlayer();
       updateView();
     }
   }
 
   private void updateView() {
-    playerView.updateView(); // Refresh the current player's view
-    opponentView.updateView(); // Refresh the opponent's view
+    playerView.updateView();
   }
 
   private void handleCardClick(int cardIdx) {
@@ -101,7 +102,7 @@ PlayerActionListener, ModelStatusListener {
       throw new IllegalArgumentException("cardidx must be positive");
     }
 
-    List<PawnCard> hand = model.getHand(currentPlayer);
+    List<PawnCard> hand = model.getHand(player);
     if (cardIdx < 0 || cardIdx >= hand.size()) {
       appendOutput("Invalid card selection.\n");
       return;
@@ -141,7 +142,7 @@ PlayerActionListener, ModelStatusListener {
       }
 
       try {
-        model.placeCardAt(currentPlayer, selectedCardIdx, selectedRow, selectedCol);
+        userPlayer.makeMove(selectedCardIdx, selectedRow, selectedCol);
         appendOutput("Card placed at (" + selectedRow + ", " + selectedCol + ").\n");
 
         // Reset selections
@@ -149,8 +150,6 @@ PlayerActionListener, ModelStatusListener {
         selectedRow = -1;
         selectedCol = -1;
 
-        // Move to next player
-        currentPlayer = model.getCurrentPlayer();
         updateView();
       } catch (IllegalArgumentException e) {
         appendOutput("Invalid move: " + e.getMessage() + "\n");
@@ -158,7 +157,6 @@ PlayerActionListener, ModelStatusListener {
     } else if (key == 'p' || key == 'P') {  // Pass Turn
       model.passTurn();
       appendOutput("Turn passed.\n");
-      currentPlayer = model.getCurrentPlayer();
       updateView();
     } else if (key == 'q' || key == 'Q') {  // Quit Game
       appendOutput("Game ended by user.\n");
