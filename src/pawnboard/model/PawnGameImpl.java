@@ -115,8 +115,10 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     this.gameStarted = true;
     this.turn = Player.RED;
     this.turnStarted = true;
-    notifyObservers();
     notifyTurnChanged();
+
+
+    notifyObservers();
 
 
 
@@ -169,8 +171,11 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     }
 
    notifyOnCardPlaced();
+
     notifyObservers();
     endTurn();
+
+    notifyTurnChanged();
   }
 
   @Override
@@ -541,7 +546,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
   private void notifyOnCardPlaced() {
     for (ModelStatusListener listener : listeners) {
-      listener.onCardPlaced(); // You would need to define this method in your ModelStatusListener interface
+      listener.onCardPlaced();
     }
   }
 

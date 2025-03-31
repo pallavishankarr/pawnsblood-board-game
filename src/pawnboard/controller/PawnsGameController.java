@@ -135,9 +135,6 @@ PlayerActionListener, ModelStatusListener {
   }
 
   private void handleKeyPress(char key) {
-    System.out.println("selectedCardIdx: " + selectedCardIdx);
-    System.out.println("selectedRow: " + selectedRow);
-    System.out.println("selectedCol: " + selectedCol);
 
     if (key == 'c' || key == 'C') {  // Confirm Move
       if (selectedCardIdx == -1 || selectedRow == -1 || selectedCol == -1) {
