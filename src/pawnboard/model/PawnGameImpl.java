@@ -167,12 +167,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
       placeCardAtHelper(playerBlueHand, player, cardIdx, row, col);
     }
 
-
-
-    for (ModelStatusListener listener : listeners) {
-      listener.onScoreUpdate();
-    }
-
+   notifyOnScoreUpdate();
     notifyObservers();
     endTurn();
   }
@@ -191,9 +186,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     endTurn();
 
 
-    for(ModelStatusListener listener: listeners) {
-      listener.onTurnChanged();
-    }
+    notifyTurnChanged();
   }
 
 
@@ -221,10 +214,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     turnStarted = true;
     drawCard(player);
     notifyObservers();
-
-    for(ModelStatusListener listener: listeners) {
-      listener.onTurnChanged();
-    }
+    notifyTurnChanged();
   }
 
   @Override
@@ -400,9 +390,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
         }
       }
     }
-    for(ModelStatusListener listener: listeners) {
-      listener.onGameOver();
-    }
+    notfiyOnGameOver();
     return true;
   }
 
@@ -531,13 +519,35 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     }
   }
 
+
+  private void notifyTurnChanged() {
+    for (ModelStatusListener listener : listeners) {
+      listener.onTurnChanged();
+    }
+  }
+
+  private void notifyOnScoreUpdate() {
+    for (ModelStatusListener listener : listeners) {
+      listener.onScoreUpdate();
+    }
+  }
+
+  private void notfiyOnGameOver() {
+    for (ModelStatusListener listener : listeners) {
+      listener.onGameOver();
+    }
+  }
+
+
   @Override
   public void addsModelStatusListener(ModelStatusListener listener) throws IllegalArgumentException {
-    if (listener != null && !listeners.contains(listener)) {
+    if (listener != null) {
       listeners.add(listener);
     }
 
-    listeners.add(listener);
+    if (!listeners.contains(listener)) {
+      listeners.add(listener);
+    }
 
 
   }
