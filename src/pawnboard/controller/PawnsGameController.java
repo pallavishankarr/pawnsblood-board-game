@@ -109,8 +109,6 @@ PlayerActionListener, ModelStatusListener {
     }
 
     selectedCardIdx = cardIdx;
-    selectedRow = -1;
-    selectedCol = -1;
 
     appendOutput("Card selected: " + hand.get(cardIdx).toString() + "\n");
 
@@ -118,7 +116,7 @@ PlayerActionListener, ModelStatusListener {
   }
 
   private void handleCellClick(int row, int col) {
-    System.out.println("Cell clicked: (" + row + ", " + col + ")");
+    System.out.println("Handling cell click at (" + row + ", " + col + ")");
     if (row < 0 || col < 0) {
       throw new IllegalArgumentException("row and col must be positive");
     }
@@ -126,9 +124,10 @@ PlayerActionListener, ModelStatusListener {
       appendOutput("Select a card first before choosing a cell.\n");
       return;
     }
-
+    System.out.println("Before update: selectedRow = " + selectedRow + ", selectedCol = " + selectedCol);
     this.selectedRow = row;
     this.selectedCol = col;
+    System.out.println("After update: selectedRow = " + selectedRow + ", selectedCol = " + selectedCol);
 
     appendOutput("Cell selected: (" + row + ", " + col + "). Press confirm to place the card.\n");
 
@@ -194,8 +193,11 @@ PlayerActionListener, ModelStatusListener {
 
   @Override
   public void onCardClick(int cardIdx) {
-    System.out.println("Controller: onCardClick received -> " + cardIdx);
+    System.out.println("onCardClick called");
+    System.out.println("Before update: selectedRow = " + selectedRow + ", selectedCol = " + selectedCol);
+
     handleCardClick(cardIdx);
+    System.out.println("After update: selectedRow = " + selectedRow + ", selectedCol = " + selectedCol);
   }
 
   @Override
