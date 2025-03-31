@@ -68,7 +68,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
   public void playGame() {
     int playerIdx = 0;
-    notifyAll();
+
   }
 
   @Override
@@ -116,6 +116,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     this.turn = Player.RED;
     this.turnStarted = true;
     notifyObservers();
+    notifyTurnChanged();
 
 
 
@@ -167,7 +168,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
       placeCardAtHelper(playerBlueHand, player, cardIdx, row, col);
     }
 
-   notifyOnScoreUpdate();
+   notifyOnCardPlaced();
     notifyObservers();
     endTurn();
   }
@@ -538,17 +539,22 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     }
   }
 
+  private void notifyOnCardPlaced() {
+    for (ModelStatusListener listener : listeners) {
+      listener.onCardPlaced(); // You would need to define this method in your ModelStatusListener interface
+    }
+  }
+
 
   @Override
   public void addsModelStatusListener(ModelStatusListener listener) throws IllegalArgumentException {
-    if (listener != null) {
-      listeners.add(listener);
+    if (listener == null) {
+      throw new IllegalArgumentException("Listener cannot be null");
     }
 
     if (!listeners.contains(listener)) {
       listeners.add(listener);
     }
-
 
   }
 }

@@ -20,4 +20,9 @@ public interface ModelStatusListener {
    * Notifies when the game is over and who the winner is
    */
   void onGameOver();
+
+  /**
+   *
+   */
+  void onCardPlaced();
 }

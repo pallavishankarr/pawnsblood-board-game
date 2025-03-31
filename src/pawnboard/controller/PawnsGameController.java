@@ -118,6 +118,7 @@ PlayerActionListener, ModelStatusListener {
   }
 
   private void handleCellClick(int row, int col) {
+    System.out.println("Cell clicked: (" + row + ", " + col + ")");
     if (row < 0 || col < 0) {
       throw new IllegalArgumentException("row and col must be positive");
     }
@@ -126,8 +127,8 @@ PlayerActionListener, ModelStatusListener {
       return;
     }
 
-    selectedRow = row;
-    selectedCol = col;
+    this.selectedRow = row;
+    this.selectedCol = col;
 
     appendOutput("Cell selected: (" + row + ", " + col + "). Press confirm to place the card.\n");
 
@@ -135,22 +136,30 @@ PlayerActionListener, ModelStatusListener {
   }
 
   private void handleKeyPress(char key) {
+    System.out.println("selectedCardIdx: " + selectedCardIdx);
+    System.out.println("selectedRow: " + selectedRow);
+    System.out.println("selectedCol: " + selectedCol);
+
     if (key == 'c' || key == 'C') {  // Confirm Move
       if (selectedCardIdx == -1 || selectedRow == -1 || selectedCol == -1) {
+
+
         appendOutput("Select a card and a cell before confirming.\n");
         return;
       }
 
       try {
+
         model.placeCardAt(player, selectedCardIdx, selectedRow, selectedCol);
         appendOutput("Card placed at (" + selectedRow + ", " + selectedCol + ").\n");
 
-        // Reset selections
+
         selectedCardIdx = -1;
         selectedRow = -1;
         selectedCol = -1;
 
         updateView();
+
       } catch (IllegalArgumentException e) {
         appendOutput("Invalid move: " + e.getMessage() + "\n");
       }
@@ -197,6 +206,7 @@ PlayerActionListener, ModelStatusListener {
 
   @Override
   public void onConfirmTurn() {
+
     handleKeyPress('c');
   }
 
@@ -218,6 +228,12 @@ PlayerActionListener, ModelStatusListener {
     appendOutput("Score updated:\n");
     appendOutput("Red: " + model.checkScore(Player.RED) + "\n");
     appendOutput("Blue: " + model.checkScore(Player.BLUE) + "\n");
+  }
+
+  @Override
+  public void onCardPlaced() {
+    updateView();
+    appendOutput("Card placed successfully. Current board updated.\n");
   }
 
 
@@ -254,6 +270,9 @@ PlayerActionListener, ModelStatusListener {
     PawnsGameController controller = new PawnsGameController(model, redPlayer, redView, output);
 
     PawnsGameController controller2 = new PawnsGameController(model, bluePlayer, blueView, output);
+
+    model.addsModelStatusListener(controller);
+    model.addsModelStatusListener(controller2);
 
     controller.playGame(deckPath, deckPath, 5);
     controller2.playGame(deckPath, deckPath, 5);
