@@ -114,10 +114,9 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
     this.gameStarted = true;
     this.turn = Player.RED;
-    this.turnStarted = true;
+    this.turnStarted = false;
     notifyTurnChanged();
-
-
+    this.turnStarted = true;
     notifyObservers();
 
 
@@ -190,7 +189,6 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     notifyObservers();
 
     endTurn();
-
 
     notifyTurnChanged();
   }
@@ -503,8 +501,8 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
   private void endTurn() {
     turnStarted = false;
     turn = (turn == Player.RED) ? Player.BLUE : Player.RED;
+    startTurn(turn);
     notifyObservers();
-
   }
 
   private void gameNotStartedCheck() {
@@ -527,6 +525,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
 
   private void notifyTurnChanged() {
+    System.out.println("Notifying turn change: " + this.turn); // Debugging line
     for (ModelStatusListener listener : listeners) {
       listener.onTurnChanged();
     }
