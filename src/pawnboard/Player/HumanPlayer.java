@@ -34,38 +34,7 @@ public class HumanPlayer implements UserPlayer, SetController{
 
   @Override
   public void makeMove() {
-
-    if (pawnGame.getCurrentPlayer() != player) {
-      throw new IllegalStateException("It's not this player's turn.");
-    }
-
-
-   playerHand = pawnGame.getHand(player);
-
-    if (playerHand.isEmpty()) {
-      throw new IllegalStateException("No cards available to play.");
-    }
-
-    int cardIdx = 0;
-    playerActionListener.onCardClick(cardIdx);
-
-    PawnCard card = playerHand.get(cardIdx);
-
-    int row = 0;
-    int col = 0;
-    playerActionListener.onCellClick(row, col);
-
-
-
-    if(pawnGame.placeCardLegal(player,card, row, col)) {
-      playerActionListener.onConfirmTurn();
-      pawnGame.placeCardAt(player, cardIdx, row, col);
-    }
-    else {
-      throw new IllegalStateException("Cannot place card");
-    }
-
-
+    //Empty because the controller handles placing the card
   }
 
   @Override

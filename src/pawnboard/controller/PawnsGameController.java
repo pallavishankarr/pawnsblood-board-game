@@ -142,7 +142,7 @@ PlayerActionListener, ModelStatusListener {
       }
 
       try {
-        userPlayer.makeMove();
+        model.placeCardAt(player, selectedCardIdx, selectedRow, selectedCol);
         appendOutput("Card placed at (" + selectedRow + ", " + selectedCol + ").\n");
 
         // Reset selections
