@@ -10,27 +10,16 @@ import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 import pawnboard.view.PlayerActionPublisher;
 
-public class HumanPlayer implements UserPlayer, SetController{
+public class HumanPlayer implements UserPlayer {
   private final Player player;
   private final PawnsGame<PawnCell, Player, PawnCard> pawnGame;
-  private  PlayerActionPublisher playerActionPublisher;
-  private  PlayerActionListener playerActionListener;
   private List<PawnCard> playerHand;
 
   public HumanPlayer(Player player, PawnsGame<PawnCell, Player, PawnCard> pawnGame ) {
     this.player = player;
     this.pawnGame = pawnGame;
-    this.playerActionListener = null;
 
   }
-
-
-  @Override
-  public void setController(PlayerActionListener playerActionListener) {
-    this.playerActionListener = playerActionListener;
-  }
-
-
 
   @Override
   public void makeMove() {
