@@ -29,7 +29,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
   private int handSize;
   private boolean turnStarted;
   private List<ModelStatusListener> listeners;
-  private ModelStatusListener listener;
+
 
   /**
    * Constructs a new PawnGameImpl object with the given board dimensions.
@@ -163,6 +163,12 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
       placeCardAtHelper(playerBlueHand, player, cardIdx, row, col);
     }
 
+
+
+    for (ModelStatusListener listener : listeners) {
+      listener.onScoreUpdate();
+    }
+
     notifyObservers();
     endTurn();
   }
@@ -178,7 +184,10 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
     notifyObservers();
 
-    listener.onTurnChanged();
+
+    for(ModelStatusListener listener: listeners) {
+      listener.onTurnChanged();
+    }
 
     endTurn();
   }
@@ -349,7 +358,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
         }
       }
     }
-    listener.onScoreUpdate();
+
     return score;
   }
 
@@ -383,7 +392,9 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
         }
       }
     }
-    listener.onGameOver();
+    for(ModelStatusListener listener: listeners) {
+      listener.onGameOver();
+    }
     return true;
   }
 
@@ -514,11 +525,10 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
   @Override
   public void addsModelStatusListener(ModelStatusListener listener) throws IllegalArgumentException {
-    if(listener == null) {
-      throw new IllegalArgumentException("Listener cannot be null");
+    if (listener != null && !listeners.contains(listener)) {
+      listeners.add(listener);
     }
 
-    this.listener = listener;
     listeners.add(listener);
 
 

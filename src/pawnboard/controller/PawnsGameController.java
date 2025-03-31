@@ -142,7 +142,7 @@ PlayerActionListener, ModelStatusListener {
       }
 
       try {
-        userPlayer.makeMove(selectedCardIdx, selectedRow, selectedCol);
+        userPlayer.makeMove();
         appendOutput("Card placed at (" + selectedRow + ", " + selectedCol + ").\n");
 
         // Reset selections
@@ -205,9 +205,9 @@ PlayerActionListener, ModelStatusListener {
 
   @Override
   public void onTurnChanged() {
-    currentPlayer = model.getCurrentPlayer();
+    player = model.getCurrentPlayer();
     updateView();
-    appendOutput("It is now " + currentPlayer + "'s turn.\n");
+    appendOutput("It is now " + player + "'s turn.\n");
   }
 
   @Override
@@ -249,14 +249,18 @@ PlayerActionListener, ModelStatusListener {
 
     Appendable output = new StringWriter();
 
-    PawnsGameController controller = new PawnsGameController(model, redPlayer, redView, bluePlayer, blueView, output);
+    PawnsGameController controller = new PawnsGameController(model, redPlayer, redView, output);
 
-    ((HumanPlayer) redPlayer).addPlayerActionListener(controller);
+    PawnsGameController controller2 = new PawnsGameController(model, bluePlayer, blueView, output);
 
+    HumanPlayer redPlayer1 = (HumanPlayer) redPlayer;
+    redPlayer1.setController(controller);
+    model.addsModelStatusListener(controller);
 
 
 
     controller.playGame(deckPath, deckPath, 5);
+    controller2.playGame(deckPath, deckPath, 5);
 
     System.out.println(output.toString());
   }
