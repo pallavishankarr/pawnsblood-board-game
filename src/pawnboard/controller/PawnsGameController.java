@@ -185,11 +185,13 @@ PlayerActionListener, ModelStatusListener {
 
   @Override
   public void onCardClick(int cardIdx) {
+    System.out.println("Controller: onCardClick received -> " + cardIdx);
     handleCardClick(cardIdx);
   }
 
   @Override
   public void onCellClick(int row, int col) {
+    System.out.println("Controller: onCellClick received -> (" + row + ", " + col + ")");
     handleCellClick(row, col);
   }
 
@@ -252,12 +254,6 @@ PlayerActionListener, ModelStatusListener {
     PawnsGameController controller = new PawnsGameController(model, redPlayer, redView, output);
 
     PawnsGameController controller2 = new PawnsGameController(model, bluePlayer, blueView, output);
-
-    HumanPlayer redPlayer1 = (HumanPlayer) redPlayer;
-    redPlayer1.setController(controller);
-    model.addsModelStatusListener(controller);
-
-
 
     controller.playGame(deckPath, deckPath, 5);
     controller2.playGame(deckPath, deckPath, 5);

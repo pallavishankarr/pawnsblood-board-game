@@ -86,7 +86,7 @@ public class BoardPanel extends JPanel implements GameObserver, HighlightPanel, 
         gameStateChanged();
 
         if (playerActionListener != null) {
-          playerActionListener.onCardClick(handPanel.getSelectedCardIndex()); // Pass the selected card index
+          playerActionListener.onCardClick(handPanel.getSelectedCardIndex());
           playerActionListener.onConfirmTurn();
         }
       } else {
