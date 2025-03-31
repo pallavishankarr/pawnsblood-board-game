@@ -253,8 +253,8 @@ PlayerActionListener, ModelStatusListener {
 
     PawnsGameController controller2 = new PawnsGameController(model, bluePlayer, blueView, output);
 
-    HumanPlayer redPlayer1 = (HumanPlayer) redPlayer;
-    redPlayer1.setController(controller);
+
+
     model.addsModelStatusListener(controller);
 
 

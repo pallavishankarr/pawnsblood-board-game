@@ -116,6 +116,10 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     this.turn = Player.RED;
     this.turnStarted = true;
     notifyObservers();
+
+
+
+
   }
 
   @Override
@@ -184,12 +188,12 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
     notifyObservers();
 
+    endTurn();
+
 
     for(ModelStatusListener listener: listeners) {
       listener.onTurnChanged();
     }
-
-    endTurn();
   }
 
 
@@ -217,6 +221,10 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     turnStarted = true;
     drawCard(player);
     notifyObservers();
+
+    for(ModelStatusListener listener: listeners) {
+      listener.onTurnChanged();
+    }
   }
 
   @Override
