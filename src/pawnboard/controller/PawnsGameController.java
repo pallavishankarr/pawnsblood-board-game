@@ -262,7 +262,7 @@ PlayerActionListener, ModelStatusListener {
 
     PawnBoardStrategy strat = new FillFirstStrategy();
 
-    UserPlayer bluePlayer = new MachinePlayer(Player.BLUE, model, strat);
+    UserPlayer bluePlayer = new HumanPlayer(Player.BLUE, model);
 
     UserPlayer redPlayer = new HumanPlayer(Player.RED, model);
 
