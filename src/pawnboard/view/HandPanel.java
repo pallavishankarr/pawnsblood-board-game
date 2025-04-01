@@ -34,6 +34,8 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel, P
   private final Color color;
   private int selectedCardIndex = -1;
   private PlayerActionListener playerActionListener;
+  private final ReadonlyPawnsGame<PawnCell, Player, PawnCard> model;
+  private final Player player;
 
   /**
    * Constructs a HandPanel for a specific player in the game.
@@ -57,7 +59,8 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel, P
     }
 
     setBackground(Color.BLACK);
-
+    this.model = model;
+    this.player = player;
     model.addObserver(this);
     this.addMouseListener(new HandPanelMouseListener(this));
   }
@@ -91,21 +94,25 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel, P
 
   @Override
   protected void paintComponent(Graphics g) {
-    super.paintComponent(g);
 
-    int handSize = hand.size();
-    int panelWidth = getWidth();
-    int cardWidth = panelWidth / handSize - CARD_BORDER_THICKNESS;
-    int cardHeight = getHeight();
 
-    for (int i = 0; i < handSize; i++) {
-      PawnCard card = hand.get(i);
-      int xPosition = i * (cardWidth + CARD_BORDER_THICKNESS);
+      super.paintComponent(g);
+      List<PawnCard> hand = model.getHand(player);  // Fetch latest hand from model
+      int handSize = hand.size();
+      int panelWidth = getWidth();
+      int cardWidth = panelWidth / handSize - CARD_BORDER_THICKNESS;
+      int cardHeight = getHeight();
 
-      drawCardBackground(g, xPosition, cardWidth, cardHeight, i);
-      drawCardDetails(g, xPosition, card, cardWidth, cardHeight);
-      drawInfluenceGrid(g, card, xPosition, cardWidth, cardHeight);
-    }
+      for (int i = 0; i < handSize; i++) {
+        PawnCard card = hand.get(i);
+        int xPosition = i * (cardWidth + CARD_BORDER_THICKNESS);
+        drawCardBackground(g, xPosition, cardWidth, cardHeight, i);
+        drawCardDetails(g, xPosition, card, cardWidth, cardHeight);
+        drawInfluenceGrid(g, card, xPosition, cardWidth, cardHeight);
+      }
+
+
+
   }
 
   private void drawCardBackground(Graphics g, int xPosition, int cardWidth,

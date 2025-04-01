@@ -75,6 +75,8 @@ public abstract class GameFrame extends JFrame implements GameWindow {
     model.startGame(deck, deck, 5);
     new RedFrame(model);
     new BlueFrame(model);
+
+    model.placeCardAt(Player.RED, 0, 0,0);
   }
 
   @Override
