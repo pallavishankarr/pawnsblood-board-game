@@ -2,7 +2,6 @@ package pawnboard.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
@@ -94,6 +93,8 @@ PlayerActionListener, ModelStatusListener {
       updateView();
       onTurnChanged();
     }
+
+    userPlayer.makeMove();
   }
 
   private void updateView() {
@@ -228,6 +229,10 @@ PlayerActionListener, ModelStatusListener {
     playerView.updateWindowTitle(player, userPlayer.getPlayer());
 
     playerView.showTurnNotification(player, userPlayer.getPlayer());
+
+    if (player.equals(userPlayer.getPlayer())) {
+      userPlayer.makeMove();  // Automatically make the move for the machine player
+    }
   }
 
   @Override
@@ -271,11 +276,11 @@ PlayerActionListener, ModelStatusListener {
     GameWindow redView = new RedFrame(model);
     GameWindow blueView = new BlueFrame(model);
 
-    PawnBoardStrategy strat = new FillFirstStrategy();
+    PawnBoardStrategy<PawnCell, Player, PawnCard> strategy = new FillFirstStrategy();
 
     UserPlayer bluePlayer = new HumanPlayer(Player.BLUE, model);
 
-    UserPlayer redPlayer = new HumanPlayer(Player.RED, model);
+    UserPlayer redPlayer = new MachinePlayer(Player.RED, model, strategy);
 
     Appendable output = new StringWriter();
 
