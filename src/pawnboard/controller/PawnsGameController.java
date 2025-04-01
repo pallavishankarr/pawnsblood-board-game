@@ -147,7 +147,9 @@ PlayerActionListener, ModelStatusListener {
       try {
 
         model.placeCardAt(player, selectedCardIdx, selectedRow, selectedCol);
+
         appendOutput("Card placed at (" + selectedRow + ", " + selectedCol + ").\n");
+
 
 
         selectedCardIdx = -1;
@@ -270,8 +272,7 @@ PlayerActionListener, ModelStatusListener {
 
     PawnsGameController controller2 = new PawnsGameController(model, bluePlayer, blueView, output);
 
-    model.addsModelStatusListener(controller);
-    model.addsModelStatusListener(controller2);
+
 
     controller.playGame(deckPath, deckPath, 5);
     controller2.playGame(deckPath, deckPath, 5);

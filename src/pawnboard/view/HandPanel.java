@@ -73,6 +73,7 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel, P
     List<PawnCard> deck = decks.get("deck1");
     PawnGameImpl model = new PawnGameImpl(3, 5);
     model.startGame(deck, deck, 5);
+    model.placeCardAt(Player.RED, 0, 0, 0);
     Player player = Player.RED;
     HandPanel handPanel = new HandPanel(model, player);
     JFrame frame = new JFrame("HandPanel Test");

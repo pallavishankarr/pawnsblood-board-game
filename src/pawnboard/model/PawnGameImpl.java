@@ -173,7 +173,10 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
    notifyOnCardPlaced();
 
     notifyObservers();
+
+
     endTurn();
+
 
     notifyTurnChanged();
   }
@@ -188,6 +191,8 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     turnNotStartedCheck(getCurrentPlayer());
 
     notifyObservers();
+
+    drawCard(getCurrentPlayer());
 
     endTurn();
 
@@ -209,6 +214,8 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     if (!playerDeck.isEmpty()) {
       playerHand.add(playerDeck.remove(0));
     }
+
+
   }
 
   @Override
@@ -396,7 +403,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
         }
       }
     }
-    notfiyOnGameOver();
+    notifyOnGameOver();
     return true;
   }
 
@@ -486,9 +493,11 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
     PawnCell cell = this.board[row][col];
 
+
     cell.placeCard(card);
     playerHand.remove(cardIdx);
     applyCardInfluence(row, col, player, card);
+
 
   }
 
@@ -504,6 +513,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     turnStarted = false;
     turn = (turn == Player.RED) ? Player.BLUE : Player.RED;
     notifyObservers();
+
 
   }
 
@@ -538,7 +548,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     }
   }
 
-  private void notfiyOnGameOver() {
+  private void notifyOnGameOver() {
     for (ModelStatusListener listener : listeners) {
       listener.onGameOver();
     }
@@ -558,6 +568,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     }
 
     if (!listeners.contains(listener)) {
+
       listeners.add(listener);
     }
 
