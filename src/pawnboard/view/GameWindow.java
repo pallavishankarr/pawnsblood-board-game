@@ -1,5 +1,7 @@
 package pawnboard.view;
 
+import pawnboard.model.Player;
+
 /**
  * Represents the main window for displaying the game.
  * Provides methods to display and update the game view.
@@ -28,4 +30,18 @@ public interface GameWindow {
    * @return the hand panel
    */
   HandPanel getHandPanel();
+
+  /**
+   * Updates the window to indicate whether player is waiting or playing.
+   * @param currentPlayer  The player whose turn it currently is.
+   * @param userPlayer    The player associated with this game window.
+   */
+  void updateWindowTitle(Player currentPlayer, Player userPlayer);
+
+  /**
+   * Displays a notification to indicate whose turn it is.
+   * @param currentPlayer The player whose turn it is.
+   * @param userPlayer    The player associated with this window.
+   */
+  void showTurnNotification(Player currentPlayer, Player userPlayer);
 }

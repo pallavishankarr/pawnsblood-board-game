@@ -5,7 +5,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import pawnboard.controller.CardInitializer;
 import pawnboard.model.PawnCard;
@@ -99,5 +99,22 @@ public abstract class GameFrame extends JFrame implements GameWindow {
     return this.hand;
   }
 
+
+  @Override
+  public void updateWindowTitle(Player currentPlayer, Player userPlayer) {
+      if (currentPlayer.equals(userPlayer)) {
+        this.setTitle(userPlayer + " - Your Turn");
+      } else {
+        this.setTitle(userPlayer + " - Waiting for Turn");
+      }
+      this.repaint();
+  }
+
+  @Override
+  public void showTurnNotification(Player currentPlayer, Player userPlayer) {
+      if (currentPlayer.equals(userPlayer)) {
+        JOptionPane.showMessageDialog(this, "It's " + currentPlayer + " turn!", "Turn Notification", JOptionPane.INFORMATION_MESSAGE);
+      }
+  }
 }
 

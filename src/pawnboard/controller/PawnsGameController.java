@@ -7,6 +7,8 @@ import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.*;
+
 import pawnboard.Player.HumanPlayer;
 import pawnboard.Player.MachinePlayer;
 import pawnboard.Player.UserPlayer;
@@ -90,6 +92,7 @@ PlayerActionListener, ModelStatusListener {
       List<PawnCard> deck2 = decks.get("deck2");
       model.startGame(deck1, deck2, handSize);
       updateView();
+      onTurnChanged();
     }
   }
 
@@ -221,6 +224,10 @@ PlayerActionListener, ModelStatusListener {
     player = model.getCurrentPlayer();
     updateView();
     appendOutput("It is now " + player + "'s turn.\n");
+
+    playerView.updateWindowTitle(player, userPlayer.getPlayer());
+
+    playerView.showTurnNotification(player, userPlayer.getPlayer());
   }
 
   @Override
@@ -244,6 +251,10 @@ PlayerActionListener, ModelStatusListener {
     appendOutput("Game Over! The winner is: " + winner + "\n");
     updateView();
     gameOver = true;
+  }
+
+  private void showTurnNotification() {
+    JOptionPane.showMessageDialog(null, "It is now " + player + "'s turn!", "Turn Notification", JOptionPane.INFORMATION_MESSAGE);
   }
 
   public static void main(String[] args) {

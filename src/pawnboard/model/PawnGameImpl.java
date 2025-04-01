@@ -114,9 +114,8 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
     this.gameStarted = true;
     this.turn = Player.RED;
-    this.turnStarted = false;
     notifyTurnChanged();
-    this.turnStarted = true;
+    startTurn(Player.RED);
     notifyObservers();
 
 
@@ -212,9 +211,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
   @Override
   public void startTurn(Player player) {
     gameNotStartedCheck();
-
     playerNotTurnCheck(player);
-
     turnStarted = true;
     drawCard(player);
     notifyObservers();
