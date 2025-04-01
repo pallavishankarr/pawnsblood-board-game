@@ -100,7 +100,7 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel, P
       List<PawnCard> hand = model.getHand(player);  // Fetch latest hand from model
       int handSize = hand.size();
       int panelWidth = getWidth();
-      int cardWidth = panelWidth / handSize - CARD_BORDER_THICKNESS;
+      int cardWidth = (panelWidth - (CARD_BORDER_THICKNESS * (handSize - 1))) / handSize;  // Recalculate card width
       int cardHeight = getHeight();
 
       for (int i = 0; i < handSize; i++) {
@@ -182,7 +182,7 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel, P
   }
 
   private void highlightCell(int row, int col) {
-    int handSize = hand.size();
+    int handSize = model.getHand(player).size();
     int panelWidth = getWidth();
     int cardWidth = panelWidth / handSize - CARD_BORDER_THICKNESS;
 
@@ -207,6 +207,7 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel, P
 
   @Override
   public void gameStateChanged() {
+    revalidate();
     repaint();
   }
 
@@ -225,20 +226,23 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel, P
     @Override
     public void mouseClicked(MouseEvent e) {
       int x = e.getX();
+      int handSize = handPanel.model.getHand(player).size();
+      int panelWidth = handPanel.getWidth();
+      int cardWidth = (panelWidth - (CARD_BORDER_THICKNESS * (handSize - 1))) / handSize;
 
+      int xPosition = 0; // Tracks the leftmost position of each card
+      for (int i = 0; i < handSize; i++) {
+        if (x >= xPosition && x < xPosition + cardWidth) {
+          handPanel.toggleSelection(i);
 
-      int cardWidth = handPanel.getWidth() / handPanel.hand.size() - CARD_BORDER_THICKNESS;
-      int cardIndex = x / (cardWidth + CARD_BORDER_THICKNESS);
+          if (handPanel.playerActionListener != null) {
+            handPanel.playerActionListener.onCardClick(i);
+          }
 
-      if (cardIndex >= 0 && cardIndex < handPanel.hand.size()) {
-        handPanel.toggleSelection(cardIndex);
-
-        if (handPanel.playerActionListener != null) {
-          handPanel.playerActionListener.onCardClick(cardIndex);
+          System.out.println("Card index: " + i + ", Player: " + (handPanel.color == Color.PINK ? "RED" : "BLUE"));
+          return; // Exit once a card is found
         }
-
-        System.out.println("Card index: " + cardIndex + ", Player: "
-                + (color == Color.PINK ? "RED" : "BLUE"));
+        xPosition += cardWidth + CARD_BORDER_THICKNESS; // Move to next card's start position
       }
     }
   }
