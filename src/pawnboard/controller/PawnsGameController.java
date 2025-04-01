@@ -163,6 +163,7 @@ PlayerActionListener, ModelStatusListener {
         updateView();
 
       } catch (IllegalArgumentException e) {
+        showInvalidMoveNotification(e.getMessage());
         appendOutput("Invalid move: " + e.getMessage() + "\n");
       }
     } else if (key == 'p' || key == 'P') {  // Pass Turn
@@ -171,6 +172,7 @@ PlayerActionListener, ModelStatusListener {
       updateView();
     } else if (key == 'q' || key == 'Q') {  // Quit Game
       appendOutput("Game ended by user.\n");
+      showGameOverNotification();
       gameOver = true;
     } else {
       appendOutput("Invalid key press. Use 'c' to confirm, 'p' to pass, 'q' to quit.\n");
@@ -253,6 +255,7 @@ PlayerActionListener, ModelStatusListener {
   @Override
   public void onGameOver() {
     String winner = model.getWinner();  // Assuming model has a method getWinner()
+    showGameOverNotification();
     appendOutput("Game Over! The winner is: " + winner + "\n");
     updateView();
     gameOver = true;
@@ -261,6 +264,16 @@ PlayerActionListener, ModelStatusListener {
   private void showTurnNotification() {
     JOptionPane.showMessageDialog(null, "It is now " + player + "'s turn!", "Turn Notification", JOptionPane.INFORMATION_MESSAGE);
   }
+
+  private void showInvalidMoveNotification(String message) {
+    JOptionPane.showMessageDialog(null, "Invalid Move: " + message, "Move Error", JOptionPane.ERROR_MESSAGE);
+  }
+
+  private void showGameOverNotification() {
+    JOptionPane.showMessageDialog(null, "Game Over!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+  }
+
+
 
   public static void main(String[] args) {
     String deckPath = "docs" + File.separator + "deck.config";
