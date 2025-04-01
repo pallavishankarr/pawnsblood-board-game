@@ -270,7 +270,8 @@ PlayerActionListener, ModelStatusListener {
   }
 
   private void showGameOverNotification() {
-    JOptionPane.showMessageDialog(null, "Game Over!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+    String winner = model.getWinner();
+    JOptionPane.showMessageDialog(null, "Game Over! The winner is: " + winner, "Game Over", JOptionPane.INFORMATION_MESSAGE);
   }
 
 
