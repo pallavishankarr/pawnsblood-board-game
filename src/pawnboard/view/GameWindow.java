@@ -1,5 +1,6 @@
 package pawnboard.view;
 
+import pawnboard.Player.UserPlayer;
 import pawnboard.model.Player;
 
 /**
@@ -40,8 +41,7 @@ public interface GameWindow {
 
   /**
    * Displays a notification to indicate whose turn it is.
-   * @param currentPlayer The player whose turn it is.
-   * @param userPlayer    The player associated with this window.
+   * @param currentUserPlayer The player whose turn it is.
    */
-  void showTurnNotification(Player currentPlayer, Player userPlayer);
+  void showTurnNotification(UserPlayer currentUserPlayer);
 }

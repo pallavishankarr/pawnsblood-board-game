@@ -114,7 +114,6 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
     this.gameStarted = true;
     this.turn = Player.RED;
-    notifyTurnChanged();
     startTurn(Player.RED);
     notifyObservers();
 
@@ -176,8 +175,6 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
     notifyObservers();
     endTurn();
-
-    notifyTurnChanged();
   }
 
   @Override
@@ -198,8 +195,6 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
      notifyObservers();
 
      endTurn();
-
-     notifyTurnChanged();
 
    }
   }

@@ -31,7 +31,10 @@ public class HumanPlayer implements UserPlayer {
     return player;
   }
 
-
+  @Override
+  public boolean isMachine() {
+    return false;
+  }
 
 
 }

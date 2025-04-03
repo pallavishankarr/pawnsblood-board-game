@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.swing.*;
 
+import pawnboard.Player.UserPlayer;
 import pawnboard.controller.CardInitializer;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
@@ -111,10 +112,10 @@ public abstract class GameFrame extends JFrame implements GameWindow {
   }
 
   @Override
-  public void showTurnNotification(Player currentPlayer, Player userPlayer) {
-      if (currentPlayer.equals(userPlayer)) {
-        JOptionPane.showMessageDialog(this, "It's " + currentPlayer + " turn!", "Turn Notification", JOptionPane.INFORMATION_MESSAGE);
-      }
+  public void showTurnNotification(UserPlayer currentUserPlayer) {
+    if (!currentUserPlayer.isMachine()) {
+      JOptionPane.showMessageDialog(this, "It's " + currentUserPlayer.getPlayer() + "'s turn!", "Turn Notification", JOptionPane.INFORMATION_MESSAGE);
+    }
   }
 }
 

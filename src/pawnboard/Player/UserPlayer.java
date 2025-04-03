@@ -15,4 +15,6 @@ public interface UserPlayer {
   void makeMove();
 
   Player getPlayer();
+
+  boolean isMachine();
 }

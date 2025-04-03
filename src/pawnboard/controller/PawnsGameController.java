@@ -223,16 +223,18 @@ PlayerActionListener, ModelStatusListener {
 
   @Override
   public void onTurnChanged() {
-    player = model.getCurrentPlayer();
-    updateView();
-    //appendOutput("It is now " + player + "'s turn.\n");
+    player = model.getCurrentPlayer(); // Update current player
+    updateView(); // Ensure UI reflects new state
 
     playerView.updateWindowTitle(player, userPlayer.getPlayer());
 
-    playerView.showTurnNotification(player, userPlayer.getPlayer());
-
     if (player.equals(userPlayer.getPlayer())) {
-      userPlayer.makeMove();  // Automatically make the move for the machine player
+      userPlayer.makeMove(); // Let the machine player act if needed
+      updateView(); // Refresh after machine moves
+
+      if (!userPlayer.isMachine()) {
+        playerView.showTurnNotification(userPlayer); // Show notification only after move is complete
+      }
     }
   }
 

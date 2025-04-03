@@ -152,7 +152,7 @@ public class MockPawnGame implements MockGame<PawnCell, Player, PawnCard> {
 
   @Override
   public Player getCurrentPlayer() {
-    return null;
+    return Player.RED;
   }
 
   @Override
