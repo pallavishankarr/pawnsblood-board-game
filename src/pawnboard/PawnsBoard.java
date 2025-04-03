@@ -2,14 +2,22 @@ package pawnboard;
 
 import java.io.File;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
+import pawnboard.Player.HumanPlayer;
+import pawnboard.Player.MachinePlayer;
+import pawnboard.Player.UserPlayer;
 import pawnboard.controller.CardInitializer;
 import pawnboard.controller.PawnsGameController;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnGameImpl;
 import pawnboard.model.Player;
+import pawnboard.strategy.FillFirstStrategy;
+import pawnboard.strategy.MaxControlStrategy;
+import pawnboard.strategy.MaximizeRowScoreStrategy;
 import pawnboard.view.BlueFrame;
 import pawnboard.view.GameWindow;
 import pawnboard.view.RedFrame;
@@ -29,63 +37,65 @@ public final class PawnsBoard {
    * @param args the command-line arguments (not used in this implementation)
    */
   public static void main(String[] args) {
-    String path = "docs" + File.separator + "deck.config";
-    Readable input = new StringReader("");
-    Appendable output = new StringBuilder();
+    Scanner scanner = new Scanner(System.in);
 
-    PawnGameImpl model = new PawnGameImpl(3, 5);
+// Get deck file paths
+    String redFilePath = args.length > 0 ? args[0] : getUserInput(scanner, "Enter Red deck path: ");
+    String blueFilePath = args.length > 1 ? args[1] : getUserInput(scanner, "Enter Blue deck path: ");
 
+    // Get player types
+    String redPlayerType = args.length > 2 ? args[2] : getUserInput(scanner, "Enter Red player type (human/strategy1/etc.): ");
+    String bluePlayerType = args.length > 3 ? args[3] : getUserInput(scanner, "Enter Blue player type (human/strategy1/etc.): ");
+
+    // Load decks
     CardInitializer cardInitializer = new CardInitializer();
-    Map<String, List<PawnCard>> decks = CardInitializer.initializeDeck(path, path);
-    List<PawnCard> deck1 = decks.get("deck1");
-    List<PawnCard> deck2 = decks.get("deck2");
+    Map<String, List<PawnCard>> decks = cardInitializer.initializeDeck(redFilePath, blueFilePath);
+    List<PawnCard> redDeck = decks.get("deck1");
+    List<PawnCard> blueDeck = decks.get("deck2");
 
-    model.startGame(deck1, deck2, 5);
+    // Initialize model
+    PawnGameImpl model = new PawnGameImpl(3, 5);
+    model.startGame(redDeck, blueDeck, 5);
 
-    RedFrame redFrame = new RedFrame(model);
-    BlueFrame blueFrame = new BlueFrame(model);
+    // Create views
+    GameWindow redView = new RedFrame(model);
+    GameWindow blueView = new BlueFrame(model);
 
+    // Create players
+    UserPlayer redPlayer = createUserPlayer(redPlayerType, Player.RED, model);
+    UserPlayer bluePlayer = createUserPlayer(bluePlayerType, Player.BLUE, model);
 
-    //PawnsGameController controller = new PawnsGameController(model, redFrame, blueFrame, path, path, 5);
+    // Appendable for logging
+    Appendable output = new StringWriter();
 
+    // Create controllers
+    PawnsGameController redController = new PawnsGameController(model, redPlayer, redView, output);
+    PawnsGameController blueController = new PawnsGameController(model, bluePlayer, blueView, output);
 
-    System.out.println(output);
+    // Start game
+    redController.playGame(redFilePath, blueFilePath, 5);
+    blueController.playGame(redFilePath, blueFilePath, 5);
 
-    redFrame.setVisible(true);
-    blueFrame.setVisible(true);
-
-    System.out.println("Initial Board:");
-    System.out.println(redFrame);
-    placeCard(model, redFrame, Player.RED, 0, 1, 0);
-    placeCard(model, blueFrame, Player.BLUE, 0, 1, 4);
-    passTurn(model, redFrame, Player.RED);
-    placeCard(model, blueFrame, Player.BLUE, 0, 2, 4);
-    placeCard(model, redFrame, Player.RED, 0, 0, 0);
-    placeCard(model, blueFrame, Player.BLUE, 0, 1, 3);
-    passTurn(model, redFrame, Player.RED);
-    placeCard(model, blueFrame, Player.BLUE, 0, 0, 4);
-    placeCard(model, redFrame, Player.RED, 0, 2, 0);
-    placeCard(model, blueFrame, Player.BLUE, 1, 0, 3);
-    placeCard(model, redFrame, Player.RED, 2, 2, 1);
-    placeCard(model, blueFrame, Player.BLUE, 4, 0, 2);
-    placeCard(model, redFrame, Player.RED, 4, 2, 2);
-    placeCard(model, blueFrame, Player.BLUE, 2, 1, 2);
-    placeCard(model, redFrame, Player.RED, 4, 1, 1);
-    System.out.println(model.getWinner());
+    System.out.println(output.toString());
   }
 
-  private static void placeCard(PawnGameImpl game, GameWindow window,
-                                Player player, int cardIdx, int row, int col) {
-    game.startTurn(player);
-    game.placeCardAt(player, cardIdx, row, col);
-    System.out.println(window);
+  private static String getUserInput(Scanner scanner, String prompt) {
+    System.out.print(prompt);
+    return scanner.nextLine();
   }
 
-  private static void passTurn(PawnGameImpl game, GameWindow window, Player player) {
-    game.startTurn(player);
-    game.passTurn();
-    System.out.println(window);
+  private static UserPlayer createUserPlayer(String playerType, Player player, PawnGameImpl model) {
+    switch (playerType.toLowerCase()) {
+      case "human":
+        return new HumanPlayer(player, model);
+      case "strategy1":
+        return new MachinePlayer(player, model, new FillFirstStrategy());
+      case "strategy2":
+        return new MachinePlayer(player, model, new MaximizeRowScoreStrategy());
+      case "strategy3":
+        return new MachinePlayer(player, model, new MaxControlStrategy());
+      default:
+        throw new IllegalArgumentException("Invalid player type: " + playerType);
+    }
   }
-
-
 }
