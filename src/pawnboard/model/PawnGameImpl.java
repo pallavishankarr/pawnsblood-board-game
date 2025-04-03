@@ -199,15 +199,15 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
      Player currentPlayer = getCurrentPlayer();
 
      if (lastPassingPlayer == null) {
-       // First player passes, just mark it
+
        consecutivePasses++;
        lastPassingPlayer = currentPlayer;
      } else if (lastPassingPlayer != currentPlayer) {
-       // Second player passes, both players passed consecutively
+
        consecutivePasses++;
        lastPassingPlayer = currentPlayer;
      } else {
-       // If the same player tries to pass consecutively, reset pass count
+      
        consecutivePasses = 1;
        lastPassingPlayer = currentPlayer;
      }
