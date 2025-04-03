@@ -43,6 +43,8 @@ PlayerActionListener, ModelStatusListener {
   private int selectedRow = -1;
   private int selectedCol = -1;
 
+
+
   /**
    * Constructs a PawnsGameController with the specified input and output streams.
    *
@@ -168,7 +170,10 @@ PlayerActionListener, ModelStatusListener {
         showInvalidMoveNotification(e.getMessage());
         appendOutput("Invalid move: " + e.getMessage() + "\n");
       }
-    } else if (key == 'p' || key == 'P') {  // Pass Turn
+    } else if (key == 'p' || key == 'P') {// Pass Turn
+
+
+
       model.passTurn();
       appendOutput("Turn passed.\n");
       updateView();
@@ -218,7 +223,9 @@ PlayerActionListener, ModelStatusListener {
 
   @Override
   public void onPassTurn() {
+
     handleKeyPress('p');
+
   }
 
   @Override
