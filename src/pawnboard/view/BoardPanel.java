@@ -14,7 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import pawnboard.controller.PlayerActionListener;
 import pawnboard.model.PawnCard;

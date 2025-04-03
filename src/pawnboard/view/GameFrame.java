@@ -28,6 +28,7 @@ public abstract class GameFrame extends JFrame implements GameWindow {
   protected HandPanel hand;
   protected ScorePanel redScore;
   protected ScorePanel blueScore;
+  private JButton quitButton;
 
   /**
    * Constructs a GameFrame for a specific player and game model.
@@ -57,7 +58,6 @@ public abstract class GameFrame extends JFrame implements GameWindow {
     this.add(board, BorderLayout.CENTER);
     this.add(blueScore, BorderLayout.EAST);
     this.add(hand, BorderLayout.SOUTH);
-
     display();
   }
 
