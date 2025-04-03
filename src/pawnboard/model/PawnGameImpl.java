@@ -152,6 +152,10 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
     turnNotStartedCheck(this.turn);
 
+    if(isGameOver()) {
+      notifyOnGameOver();
+    }
+
     if (turn != player) {
       throw new IllegalArgumentException("It's not this players turn");
     }
@@ -181,15 +185,23 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
     gameNotStartedCheck();
 
-    playerNotTurnCheck(getCurrentPlayer());
+   if(isGameOver()) {
+     notifyOnGameOver();
+   }
 
-    turnNotStartedCheck(getCurrentPlayer());
+   else {
 
-    notifyObservers();
+     playerNotTurnCheck(getCurrentPlayer());
 
-    endTurn();
+     turnNotStartedCheck(getCurrentPlayer());
 
-    notifyTurnChanged();
+     notifyObservers();
+
+     endTurn();
+
+     notifyTurnChanged();
+
+   }
   }
 
 
@@ -391,7 +403,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
         }
       }
     }
-    notfiyOnGameOver();
+
     return true;
   }
 
@@ -534,7 +546,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     }
   }
 
-  private void notfiyOnGameOver() {
+  private void notifyOnGameOver() {
     for (ModelStatusListener listener : listeners) {
       listener.onGameOver();
     }

@@ -257,7 +257,7 @@ PlayerActionListener, ModelStatusListener {
 
   @Override
   public void onGameOver() {
-    String winner = model.getWinner();  // Assuming model has a method getWinner()
+    String winner = model.getWinner();
     showGameOverNotification();
     appendOutput("Game Over! The winner is: " + winner + "\n");
     updateView();
