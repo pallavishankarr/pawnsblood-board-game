@@ -111,13 +111,12 @@ PlayerActionListener, ModelStatusListener {
 
     List<PawnCard> hand = model.getHand(player);
     if (cardIdx < 0 || cardIdx >= hand.size()) {
-      appendOutput("Invalid card selection.\n");
+      //appendOutput("Invalid card selection.\n");
       return;
     }
 
     selectedCardIdx = cardIdx;
 
-    appendOutput("Card selected: " + hand.get(cardIdx).toString() + "\n");
 
     updateView();
   }
@@ -128,15 +127,15 @@ PlayerActionListener, ModelStatusListener {
       throw new IllegalArgumentException("row and col must be positive");
     }
     if (selectedCardIdx == -1) {
-      appendOutput("Select a card first before choosing a cell.\n");
+     // appendOutput("Select a card first before choosing a cell.\n");
       return;
     }
-    System.out.println("Before update: selectedRow = " + selectedRow + ", selectedCol = " + selectedCol);
+
     this.selectedRow = row;
     this.selectedCol = col;
-    System.out.println("After update: selectedRow = " + selectedRow + ", selectedCol = " + selectedCol);
 
-    appendOutput("Cell selected: (" + row + ", " + col + "). Press confirm to place the card.\n");
+
+   // appendOutput("Cell selected: (" + row + ", " + col + "). Press confirm to place the card.\n");
 
     updateView();
   }
@@ -147,7 +146,7 @@ PlayerActionListener, ModelStatusListener {
       if (selectedCardIdx == -1 || selectedRow == -1 || selectedCol == -1) {
 
 
-        appendOutput("Select a card and a cell before confirming.\n");
+       // appendOutput("Select a card and a cell before confirming.\n");
         return;
       }
 
@@ -155,7 +154,7 @@ PlayerActionListener, ModelStatusListener {
 
         model.placeCardAt(player, selectedCardIdx, selectedRow, selectedCol);
 
-        appendOutput("Card placed at (" + selectedRow + ", " + selectedCol + ").\n");
+      //  appendOutput("Card placed at (" + selectedRow + ", " + selectedCol + ").\n");
 
 
 
@@ -178,7 +177,7 @@ PlayerActionListener, ModelStatusListener {
       showGameOverNotification();
       gameOver = true;
     } else {
-      appendOutput("Invalid key press. Use 'c' to confirm, 'p' to pass, 'q' to quit.\n");
+      //appendOutput("Invalid key press. Use 'c' to confirm, 'p' to pass, 'q' to quit.\n");
     }
   }
 
@@ -201,16 +200,13 @@ PlayerActionListener, ModelStatusListener {
 
   @Override
   public void onCardClick(int cardIdx) {
-    System.out.println("onCardClick called");
-    System.out.println("Before update: selectedRow = " + selectedRow + ", selectedCol = " + selectedCol);
 
     handleCardClick(cardIdx);
-    System.out.println("After update: selectedRow = " + selectedRow + ", selectedCol = " + selectedCol);
+
   }
 
   @Override
   public void onCellClick(int row, int col) {
-    System.out.println("Controller: onCellClick received -> (" + row + ", " + col + ")");
     handleCellClick(row, col);
   }
 
@@ -229,7 +225,7 @@ PlayerActionListener, ModelStatusListener {
   public void onTurnChanged() {
     player = model.getCurrentPlayer();
     updateView();
-    appendOutput("It is now " + player + "'s turn.\n");
+    //appendOutput("It is now " + player + "'s turn.\n");
 
     playerView.updateWindowTitle(player, userPlayer.getPlayer());
 
@@ -243,15 +239,15 @@ PlayerActionListener, ModelStatusListener {
   @Override
   public void onScoreUpdate() {
     updateView();
-    appendOutput("Score updated:\n");
-    appendOutput("Red: " + model.checkScore(Player.RED) + "\n");
-    appendOutput("Blue: " + model.checkScore(Player.BLUE) + "\n");
+   // appendOutput("Score updated:\n");
+   // appendOutput("Red: " + model.checkScore(Player.RED) + "\n");
+   // appendOutput("Blue: " + model.checkScore(Player.BLUE) + "\n");
   }
 
   @Override
   public void onCardPlaced() {
     updateView();
-    appendOutput("Card placed successfully. Current board updated.\n");
+   // appendOutput("Card placed successfully. Current board updated.\n");
   }
 
 
@@ -259,7 +255,7 @@ PlayerActionListener, ModelStatusListener {
   public void onGameOver() {
     String winner = model.getWinner();
     showGameOverNotification();
-    appendOutput("Game Over! The winner is: " + winner + "\n");
+   // appendOutput("Game Over! The winner is: " + winner + "\n");
     updateView();
     gameOver = true;
   }

@@ -36,8 +36,14 @@ public class MachinePlayer implements UserPlayer {
   public void makeMove() {
     List<Move<PawnCard>> moves = strategy.chooseMove(gameModel, player);
 
+    if(gameModel.isGameOver()) {
+      return;
+
+    }
+
     if (moves.isEmpty()) {
       gameModel.passTurn();
+      return;
     }
 
     Move<PawnCard> move = moves.get(0);
@@ -50,6 +56,7 @@ public class MachinePlayer implements UserPlayer {
     int cardIdx = findCardIndex(playerHand, card);
 
     try {
+      System.out.print(cardIdx + row + col);
       gameModel.placeCardAt(player, cardIdx, row, col);
     } catch (Exception e) {
       // do not execute the move if you can't
