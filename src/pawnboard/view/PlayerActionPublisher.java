@@ -12,4 +12,10 @@ public interface PlayerActionPublisher {
    * @param listener the PlayerActionListener to be registered.
    */
   void addPlayerActionListener(PlayerActionListener listener);
+
+  /**
+   * Returns the selected Card Index
+   * @return card index
+   */
+  int getSelectedCardIndex();
 }

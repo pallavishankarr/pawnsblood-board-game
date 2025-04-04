@@ -10,4 +10,6 @@ public interface HighlightPanel {
    * @return true if an element in panel or panel is highlighted, false if not
    */
   boolean isHighlighted();
+
+
 }

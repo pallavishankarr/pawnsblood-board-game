@@ -10,11 +10,21 @@ import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 import pawnboard.view.HandPanel;
 
-class MockHandPanel extends HandPanel {
+/**
+ * A mock implementation of the HandPanel class used
+ * for testing or simulating the player's hand of cards in a game.
+ */
+public class MockHandPanel extends HandPanel {
   private final List<PawnCard> mockHand;
   private boolean gameStateChangedCalled = false;
   private PlayerActionListener mockListener;
 
+
+  /**
+   * Constructs a MockHandPanel with the specified game model and player.
+   * @param model The game model representing the current state of the game.
+   * @param player The player associated with this hand panel.
+   */
   public MockHandPanel(ReadonlyPawnsGame<PawnCell, Player, PawnCard> model, Player player) {
     super(model, player);
     this.mockHand = new ArrayList<>();

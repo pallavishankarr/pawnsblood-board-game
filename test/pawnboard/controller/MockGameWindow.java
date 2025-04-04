@@ -1,26 +1,30 @@
 package pawnboard.controller;
 
-import pawnboard.MockPawnGame;
 import pawnboard.Player.UserPlayer;
-import pawnboard.model.PawnCard;
-import pawnboard.model.PawnCell;
 import pawnboard.model.Player;
-import pawnboard.model.ReadonlyPawnsGame;
 import pawnboard.view.BoardPanel;
-import pawnboard.view.GameWindow;
 import pawnboard.view.HandPanel;
 
-public class MockGameWindow implements MockGameInterface{
-  private boolean viewUpdated = false;
-  Appendable output = new StringBuilder();
-  private HandPanel handPanel;
-  private BoardPanel boardPanel;
 
+/**
+ * A mock implementation of the GameWindow interface used for
+ * testing or simulating the game's graphical interface.
+ */
+public class MockGameWindow implements MockGameInterface {
+  Appendable output = new StringBuilder();
+  private boolean viewUpdated = false;
+  private final HandPanel handPanel;
+  private final BoardPanel boardPanel;
+
+  /**
+   * Constructs a MockGameWindow with the specified hand panel and board panel.
+   * @param handPanel The panel displaying the player's hand of cards.
+   * @param boardPanel The panel displaying the game board.
+   */
   MockGameWindow(MockHandPanel handPanel, MockBoardPanel boardPanel) {
     this.handPanel = handPanel;
     this.boardPanel = boardPanel;
   }
-
 
 
   @Override

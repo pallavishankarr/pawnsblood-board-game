@@ -7,13 +7,24 @@ import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 import pawnboard.view.GameWindow;
 
-public class MockPawnGameController extends PawnsGameController{
+/**
+ * A mock implementation of the PawnsGameController used for testing or simulating user
+ * interactions in a game.
+ */
+public class MockPawnGameController extends PawnsGameController {
 
   private int selectedCardIdx = -1;
   private int selectedRow = -1;
   private int selectedCol = -1;
 
-
+  /**
+   * Constructs a MockPawnGameController with the given game model, user player, player view, and output appendable.
+   *
+   * @param model The game model representing the current state of the game.
+   * @param userPlayer The user player interacting with the game.
+   * @param playerView The window where the player view is displayed.
+   * @param output The output where game events are appended for logging or display.
+   */
   public MockPawnGameController(PawnsGame<PawnCell, Player, PawnCard> model, UserPlayer userPlayer, GameWindow playerView, Appendable output) {
     super(model, userPlayer, playerView, output);
   }
@@ -43,11 +54,6 @@ public class MockPawnGameController extends PawnsGameController{
   public int getSelectedCol() {
     return selectedCol;
   }
-
-
-
-
-
 
 
 }

@@ -1,12 +1,10 @@
 package pawnboard.controller;
 
 
-
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,16 +16,10 @@ import pawnboard.Player.UserPlayer;
 import pawnboard.model.Cost;
 import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCard;
-import pawnboard.model.PawnCell;
 import pawnboard.model.PawnGameImpl;
-import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
-import pawnboard.model.ReadonlyPawnsGame;
-import pawnboard.view.GameFrame;
 import pawnboard.view.GameWindow;
 import pawnboard.view.RedFrame;
-
-import pawnboard.model.InfluenceType;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -38,6 +30,7 @@ import static org.junit.Assert.assertTrue;
 
 public class PawnGameControllerTest {
 
+  private final CardInitializer cardInitializer = new CardInitializer();
   private MockPawnGame mockModel;
   private StringBuilder output;
   private PawnsGameController controller;
@@ -51,7 +44,6 @@ public class PawnGameControllerTest {
   private MockBoardPanel mockBoardPanel;
   private MockHandPanel mockHandPanel;
   private MockUserPlayer mockUserPlayer;
-  private final CardInitializer cardInitializer = new CardInitializer();
   private UserPlayer player;
   private String path;
   private InfluenceType[][] influenceGrid;
@@ -60,7 +52,7 @@ public class PawnGameControllerTest {
   @Before
   public void setUp() {
 
-   path = "docs" + File.separator + "deck.config";
+    path = "docs" + File.separator + "deck.config";
 
     decks = CardInitializer.initializeDeck(path, path);
     deck = decks.get("deck1");
@@ -70,17 +62,17 @@ public class PawnGameControllerTest {
 
     mockModel = new MockPawnGame(output);
     mockHandPanel = new MockHandPanel(mockModel, Player.RED);
-    mockBoardPanel = new MockBoardPanel(mockModel,mockHandPanel,output );
+    mockBoardPanel = new MockBoardPanel(mockModel, mockHandPanel, output);
 
     mockGameWindow = new MockGameWindow(mockHandPanel, mockBoardPanel);
     mockUserPlayer = new MockUserPlayer(Player.RED, false);
     mockController = new MockPawnGameController(mockModel, mockUserPlayer, mockGameWindow, output);
-    pawnGame = new PawnGameImpl(3,5);
+    pawnGame = new PawnGameImpl(3, 5);
     pawnGame.startGame(deck, deck2, 5);
-    player = new HumanPlayer (Player.RED, pawnGame);
+    player = new HumanPlayer(Player.RED, pawnGame);
 
     redWindow = new RedFrame(pawnGame);
-    influenceGrid = new InfluenceType[][] {
+    influenceGrid = new InfluenceType[][]{
             {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X},
             {InfluenceType.X, InfluenceType.I, InfluenceType.I, InfluenceType.I, InfluenceType.X},
             {InfluenceType.I, InfluenceType.I, InfluenceType.C, InfluenceType.I, InfluenceType.I},
@@ -89,26 +81,25 @@ public class PawnGameControllerTest {
     };
 
 
-
   }
 
-//tests that the constructor for the controller is wrong
- @Test
+  //tests that the constructor for the controller is wrong
+  @Test
   public void testInvalidConstructor() {
     assertThrows(IllegalArgumentException.class, () -> new PawnsGameController
             (pawnGame, null, redWindow, new StringBuilder()));
 
-   assertThrows(IllegalArgumentException.class, () -> new PawnsGameController(null, player,
-           redWindow, new StringBuilder()));
+    assertThrows(IllegalArgumentException.class, () -> new PawnsGameController(null, player,
+            redWindow, new StringBuilder()));
 
-   assertThrows(IllegalArgumentException.class, () -> new PawnsGameController(pawnGame, player,
-           null, new StringBuilder()));
+    assertThrows(IllegalArgumentException.class, () -> new PawnsGameController(pawnGame, player,
+            null, new StringBuilder()));
 
-   assertThrows(IllegalArgumentException.class, () -> new PawnsGameController(pawnGame, player,
-           redWindow, null));
- }
+    assertThrows(IllegalArgumentException.class, () -> new PawnsGameController(pawnGame, player,
+            redWindow, null));
+  }
 
- //tests for the game initialization
+  //tests for the game initialization
   @Test
   public void testGameInitialization() {
     mockController.playGame(path, path, 5);
@@ -119,7 +110,7 @@ public class PawnGameControllerTest {
 
   //tests that controller handles the card click
   @Test
-  public  void testHandleCardClickValidIndex() {
+  public void testHandleCardClickValidIndex() {
     PawnCard card = new PawnCard("UnplayableCard", Cost.One, 3, influenceGrid);
     mockModel.addCardToHand(Player.RED, card);
     mockController.onCardClick(0);

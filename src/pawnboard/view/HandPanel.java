@@ -143,6 +143,7 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel, P
     repaint();
   }
 
+  @Override
   public int getSelectedCardIndex() {
     return selectedCardIndex;
   }
@@ -186,7 +187,6 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel, P
             handPanel.playerActionListener.onCardClick(i);
           }
 
-          System.out.println("Card index: " + i + ", Player: " + (handPanel.color == Color.PINK ? "RED" : "BLUE"));
           return;
         }
         xPosition += cardWidth + CARD_BORDER_THICKNESS;

@@ -9,9 +9,18 @@ import pawnboard.model.ReadonlyPawnsGame;
 import pawnboard.view.BoardPanel;
 import pawnboard.view.HandPanel;
 
+/**
+ * MockBoardPanel that extends BoardPanel.
+ */
 public class MockBoardPanel extends BoardPanel {
   private final StringBuilder log;
 
+  /**
+   * Constructs a MockBoardPanel with the given game model, hand panel, and log.
+   * @param model The game model representing the current game state.
+   * @param handPanel The panel displaying the player's hand of cards.
+   * @param log The StringBuilder for logging game events.
+   */
   public MockBoardPanel(ReadonlyPawnsGame<PawnCell, Player, PawnCard> model,
                         HandPanel handPanel, StringBuilder log) {
     super(model, handPanel);

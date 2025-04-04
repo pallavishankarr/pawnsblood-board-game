@@ -139,6 +139,12 @@ public class BoardPanel extends JPanel implements GameObserver, HighlightPanel, 
     }
   }
 
+  @Override
+  public int getSelectedCardIndex() {
+    int selectedCardIndex = -1;
+    return selectedCardIndex;
+  }
+
   private void drawGridLines(Graphics2D g2d) {
     g2d.setColor(Color.BLACK);
 

@@ -3,11 +3,19 @@ package pawnboard.controller;
 import pawnboard.Player.UserPlayer;
 import pawnboard.model.Player;
 
+/**
+ * A mock implementation of the UserPlayer interface
+ * used for simulating user players in a game.
+ */
 public class MockUserPlayer implements UserPlayer {
-  private Player player;
-  private boolean isMachine;
+  private final Player player;
+  private final boolean isMachine;
 
-
+  /**
+   * Constructs a MockUserPlayer with the given player and machine status.
+   * @param player The player associated with this mock user.
+   * @param isMachine A boolean indicating whether the player is a machine (true) or a human (false).
+   */
   MockUserPlayer(Player player, boolean isMachine) {
     this.player = player;
     this.isMachine = isMachine;
