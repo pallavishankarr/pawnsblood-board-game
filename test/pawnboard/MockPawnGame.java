@@ -29,6 +29,8 @@ public class MockPawnGame implements MockGame<PawnCell, Player, PawnCard> {
   private Map<Integer, int[]> fakeRowScores;
   private List<PawnCard> redHand;
   private List<PawnCard> blueHand;
+  private List<String> placedCardsLog;
+
 
   /**
    * Constructs a MockPawnGame object with the log.
@@ -42,6 +44,9 @@ public class MockPawnGame implements MockGame<PawnCell, Player, PawnCard> {
     this.height = 3;
     this.legalMoves = new boolean[height][width];
     this.fakeRowScores = new HashMap<>();
+    this.placedCardsLog = new ArrayList<>();
+
+
 
     InfluenceType[][] influenceGrid = {
             {InfluenceType.X, InfluenceType.X, InfluenceType.I, InfluenceType.X, InfluenceType.X},
@@ -110,12 +115,14 @@ public class MockPawnGame implements MockGame<PawnCell, Player, PawnCard> {
 
   @Override
   public void placeCardAt(Player player, int cardIdx, int row, int col) {
+    placedCardsLog.add("Card " + cardIdx + " placed by " + player + " at (" + row + ", " + col + ")");
     logMessage("placeCardAt called with Player: " + player +
             ", cardIdx: " + cardIdx + ", Position: (" + row + ", " + col + ")");
   }
 
   @Override
   public void passTurn() {
+    placedCardsLog.add("passTurn called with Player:" + getCurrentPlayer());
     logMessage("passTurn called with Player: " + getCurrentPlayer());
   }
 
@@ -218,4 +225,9 @@ public class MockPawnGame implements MockGame<PawnCell, Player, PawnCard> {
   public void addsModelStatusListener(ModelStatusListener listener) throws IllegalArgumentException {
     //don't need addsModelStatusListener for the mock
   }
+
+  public List<String> getPlacedCardsLog() {
+    return placedCardsLog;
+  }
+
 }
