@@ -47,6 +47,8 @@ This directory manages interactions between the game's model and the user interf
 - **`GameController.java`**: Interface defining controller actions.
 - **`CardInitializer.java`**: Loads card data from files and initializes the card decks for the game.
 - **`PawnsGameController.java`**: A stub for simulating user input, including card and cell selections, and passing turns.
+- **'ModelStatusListener.java'**: Contains methods that notifies observers of changes in the model's state during the game.
+- **'PlayerActionListener.java'**: Represents methods for handling player actions in the game.
 ---
 
 ### 6. 'src/pawnboard/influences/' (Influence Effects)
@@ -54,7 +56,7 @@ This directory contains classes that define how cards influence the board when p
 - **`InfluenceEffect.java`**: Interface defining behaviors of an influence.
 - **`DefaultInfluence.java`**: Class of default influence that a card can have.
 
-### 7. `src/pawnboard/boardmodel/` (Game Model)
+### 7. `src/pawnboard/model/` (Game Model)
 This directory contains the core classes that define the game logic, rules, and board management.
 - **`PawnsGame.java`**: Interface defining the methods for managing the PawnBoard game.
 - **`Count.java`**: Enumeration class of the amount of pawns.
@@ -67,6 +69,7 @@ This directory contains the core classes that define the game logic, rules, and 
 - **`Card.java`**: Interface that defines common methods for all types of cards in the game.
 - **`InfluenceType.java`**: Enumeration class of the types of influences.
 - **`Player.java`**: Enumeration class of each player.
+- **'AddModelStatusListener.java'**: Contains methods needed to add a listener to the model.
 ---
 
 ### 8. `src/pawnboard/strategy/` (Player Strategies)
@@ -88,12 +91,13 @@ and Score panel.
 - **`ScorePanel.java`**: Has the score of each row when cards get placed 
 - **`BlueFrame.java`**:Frame for the Blue Player that extends  the GameFrame.
 - **`PawnGameTextualView.java`**: Implementation of the GameView and returns where a Card has been
-placed and teh score of each player 
+placed and the score of each player 
 - **`HandPanel.java`**: Creates the Hand Panel and holds the cards of each player 
 - **`GameWindow.java`**: Interface for the game window which displays the view and updates it 
 - **`HighlightPanel.java`**: Interface for any panel that needs to be highlighted 
 - **`GameObserver.java`**: Interface for the observer when the game state has changed. 
 - **`GameView.java`**:Creates the Game View interface for the textual View 
+- **'PlayerActionPublisher.java'**: Represents a way for the view to register a playeractionlistener.
 
 ---
 
