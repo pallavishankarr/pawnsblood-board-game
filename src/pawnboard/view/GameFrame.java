@@ -117,5 +117,11 @@ public abstract class GameFrame extends JFrame implements GameWindow {
       JOptionPane.showMessageDialog(this, "It's " + currentUserPlayer.getPlayer() + "'s turn!", "Turn Notification", JOptionPane.INFORMATION_MESSAGE);
     }
   }
+
+  @Override
+  public void showOnGameOver(String winner, int redScore, int blueScore) {
+    JOptionPane.showMessageDialog(null, "Game Over! The winner is: "
+            + winner + "\nFinal Scores:\nRed: " + redScore + "\nBlue: " + blueScore, "Game Over",
+            JOptionPane.INFORMATION_MESSAGE);  }
 }
 

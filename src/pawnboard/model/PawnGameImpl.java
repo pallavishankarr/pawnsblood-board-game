@@ -207,7 +207,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
        consecutivePasses++;
        lastPassingPlayer = currentPlayer;
      } else {
-      
+
        consecutivePasses = 1;
        lastPassingPlayer = currentPlayer;
      }

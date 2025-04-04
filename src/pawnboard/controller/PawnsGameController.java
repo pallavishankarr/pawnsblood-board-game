@@ -179,7 +179,7 @@ PlayerActionListener, ModelStatusListener {
       updateView();
     } else if (key == 'q' || key == 'Q') {  // Quit Game
       appendOutput("Game ended by user.\n");
-      showGameOverNotification();
+
       gameOver = true;
     } else {
       //appendOutput("Invalid key press. Use 'c' to confirm, 'p' to pass, 'q' to quit.\n");
@@ -263,7 +263,9 @@ PlayerActionListener, ModelStatusListener {
   @Override
   public void onGameOver() {
     String winner = model.getWinner();
-    showGameOverNotification();
+    int redScore = model.checkScore(Player.RED);
+    int blueScore = model.checkScore(Player.BLUE);
+    playerView.showOnGameOver(winner, redScore, blueScore);
    // appendOutput("Game Over! The winner is: " + winner + "\n");
     updateView();
     gameOver = true;
@@ -277,12 +279,7 @@ PlayerActionListener, ModelStatusListener {
     JOptionPane.showMessageDialog(null, "Invalid Move: " + message, "Move Error", JOptionPane.ERROR_MESSAGE);
   }
 
-  private void showGameOverNotification() {
-    String winner = model.getWinner();
-    int redScore = model.checkScore(Player.RED);
-    int blueScore = model.checkScore(Player.BLUE);
-    JOptionPane.showMessageDialog(null, "Game Over! The winner is: " + winner + "\nFinal Scores:\nRed: " + redScore + "\nBlue: " + blueScore, "Game Over", JOptionPane.INFORMATION_MESSAGE);
-  }
+
 }
 
 

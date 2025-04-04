@@ -44,4 +44,12 @@ public interface GameWindow {
    * @param currentUserPlayer The player whose turn it is.
    */
   void showTurnNotification(UserPlayer currentUserPlayer);
+
+  /**
+   * Displays a notification to indicate who is the winner
+   * @param winner player that won the game
+   * @param redScore the score of the red player
+   * @param blueScore the score of the blue player
+   */
+  void showOnGameOver(String winner, int redScore, int blueScore);
 }
