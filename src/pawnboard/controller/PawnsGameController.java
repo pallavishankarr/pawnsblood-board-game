@@ -265,8 +265,10 @@ PlayerActionListener, ModelStatusListener {
     String winner = model.getWinner();
     int redScore = model.checkScore(Player.RED);
     int blueScore = model.checkScore(Player.BLUE);
-    playerView.showOnGameOver(winner, redScore, blueScore);
-   // appendOutput("Game Over! The winner is: " + winner + "\n");
+    if (userPlayer.isMachine()) {
+      playerView.showOnGameOver(winner, redScore, blueScore);
+    }
+    // appendOutput("Game Over! The winner is: " + winner + "\n");
     updateView();
     gameOver = true;
   }
