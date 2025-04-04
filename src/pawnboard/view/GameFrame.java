@@ -1,12 +1,9 @@
 package pawnboard.view;
-
 import java.awt.BorderLayout;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.*;
-
 import pawnboard.Player.UserPlayer;
 import pawnboard.controller.CardInitializer;
 import pawnboard.model.PawnCard;

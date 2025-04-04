@@ -1,31 +1,14 @@
 package pawnboard.controller;
-
-import java.io.File;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
-
-import javax.swing.*;
-
-import pawnboard.Player.HumanPlayer;
-import pawnboard.Player.MachinePlayer;
+import javax.swing.JOptionPane;
 import pawnboard.Player.UserPlayer;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
-import pawnboard.model.PawnGameImpl;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
-import pawnboard.strategy.FillFirstStrategy;
-import pawnboard.strategy.MaxControlStrategy;
-import pawnboard.strategy.MaximizeRowScoreStrategy;
-import pawnboard.strategy.PawnBoardStrategy;
-import pawnboard.view.BlueFrame;
 import pawnboard.view.GameWindow;
-
-import pawnboard.view.RedFrame;
-
 /**
  * Represents controller for the PawnsBoard game.
  * Manages the game flow, handles user input, and updates view.
@@ -61,7 +44,7 @@ PlayerActionListener, ModelStatusListener {
       throw new IllegalArgumentException("Model, userPlayer, playerView, and output must not be null");
     }
     this.model = model;
-    this.player = userPlayer.getPlayer(); // Get the specific Player (RED or BLUE)
+    this.player = userPlayer.getPlayer();
     this.userPlayer = userPlayer;
     this.playerView = playerView;
     this.output = output;
@@ -113,13 +96,10 @@ PlayerActionListener, ModelStatusListener {
 
     List<PawnCard> hand = model.getHand(player);
     if (cardIdx < 0 || cardIdx >= hand.size()) {
-      //appendOutput("Invalid card selection.\n");
       return;
     }
 
     selectedCardIdx = cardIdx;
-
-
     updateView();
   }
 
@@ -129,16 +109,11 @@ PlayerActionListener, ModelStatusListener {
       throw new IllegalArgumentException("row and col must be positive");
     }
     if (selectedCardIdx == -1) {
-     // appendOutput("Select a card first before choosing a cell.\n");
       return;
     }
 
     this.selectedRow = row;
     this.selectedCol = col;
-
-
-   // appendOutput("Cell selected: (" + row + ", " + col + "). Press confirm to place the card.\n");
-
     updateView();
   }
 
@@ -146,20 +121,12 @@ PlayerActionListener, ModelStatusListener {
 
     if (key == 'c' || key == 'C') {  // Confirm Move
       if (selectedCardIdx == -1 || selectedRow == -1 || selectedCol == -1) {
-
-
-       // appendOutput("Select a card and a cell before confirming.\n");
         return;
       }
 
       try {
 
         model.placeCardAt(player, selectedCardIdx, selectedRow, selectedCol);
-
-      //  appendOutput("Card placed at (" + selectedRow + ", " + selectedCol + ").\n");
-
-
-
         selectedCardIdx = -1;
         selectedRow = -1;
         selectedCol = -1;
@@ -177,12 +144,6 @@ PlayerActionListener, ModelStatusListener {
       model.passTurn();
       appendOutput("Turn passed.\n");
       updateView();
-    } else if (key == 'q' || key == 'Q') {  // Quit Game
-      appendOutput("Game ended by user.\n");
-
-      gameOver = true;
-    } else {
-      //appendOutput("Invalid key press. Use 'c' to confirm, 'p' to pass, 'q' to quit.\n");
     }
   }
 
@@ -230,17 +191,17 @@ PlayerActionListener, ModelStatusListener {
 
   @Override
   public void onTurnChanged() {
-    player = model.getCurrentPlayer(); // Update current player
-    updateView(); // Ensure UI reflects new state
+    player = model.getCurrentPlayer();
+    updateView();
 
     playerView.updateWindowTitle(player, userPlayer.getPlayer());
 
     if (player.equals(userPlayer.getPlayer())) {
-      userPlayer.makeMove(); // Let the machine player act if needed
-      updateView(); // Refresh after machine moves
+      userPlayer.makeMove();
+      updateView();
 
       if (!userPlayer.isMachine()) {
-        playerView.showTurnNotification(userPlayer); // Show notification only after move is complete
+        playerView.showTurnNotification(userPlayer);
       }
     }
   }
@@ -248,15 +209,11 @@ PlayerActionListener, ModelStatusListener {
   @Override
   public void onScoreUpdate() {
     updateView();
-   // appendOutput("Score updated:\n");
-   // appendOutput("Red: " + model.checkScore(Player.RED) + "\n");
-   // appendOutput("Blue: " + model.checkScore(Player.BLUE) + "\n");
   }
 
   @Override
   public void onCardPlaced() {
     updateView();
-   // appendOutput("Card placed successfully. Current board updated.\n");
   }
 
 
@@ -268,13 +225,8 @@ PlayerActionListener, ModelStatusListener {
     if (userPlayer.isMachine()) {
       playerView.showOnGameOver(winner, redScore, blueScore);
     }
-    // appendOutput("Game Over! The winner is: " + winner + "\n");
     updateView();
     gameOver = true;
-  }
-
-  private void showTurnNotification() {
-    JOptionPane.showMessageDialog(null, "It is now " + player + "'s turn!", "Turn Notification", JOptionPane.INFORMATION_MESSAGE);
   }
 
   private void showInvalidMoveNotification(String message) {
