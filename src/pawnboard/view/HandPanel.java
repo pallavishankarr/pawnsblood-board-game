@@ -60,17 +60,16 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel, P
 
   @Override
   public Dimension getPreferredSize() {
-    // Set the preferred size to be based on the panel's width and a fixed height
-    return new Dimension(getWidth(), 200);  // Default height, can adjust as needed
+    return new Dimension(getWidth(), 200);
   }
 
   @Override
   protected void paintComponent(Graphics g) {
       super.paintComponent(g);
-      List<PawnCard> hand = model.getHand(player);  // Fetch latest hand from model
+      List<PawnCard> hand = model.getHand(player);
       int handSize = hand.size();
       int panelWidth = getWidth();
-      int cardWidth = (panelWidth - (CARD_BORDER_THICKNESS * (handSize - 1))) / handSize;  // Recalculate card width
+      int cardWidth = (panelWidth - (CARD_BORDER_THICKNESS * (handSize - 1))) / handSize;
       int cardHeight = getHeight();
 
       for (int i = 0; i < handSize; i++) {
@@ -80,9 +79,6 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel, P
         drawCardDetails(g, xPosition, card, cardWidth, cardHeight);
         drawInfluenceGrid(g, card, xPosition, cardWidth, cardHeight);
       }
-
-
-
   }
 
   private void drawCardBackground(Graphics g, int xPosition, int cardWidth,
@@ -151,25 +147,6 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel, P
     return selectedCardIndex;
   }
 
-  private void highlightCell(int row, int col) {
-    int handSize = model.getHand(player).size();
-    int panelWidth = getWidth();
-    int cardWidth = panelWidth / handSize - CARD_BORDER_THICKNESS;
-
-    int x = col * (cardWidth + CARD_BORDER_THICKNESS);
-    if (row >= 0 && row < handSize) {
-      toggleSelection(row);
-    }
-
-
-  }
-
-  private void clearHighlight() {
-    selectedCardIndex = -1;
-    repaint();
-
-  }
-
   @Override
   public boolean isHighlighted() {
     return (selectedCardIndex != -1);
@@ -210,9 +187,9 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel, P
           }
 
           System.out.println("Card index: " + i + ", Player: " + (handPanel.color == Color.PINK ? "RED" : "BLUE"));
-          return; // Exit once a card is found
+          return;
         }
-        xPosition += cardWidth + CARD_BORDER_THICKNESS; // Move to next card's start position
+        xPosition += cardWidth + CARD_BORDER_THICKNESS;
       }
     }
   }

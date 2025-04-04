@@ -207,11 +207,6 @@ PlayerActionListener, ModelStatusListener {
   }
 
   @Override
-  public void onScoreUpdate() {
-    updateView();
-  }
-
-  @Override
   public void onCardPlaced() {
     updateView();
   }

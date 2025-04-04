@@ -97,7 +97,13 @@ placed and teh score of each player
 
 ---
 
-### 10. `src/tests/pawnboard/` (Unit Tests)
+### 10. 'src/pawnboard/Player'
+Represents the different types of players in the game, each with distinct behaviors for interacting with the game.
+- **'UserPlayer.java'**: Interface that defines the general structure for player actions in the game.
+- **'HumanPlayer.java'**: Represents a player controlled by a human.
+- **'MachinePlayer.java'**: Represents a player controlled by the machine (AI). Makes decisions based on what strategy it is given to make moves from.
+
+### 11. `src/tests/pawnboard/` (Unit Tests)
 Contains the unit tests for the game logic, strategies, and components to ensure correctness.
 
 
@@ -108,7 +114,7 @@ Contains the unit tests for the game logic, strategies, and components to ensure
 
 ---
 
-### 11. `src/tests/pawnboard/model` (Unit Tests)
+### 12. `src/tests/pawnboard/model` (Unit Tests)
 Contains the unit tests for the PawnCell , PawnCard and CardInitializer components
 
 

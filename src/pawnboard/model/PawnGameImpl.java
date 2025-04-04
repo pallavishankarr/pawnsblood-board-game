@@ -500,13 +500,6 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
   }
 
-  private void drawCardHelper(List<PawnCard> playerDeck,
-                              List<PawnCard> playerHand) {
-
-    playerHand.add(playerDeck.get(0));
-    playerDeck.remove(0);
-  }
-
 
   private void endTurn() {
     turnStarted = false;
@@ -538,12 +531,6 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     System.out.println("Notifying turn change: " + this.turn); // Debugging line
     for (ModelStatusListener listener : listeners) {
       listener.onTurnChanged();
-    }
-  }
-
-  private void notifyOnScoreUpdate() {
-    for (ModelStatusListener listener : listeners) {
-      listener.onScoreUpdate();
     }
   }
 
