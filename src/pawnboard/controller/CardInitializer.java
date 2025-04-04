@@ -63,7 +63,6 @@ public class CardInitializer {
     try (BufferedReader reader = new BufferedReader(new FileReader(config))) {
       String line;
       while ((line = reader.readLine()) != null) {
-        // Parse name and cost
         String[] parts = line.trim().split("\\s+");
         if (parts.length != 3) {
           throw new IOException("Invalid format: Expected '<Name> <Cost> <Value>'");
@@ -75,7 +74,6 @@ public class CardInitializer {
 
         Cost cost = convertToCostEnum(costValue);
 
-        // Read the grid
         InfluenceType[][] influenceGrid = new InfluenceType[5][5];
         for (int i = 0; i < 5; i++) {
           line = reader.readLine();
@@ -167,7 +165,7 @@ public class CardInitializer {
 
     for (int i = 0; i < size; i++) {
       for (int j = 0; j < size; j++) {
-        mirrored[i][j] = grid[i][size - 1 - j]; // Reverse columns
+        mirrored[i][j] = grid[i][size - 1 - j];
       }
     }
 

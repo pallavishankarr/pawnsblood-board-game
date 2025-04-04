@@ -12,11 +12,6 @@ public interface ModelStatusListener {
   void onTurnChanged();
 
   /**
-   * Notifies when the score has been updated in the game
-   */
-  void onScoreUpdate();
-
-  /**
    * Notifies when the game is over and who the winner is
    */
   void onGameOver();

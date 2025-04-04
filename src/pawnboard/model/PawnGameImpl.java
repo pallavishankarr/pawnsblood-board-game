@@ -2,7 +2,6 @@ package pawnboard.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import pawnboard.controller.ModelStatusListener;
 import pawnboard.influences.InfluenceEffect;
 import pawnboard.view.GameObserver;
@@ -67,12 +66,6 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     initializeBoard();
   }
 
-
-  public void playGame() {
-    int playerIdx = 0;
-
-  }
-
   @Override
   public void startGame(List<PawnCard> deck1, List<PawnCard> deck2, int handSize) {
 
@@ -118,10 +111,6 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     this.turn = Player.RED;
     startTurn(Player.RED);
     notifyObservers();
-
-
-
-
   }
 
   @Override
@@ -181,46 +170,39 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
   @Override
   public void passTurn() {
-
     gameNotStartedCheck();
 
-   if(isGameOver()) {
-     notifyOnGameOver();
-   }
+    if (isGameOver()) {
+      notifyOnGameOver();
+    }
+    else {
+      playerNotTurnCheck(getCurrentPlayer());
 
-   else {
+      turnNotStartedCheck(getCurrentPlayer());
 
-     playerNotTurnCheck(getCurrentPlayer());
+      notifyObservers();
 
-     turnNotStartedCheck(getCurrentPlayer());
+      Player currentPlayer = getCurrentPlayer();
 
-     notifyObservers();
+      handleConsecutivePassing(currentPlayer);
 
-     Player currentPlayer = getCurrentPlayer();
+      endTurn();
+    }
+  }
 
-     if (lastPassingPlayer == null) {
+  private void handleConsecutivePassing(Player currentPlayer) {
+    if (lastPassingPlayer == null || lastPassingPlayer != currentPlayer) {
+      consecutivePasses++;
+      lastPassingPlayer = currentPlayer;
+    } else {
+      consecutivePasses = 1;
+      lastPassingPlayer = currentPlayer;
+    }
 
-       consecutivePasses++;
-       lastPassingPlayer = currentPlayer;
-     } else if (lastPassingPlayer != currentPlayer) {
-
-       consecutivePasses++;
-       lastPassingPlayer = currentPlayer;
-     } else {
-
-       consecutivePasses = 1;
-       lastPassingPlayer = currentPlayer;
-     }
-
-     // Check if both players passed consecutively
-     if (consecutivePasses == 2) {
-       notifyOnGameOver();
-       gameStarted = false;
-     }
-
-     endTurn();
-
-   }
+    if (consecutivePasses == 2) {
+      notifyOnGameOver();
+      gameStarted = false;
+    }
   }
 
 
@@ -518,13 +500,6 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
   }
 
-  private void drawCardHelper(List<PawnCard> playerDeck,
-                              List<PawnCard> playerHand) {
-
-    playerHand.add(playerDeck.get(0));
-    playerDeck.remove(0);
-  }
-
 
   private void endTurn() {
     turnStarted = false;
@@ -556,12 +531,6 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     System.out.println("Notifying turn change: " + this.turn); // Debugging line
     for (ModelStatusListener listener : listeners) {
       listener.onTurnChanged();
-    }
-  }
-
-  private void notifyOnScoreUpdate() {
-    for (ModelStatusListener listener : listeners) {
-      listener.onScoreUpdate();
     }
   }
 

@@ -14,7 +14,15 @@ public interface UserPlayer {
    */
   void makeMove();
 
+  /**
+   * Gets what color player is associated with this user player.
+   * @return the Player enum associated with this player.
+   */
   Player getPlayer();
 
+  /**
+   * Returns whether this userplayer is a machine or not.
+   * @return true if this userplayer is a machine, false if not
+   */
   boolean isMachine();
 }

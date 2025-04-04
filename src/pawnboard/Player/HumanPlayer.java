@@ -1,14 +1,9 @@
 package pawnboard.Player;
-
 import java.util.List;
-
-import pawnboard.controller.PlayerActionListener;
-import pawnboard.model.Card;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
-import pawnboard.view.PlayerActionPublisher;
 
 public class HumanPlayer implements UserPlayer {
   private final Player player;
