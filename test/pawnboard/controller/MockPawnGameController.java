@@ -26,7 +26,7 @@ public class MockPawnGameController extends PawnsGameController {
    * @param output The output where game events are appended for logging or display.
    */
   public MockPawnGameController(PawnsGame<PawnCell, Player, PawnCard> model, UserPlayer userPlayer, GameWindow playerView, Appendable output) {
-    super(model, userPlayer, playerView, output);
+    super(model, userPlayer, playerView);
   }
 
   @Override
