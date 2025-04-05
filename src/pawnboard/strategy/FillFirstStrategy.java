@@ -7,6 +7,7 @@ import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
+import pawnboard.model.ReadonlyPawnsGame;
 
 /**
  * A strategy that selects the first available legal move.
@@ -15,8 +16,8 @@ import pawnboard.model.Player;
  */
 public class FillFirstStrategy implements PawnBoardStrategy<PawnCell, Player, PawnCard> {
   @Override
-  public List<Move<PawnCard>> chooseMove(PawnsGame<PawnCell, Player,
-          PawnCard> model, Player player) {
+  public List<Move<PawnCard>> chooseMove(ReadonlyPawnsGame<PawnCell, Player,
+            PawnCard> model, Player player) {
     if (model == null || player == null) {
       throw new IllegalArgumentException("Model and player cannot be null.");
     }

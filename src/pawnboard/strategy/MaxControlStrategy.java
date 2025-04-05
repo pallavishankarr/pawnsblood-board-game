@@ -8,6 +8,7 @@ import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
+import pawnboard.model.ReadonlyPawnsGame;
 
 /**
  * A strategy for selecting moves in Pawns Board game by maximizing the number of owned cells.
@@ -17,8 +18,8 @@ import pawnboard.model.Player;
  **/
 public class MaxControlStrategy implements PawnBoardStrategy<PawnCell, Player, PawnCard> {
   @Override
-  public List<Move<PawnCard>> chooseMove(PawnsGame<PawnCell, Player,
-          PawnCard> model, Player player) {
+  public List<Move<PawnCard>> chooseMove(ReadonlyPawnsGame<PawnCell, Player,
+            PawnCard> model, Player player) {
     if (model == null || player == null) {
       throw new IllegalArgumentException("Model and player cannot be null.");
     }
@@ -47,7 +48,7 @@ public class MaxControlStrategy implements PawnBoardStrategy<PawnCell, Player, P
     return bestMove != null ? List.of(bestMove) : Collections.emptyList();
   }
 
-  private int countControlledCells(PawnsGame<PawnCell, Player, PawnCard> model,
+  private int countControlledCells(ReadonlyPawnsGame<PawnCell, Player, PawnCard> model,
                                    Player player, PawnCard card, int row, int col) {
     int capturedCells = 0;
     InfluenceType[][] influenceGrid = card.getInfluenceGrid();

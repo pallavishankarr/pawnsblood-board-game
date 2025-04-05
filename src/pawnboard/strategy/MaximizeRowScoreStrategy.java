@@ -21,7 +21,7 @@ import pawnboard.model.ReadonlyPawnsGame;
 public class MaximizeRowScoreStrategy implements PawnBoardStrategy<PawnCell, Player, PawnCard> {
 
   @Override
-  public List<Move<PawnCard>> chooseMove(PawnsGame<PawnCell,
+  public List<Move<PawnCard>> chooseMove(ReadonlyPawnsGame<PawnCell,
           Player, PawnCard> model, Player player) {
     if (model == null || player == null) {
       throw new IllegalArgumentException("Model and player cannot be null.");
@@ -48,7 +48,7 @@ public class MaximizeRowScoreStrategy implements PawnBoardStrategy<PawnCell, Pla
     return bestMoves;
   }
 
-  private boolean tryPlacingCard(PawnsGame<PawnCell, Player, PawnCard> model, Player player,
+  private boolean tryPlacingCard(ReadonlyPawnsGame<PawnCell, Player, PawnCard> model, Player player,
                                  PawnCard card, int row, int opponentRowScore,
                                  List<Move<PawnCard>> bestMoves, Set<String> legalMovesCache) {
     for (int col = 0; col < model.getWidth(); col++) {
