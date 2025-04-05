@@ -16,7 +16,6 @@ import pawnboard.view.GameWindow;
  */
 public class PawnsGameController implements GameController,
 PlayerActionListener, ModelStatusListener {
-  private final Appendable output;
   private final PawnsGame<PawnCell, Player, PawnCard> model;
   private Player player;
   private final UserPlayer userPlayer;
@@ -132,23 +131,13 @@ PlayerActionListener, ModelStatusListener {
 
       } catch (IllegalArgumentException e) {
         showInvalidMoveNotification(e.getMessage());
-        appendOutput("Invalid move: " + e.getMessage() + "\n");
       }
     } else if (key == 'p' || key == 'P') {// Pass Turn
 
 
 
       model.passTurn();
-      appendOutput("Turn passed.\n");
       updateView();
-    }
-  }
-
-  private void appendOutput(String message) {
-    try {
-      output.append(message);
-    } catch (IOException e) {
-      throw new IllegalStateException("Failed to write to output", e);
     }
   }
 
