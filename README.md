@@ -250,3 +250,8 @@ is chosen. If multiple cards yield the same number of controlled cells, the left
 chosen.
 - We have added strategy tests for this strategy in our PawnGameTest and can 
 be found at the end of it. 
+
+### Changes in Part 3
+1. In the strategies, they used to take in a PawnsGameImpl which is the mutable version of the game. Instead we replaced it to take in a ReadOnlyPawnGame so that it can't accidentally mutate the game board. In the documentation, we also added that the model taken in must be a copy.
+2. In the hand panel, view prints to the console on click rather than delegating this behavior to a stub controller.
+
