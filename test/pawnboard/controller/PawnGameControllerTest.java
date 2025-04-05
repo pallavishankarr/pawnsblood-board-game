@@ -309,4 +309,165 @@ public class PawnGameControllerTest {
     assertThrows(IllegalArgumentException.class,
         () -> controller.onCardClick(-1));
   }
+
+
+
+  //tests that the turn properly changes and that the board state
+  //doesn't change
+  @Test
+  public void testOnTurnChanged() {
+    path = "docs" + File.separator + "deck.config";
+    decks = CardInitializer.initializeDeck(path, path);
+    deck = decks.get("deck1");
+    deck2 = decks.get("deck2");
+    PawnGameImpl model = new PawnGameImpl(3, 5);
+    model.startGame(deck, deck2, 5);
+    HumanPlayer redPlayer = new HumanPlayer(Player.RED, model);
+
+    PawnsGameController controller = new PawnsGameController(model, redPlayer, new RedFrame(model));
+
+    controller.onTurnChanged();
+    assertEquals(Player.RED, model.getCurrentPlayer());
+
+    PawnGameTextualView view = new PawnGameTextualView(model);
+    String boardState = view.toString();
+    assertEquals(boardState, "0 1 _ _ _ 1 0\n" +
+            "0 1 _ _ _ 1 0\n" +
+            "0 1 _ _ _ 1 0\n");
+
+
+  }
+
+  //tests when onGameOver is called
+  @Test
+  public void testOnGameOver() {
+    path = "docs" + File.separator + "deck.config";
+    decks = CardInitializer.initializeDeck(path, path);
+    deck = decks.get("deck1");
+    deck2 = decks.get("deck2");
+    PawnGameImpl model = new PawnGameImpl(3, 5);
+    model.startGame(deck, deck2, 5);
+    HumanPlayer redPlayer = new HumanPlayer(Player.RED, model);
+
+    PawnsGameController controller = new PawnsGameController(model, redPlayer, new RedFrame(model));
+
+    controller.onGameOver();
+    assertEquals("Tie", model.getWinner());
+    assertEquals(0, model.checkScore(Player.RED));
+    assertEquals(0, model.checkScore(Player.BLUE));
+
+    assertEquals(Player.RED, model.getCurrentPlayer());
+    PawnGameTextualView view = new PawnGameTextualView(model);
+    String boardState = view.toString();
+    assertEquals(boardState, "0 1 _ _ _ 1 0\n" +
+            "0 1 _ _ _ 1 0\n" +
+            "0 1 _ _ _ 1 0\n");
+
+
+  }
+
+  //Red wins the Game
+  @Test
+  public void testOnGameOverRedWins() {
+    path = "docs" + File.separator + "deck.config";
+    decks = CardInitializer.initializeDeck(path, path);
+    deck = decks.get("deck1");
+    deck2 = decks.get("deck2");
+    PawnGameImpl model = new PawnGameImpl(3, 5);
+    model.startGame(deck, deck2, 5);
+    HumanPlayer redPlayer = new HumanPlayer(Player.RED, model);
+
+    PawnsGameController controller = new PawnsGameController(model, redPlayer, new RedFrame(model));
+
+    controller.onCardClick(0);
+    controller.onCellClick(0,0);
+    controller.onConfirmTurn();
+
+    assertEquals(Player.BLUE, model.getCurrentPlayer());
+
+    controller.onCardClick(0);
+    controller.onCellClick(2,4);
+    controller.onConfirmTurn();
+
+    assertEquals(Player.RED, model.getCurrentPlayer());
+
+    controller.onCardClick(0);
+    controller.onCellClick(0,1);
+    controller.onConfirmTurn();
+
+    assertEquals(Player.BLUE, model.getCurrentPlayer());
+
+
+    controller.onGameOver();
+    assertEquals("Red", model.getWinner());
+    assertEquals(3, model.checkScore(Player.RED));
+    assertEquals(2, model.checkScore(Player.BLUE));
+
+    PawnGameTextualView view = new PawnGameTextualView(model);
+    String boardState = view.toString();
+    assertEquals(boardState, "3 R R _ _ 1 0\n" +
+           "0 2 _ _ _ 2 0\n" +
+            "0 1 1 _ 1 B 2\n");
+
+
+
+
+  }
+
+
+  //testing on game over when the blue player wins
+  @Test
+  public void testOnGameBlueWins() {
+    path = "docs" + File.separator + "deck.config";
+    decks = CardInitializer.initializeDeck(path, path);
+    deck = decks.get("deck1");
+    deck2 = decks.get("deck2");
+    PawnGameImpl model = new PawnGameImpl(3, 5);
+    model.startGame(deck, deck2, 5);
+    HumanPlayer redPlayer = new HumanPlayer(Player.RED, model);
+
+    PawnsGameController controller = new PawnsGameController(model, redPlayer, new RedFrame(model));
+
+    controller.onPassTurn();
+    assertEquals(Player.BLUE, model.getCurrentPlayer());
+
+    controller.onCardClick(0);
+    controller.onCellClick(2,4);
+    controller.onConfirmTurn();
+
+    controller.onGameOver();
+
+    assertEquals("Blue", model.getWinner());
+    assertEquals(0, model.checkScore(Player.RED));
+    assertEquals(2, model.checkScore(Player.BLUE));
+
+    PawnGameTextualView view = new PawnGameTextualView(model);
+    String boardState = view.toString();
+   assertEquals(boardState, "0 1 _ _ _ 1 0\n" +
+           "0 1 _ _ _ 2 0\n" +
+           "0 1 _ _ 1 B 2\n");
+  }
+
+ //test that error is thrown when play game is called again
+  @Test
+  public void testInvalidPlayGame(){
+    path = "docs" + File.separator + "deck.config";
+    decks = CardInitializer.initializeDeck(path, path);
+    deck = decks.get("deck1");
+    deck2 = decks.get("deck2");
+    PawnGameImpl model = new PawnGameImpl(3, 5);
+    model.startGame(deck, deck2, 5);
+    HumanPlayer redPlayer = new HumanPlayer(Player.RED, model);
+
+    PawnsGameController controller = new PawnsGameController(model, redPlayer, new RedFrame(model));
+    controller.playGame(path, path, 5);
+
+    assertEquals(Player.RED, model.getCurrentPlayer());
+
+    controller.onGameOver();
+    assertThrows(IllegalStateException.class, () -> controller.playGame(path, path, 5));
+
+  }
+  
+
 }
