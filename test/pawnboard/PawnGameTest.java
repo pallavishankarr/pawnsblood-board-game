@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import pawnboard.Player.HumanPlayer;
+import pawnboard.Player.MachinePlayer;
+import pawnboard.Player.UserPlayer;
 import pawnboard.controller.CardInitializer;
 import pawnboard.model.Card;
 import pawnboard.model.Cost;
@@ -2460,6 +2463,18 @@ public class PawnGameTest {
     Player player = Player.RED;
     List<Move<PawnCard>> moves = strategy.chooseMove(mockGame, player);
     assertTrue(moves.isEmpty());
+  }
+
+  @Test
+  public void testGetPlayerUserPlayer() {
+    MockPawnGame mockGame = new MockPawnGame(new StringBuilder());
+    UserPlayer human = new HumanPlayer(Player.BLUE, mockGame);
+    UserPlayer machine = new MachinePlayer(Player.RED, mockGame, new FillFirstStrategy());
+
+    assertEquals(Player.BLUE, human.getPlayer());
+    assertEquals(Player.RED, machine.getPlayer());
+    assertTrue(machine.isMachine());
+    assertFalse(human.isMachine());
   }
 
 

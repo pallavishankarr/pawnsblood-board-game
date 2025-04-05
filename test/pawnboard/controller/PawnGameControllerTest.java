@@ -18,7 +18,9 @@ import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnGameImpl;
 import pawnboard.model.Player;
+import pawnboard.model.ReadonlyPawnsGame;
 import pawnboard.view.GameWindow;
+import pawnboard.view.PawnGameTextualView;
 import pawnboard.view.RedFrame;
 
 import static org.junit.Assert.assertEquals;
@@ -47,6 +49,8 @@ public class PawnGameControllerTest {
   private UserPlayer player;
   private String path;
   private InfluenceType[][] influenceGrid;
+  private PawnGameTextualView textualView;
+  private ReadonlyPawnsGame readOnlyModel;
 
 
   @Before
@@ -163,7 +167,155 @@ public class PawnGameControllerTest {
     List<String> placedCardsLog = mockModel.getPlacedCardsLog();
     assertEquals(1, placedCardsLog.size());
     assertTrue(placedCardsLog.get(0).contains("passTurn called with Player:Red"));
-
   }
 
-}
+  // tests placing a card using controller in upper left corner
+  @Test
+  public void testPlaceCard() {
+    path = "docs" + File.separator + "deck.config";
+    decks = CardInitializer.initializeDeck(path, path);
+    deck = decks.get("deck1");
+    deck2 = decks.get("deck2");
+    PawnGameImpl model = new PawnGameImpl(3, 5);
+    model.startGame(deck, deck2, 5);
+    HumanPlayer redPlayer = new HumanPlayer(Player.RED, model);
+
+    PawnsGameController controller = new PawnsGameController(model, redPlayer, new RedFrame(model));
+
+    controller.onCardClick(0);
+    controller.onCellClick(0, 0);
+    controller.onConfirmTurn();
+
+    PawnGameTextualView view = new PawnGameTextualView(model);
+    String boardState = view.toString();
+    System.out.println(boardState);
+
+    assertEquals(boardState,
+            "2 R 1 _ _ 1 0\n" +
+            "0 2 _ _ _ 1 0\n" +
+            "0 1 _ _ _ 1 0\n");
+  }
+
+  // test blue placing a card
+  @Test
+  public void testPlaceCardBlue() {
+    path = "docs" + File.separator + "deck.config";
+    decks = CardInitializer.initializeDeck(path, path);
+    deck = decks.get("deck1");
+    deck2 = decks.get("deck2");
+    PawnGameImpl model = new PawnGameImpl(3, 5);
+    model.startGame(deck, deck2, 5);
+    HumanPlayer redPlayer = new HumanPlayer(Player.RED, model);
+    HumanPlayer bluePlayer = new HumanPlayer(Player.BLUE, model);
+
+
+    PawnsGameController controller = new PawnsGameController(model, redPlayer, new RedFrame(model));
+    PawnsGameController controller2 = new PawnsGameController(model, bluePlayer, new RedFrame(model));
+
+
+    controller.onCardClick(0);
+    controller.onCellClick(0, 0);
+    controller.onConfirmTurn();
+
+    controller2.onCardClick(0);
+    controller2.onCellClick(0, 4);
+    controller2.onConfirmTurn();
+
+
+    PawnGameTextualView view = new PawnGameTextualView(model);
+    String boardState = view.toString();
+    System.out.println(boardState);
+
+    assertEquals(boardState,
+            "2 R 1 _ 1 B 2\n" +
+                    "0 2 _ _ _ 2 0\n" +
+                    "0 1 _ _ _ 1 0\n");
+  }
+
+  // test passing a card doesn't affect the game board
+  @Test
+  public void testPassCardController() {
+    path = "docs" + File.separator + "deck.config";
+    decks = CardInitializer.initializeDeck(path, path);
+    deck = decks.get("deck1");
+    deck2 = decks.get("deck2");
+    PawnGameImpl model = new PawnGameImpl(3, 5);
+    model.startGame(deck, deck2, 5);
+    HumanPlayer redPlayer = new HumanPlayer(Player.RED, model);
+
+    PawnsGameController controller = new PawnsGameController(model, redPlayer, new RedFrame(model));
+
+    controller.onPassTurn();
+    PawnGameTextualView view = new PawnGameTextualView(model);
+    String boardState = view.toString();
+    assertEquals(boardState, "0 1 _ _ _ 1 0\n" +
+            "0 1 _ _ _ 1 0\n" +
+            "0 1 _ _ _ 1 0\n");
+  }
+
+  @Test
+  public void testConfirmWithoutSelection() {
+    path = "docs" + File.separator + "deck.config";
+    decks = CardInitializer.initializeDeck(path, path);
+    deck = decks.get("deck1");
+    deck2 = decks.get("deck2");
+    PawnGameImpl model = new PawnGameImpl(3, 5);
+    model.startGame(deck, deck2, 5);
+    HumanPlayer redPlayer = new HumanPlayer(Player.RED, model);
+
+    PawnsGameController controller = new PawnsGameController(model, redPlayer, new RedFrame(model));
+
+    controller.onConfirmTurn();
+
+    PawnGameTextualView view = new PawnGameTextualView(model);
+    String boardState = view.toString();
+    assertEquals(boardState, "0 1 _ _ _ 1 0\n" +
+            "0 1 _ _ _ 1 0\n" +
+            "0 1 _ _ _ 1 0\n");
+  }
+
+  @Test
+  public void testInvalidCellPlacement() {
+    path = "docs" + File.separator + "deck.config";
+    decks = CardInitializer.initializeDeck(path, path);
+    deck = decks.get("deck1");
+    deck2 = decks.get("deck2");
+    PawnGameImpl model = new PawnGameImpl(3, 5);
+    model.startGame(deck, deck2, 5);
+    HumanPlayer redPlayer = new HumanPlayer(Player.RED, model);
+
+    PawnsGameController controller = new PawnsGameController(model, redPlayer, new RedFrame(model));
+
+    controller.onCardClick(0);
+
+    assertThrows(IllegalArgumentException.class,
+        () -> controller.onCellClick(-1, -1));
+  }
+
+  @Test
+  public void testInvalidCardSelection() {
+    path = "docs" + File.separator + "deck.config";
+    decks = CardInitializer.initializeDeck(path, path);
+    deck = decks.get("deck1");
+    deck2 = decks.get("deck2");
+    PawnGameImpl model = new PawnGameImpl(3, 5);
+    model.startGame(deck, deck2, 5);
+    HumanPlayer redPlayer = new HumanPlayer(Player.RED, model);
+
+    PawnsGameController controller = new PawnsGameController(model, redPlayer, new RedFrame(model));
+
+    controller.onCardClick(0);
+
+    assertThrows(IllegalArgumentException.class,
+        () -> controller.onCardClick(-1));
+  }
+
+
+
+
+
+
+
+
+
+  }
