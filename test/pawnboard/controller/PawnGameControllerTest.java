@@ -468,6 +468,6 @@ public class PawnGameControllerTest {
     assertThrows(IllegalStateException.class, () -> controller.playGame(path, path, 5));
 
   }
-  
+
 
 }
