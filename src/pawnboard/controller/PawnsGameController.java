@@ -1,21 +1,22 @@
 package pawnboard.controller;
-import java.io.IOException;
+
 import java.util.List;
 import java.util.Map;
-import javax.swing.JOptionPane;
-import pawnboard.Player.UserPlayer;
+import pawnboard.player.UserPlayer;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 import pawnboard.view.GameWindow;
+
 /**
  * Represents controller for the PawnsBoard game.
  * Manages the game flow, handles user input, and updates view.
  *
  */
 public class PawnsGameController implements GameController,
-PlayerActionListener, ModelStatusListener {
+        PlayerActionListener, ModelStatusListener {
+
   private final PawnsGame<PawnCell, Player, PawnCard> model;
   private Player player;
   private final UserPlayer userPlayer;
@@ -38,7 +39,8 @@ PlayerActionListener, ModelStatusListener {
   public PawnsGameController(PawnsGame<PawnCell, Player, PawnCard> model,
                              UserPlayer userPlayer, GameWindow playerView) {
     if (model == null || userPlayer == null || playerView == null) {
-      throw new IllegalArgumentException("Model, userPlayer, playerView, and output must not be null");
+      throw new IllegalArgumentException(
+              "Model, userPlayer, playerView, and output must not be null");
     }
     this.model = model;
     this.player = userPlayer.getPlayer();
@@ -130,12 +132,9 @@ PlayerActionListener, ModelStatusListener {
         updateView();
 
       } catch (IllegalArgumentException e) {
-        showInvalidMoveNotification(e.getMessage());
+        playerView.showInvalidMoveNotification(e.getMessage());
       }
-    } else if (key == 'p' || key == 'P') {// Pass Turn
-
-
-
+    } else if (key == 'p' || key == 'P') {
       model.passTurn();
       updateView();
     }
@@ -208,10 +207,6 @@ PlayerActionListener, ModelStatusListener {
     }
     updateView();
     gameOver = true;
-  }
-
-  private void showInvalidMoveNotification(String message) {
-    JOptionPane.showMessageDialog(null, "Invalid Move: " + message, "Move Error", JOptionPane.ERROR_MESSAGE);
   }
 
 

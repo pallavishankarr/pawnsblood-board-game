@@ -7,7 +7,9 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+
 import javax.swing.JPanel;
+
 import pawnboard.controller.PlayerActionListener;
 import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCard;
@@ -21,7 +23,8 @@ import pawnboard.model.ReadonlyPawnsGame;
  * such as card name, cost, value, and influence grid.
  * Updates the GUI when the game state changes.
  */
-public class HandPanel extends JPanel implements GameObserver, HighlightPanel, PlayerActionPublisher {
+public class HandPanel extends JPanel
+        implements GameObserver, HighlightPanel, PlayerActionPublisher {
   private static final int CARD_BORDER_THICKNESS = 3;
   private final List<PawnCard> hand;
   private final Color color;
@@ -46,7 +49,8 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel, P
     if (player.equals(Player.RED)) {
       this.hand = model.getHand(Player.RED);
       this.color = Color.PINK;
-    } else {
+    }
+    else {
       this.hand = model.getHand(Player.BLUE);
       this.color = Color.BLUE;
     }
@@ -65,20 +69,20 @@ public class HandPanel extends JPanel implements GameObserver, HighlightPanel, P
 
   @Override
   protected void paintComponent(Graphics g) {
-      super.paintComponent(g);
-      List<PawnCard> hand = model.getHand(player);
-      int handSize = hand.size();
-      int panelWidth = getWidth();
-      int cardWidth = (panelWidth - (CARD_BORDER_THICKNESS * (handSize - 1))) / handSize;
-      int cardHeight = getHeight();
+    super.paintComponent(g);
+    List<PawnCard> hand = model.getHand(player);
+    int handSize = hand.size();
+    int panelWidth = getWidth();
+    int cardWidth = (panelWidth - (CARD_BORDER_THICKNESS * (handSize - 1))) / handSize;
+    int cardHeight = getHeight();
 
-      for (int i = 0; i < handSize; i++) {
-        PawnCard card = hand.get(i);
-        int xPosition = i * (cardWidth + CARD_BORDER_THICKNESS);
-        drawCardBackground(g, xPosition, cardWidth, cardHeight, i);
-        drawCardDetails(g, xPosition, card, cardWidth, cardHeight);
-        drawInfluenceGrid(g, card, xPosition, cardWidth, cardHeight);
-      }
+    for (int i = 0; i < handSize; i++) {
+      PawnCard card = hand.get(i);
+      int xPosition = i * (cardWidth + CARD_BORDER_THICKNESS);
+      drawCardBackground(g, xPosition, cardWidth, cardHeight, i);
+      drawCardDetails(g, xPosition, card, cardWidth, cardHeight);
+      drawInfluenceGrid(g, card, xPosition, cardWidth, cardHeight);
+    }
   }
 
   private void drawCardBackground(Graphics g, int xPosition, int cardWidth,

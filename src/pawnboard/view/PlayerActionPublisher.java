@@ -14,7 +14,7 @@ public interface PlayerActionPublisher {
   void addPlayerActionListener(PlayerActionListener listener);
 
   /**
-   * Returns the selected Card Index
+   * Returns the selected Card Index.
    * @return card index
    */
   int getSelectedCardIndex();

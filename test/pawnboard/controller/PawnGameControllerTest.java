@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 import pawnboard.MockPawnGame;
-import pawnboard.Player.HumanPlayer;
-import pawnboard.Player.UserPlayer;
+import pawnboard.player.HumanPlayer;
+import pawnboard.player.UserPlayer;
 import pawnboard.model.Cost;
 import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCard;
@@ -29,22 +29,20 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
-
+/**
+ * Represents tests for the pawngame controller.
+ */
 public class PawnGameControllerTest {
 
   private final CardInitializer cardInitializer = new CardInitializer();
   private MockPawnGame mockModel;
-  private StringBuilder output;
   private PawnsGameController controller;
-  private MockGameInterface mockGameWindow;
   private MockPawnGameController mockController;
   private PawnGameImpl pawnGame;
   private GameWindow redWindow;
   private Map<String, List<PawnCard>> decks = new HashMap<>();
   private List<PawnCard> deck = new ArrayList<>();
   private List<PawnCard> deck2 = new ArrayList<>();
-  private MockBoardPanel mockBoardPanel;
-  private MockHandPanel mockHandPanel;
   private MockUserPlayer mockUserPlayer;
   private UserPlayer player;
   private String path;
@@ -61,14 +59,14 @@ public class PawnGameControllerTest {
     decks = CardInitializer.initializeDeck(path, path);
     deck = decks.get("deck1");
     deck2 = decks.get("deck2");
-    output = new StringBuilder();
+    StringBuilder output = new StringBuilder();
 
 
     mockModel = new MockPawnGame(output);
-    mockHandPanel = new MockHandPanel(mockModel, Player.RED);
-    mockBoardPanel = new MockBoardPanel(mockModel, mockHandPanel, output);
+    MockHandPanel mockHandPanel = new MockHandPanel(mockModel, Player.RED);
+    MockBoardPanel mockBoardPanel = new MockBoardPanel(mockModel, mockHandPanel, output);
 
-    mockGameWindow = new MockGameWindow(mockHandPanel, mockBoardPanel);
+    MockGameInterface mockGameWindow = new MockGameWindow(mockHandPanel, mockBoardPanel);
     mockUserPlayer = new MockUserPlayer(Player.RED, false);
     mockController = new MockPawnGameController(mockModel, mockUserPlayer, mockGameWindow, output);
     pawnGame = new PawnGameImpl(3, 5);
@@ -90,8 +88,8 @@ public class PawnGameControllerTest {
   //tests that the constructor for the controller is wrong
   @Test
   public void testInvalidConstructor() {
-    assertThrows(IllegalArgumentException.class, () -> new PawnsGameController
-            (pawnGame, null, redWindow));
+    assertThrows(IllegalArgumentException.class, () -> new PawnsGameController(
+            pawnGame, null, redWindow));
 
     assertThrows(IllegalArgumentException.class, () -> new PawnsGameController(null, player,
             redWindow));
@@ -192,8 +190,8 @@ public class PawnGameControllerTest {
 
     assertEquals(boardState,
             "2 R 1 _ _ 1 0\n" +
-            "0 2 _ _ _ 1 0\n" +
-            "0 1 _ _ _ 1 0\n");
+                    "0 2 _ _ _ 1 0\n" +
+                    "0 1 _ _ _ 1 0\n");
   }
 
   // test blue placing a card
@@ -209,8 +207,10 @@ public class PawnGameControllerTest {
     HumanPlayer bluePlayer = new HumanPlayer(Player.BLUE, model);
 
 
-    PawnsGameController controller = new PawnsGameController(model, redPlayer, new RedFrame(model));
-    PawnsGameController controller2 = new PawnsGameController(model, bluePlayer, new RedFrame(model));
+    PawnsGameController controller =
+            new PawnsGameController(model, redPlayer, new RedFrame(model));
+    PawnsGameController controller2 =
+            new PawnsGameController(model, bluePlayer, new RedFrame(model));
 
 
     controller.onCardClick(0);
@@ -309,13 +309,4 @@ public class PawnGameControllerTest {
     assertThrows(IllegalArgumentException.class,
         () -> controller.onCardClick(-1));
   }
-
-
-
-
-
-
-
-
-
-  }
+}

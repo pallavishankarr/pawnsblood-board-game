@@ -9,7 +9,7 @@ import pawnboard.controller.ModelStatusListener;
 public interface AddModelStatusListener {
 
   /**
-   * Adds the ModelStatus Listener
+   * Adds the ModelStatus Listener.
    * @param listener model status listener that is being added
    * @throws IllegalArgumentException when the listener that is being added
    */

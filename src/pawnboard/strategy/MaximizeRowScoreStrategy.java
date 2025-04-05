@@ -8,7 +8,6 @@ import java.util.Set;
 import pawnboard.model.Card;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
-import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 

@@ -1,6 +1,6 @@
 package pawnboard.view;
 
-import pawnboard.Player.UserPlayer;
+import pawnboard.player.UserPlayer;
 import pawnboard.model.Player;
 
 /**
@@ -48,10 +48,16 @@ public interface GameWindow {
   void showTurnNotification(UserPlayer currentUserPlayer);
 
   /**
-   * Displays a notification to indicate who is the winner
+   * Displays a notification to indicate who is the winner.
    * @param winner player that won the game
    * @param redScore the score of the red player
    * @param blueScore the score of the blue player
    */
   void showOnGameOver(String winner, int redScore, int blueScore);
+
+  /**
+   * Displays an invalid move notification to the user.
+   * @param message the error message to be displayed.
+   */
+  void showInvalidMoveNotification(String message);
 }

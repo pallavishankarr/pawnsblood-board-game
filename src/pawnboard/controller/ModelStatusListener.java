@@ -7,17 +7,17 @@ package pawnboard.controller;
  */
 public interface ModelStatusListener {
   /**
-   * Notifies when the turn has changed
+   * Notifies when the turn has changed.
    */
   void onTurnChanged();
 
   /**
-   * Notifies when the game is over and who the winner is
+   * Notifies when the game is over and who the winner is.
    */
   void onGameOver();
 
   /**
-   *
+   * Notifies when a card is placed on the board.
    */
   void onCardPlaced();
 }

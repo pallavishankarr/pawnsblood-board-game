@@ -1,6 +1,6 @@
 package pawnboard.controller;
 
-import pawnboard.Player.UserPlayer;
+import pawnboard.player.UserPlayer;
 import pawnboard.model.Player;
 import pawnboard.view.BoardPanel;
 import pawnboard.view.HandPanel;
@@ -62,6 +62,11 @@ public class MockGameWindow implements MockGameInterface {
   @Override
   public void showOnGameOver(String winner, int redScore, int blueScore) {
     //simulates the notification for the show On Game over
+  }
+
+  @Override
+  public void showInvalidMoveNotification(String message) {
+    //simulates the notification
   }
 
 

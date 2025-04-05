@@ -1,10 +1,13 @@
 package pawnboard.view;
+
 import java.awt.BorderLayout;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
-import javax.swing.*;
-import pawnboard.Player.UserPlayer;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import pawnboard.player.UserPlayer;
 import pawnboard.controller.CardInitializer;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
@@ -100,18 +103,19 @@ public abstract class GameFrame extends JFrame implements GameWindow {
 
   @Override
   public void updateWindowTitle(Player currentPlayer, Player userPlayer) {
-      if (currentPlayer.equals(userPlayer)) {
-        this.setTitle(userPlayer + " - Your Turn");
-      } else {
-        this.setTitle(userPlayer + " - Waiting for Turn");
-      }
-      this.repaint();
+    if (currentPlayer.equals(userPlayer)) {
+      this.setTitle(userPlayer + " - Your Turn");
+    } else {
+      this.setTitle(userPlayer + " - Waiting for Turn");
+    }
+    this.repaint();
   }
 
   @Override
   public void showTurnNotification(UserPlayer currentUserPlayer) {
     if (!currentUserPlayer.isMachine()) {
-      JOptionPane.showMessageDialog(this, "It's " + currentUserPlayer.getPlayer() + "'s turn!", "Turn Notification", JOptionPane.INFORMATION_MESSAGE);
+      JOptionPane.showMessageDialog(this, "It's " + currentUserPlayer.getPlayer()
+              + "'s turn!", "Turn Notification", JOptionPane.INFORMATION_MESSAGE);
     }
   }
 
@@ -119,6 +123,13 @@ public abstract class GameFrame extends JFrame implements GameWindow {
   public void showOnGameOver(String winner, int redScore, int blueScore) {
     JOptionPane.showMessageDialog(null, "Game Over! The winner is: "
             + winner + "\nFinal Scores:\nRed: " + redScore + "\nBlue: " + blueScore, "Game Over",
-            JOptionPane.INFORMATION_MESSAGE);  }
+            JOptionPane.INFORMATION_MESSAGE);
+  }
+
+  public void showInvalidMoveNotification(String message) {
+    JOptionPane.showMessageDialog(this,
+            "Invalid Move: " + message, "Move Error", JOptionPane.ERROR_MESSAGE);
+  }
+
 }
 

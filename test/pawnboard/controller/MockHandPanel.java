@@ -1,6 +1,6 @@
 package pawnboard.controller;
 
-import java.awt.*;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 

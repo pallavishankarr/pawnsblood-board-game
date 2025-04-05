@@ -1,11 +1,5 @@
 package pawnboard.controller;
 
-import pawnboard.model.Card;
-import pawnboard.model.Cell;
-import pawnboard.model.PawnsGame;
-import pawnboard.model.Player;
-import pawnboard.view.GameWindow;
-
 /**
  * Driver of the PawnsBoard game. Reads user input to determine whether a player
  * shall pass or place a card, and displays the current game state.

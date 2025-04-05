@@ -1,7 +1,5 @@
 package pawnboard.view;
 
-import pawnboard.controller.PlayerActionListener;
-
 /**
  * Represents an observer in the observer design pattern.
  */

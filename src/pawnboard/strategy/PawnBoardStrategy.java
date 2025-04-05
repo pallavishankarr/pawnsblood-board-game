@@ -3,7 +3,6 @@ package pawnboard.strategy;
 import java.util.List;
 import pawnboard.model.Card;
 import pawnboard.model.Cell;
-import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 

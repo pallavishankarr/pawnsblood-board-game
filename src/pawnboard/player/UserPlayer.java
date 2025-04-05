@@ -1,4 +1,4 @@
-package pawnboard.Player;
+package pawnboard.player;
 
 import pawnboard.model.Player;
 

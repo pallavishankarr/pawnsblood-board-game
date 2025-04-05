@@ -115,7 +115,8 @@ public class MockPawnGame implements MockGame<PawnCell, Player, PawnCard> {
 
   @Override
   public void placeCardAt(Player player, int cardIdx, int row, int col) {
-    placedCardsLog.add("Card " + cardIdx + " placed by " + player + " at (" + row + ", " + col + ")");
+    placedCardsLog.add("Card " + cardIdx + " placed by " + player +
+            " at (" + row + ", " + col + ")");
     logMessage("placeCardAt called with Player: " + player +
             ", cardIdx: " + cardIdx + ", Position: (" + row + ", " + col + ")");
   }
@@ -222,7 +223,8 @@ public class MockPawnGame implements MockGame<PawnCell, Player, PawnCard> {
   }
 
   @Override
-  public void addsModelStatusListener(ModelStatusListener listener) throws IllegalArgumentException {
+  public void addsModelStatusListener(ModelStatusListener listener)
+          throws IllegalArgumentException {
     //don't need addsModelStatusListener for the mock
   }
 

@@ -11,7 +11,7 @@ import java.util.List;
  * @param <T> the type of card to use
  */
 public interface PawnsGame<C extends Cell<P, T>, P extends Player, T extends Card> extends
-        ReadonlyPawnsGame<C, P, T>, AddModelStatusListener{
+        ReadonlyPawnsGame<C, P, T>, AddModelStatusListener {
 
   /**
    * Starts the game with the given hand size and initializes the board.

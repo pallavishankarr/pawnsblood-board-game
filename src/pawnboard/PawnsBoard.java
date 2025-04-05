@@ -1,11 +1,12 @@
 package pawnboard;
+
 import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import pawnboard.Player.HumanPlayer;
-import pawnboard.Player.MachinePlayer;
-import pawnboard.Player.UserPlayer;
+import pawnboard.player.HumanPlayer;
+import pawnboard.player.MachinePlayer;
+import pawnboard.player.UserPlayer;
 import pawnboard.controller.CardInitializer;
 import pawnboard.controller.PawnsGameController;
 import pawnboard.model.PawnCard;
@@ -35,13 +36,17 @@ public final class PawnsBoard {
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
 
-// Get deck file paths
-    String redFilePath = args.length > 0 ? args[0] : getUserInput(scanner, "Enter Red deck path: ");
-    String blueFilePath = args.length > 1 ? args[1] : getUserInput(scanner, "Enter Blue deck path: ");
+    // Get deck file paths
+    String redFilePath = args.length > 0 ? args[0] :
+            getUserInput(scanner, "Enter Red deck path: ");
+    String blueFilePath = args.length > 1 ? args[1] :
+            getUserInput(scanner, "Enter Blue deck path: ");
 
     // Get player types
-    String redPlayerType = args.length > 2 ? args[2] : getUserInput(scanner, "Enter Red player type (human/strategy1/etc.): ");
-    String bluePlayerType = args.length > 3 ? args[3] : getUserInput(scanner, "Enter Blue player type (human/strategy1/etc.): ");
+    String redPlayerType = args.length > 2 ? args[2] : getUserInput(scanner,
+            "Enter Red player type (human/strategy1/etc.): ");
+    String bluePlayerType = args.length > 3 ? args[3] : getUserInput(scanner,
+            "Enter Blue player type (human/strategy1/etc.): ");
 
     // Load decks
     CardInitializer cardInitializer = new CardInitializer();

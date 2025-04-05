@@ -1,4 +1,5 @@
-package pawnboard.Player;
+package pawnboard.player;
+
 import java.util.List;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
@@ -34,7 +35,7 @@ public class MachinePlayer implements UserPlayer {
   public void makeMove() {
     List<Move<PawnCard>> moves = strategy.chooseMove(gameModel, player);
 
-    if(gameModel.isGameOver()) {
+    if (gameModel.isGameOver()) {
       return;
 
     }

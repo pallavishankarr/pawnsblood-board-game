@@ -9,9 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import pawnboard.Player.HumanPlayer;
-import pawnboard.Player.MachinePlayer;
-import pawnboard.Player.UserPlayer;
+import pawnboard.player.HumanPlayer;
+import pawnboard.player.MachinePlayer;
+import pawnboard.player.UserPlayer;
 import pawnboard.controller.CardInitializer;
 import pawnboard.model.Card;
 import pawnboard.model.Cost;

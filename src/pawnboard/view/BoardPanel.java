@@ -14,7 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import pawnboard.controller.PlayerActionListener;
 import pawnboard.model.PawnCard;
@@ -28,7 +28,8 @@ import pawnboard.model.ReadonlyPawnsGame;
  * This panel is a game observer, listens for the game state changes and user interactions
  * (mouse click and key presses).
  */
-public class BoardPanel extends JPanel implements GameObserver, HighlightPanel, PlayerActionPublisher {
+public class BoardPanel extends JPanel
+        implements GameObserver, HighlightPanel, PlayerActionPublisher {
   private final int rows;
   private final int cols;
   private final ReadonlyPawnsGame<PawnCell, Player, PawnCard> model;

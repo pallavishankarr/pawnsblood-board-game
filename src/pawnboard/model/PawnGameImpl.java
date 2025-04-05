@@ -142,7 +142,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
     turnNotStartedCheck(this.turn);
 
-    if(isGameOver()) {
+    if (isGameOver()) {
       notifyOnGameOver();
     }
 
@@ -162,7 +162,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
       placeCardAtHelper(playerBlueHand, player, cardIdx, row, col);
     }
 
-   notifyOnCardPlaced();
+    notifyOnCardPlaced();
 
     notifyObservers();
     endTurn();
@@ -548,7 +548,8 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
 
   @Override
-  public void addsModelStatusListener(ModelStatusListener listener) throws IllegalArgumentException {
+  public void addsModelStatusListener(ModelStatusListener listener)
+          throws IllegalArgumentException {
     if (listener == null) {
       throw new IllegalArgumentException("Listener cannot be null");
     }

@@ -1,6 +1,6 @@
 package pawnboard.controller;
 
-import java.awt.*;
+import java.awt.Graphics;
 
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;

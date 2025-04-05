@@ -1,6 +1,6 @@
 package pawnboard.controller;
 
-import pawnboard.Player.UserPlayer;
+import pawnboard.player.UserPlayer;
 import pawnboard.model.Player;
 
 /**
@@ -14,7 +14,8 @@ public class MockUserPlayer implements UserPlayer {
   /**
    * Constructs a MockUserPlayer with the given player and machine status.
    * @param player The player associated with this mock user.
-   * @param isMachine A boolean indicating whether the player is a machine (true) or a human (false).
+   * @param isMachine A boolean indicating whether the player
+   *                  is a machine (true) or a human (false).
    */
   MockUserPlayer(Player player, boolean isMachine) {
     this.player = player;
