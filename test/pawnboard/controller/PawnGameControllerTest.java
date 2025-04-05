@@ -443,14 +443,14 @@ public class PawnGameControllerTest {
 
     PawnGameTextualView view = new PawnGameTextualView(model);
     String boardState = view.toString();
-   assertEquals(boardState, "0 1 _ _ _ 1 0\n" +
+    assertEquals(boardState, "0 1 _ _ _ 1 0\n" +
            "0 1 _ _ _ 2 0\n" +
            "0 1 _ _ 1 B 2\n");
   }
 
- //test that error is thrown when play game is called again
+  //test that error is thrown when play game is called again
   @Test
-  public void testInvalidPlayGame(){
+  public void testInvalidPlayGame() {
     path = "docs" + File.separator + "deck.config";
     decks = CardInitializer.initializeDeck(path, path);
     deck = decks.get("deck1");
