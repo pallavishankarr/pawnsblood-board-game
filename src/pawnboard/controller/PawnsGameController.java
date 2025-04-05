@@ -34,20 +34,17 @@ PlayerActionListener, ModelStatusListener {
    * @param model      the game model that manages the state of the game
    * @param userPlayer the UserPlayer instance representing this player
    * @param playerView the view for the specific player
-   * @param output     the appendable output to show game messages
    * @throws IllegalArgumentException if model, userPlayer, playerView, or output are null
    */
   public PawnsGameController(PawnsGame<PawnCell, Player, PawnCard> model,
-                             UserPlayer userPlayer, GameWindow playerView,
-                             Appendable output) {
-    if (model == null || userPlayer == null || playerView == null || output == null) {
+                             UserPlayer userPlayer, GameWindow playerView) {
+    if (model == null || userPlayer == null || playerView == null) {
       throw new IllegalArgumentException("Model, userPlayer, playerView, and output must not be null");
     }
     this.model = model;
     this.player = userPlayer.getPlayer();
     this.userPlayer = userPlayer;
     this.playerView = playerView;
-    this.output = output;
 
     playerView.getHandPanel().addPlayerActionListener(this);
     playerView.getBoardPanel().addPlayerActionListener(this);

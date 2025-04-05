@@ -87,16 +87,13 @@ public class PawnGameControllerTest {
   @Test
   public void testInvalidConstructor() {
     assertThrows(IllegalArgumentException.class, () -> new PawnsGameController
-            (pawnGame, null, redWindow, new StringBuilder()));
+            (pawnGame, null, redWindow));
 
     assertThrows(IllegalArgumentException.class, () -> new PawnsGameController(null, player,
-            redWindow, new StringBuilder()));
+            redWindow));
 
     assertThrows(IllegalArgumentException.class, () -> new PawnsGameController(pawnGame, player,
-            null, new StringBuilder()));
-
-    assertThrows(IllegalArgumentException.class, () -> new PawnsGameController(pawnGame, player,
-            redWindow, null));
+            null));
   }
 
   //tests for the game initialization
