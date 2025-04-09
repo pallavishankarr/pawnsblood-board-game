@@ -1,22 +1,87 @@
 package pawnboard.view;
 
 import java.awt.*;
-
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
 import java.awt.Dimension;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.util.List;
+import java.util.Map;
+
+import pawnboard.controller.CardInitializer;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
+import pawnboard.model.PawnGameImpl;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
+import pawnboard.controller.PlayerActionListener;
 
 public class HighContrastBoardPanel extends BoardPanel {
   private final Dimension logicalSize = new Dimension(800, 600);
+  private final ReadonlyPawnsGame<PawnCell, Player, PawnCard> model;
+  private int selectedRow = -1;
+  private int selectedCol = -1;
+  private final int rows;
+  private final int cols;
+  private PlayerActionListener playerActionListener;
+  private HandPanel handPanel;
 
-  ReadonlyPawnsGame<PawnCell, Player, PawnCard> model;
+
+
 
   public HighContrastBoardPanel(ReadonlyPawnsGame<PawnCell, Player, PawnCard> model, HandPanel handPanel) {
     super(model, handPanel);
+    this.handPanel = handPanel;
+    this.model = model;
+    this.rows = model.getHeight();
+    this.cols = model.getWidth();
+
+    model.addObserver(this);
+
+    // Add Mouse Listener
+    addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        handleCellClick(e);
+      }
+    });
+
+    addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        handleKeyPress(e);
+      }
+    });
+
+
+
+
   }
 
+
+  @Override
+  protected void paintComponent(Graphics g) {
+    super.paintComponent(g);
+    Graphics2D g2d = (Graphics2D) g.create();
+
+    g2d.transform(transformLogicalToPhysical());
+
+    g2d.setColor(Color.BLACK);
+    g2d.fillRect(0, 0, logicalSize.width, logicalSize.height);
+
+    drawGridLines(g2d);
+    drawPawnsOnBoard(g2d);
+    drawCardOnBoard(g2d);
+
+    // Highlight selected cell
+    if (selectedRow != -1 && selectedCol != -1) {
+      highlightCellHelper(g2d, selectedRow, selectedCol);
+    }
+  }
 
   private void drawPawnsOnBoard(Graphics2D g2d) {
     double cellWidth = logicalSize.getWidth() / model.getWidth();
@@ -28,7 +93,7 @@ public class HighContrastBoardPanel extends BoardPanel {
         int pawnCount = cell.getPawnCount().getValue();
 
         if (pawnCount > 0 && cell.getOwner() != null) {
-          Color pawnColor = (cell.getOwner() == Player.RED) ? Color.YELLOW : Color.CYAN;
+          Color pawnColor = (cell.getOwner() == Player.RED) ? Color.RED : Color.CYAN;
           drawPawn(g2d, col, row, cellWidth, cellHeight, pawnColor, pawnCount);
         }
       }
@@ -43,7 +108,7 @@ public class HighContrastBoardPanel extends BoardPanel {
       for (int col = 0; col < model.getWidth(); col++) {
         PawnCell cell = model.getCellAt(row, col);
         if (cell.hasCard()) {
-          Color cardColor = (cell.getOwner() == Player.RED) ? Color.YELLOW : Color.CYAN;
+          Color cardColor = (cell.getOwner() == Player.RED) ? Color.RED : Color.CYAN;
           drawCard(g2d, row, col, cardColor, cell.getCard().getValue(), cellWidth, cellHeight);
         }
       }
@@ -55,7 +120,7 @@ public class HighContrastBoardPanel extends BoardPanel {
     double cellHeight = logicalSize.getHeight() / model.getHeight();
     double x = col * cellWidth;
     double y = row * cellHeight;
-    g2d.setColor(new Color(255, 255, 0, 192)); // Brighter yellow for visibility
+    g2d.setColor(Color.YELLOW);
     g2d.fillRect((int) x, (int) y, (int) cellWidth, (int) cellHeight);
   }
 
@@ -116,6 +181,102 @@ public class HighContrastBoardPanel extends BoardPanel {
 
     g2d.drawString(valueText, textX, textY);
   }
+
+  private AffineTransform transformLogicalToPhysical() {
+    AffineTransform xform = new AffineTransform();
+    double scaleX = getWidth() / (double) logicalSize.width;
+    double scaleY = getHeight() / (double) logicalSize.height;
+    xform.scale(scaleX, scaleY);
+    return xform;
+  }
+
+  private void drawGridLines(Graphics2D g2d) {
+    g2d.setColor(Color.LIGHT_GRAY);
+
+    // Draw horizontal lines
+    for (int row = 0; row <= rows; row++) {
+      drawLine(g2d, new Point(0, row), new Point(cols, row));
+    }
+
+    // Draw vertical lines
+    for (int col = 0; col <= cols; col++) {
+      drawLine(g2d, new Point(col, 0), new Point(col, rows));
+    }
+  }
+
+  private void drawLine(Graphics2D g2d, Point2D src, Point2D dst) {
+    Point2D logicalSrc = transformModelToLogical().transform(src, null);
+    Point2D logicalDst = transformModelToLogical().transform(dst, null);
+
+    g2d.drawLine((int) logicalSrc.getX(), (int) logicalSrc.getY(),
+            (int) logicalDst.getX(), (int) logicalDst.getY());
+  }
+
+  private AffineTransform transformModelToLogical() {
+    AffineTransform xform = new AffineTransform();
+    xform.scale(logicalSize.width / (double) cols, logicalSize.height / (double) rows);
+    return xform;
+  }
+
+  private void handleCellClick(MouseEvent e) {
+    double cellWidth = getWidth() / (double) cols;
+    double cellHeight = getHeight() / (double) rows;
+
+    int clickedCol = (int) (e.getX() / cellWidth);
+    int clickedRow = (int) (e.getY() / cellHeight);
+
+
+    if (clickedRow == selectedRow && clickedCol == selectedCol) {
+      clearHighlight();
+    } else {
+      System.out.println("Clicked cell at: (" + clickedRow + ", " + clickedCol + ")");
+      highlightCell(clickedRow, clickedCol);
+    }
+
+    gameStateChanged();
+
+    if (playerActionListener != null) {
+      playerActionListener.onCellClick(clickedRow, clickedCol);
+    }
+  }
+
+  private void handleKeyPress(KeyEvent e) {
+    if (e.getKeyChar() == 'c' || e.getKeyChar() == 'C') {
+      if (this.isHighlighted() && handPanel.isHighlighted()) {
+        System.out.println("Move confirmed");
+        gameStateChanged();
+
+        if (playerActionListener != null) {
+          playerActionListener.onCardClick(handPanel.getSelectedCardIndex());
+          playerActionListener.onConfirmTurn();
+        }
+      } else {
+        System.out.println("Invalid confirmation: Ensure a card and a board cell are selected.");
+      }
+    } else if (e.getKeyChar() == 'p' || e.getKeyChar() == 'P') {
+      System.out.println("Pass turn.");
+      gameStateChanged();
+
+      if (playerActionListener != null) {
+        playerActionListener.onPassTurn();
+      }
+    }
+  }
+
+
+  private void highlightCell(int row, int col) {
+    this.selectedRow = row;
+    this.selectedCol = col;
+    gameStateChanged();
+  }
+
+  private void clearHighlight() {
+    this.selectedRow = -1;
+    this.selectedCol = -1;
+    gameStateChanged();
+  }
+
+
 
 
 }
