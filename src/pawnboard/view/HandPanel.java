@@ -147,6 +147,7 @@ public class HandPanel extends JPanel
     repaint();
   }
 
+
   @Override
   public int getSelectedCardIndex() {
     return selectedCardIndex;
