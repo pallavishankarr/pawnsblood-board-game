@@ -55,11 +55,4 @@ public interface Card {
    * @return String of the card
    */
   String toString();
-
-  /**
-   * Changes the value of a card by a certain amount.
-   * @param amount amount to change value of card by
-   */
-  void changeCardValue(int amount);
-
 }

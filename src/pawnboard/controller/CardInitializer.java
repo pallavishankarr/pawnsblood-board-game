@@ -108,6 +108,10 @@ public class CardInitializer {
         return InfluenceType.I;
       case 'C':
         return InfluenceType.C;
+      case 'U':
+        return InfluenceType.U;
+      case 'D':
+        return InfluenceType.D;
       default:
         throw new IllegalArgumentException("Invalid InfluenceType character: " + symbol);
     }

@@ -121,5 +121,4 @@ public class PawnCard implements Card {
   public String toString() {
     return String.format("%s (%d, %d)", name, cost.getValue(), value);
   }
-
 }

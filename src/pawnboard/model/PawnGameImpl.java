@@ -367,6 +367,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
         PawnCard card = cell.getCard();
         if (cell.getOwner() == player) {
           score += card.getValue();
+          score += cell.getChangedValue();
         }
       }
     }
@@ -493,8 +494,6 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     }
 
     PawnCell cell = this.board[row][col];
-    card.changeCardValue(cell.getChangedValue());
-
     cell.placeCard(card);
     playerHand.remove(cardIdx);
     applyCardInfluence(row, col, player, card);
