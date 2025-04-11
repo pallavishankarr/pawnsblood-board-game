@@ -2368,10 +2368,13 @@ public class PawnGameTest {
     game.startGame(newDeck, newDeck2, 5);
     PawnCell cell = game.getCellAt(0, 1);
     assertEquals(cell.getChangedValue(), 0);
-    game.startTurn(Player.RED);
     game.placeCardAt(Player.RED, 1, 0,0);
     assertEquals(cell.getChangedValue(), 1);
-
+    game.passTurn();
+    PawnCell cell2 = game.getCellAt(2,1);
+    assertEquals(cell2.getChangedValue(), 0);
+    game.placeCardAt(Player.RED, 4, 1, 0);
+    assertEquals(cell2.getChangedValue(), -1);
   }
 
 
