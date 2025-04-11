@@ -108,4 +108,9 @@ public class PawnCell implements Cell<Player, PawnCard> {
   public int getChangedValue() {
     return this.changedValue;
   }
+
+  @Override
+  public void updateChangedValueAmount(int amount) {
+    this.changedValue += amount;
+  }
 }

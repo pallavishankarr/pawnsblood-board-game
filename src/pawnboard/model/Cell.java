@@ -63,5 +63,9 @@ public interface Cell<P extends Player, T extends Card> {
    */
   int getChangedValue();
 
-
+  /**
+   * Updates the changedValue that a cell has.
+   * @param amount amount to be changed
+   */
+  void updateChangedValueAmount(int amount);
 }
