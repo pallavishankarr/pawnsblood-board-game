@@ -366,8 +366,8 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
       if (cell.hasCard()) {
         PawnCard card = cell.getCard();
         if (cell.getOwner() == player) {
-          score += card.getValue();
-          score += cell.getChangedValue();
+          int cellScore = card.getValue() + cell.getChangedValue();
+          score += Math.max(cellScore, 0);
         }
       }
     }

@@ -1,5 +1,6 @@
 package pawnboard.influences;
 
+import pawnboard.model.Cost;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
@@ -12,6 +13,19 @@ public class DecreaseInfluence implements InfluenceEffect<PawnCell, Player, Pawn
   @Override
   public void apply(PawnsGame<PawnCell, Player, PawnCard> game, int row, int col, Player currentPlayer) {
     PawnCell influencedCell = game.getCellAt(row, col);
-    influencedCell.updateChangedValueAmount(-1);
+    Player ogCellOwner = influencedCell.getOwner();
+    if (influencedCell.hasCard()) {
+      PawnCard card = influencedCell.getCard();
+      influencedCell.removeCard();
+      Cost pawnCost = card.getPawnCost();
+      int pawnCostInt = pawnCost.getValue();
+      for (int i=0; i < pawnCostInt; i++) {
+        influencedCell.addPawn(ogCellOwner);
+      }
+      influencedCell.updateChangedValueAmount(-influencedCell.getChangedValue());
+    }
+    else {
+      influencedCell.updateChangedValueAmount(-1);
+    }
   }
 }

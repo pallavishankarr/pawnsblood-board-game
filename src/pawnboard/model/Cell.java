@@ -68,4 +68,9 @@ public interface Cell<P extends Player, T extends Card> {
    * @param amount amount to be changed
    */
   void updateChangedValueAmount(int amount);
+
+  /**
+   * Removes a card from the cell.
+   */
+  void removeCard();
 }
