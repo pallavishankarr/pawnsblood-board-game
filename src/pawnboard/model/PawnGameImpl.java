@@ -493,6 +493,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     }
 
     PawnCell cell = this.board[row][col];
+    card.changeCardValue(cell.getChangedValue());
 
     cell.placeCard(card);
     playerHand.remove(cardIdx);

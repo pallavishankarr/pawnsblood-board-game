@@ -1,6 +1,5 @@
 package pawnboard.influences;
 
-import pawnboard.model.Cell;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
