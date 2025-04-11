@@ -18,7 +18,7 @@ public class PawnCard implements Card {
   private final Cost cost;
   private final int value;
   private final InfluenceType[][] influenceGrid;
-  private final List<InfluenceEffect<PawnCell, Player, PawnCard>> influenceEffects;
+  private List<InfluenceEffect<PawnCell, Player, PawnCard>> influenceEffects;
 
   /**
    * Constructs a PawnCard object.

@@ -9,9 +9,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import pawnboard.influences.DecreaseInfluence;
+import pawnboard.influences.InfluenceEffect;
+import pawnboard.influences.UpgradeInfluence;
 import pawnboard.model.Cost;
 import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCard;
+import pawnboard.model.PawnCell;
+import pawnboard.model.Player;
 
 /**
  * Initializes a deck of PawnCards from a given a file path.
@@ -71,23 +76,15 @@ public class CardInitializer {
         String name = parts[0];
         int costValue = Integer.parseInt(parts[1]);
         int value = Integer.parseInt(parts[2]);
-
         Cost cost = convertToCostEnum(costValue);
 
-        InfluenceType[][] influenceGrid = new InfluenceType[5][5];
-        for (int i = 0; i < 5; i++) {
-          line = reader.readLine();
-          if (line == null || line.length() != 5) {
-            throw new IOException("Invalid grid format.");
-          }
-          for (int j = 0; j < 5; j++) {
-            char symbol = line.charAt(j);
-            influenceGrid[i][j] = convertToInfluenceType(symbol);
-          }
-        }
+        List<InfluenceEffect<PawnCell, Player, PawnCard>> effects = new ArrayList<>();
+        InfluenceType[][] influenceGrid = readInfluenceGrid(reader, effects);
 
         if (cardCountMap.getOrDefault(name, 0) < 2) {
-          deck.add(new PawnCard(name, cost, value, influenceGrid));
+          PawnCard card = new PawnCard(name, cost, value, influenceGrid);
+          card.getInfluenceEffects().addAll(effects);
+          deck.add(card);
           cardCountMap.put(name, cardCountMap.getOrDefault(name, 0) + 1);
         }
       }
@@ -96,6 +93,26 @@ public class CardInitializer {
     }
 
     return deck;
+  }
+  
+  private static InfluenceType[][] readInfluenceGrid(BufferedReader reader, List<InfluenceEffect<PawnCell, Player, PawnCard>> effects) throws IOException {
+    InfluenceType[][] influenceGrid = new InfluenceType[5][5];
+    for (int i = 0; i < 5; i++) {
+      String line = reader.readLine();
+      if (line == null || line.length() != 5) {
+        throw new IOException("Invalid grid format.");
+      }
+      for (int j = 0; j < 5; j++) {
+        char symbol = line.charAt(j);
+        influenceGrid[i][j] = convertToInfluenceType(symbol);
+        if (symbol == 'U') {
+          effects.add(new UpgradeInfluence());
+        } else if (symbol == 'D') {
+          effects.add(new DecreaseInfluence());
+        }
+      }
+    }
+    return influenceGrid;
   }
 
 
