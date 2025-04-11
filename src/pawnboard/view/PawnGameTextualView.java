@@ -30,6 +30,7 @@ public class PawnGameTextualView implements GameView {
 
       for (int col = 0; col < model.getWidth(); col++) {
         PawnCell cell = model.getCellAt(row, col);
+        int changeValue = cell.getChangedValue();
         StringBuilder cellRepresentation = new StringBuilder();
 
         if (cell.getPawnCount().getValue() > 0) {
@@ -44,6 +45,7 @@ public class PawnGameTextualView implements GameView {
           cellRepresentation.append("_");
         }
 
+        cellRepresentation.append(changeValue >= 0 ? "+" : "").append(changeValue);
         sb.append(cellRepresentation);
 
         if (col < model.getWidth() - 1) {
