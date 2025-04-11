@@ -428,7 +428,8 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
     for (int i = 0; i < 5; i++) {
       for (int j = 0; j < 5; j++) {
-        if (influenceGrid[i][j] == InfluenceType.I) {
+        InfluenceType type = influenceGrid[i][j];
+        if (type != InfluenceType.X) {
           int targetRow = rowIdx + (i - 2);
           int targetCol = colIdx + (j - 2);
 
@@ -437,9 +438,11 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
               continue;
             }
 
-            for (InfluenceEffect effect : influenceEffects) {
-              effect.apply(this, targetRow, targetCol, currentPlayer);
-              stateChanged = true;
+            for (InfluenceEffect<PawnCell, Player, PawnCard> effect : influenceEffects) {
+              if (effect.appliesTo(type)) { // ← you'll need this method
+                effect.apply(this, targetRow, targetCol, currentPlayer);
+                stateChanged = true;
+              }
             }
 
           } catch (IllegalArgumentException e) {
@@ -448,6 +451,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
         }
       }
     }
+
     if (stateChanged) {
       notifyObservers();
     }

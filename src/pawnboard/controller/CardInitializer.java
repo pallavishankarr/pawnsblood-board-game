@@ -6,8 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import pawnboard.influences.DecreaseInfluence;
 import pawnboard.influences.InfluenceEffect;
@@ -48,12 +50,9 @@ public class CardInitializer {
 
       decks.put("deck1", deck1);
       decks.put("deck2", deck2);
-
     }
 
     else {
-
-
       decks.put("deck1", deck1);
       decks.put("deck2", deck2);
     }
@@ -78,12 +77,22 @@ public class CardInitializer {
         int value = Integer.parseInt(parts[2]);
         Cost cost = convertToCostEnum(costValue);
 
-        List<InfluenceEffect<PawnCell, Player, PawnCard>> effects = new ArrayList<>();
-        InfluenceType[][] influenceGrid = readInfluenceGrid(reader, effects);
+        List<InfluenceEffect<PawnCell, Player, PawnCard>> rawEffects = new ArrayList<>();
+        InfluenceType[][] influenceGrid = readInfluenceGrid(reader, rawEffects);
+
+        Set<InfluenceEffect<PawnCell, Player, PawnCard>> uniqueEffects = new HashSet<>();
+        for (InfluenceEffect<PawnCell, Player, PawnCard> effect : rawEffects) {
+          // Only add Upgrade or Decrease influence, no duplicates
+          if (effect instanceof UpgradeInfluence && !isInfluenceEffectPresent(uniqueEffects, UpgradeInfluence.class)) {
+            uniqueEffects.add(effect);
+          } else if (effect instanceof DecreaseInfluence && !isInfluenceEffectPresent(uniqueEffects, DecreaseInfluence.class)) {
+            uniqueEffects.add(effect);
+          }
+        }
 
         if (cardCountMap.getOrDefault(name, 0) < 2) {
           PawnCard card = new PawnCard(name, cost, value, influenceGrid);
-          card.getInfluenceEffects().addAll(effects);
+          card.getInfluenceEffects().addAll(uniqueEffects);
           deck.add(card);
           cardCountMap.put(name, cardCountMap.getOrDefault(name, 0) + 1);
         }
@@ -93,6 +102,15 @@ public class CardInitializer {
     }
 
     return deck;
+  }
+
+  private static boolean isInfluenceEffectPresent(Set<InfluenceEffect<PawnCell, Player, PawnCard>> effects, Class<? extends InfluenceEffect> effectClass) {
+    for (InfluenceEffect<PawnCell, Player, PawnCard> effect : effects) {
+      if (effect.getClass().equals(effectClass)) {
+        return true; // The effect is already present
+      }
+    }
+    return false;
   }
 
   private static InfluenceType[][] readInfluenceGrid(BufferedReader reader, List<InfluenceEffect<PawnCell, Player, PawnCard>> effects) throws IOException {
@@ -105,6 +123,7 @@ public class CardInitializer {
       for (int j = 0; j < 5; j++) {
         char symbol = line.charAt(j);
         influenceGrid[i][j] = convertToInfluenceType(symbol);
+        // Only add Upgrade or Decrease influence effects
         if (symbol == 'U') {
           effects.add(new UpgradeInfluence());
         } else if (symbol == 'D') {
@@ -114,8 +133,6 @@ public class CardInitializer {
     }
     return influenceGrid;
   }
-
-
 
   private static InfluenceType convertToInfluenceType(char symbol) {
     switch (symbol) {

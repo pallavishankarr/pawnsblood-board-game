@@ -1,5 +1,6 @@
 package pawnboard.influences;
 
+import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
@@ -31,6 +32,16 @@ public class DefaultInfluence implements InfluenceEffect<PawnCell, Player, PawnC
     else if (influencedCell.getPawnCount().getValue() < 3) {
       influencedCell.addPawn(currentPlayer);
     }
+  }
+
+  @Override
+  public boolean appliesTo(InfluenceType type) {
+    return type == InfluenceType.I;
+  }
+
+  @Override
+  public InfluenceType getInfluenceType() {
+    return InfluenceType.I;
   }
 }
 

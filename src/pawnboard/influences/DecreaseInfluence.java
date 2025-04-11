@@ -1,6 +1,7 @@
 package pawnboard.influences;
 
 import pawnboard.model.Cost;
+import pawnboard.model.InfluenceType;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
@@ -27,5 +28,15 @@ public class DecreaseInfluence implements InfluenceEffect<PawnCell, Player, Pawn
     else {
       influencedCell.updateChangedValueAmount(-1);
     }
+  }
+
+  @Override
+  public boolean appliesTo(InfluenceType type) {
+    return type == InfluenceType.D;
+  }
+
+  @Override
+  public InfluenceType getInfluenceType() {
+    return InfluenceType.D;
   }
 }

@@ -46,12 +46,17 @@ public class PawnGameTest {
   String path = "docs" + File.separator + "deck.config";
   String biggerPath = "docs" + File.separator + "biggerDeck";
   String tripleFile = "docs" + File.separator + "tripleFile";
+  String newPath = "docs" + File.separator + "newInfluenceDeck.config";
   Map<String, List<PawnCard>> decks = new HashMap<>();
   Map<String, List<PawnCard>> decks2 = new HashMap<>();
+  Map<String, List<PawnCard>> newDecks = new HashMap<>();
+  Map<String, List<PawnCard>> newDecks2 = new HashMap<>();
   List<PawnCard> deck = new ArrayList<>();
   List<PawnCard> deck2 = new ArrayList<>();
   List<PawnCard> deck3 = new ArrayList<>();
   List<PawnCard> deck4 = new ArrayList<>();
+  List<PawnCard> newDeck = new ArrayList<>();
+  List<PawnCard> newDeck2 = new ArrayList<>();
   private Player player;
   private PawnsGame<PawnCell, Player, PawnCard> game;
   private MockPawnGame mockGame;
@@ -98,7 +103,9 @@ public class PawnGameTest {
     deck4 = decks2.get("deck2");
     deck4 = decks2.get("deck2");
 
-
+    newDecks = CardInitializer.initializeDeck(newPath, newPath);
+    newDeck = newDecks.get("deck1");
+    newDeck2 = newDecks.get("deck2");
   }
 
   //test for Valid Constructor of the PawnsGame Class
@@ -2353,6 +2360,18 @@ public class PawnGameTest {
     assertEquals(Player.RED, machine.getPlayer());
     assertTrue(machine.isMachine());
     assertFalse(human.isMachine());
+  }
+
+  @Test
+  public void testUpgradeInfluence() {
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(newDeck, newDeck2, 5);
+    PawnCell cell = game.getCellAt(0, 1);
+    assertEquals(cell.getChangedValue(), 0);
+    game.startTurn(Player.RED);
+    game.placeCardAt(Player.RED, 1, 0,0);
+    assertEquals(cell.getChangedValue(), 1);
+
   }
 
 
