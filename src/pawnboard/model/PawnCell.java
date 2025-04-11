@@ -10,6 +10,7 @@ public class PawnCell implements Cell<Player, PawnCard> {
   private Player owner;
   private Count pawnCount;
   private PawnCard card;
+  private int changedValue;
 
 
   /**
@@ -18,7 +19,7 @@ public class PawnCell implements Cell<Player, PawnCard> {
   public PawnCell() {
     this.card = null;
     this.pawnCount = Count.Zero;
-
+    this.changedValue = 0;
   }
 
   /**
@@ -101,5 +102,10 @@ public class PawnCell implements Cell<Player, PawnCard> {
   @Override
   public boolean isCellEmpty() {
     return (pawnCount == Count.Zero && !hasCard());
+  }
+
+  @Override
+  public int getChangedValue() {
+    return this.changedValue;
   }
 }

@@ -57,5 +57,11 @@ public interface Cell<P extends Player, T extends Card> {
    */
   boolean isCellEmpty();
 
+  /**
+   * Gets the amount a value of a card placed in the cell should change when placed.
+   * @return the amount a cards value should change
+   */
+  int getChangedValue();
+
 
 }
