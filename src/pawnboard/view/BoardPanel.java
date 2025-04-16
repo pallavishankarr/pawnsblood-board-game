@@ -272,8 +272,8 @@ public class BoardPanel extends JPanel
   private void drawChangeCount(Graphics2D g2d, int row, int col,
                                double cellWidth, double cellHeight, int changeValue) {
     double xCoord = (col + 0.5) * cellWidth;
-    double yCoord = (row + 0.1) * cellHeight;
-    g2d.setFont(new Font("Ariel", Font.BOLD, 20));
+    double yCoord = (row + 0.8) * cellHeight;
+    g2d.setFont(new Font("Ariel", Font.BOLD, 50));
     g2d.setColor(Color.BLACK);
 
     if (changeValue > 0) {
