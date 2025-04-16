@@ -273,14 +273,15 @@ public class BoardPanel extends JPanel
                                double cellWidth, double cellHeight, int changeValue) {
     double xCoord = (col + 0.5) * cellWidth;
     double yCoord = (row + 0.8) * cellHeight;
-    g2d.setFont(new Font("Ariel", Font.BOLD, 50));
+    g2d.setFont(new Font("Ariel", Font.PLAIN, 50));
     g2d.setColor(Color.BLACK);
+    String stringChangeValue = String.valueOf(changeValue);
 
     if (changeValue > 0) {
-      g2d.drawString("+" + changeValue, (int) xCoord, (int) yCoord);
+      g2d.drawString("+" + stringChangeValue, (int) xCoord, (int) yCoord);
     }
     else if (changeValue < 0) {
-      g2d.drawString("changeValue", (int) xCoord, (int) yCoord);
+      g2d.drawString(stringChangeValue, (int) xCoord, (int) yCoord);
     }
   }
 
