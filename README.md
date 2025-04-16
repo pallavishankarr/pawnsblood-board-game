@@ -239,9 +239,8 @@ hash map of a string and deck
 
 
 
-
-### Extra Credit Strategy 
-
+  
+## Strategy
 - We were able to add one extra strategy which is the MaxControlStrategy which can be found 
 in the strategy folder
 -  A strategy for selecting moves in Pawns Board game by maximizing the number of owned cells. 
@@ -251,7 +250,34 @@ chosen.
 - We have added strategy tests for this strategy in our PawnGameTest and can 
 be found at the end of it. 
 
+## Influence Effect Visualized
+- If a cell has an upgrading influence, it is represented on the influence grid with green
+- If a cell has a decreasing influence, it is represented on the influence grid with purple
+- If a cell has a default influence, it is represented on the influence grid with cyan
+- The card is represented with orange on the influence grid
+
 ### Changes in Part 3
 1. In the strategies, they used to take in a PawnsGameImpl which is the mutable version of the game. Instead we replaced it to take in a ReadOnlyPawnGame so that it can't accidentally mutate the game board. In the documentation, we also added that the model taken in must be a copy.
 2. In the hand panel, view prints to the console on click rather than delegating this behavior to a stub controller.
 
+# Extra Credit 
+## New Influence Effects
+- We were able to implement the new decreasing and increasing influences (can be seen in our InfluenceEffect folder)
+- Because we initially implemented influence effects as strategies, we were able to easily implement new influence
+effects simply by making a new class to represent the new influences.
+
+## Influence Effect Visualized
+- If a cell has an upgrading influence, it is represented on the influence grid with green
+- If a cell has a decreasing influence, it is represented on the influence grid with purple
+- If a cell has a default influence, it is represented on the influence grid with cyan
+- The card is represented with orange on the influence grid
+- If a cell has been affected by an increasing or decreasing effect, it will be shown through a +1 or -1, if the cell has
+not been influenced by this effect, no number will show. If the cell has been influenced, but through gameplay the value gets
+decreased back to 0, no number will show. 
+- In our textual view, we updated it to represent the changeValues:
+  1 R+0 _+1 _+0 _+0 1+0 0
+  2 R+0 _+1 _+0 _+0 1+0 0
+  0 2+0 _-1 _+0 _+0 1+0 0
+We represent the value the cell has been changed by adding a + or - followed by a number. To keep it uniform, if there is no 
+effect, there is a 0. For instance R+0 means that red has placed a card there and the value change is 0. 1+0 means that there is 1 pawn
+occupying that cell and it has a changeValue of 0.
