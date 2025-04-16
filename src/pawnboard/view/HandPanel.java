@@ -129,8 +129,17 @@ public class HandPanel extends JPanel
     if (influence == InfluenceType.I) {
       g.setColor(Color.CYAN);
       g.fillRect(x, y, cellSize, cellSize);
-    } else if (influence == InfluenceType.C) {
+    }
+    if (influence == InfluenceType.C) {
       g.setColor(Color.ORANGE);
+      g.fillRect(x, y, cellSize, cellSize);
+    }
+    if (influence == InfluenceType.U) {
+      g.setColor(Color.GREEN);
+      g.fillRect(x, y, cellSize, cellSize);
+    }
+    else if (influence == InfluenceType.D) {
+      g.setColor(Color.MAGENTA);
       g.fillRect(x, y, cellSize, cellSize);
     }
 
