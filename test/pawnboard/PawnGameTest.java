@@ -2366,15 +2366,21 @@ public class PawnGameTest {
   public void testUpgradeInfluence() {
     this.game = new PawnGameImpl(3, 5);
     game.startGame(newDeck, newDeck2, 5);
+    // test the increase influence
     PawnCell cell = game.getCellAt(0, 1);
     assertEquals(cell.getChangedValue(), 0);
     game.placeCardAt(Player.RED, 1, 0,0);
     assertEquals(cell.getChangedValue(), 1);
     game.passTurn();
+    // testing the decrease influence
     PawnCell cell2 = game.getCellAt(2,1);
     assertEquals(cell2.getChangedValue(), 0);
     game.placeCardAt(Player.RED, 4, 1, 0);
     assertEquals(cell2.getChangedValue(), -1);
+    GameView view = new PawnGameTextualView(game);
+    assertEquals("1 R+0 _+1 _+0 _+0 1+0 0\n" +
+            "2 R+0 _+1 _+0 _+0 1+0 0\n" +
+            "0 2+0 _-1 _+0 _+0 1+0 0\n", view.toString());
   }
 
 

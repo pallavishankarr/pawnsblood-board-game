@@ -133,6 +133,7 @@ public class BoardPanel extends JPanel
     drawGridLines(g2d);
     drawPawnsOnBoard(g2d);
     drawCardOnBoard(g2d);
+    drawChangeCountOnBoard(g2d);
 
     // Highlight selected cell
     if (selectedRow != -1 && selectedCol != -1) {
@@ -235,6 +236,19 @@ public class BoardPanel extends JPanel
     }
   }
 
+  private void drawChangeCountOnBoard(Graphics2D g2d) {
+    double cellWidth = logicalSize.getWidth() / cols;
+    double cellHeight = logicalSize.getHeight() / rows;
+
+    for (int row = 0; row < rows; row++) {
+      for (int col = 0; col < cols; col++) {
+        PawnCell cell = model.getCellAt(row, col);
+        int changeValue = cell.getChangedValue();
+        drawChangeCount(g2d, row, col, cellWidth, cellHeight, changeValue);
+      }
+    }
+  }
+
   private void drawCard(Graphics2D g2d, int row, int col, Color color, int value,
                         double cellWidth, double cellHeight) {
     double x = col * cellWidth;
@@ -253,6 +267,21 @@ public class BoardPanel extends JPanel
     int textY = (int) (y + (cellHeight + metrics.getAscent() - metrics.getDescent()) / 2);
 
     g2d.drawString(valueText, textX, textY);
+  }
+
+  private void drawChangeCount(Graphics2D g2d, int row, int col,
+                               double cellWidth, double cellHeight, int changeValue) {
+    double xCoord = (col + 0.5) * cellWidth;
+    double yCoord = (row + 0.1) * cellHeight;
+    g2d.setFont(new Font("Ariel", Font.BOLD, 20));
+    g2d.setColor(Color.BLACK);
+
+    if (changeValue > 0) {
+      g2d.drawString("+" + changeValue, (int) xCoord, (int) yCoord);
+    }
+    else if (changeValue < 0) {
+      g2d.drawString("changeValue", (int) xCoord, (int) yCoord);
+    }
   }
 
   private void drawLine(Graphics2D g2d, Point2D src, Point2D dst) {
