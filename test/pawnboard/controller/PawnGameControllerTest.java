@@ -19,6 +19,7 @@ import pawnboard.model.PawnCard;
 import pawnboard.model.PawnGameImpl;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
+import pawnboard.view.GameFrame;
 import pawnboard.view.GameWindow;
 import pawnboard.view.PawnGameTextualView;
 import pawnboard.view.RedFrame;
@@ -89,10 +90,10 @@ public class PawnGameControllerTest {
   @Test
   public void testInvalidConstructor() {
     assertThrows(IllegalArgumentException.class, () -> new PawnsGameController(
-            pawnGame, null, redWindow));
+            pawnGame, null, (GameFrame) redWindow));
 
     assertThrows(IllegalArgumentException.class, () -> new PawnsGameController(null, player,
-            redWindow));
+            (GameFrame) redWindow));
 
     assertThrows(IllegalArgumentException.class, () -> new PawnsGameController(pawnGame, player,
             null));

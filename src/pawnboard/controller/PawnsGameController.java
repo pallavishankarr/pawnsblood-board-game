@@ -1,13 +1,25 @@
 package pawnboard.controller;
 
+import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.Map;
+
+
+import javax.swing.*;
+
 import pawnboard.player.UserPlayer;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
+import pawnboard.view.BoardPanel;
+import pawnboard.view.GameFrame;
 import pawnboard.view.GameWindow;
+import pawnboard.view.HighContrastBoardPanel;
+import pawnboard.view.HighContrastGameFrame;
+
 
 /**
  * Represents controller for the PawnsBoard game.
@@ -20,12 +32,13 @@ public class PawnsGameController implements GameController,
   private final PawnsGame<PawnCell, Player, PawnCard> model;
   private Player player;
   private final UserPlayer userPlayer;
-  private final GameWindow playerView;
+  private GameFrame playerView;
   private boolean gameOver = false;
   private int selectedCardIdx = -1;
   private int selectedRow = -1;
   private int selectedCol = -1;
-
+  private boolean isHighContrast = false;
+  private JPanel currentBoardPanel;
 
 
   /**
@@ -37,7 +50,7 @@ public class PawnsGameController implements GameController,
    * @throws IllegalArgumentException if model, userPlayer, playerView, or output are null
    */
   public PawnsGameController(PawnsGame<PawnCell, Player, PawnCard> model,
-                             UserPlayer userPlayer, GameWindow playerView) {
+                             UserPlayer userPlayer, GameFrame playerView) {
     if (model == null || userPlayer == null || playerView == null) {
       throw new IllegalArgumentException(
               "Model, userPlayer, playerView, and output must not be null");
@@ -46,6 +59,19 @@ public class PawnsGameController implements GameController,
     this.player = userPlayer.getPlayer();
     this.userPlayer = userPlayer;
     this.playerView = playerView;
+    this.currentBoardPanel = playerView.getBoardPanel();
+
+    playerView.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        // Call handleKeyPress to handle the logic for key press
+        char key = e.getKeyChar();  // Get the key pressed
+        handleKeyPress(key);
+      }
+    });
+
+    playerView.setFocusable(true);
+    playerView.requestFocusInWindow();
 
     playerView.getHandPanel().addPlayerActionListener(this);
     playerView.getBoardPanel().addPlayerActionListener(this);
@@ -137,6 +163,12 @@ public class PawnsGameController implements GameController,
     } else if (key == 'p' || key == 'P') {
       model.passTurn();
       updateView();
+
+    }
+    else if (key == 'h' || key == 'H') {
+      System.out.println("Handling key press");
+      toggleBoardView();
+
     }
   }
 
@@ -209,8 +241,30 @@ public class PawnsGameController implements GameController,
     gameOver = true;
   }
 
+  public void toggleBoardView() {
+
+    playerView.remove(currentBoardPanel);
+
+    if (isHighContrast) {
+      currentBoardPanel = new BoardPanel(model, playerView.getHandPanel());
+    } else {
+      System.out.println("Switching to the high contrast board...");
+      currentBoardPanel = new HighContrastBoardPanel(model, playerView.getHandPanel());
+    }
+
+    playerView.add(currentBoardPanel, BorderLayout.CENTER);
+
+    playerView.revalidate();
+    playerView.repaint();
+    playerView.updateWindowTitle(player, userPlayer.getPlayer());
+
+    this.isHighContrast = !isHighContrast;
+    System.out.println(isHighContrast);
+  }
 
 }
+
+
 
 
 

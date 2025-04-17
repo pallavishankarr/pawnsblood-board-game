@@ -5,6 +5,7 @@ import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
 import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
+import pawnboard.view.GameFrame;
 import pawnboard.view.GameWindow;
 
 /**
@@ -27,7 +28,7 @@ public class MockPawnGameController extends PawnsGameController {
    */
   public MockPawnGameController(PawnsGame<PawnCell, Player,
           PawnCard> model, UserPlayer userPlayer, GameWindow playerView, Appendable output) {
-    super(model, userPlayer, playerView);
+    super(model, userPlayer, (GameFrame)playerView);
   }
 
   @Override

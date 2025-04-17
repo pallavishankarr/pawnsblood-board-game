@@ -16,6 +16,7 @@ import pawnboard.strategy.FillFirstStrategy;
 import pawnboard.strategy.MaxControlStrategy;
 import pawnboard.strategy.MaximizeRowScoreStrategy;
 import pawnboard.view.BlueFrame;
+import pawnboard.view.GameFrame;
 import pawnboard.view.GameWindow;
 import pawnboard.view.RedFrame;
 
@@ -70,8 +71,8 @@ public final class PawnsBoard {
     Appendable output = new StringWriter();
 
     // Create controllers
-    PawnsGameController redController = new PawnsGameController(model, redPlayer, redView);
-    PawnsGameController blueController = new PawnsGameController(model, bluePlayer, blueView);
+    PawnsGameController redController = new PawnsGameController(model, redPlayer, (GameFrame)redView);
+    PawnsGameController blueController = new PawnsGameController(model, bluePlayer,(GameFrame) blueView);
 
     // Start game
     redController.playGame(redFilePath, blueFilePath, 5);

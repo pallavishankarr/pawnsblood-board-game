@@ -104,6 +104,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     this.playerBlueDeck = blueDeck;
     this.handSize = handSize;
 
+
     initializeHand(playerRedDeck, playerRedHand);
     initializeHand(playerBlueDeck, playerBlueHand);
 
@@ -191,17 +192,14 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
   }
 
   private void handleConsecutivePassing(Player currentPlayer) {
-    if (lastPassingPlayer == null || lastPassingPlayer != currentPlayer) {
-      consecutivePasses++;
-      lastPassingPlayer = currentPlayer;
-    } else {
-      consecutivePasses = 1;
+    if (lastPassingPlayer == null) {
       lastPassingPlayer = currentPlayer;
     }
-
-    if (consecutivePasses == 2) {
-      notifyOnGameOver();
+    else if (lastPassingPlayer != currentPlayer) {
       gameStarted = false;
+      notifyOnGameOver();
+
+
     }
   }
 
