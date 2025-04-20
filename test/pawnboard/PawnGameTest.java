@@ -2384,4 +2384,71 @@ public class PawnGameTest {
   }
 
 
+  @Test
+  public void testUpgradeInfluence2() {
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(newDeck, newDeck2, 5);
+
+    // test the increase influence
+    PawnCell cell = game.getCellAt(1, 1);
+    PawnCell cell2 = game.getCellAt(2, 1);
+    assertEquals(cell.getChangedValue(), 0);
+    assertEquals(cell2.getChangedValue(), 0);
+
+
+    game.placeCardAt(Player.RED, 2, 1,0);
+    assertEquals(-1, cell.getChangedValue());
+    assertEquals(0,cell2.getChangedValue());
+    game.passTurn();
+
+
+    // testing the decrease influence
+
+
+    game.placeCardAt(Player.RED, 1, 2, 0);
+    assertEquals(-1, cell.getChangedValue());
+    assertEquals(1, cell2.getChangedValue());
+
+    GameView view = new PawnGameTextualView(game);
+    assertEquals("0 3+0 _+1 _+0 _+0 1+0 0\n" +
+            "2 R+0 _-1 1+0 _+0 1+0 0\n" +
+            "1 R+0 _+1 _+0 _+0 1+0 0\n", view.toString());
+  }
+
+
+  @Test
+  public void testUpgradeInfluence3() {
+    this.game = new PawnGameImpl(3, 5);
+    game.startGame(newDeck, newDeck2, 5);
+
+    // test the increase influence
+    PawnCell cell = game.getCellAt(1, 1);
+    PawnCell cell2 = game.getCellAt(2, 1);
+    assertEquals(0, cell.getChangedValue());
+    assertEquals(0, cell.getChangedValue());
+
+
+    game.placeCardAt(Player.RED, 1, 1, 0);
+    assertEquals(1, cell.getChangedValue());
+    assertEquals(1, cell2.getChangedValue());
+    game.passTurn();
+
+
+    // testing the decrease influence
+
+
+    game.placeCardAt(Player.RED, 1, 2, 0);
+    assertEquals(cell.getChangedValue(), 2);
+    assertEquals(cell2.getChangedValue(), 0);
+
+    GameView view = new PawnGameTextualView(game);
+    assertEquals("0 1+0 _+0 _+0 _+0 1+0 0\n" +
+            "1 R+0 _+2 _+0 _+0 1+0 0\n" +
+            "2 R+0 _+0 1+0 _+0 1+0 0\n", view.toString());
+
+
+  }
+
+
+
 }
