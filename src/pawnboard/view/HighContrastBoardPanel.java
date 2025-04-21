@@ -153,8 +153,8 @@ public class HighContrastBoardPanel extends BoardPanel {
         break;
       case 3:
         offsets = new double[][]{{-spacing / 2, -spacing / 2},
-         {spacing / 2, -spacing / 2},
-         {0, spacing / 2}};
+          {spacing / 2, -spacing / 2},
+          {0, spacing / 2}};
         break;
       default:
         return;
