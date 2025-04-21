@@ -17,6 +17,7 @@ import pawnboard.model.Player;
 import pawnboard.view.BoardPanel;
 import pawnboard.view.GameFrame;
 import pawnboard.view.HighContrastBoardPanel;
+import pawnboard.view.PlayerActionPublisher;
 
 
 /**
@@ -36,7 +37,7 @@ public class PawnsGameController implements GameController,
   private int selectedRow = -1;
   private int selectedCol = -1;
   private boolean isHighContrast = false;
-  private JPanel currentBoardPanel;
+  private BoardPanel currentBoardPanel;
 
 
   /**
@@ -249,6 +250,8 @@ public class PawnsGameController implements GameController,
       System.out.println("Switching to the high contrast board...");
       currentBoardPanel = new HighContrastBoardPanel(model, playerView.getHandPanel());
     }
+
+    currentBoardPanel.addPlayerActionListener(this);
 
     playerView.add(currentBoardPanel, BorderLayout.CENTER);
 
