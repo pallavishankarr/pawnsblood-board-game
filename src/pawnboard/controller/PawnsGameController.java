@@ -16,9 +16,7 @@ import pawnboard.model.PawnsGame;
 import pawnboard.model.Player;
 import pawnboard.view.BoardPanel;
 import pawnboard.view.GameFrame;
-import pawnboard.view.GameWindow;
 import pawnboard.view.HighContrastBoardPanel;
-import pawnboard.view.HighContrastGameFrame;
 
 
 /**

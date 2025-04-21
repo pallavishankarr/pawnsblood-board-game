@@ -281,3 +281,7 @@ decreased back to 0, no number will show.
 We represent the value the cell has been changed by adding a + or - followed by a number. To keep it uniform, if there is no 
 effect, there is a 0. For instance R+0 means that red has placed a card there and the value change is 0. 1+0 means that there is 1 pawn
 occupying that cell and it has a changeValue of 0.
+
+### HighContrast 
+- Added the Board Panel that extends the GameFrame, and overrides some of the methods 
+so that the high contrast board panel can change. 
