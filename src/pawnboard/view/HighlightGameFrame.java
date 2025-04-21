@@ -58,7 +58,7 @@ public class HighlightGameFrame extends GameFrame {
     pawnGame.startGame(redDeck, blueDeck, 5);
     HighlightGameFrame highlightGameFrame = new HighlightGameFrame(pawnGame, Player.RED);
     pawnGame.placeCardAt(Player.RED, 0, 0,0);
- }
+  }
 
 
 }

@@ -11,7 +11,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Dimension;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import pawnboard.model.PawnCard;
@@ -154,8 +153,8 @@ public class HighContrastBoardPanel extends BoardPanel {
         break;
       case 3:
         offsets = new double[][]{{-spacing / 2, -spacing / 2},
-                  {spacing / 2, -spacing / 2},
-                  {0, spacing / 2}};
+         {spacing / 2, -spacing / 2},
+         {0, spacing / 2}};
         break;
       default:
         return;

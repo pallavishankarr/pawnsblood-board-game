@@ -116,7 +116,8 @@ public class CardInitializer {
   }
 
   private static InfluenceType[][] readInfluenceGrid(BufferedReader reader,
-                                                     List<InfluenceEffect<PawnCell, Player, PawnCard>> effects) throws IOException {
+                                                     List<InfluenceEffect<PawnCell, Player, PawnCard>> effects)
+          throws IOException {
     InfluenceType[][] influenceGrid = new InfluenceType[5][5];
     for (int i = 0; i < 5; i++) {
       String line = reader.readLine();
