@@ -82,10 +82,11 @@ public class CardInitializer {
 
         Set<InfluenceEffect<PawnCell, Player, PawnCard>> uniqueEffects = new HashSet<>();
         for (InfluenceEffect<PawnCell, Player, PawnCard> effect : rawEffects) {
-          // Only add Upgrade or Decrease influence, no duplicates
-          if (effect instanceof UpgradeInfluence && !isInfluenceEffectPresent(uniqueEffects, UpgradeInfluence.class)) {
+          if (effect instanceof UpgradeInfluence
+                  && !isInfluenceEffectPresent(uniqueEffects, UpgradeInfluence.class)) {
             uniqueEffects.add(effect);
-          } else if (effect instanceof DecreaseInfluence && !isInfluenceEffectPresent(uniqueEffects, DecreaseInfluence.class)) {
+          } else if (effect instanceof DecreaseInfluence
+                  && !isInfluenceEffectPresent(uniqueEffects, DecreaseInfluence.class)) {
             uniqueEffects.add(effect);
           }
         }
@@ -104,7 +105,8 @@ public class CardInitializer {
     return deck;
   }
 
-  private static boolean isInfluenceEffectPresent(Set<InfluenceEffect<PawnCell, Player, PawnCard>> effects, Class<? extends InfluenceEffect> effectClass) {
+  private static boolean isInfluenceEffectPresent(Set<InfluenceEffect<PawnCell,
+          Player, PawnCard>> effects, Class<? extends InfluenceEffect> effectClass) {
     for (InfluenceEffect<PawnCell, Player, PawnCard> effect : effects) {
       if (effect.getClass().equals(effectClass)) {
         return true; // The effect is already present
@@ -113,7 +115,8 @@ public class CardInitializer {
     return false;
   }
 
-  private static InfluenceType[][] readInfluenceGrid(BufferedReader reader, List<InfluenceEffect<PawnCell, Player, PawnCard>> effects) throws IOException {
+  private static InfluenceType[][] readInfluenceGrid(BufferedReader reader,
+                                                     List<InfluenceEffect<PawnCell, Player, PawnCard>> effects) throws IOException {
     InfluenceType[][] influenceGrid = new InfluenceType[5][5];
     for (int i = 0; i < 5; i++) {
       String line = reader.readLine();

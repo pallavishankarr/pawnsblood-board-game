@@ -1,14 +1,10 @@
 package pawnboard.controller;
 
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.Map;
-
-
-import javax.swing.*;
-
 import pawnboard.player.UserPlayer;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
@@ -17,7 +13,6 @@ import pawnboard.model.Player;
 import pawnboard.view.BoardPanel;
 import pawnboard.view.GameFrame;
 import pawnboard.view.HighContrastBoardPanel;
-import pawnboard.view.PlayerActionPublisher;
 
 
 /**
@@ -240,8 +235,7 @@ public class PawnsGameController implements GameController,
     gameOver = true;
   }
 
-  public void toggleBoardView() {
-
+  private void toggleBoardView() {
     playerView.remove(currentBoardPanel);
 
     if (isHighContrast) {

@@ -71,8 +71,10 @@ public final class PawnsBoard {
     Appendable output = new StringWriter();
 
     // Create controllers
-    PawnsGameController redController = new PawnsGameController(model, redPlayer, (GameFrame)redView);
-    PawnsGameController blueController = new PawnsGameController(model, bluePlayer,(GameFrame) blueView);
+    PawnsGameController redController =
+            new PawnsGameController(model, redPlayer, (GameFrame)redView);
+    PawnsGameController blueController =
+            new PawnsGameController(model, bluePlayer,(GameFrame) blueView);
 
     // Start game
     redController.playGame(redFilePath, blueFilePath, 5);

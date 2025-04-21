@@ -1,6 +1,6 @@
 package pawnboard.view;
 
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +12,9 @@ import pawnboard.model.PawnGameImpl;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 
+/**
+ * Represents a game frame that can be highlighted.
+ */
 public class HighlightGameFrame extends GameFrame {
 
 
@@ -41,15 +44,18 @@ public class HighlightGameFrame extends GameFrame {
   }
 
 
-
- public static void main(String[] args) {
-   String path = "docs" + File.separator + "deck.config";
-   CardInitializer cardInitializer = new CardInitializer();
-   Map<String, java.util.List<PawnCard>> decks = cardInitializer.initializeDeck(path, path);
-   java.util.List<PawnCard> redDeck = decks.get("deck1");
-   List<PawnCard> blueDeck = decks.get("deck2");
-   PawnGameImpl pawnGame = new PawnGameImpl(3,5);
-   pawnGame.startGame(redDeck, blueDeck, 5);
+  /**
+   * Main to run the test board.
+   * @param args arguments
+   */
+  public static void main(String[] args) {
+    String path = "docs" + File.separator + "deck.config";
+    CardInitializer cardInitializer = new CardInitializer();
+    Map<String, java.util.List<PawnCard>> decks = cardInitializer.initializeDeck(path, path);
+    java.util.List<PawnCard> redDeck = decks.get("deck1");
+    List<PawnCard> blueDeck = decks.get("deck2");
+    PawnGameImpl pawnGame = new PawnGameImpl(3,5);
+    pawnGame.startGame(redDeck, blueDeck, 5);
     HighlightGameFrame highlightGameFrame = new HighlightGameFrame(pawnGame, Player.RED);
     pawnGame.placeCardAt(Player.RED, 0, 0,0);
  }

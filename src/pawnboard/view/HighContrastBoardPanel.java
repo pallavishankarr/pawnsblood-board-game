@@ -1,25 +1,28 @@
 package pawnboard.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.awt.Dimension;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.util.List;
-import java.util.Map;
-
-import pawnboard.controller.CardInitializer;
 import pawnboard.model.PawnCard;
 import pawnboard.model.PawnCell;
-import pawnboard.model.PawnGameImpl;
 import pawnboard.model.Player;
 import pawnboard.model.ReadonlyPawnsGame;
 import pawnboard.controller.PlayerActionListener;
 
+/**
+ * Represents a high contrast board panel.
+ */
 public class HighContrastBoardPanel extends BoardPanel {
   private final Dimension logicalSize = new Dimension(800, 600);
   private final ReadonlyPawnsGame<PawnCell, Player, PawnCard> model;
@@ -31,9 +34,13 @@ public class HighContrastBoardPanel extends BoardPanel {
   private HandPanel handPanel;
 
 
-
-
-  public HighContrastBoardPanel(ReadonlyPawnsGame<PawnCell, Player, PawnCard> model, HandPanel handPanel) {
+  /**
+   * Represents a constructor for a high contrast board panel.
+   * @param model the current game state
+   * @param handPanel the hand panel
+   */
+  public HighContrastBoardPanel(ReadonlyPawnsGame<PawnCell, Player, PawnCard>
+                                        model, HandPanel handPanel) {
     super(model, handPanel);
     this.handPanel = handPanel;
     this.model = model;
@@ -147,8 +154,8 @@ public class HighContrastBoardPanel extends BoardPanel {
         break;
       case 3:
         offsets = new double[][]{{-spacing / 2, -spacing / 2},
-                {spacing / 2, -spacing / 2},
-                {0, spacing / 2}};
+                  {spacing / 2, -spacing / 2},
+                  {0, spacing / 2}};
         break;
       default:
         return;
