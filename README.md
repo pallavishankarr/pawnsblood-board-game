@@ -4,6 +4,8 @@
 
 Pawnsblood Board Game is a two-player strategy card game built in Java, with a Swing interface, AI opponents, and a JUnit test suite. Players place cards to spread influence across the board and compete to control rows. The game is inspired by Queen's Blood, the card game in Final Fantasy VII Rebirth.
 
+![NonTrivialPointInGame.png](GameScreenshots/NonTrivialPointInGame.png)
+
 Built with @rachelelevathingal for CS3500 (Object-Oriented Design) at Northeastern University, with the work split about evenly between us. I contributed heavily to the core game model, including the cell and card classes, starting the game and taking turns, and the read-only view of the game. I also focused on the AI strategies, the controller and player classes, deck loading, high-contrast mode, and the increase and decrease influence effects. Since the course ended, I've continued improving the project on my own: I redesigned the interface, fixed bugs in passing and game over, and added tests for the game rules (see Portfolio updates).
 
 ## Running the Game
@@ -18,7 +20,7 @@ The program takes four arguments: Red's deck file, Blue's deck file, Red's playe
 1. Open the project folder and set the Project SDK to Java 11 (File → Project Structure → Project).
 2. Open `src/pawnboard/PawnsBoard.java` and create a run configuration for its main method.
 3. Set the program arguments, for example:
-![Screenshot 2026-10-14 at 3.12.56 PM.png](../../../../var/folders/db/l052pxwx1h55dqc1y4v086wc0000gn/T/TemporaryItems/NSIRD_screencaptureui_8r42u2/Screenshot%202026-10-14%20at%203.12.56%E2%80%AFPM.png)
+![ProgramArguments.png](GameScreenshots/ProgramArguments.png)
 4. Run it. One window opens for each player.
 
 ## How to play
