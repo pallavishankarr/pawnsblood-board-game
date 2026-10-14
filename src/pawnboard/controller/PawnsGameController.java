@@ -108,6 +108,10 @@ public class PawnsGameController implements GameController,
   }
 
   private void handleCardClick(int cardIdx) {
+    if (gameOver) {
+      return;
+    }
+
     if (cardIdx < 0) {
       throw new IllegalArgumentException("cardidx must be positive");
     }
@@ -122,6 +126,9 @@ public class PawnsGameController implements GameController,
   }
 
   private void handleCellClick(int row, int col) {
+    if (gameOver) {
+      return;
+    }
     System.out.println("Handling cell click at (" + row + ", " + col + ")");
     if (row < 0 || col < 0) {
       throw new IllegalArgumentException("row and col must be positive");
@@ -136,6 +143,12 @@ public class PawnsGameController implements GameController,
   }
 
   private void handleKeyPress(char key) {
+    System.out.println("Key '" + key + "' received by " + userPlayer.getPlayer()
+            + " window. Current turn: " + model.getCurrentPlayer()
+            + ", gameOver: " + gameOver);
+    if (gameOver) {
+      return;
+    }
 
     if (key == 'c' || key == 'C') {  // Confirm Move
       if (selectedCardIdx == -1 || selectedRow == -1 || selectedCol == -1) {
@@ -156,6 +169,7 @@ public class PawnsGameController implements GameController,
       }
     } else if (key == 'p' || key == 'P') {
       model.passTurn();
+      System.out.println("Pass went through. Turn is now: " + model.getCurrentPlayer());
       updateView();
 
     }
@@ -225,14 +239,22 @@ public class PawnsGameController implements GameController,
 
   @Override
   public void onGameOver() {
+    gameOver = true;
+
     String winner = model.getWinner();
     int redScore = model.checkScore(Player.RED);
     int blueScore = model.checkScore(Player.BLUE);
-    if (userPlayer.isMachine()) {
+
+    if (winner.equals("Tie")) {
+      playerView.setTitle("Game Over: It's a tie");
+    } else {
+      playerView.setTitle("Game Over: " + winner + " won");
+    }
+
+    if (userPlayer.getPlayer() == Player.RED) {
       playerView.showOnGameOver(winner, redScore, blueScore);
     }
     updateView();
-    gameOver = true;
   }
 
   private void toggleBoardView() {
@@ -251,7 +273,9 @@ public class PawnsGameController implements GameController,
 
     playerView.revalidate();
     playerView.repaint();
-    playerView.updateWindowTitle(player, userPlayer.getPlayer());
+    if (!gameOver) {
+      playerView.updateWindowTitle(player, userPlayer.getPlayer());
+    }
 
     this.isHighContrast = !isHighContrast;
     System.out.println(isHighContrast);

@@ -140,13 +140,11 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
   public void placeCardAt(Player player, int cardIdx, int row, int col) {
     gameNotStartedCheck();
 
+    gameOverCheck();
+
     playerNotTurnCheck(this.turn);
 
     turnNotStartedCheck(this.turn);
-
-    if (isGameOver()) {
-      notifyOnGameOver();
-    }
 
     if (turn != player) {
       throw new IllegalArgumentException("It's not this players turn");
@@ -174,36 +172,33 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
   @Override
   public void passTurn() {
     gameNotStartedCheck();
+    gameOverCheck();
 
-    if (isGameOver()) {
-      notifyOnGameOver();
-    }
-    else {
-      playerNotTurnCheck(getCurrentPlayer());
+    playerNotTurnCheck(getCurrentPlayer());
+    turnNotStartedCheck(getCurrentPlayer());
 
-      turnNotStartedCheck(getCurrentPlayer());
+    notifyObservers();
 
+    Player currentPlayer = getCurrentPlayer();
+    System.out.println(currentPlayer + " passed.");
+    handleConsecutivePassing(currentPlayer);
+
+    if (gameOver) {
+      System.out.println("Both players passed in a row. Game over.");
       notifyObservers();
-
-      Player currentPlayer = getCurrentPlayer();
-
-      handleConsecutivePassing(currentPlayer);
-
-      if (gameOver) {
-        notifyObservers();
-        notifyOnGameOver();
-      } else {
-        endTurn();
-      }
+      notifyOnGameOver();
+    } else {
+      endTurn();
     }
   }
 
   private void handleConsecutivePassing(Player currentPlayer) {
-    if (lastPassingPlayer != null && lastPassingPlayer != currentPlayer) {
-      // The other player passed last turn too, so both passed back to back
-      gameOver = true;
-    } else {
+    if (lastPassingPlayer == null) {
+      // First pass since the last card was played
       lastPassingPlayer = currentPlayer;
+    } else {
+      // The other player passed right before this, so both passed back to back
+      gameOver = true;
     }
   }
 
@@ -521,6 +516,12 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
   private void gameNotStartedCheck() {
     if (!gameStarted) {
       throw new IllegalStateException("Game has not started.");
+    }
+  }
+
+  private void gameOverCheck() {
+    if (isGameOver()) {
+      throw new IllegalStateException("Game is over.");
     }
   }
 

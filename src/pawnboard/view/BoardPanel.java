@@ -105,7 +105,7 @@ public class BoardPanel extends JPanel
       }
     });
 
-    setFocusable(true);
+    setFocusable(false);
     requestFocusInWindow();
   }
 
