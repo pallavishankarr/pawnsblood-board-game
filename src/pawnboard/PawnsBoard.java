@@ -45,9 +45,9 @@ public final class PawnsBoard {
 
     // Get player types
     String redPlayerType = args.length > 2 ? args[2] : getUserInput(scanner,
-            "Enter Red player type (human/strategy1/etc.): ");
+            "Enter Red player type (human/fillfirst/maxrow/maxcontrol.): ");
     String bluePlayerType = args.length > 3 ? args[3] : getUserInput(scanner,
-            "Enter Blue player type (human/strategy1/etc.): ");
+            "Enter Blue player type (human/fillfirst/maxrow/maxcontrol.): ");
 
     // Load decks
     CardInitializer cardInitializer = new CardInitializer();
@@ -92,11 +92,11 @@ public final class PawnsBoard {
     switch (playerType.toLowerCase()) {
       case "human":
         return new HumanPlayer(player, model);
-      case "strategy1":
+      case "fillfirst":
         return new MachinePlayer(player, model, new FillFirstStrategy());
-      case "strategy2":
+      case "maxrow":
         return new MachinePlayer(player, model, new MaximizeRowScoreStrategy());
-      case "strategy3":
+      case "maxcontrol":
         return new MachinePlayer(player, model, new MaxControlStrategy());
       default:
         throw new IllegalArgumentException("Invalid player type: " + playerType);

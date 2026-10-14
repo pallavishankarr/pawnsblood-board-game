@@ -1,144 +1,111 @@
-# CS3500Assignment5
+# Pawnsblood Board Game
 
 ## Overview
 
-Pawns Board is a two-player strategy game inspired by Queen’s Blood. The game is played on a rectangular board with an odd number of columns, where players take turns placing cards that influence the board based on a grid system. Players compete for control of rows using pawns and cards, and the game ends when both players pass consecutively. The player with the highest row-based score wins.
+Pawnsblood Board Game is a two-player strategy card game built in Java, with a Swing interface, AI opponents, and a JUnit test suite. Players place cards to spread influence across the board and compete to control rows. The game is inspired by Queen's Blood, the card game in Final Fantasy VII Rebirth.
 
-## Key Information
+Built with @rachelelevathingal for CS3500 (Object-Oriented Design) at Northeastern University, with the work split about evenly between us. I contributed heavily to the core game model, including the cell and card classes, starting the game and taking turns, and the read-only view of the game. I also focused on the AI strategies, the controller and player classes, deck loading, high-contrast mode, and the increase and decrease influence effects. Since the course ended, I've continued improving the project on my own: I redesigned the interface, fixed bugs in passing and game over, and added tests for the game rules (see Portfolio updates).
 
-- The board has a fixed size with positive rows and an odd number of columns greater than 1.
+## Running the Game
+**Requirements**: Java 11. IntelliJ IDEA is recommended.
 
-- Players have a limited number of pawns and must manage them strategically.
+The program takes four arguments: Red's deck file, Blue's deck file, Red's player type, and Blue's player type. A player type is human or the name of an AI strategy (FillFirst, MaxControl, MaxRowScore).
 
-- Cards have placement costs and apply influence to the board.
+**From the jar**:
+`java -jar pawnsblood-board-game.jar docs/deck.config docs/deck.config human human`
 
-- The game model enforces rules, turn-taking, and legal moves.
+**From IntelliJ**:
+1. Open the project folder and set the Project SDK to Java 11 (File → Project Structure → Project).
+2. Open `src/pawnboard/PawnsBoard.java` and create a run configuration for its main method.
+3. Set the program arguments, for example:
+![Screenshot 2026-10-14 at 3.12.56 PM.png](../../../../var/folders/db/l052pxwx1h55dqc1y4v086wc0000gn/T/TemporaryItems/NSIRD_screencaptureui_8r42u2/Screenshot%202026-10-14%20at%203.12.56%E2%80%AFPM.png)
+4. Run it. One window opens for each player.
 
-- A file configuration of the cards must be passed in to start the game. 
+## How to play
 
-## Source Organization
-The codebase for Pawns Board is organized into several directories, each focusing on different aspects of the game. Below is a "map" to help you navigate through the source code and understand where different components are located.
+Red owns the pawns in the leftmost column, and Blue owns the pawns in the rightmost column. Red goes first.
 
-### 1. `docs/` ()
-Contains the deck files of the cards
-- **`triplefile`**: file of cards with cards repeated thrice
-- **`biggerDeck`**: file of cards with larger amount of cards, contains duplicates
-- **`deck.config`**: file of cards with 20 cards
+**On your turn,** you draw a card, then either place a card or pass.
 
-### 2. `GameScreenshots/` ()
-Contains screenshots of the game states
-- **`NonTrivialPoint.png`**: screenshot of the game at a nontrivial point
-- **`BluePlayerSelect.png`**: screenshot of game with blue player selecting card and cell
-- **`RedPlayerSelect.png`**: screenshot of game with red player selecting card and cell
-- **`StartOfGame.png`**: screenshot of game at the beginning
+**To place a card,** click it in your hand, click a cell on the board, and press **C** to confirm. You can only place a card on a cell that holds your own pawns, and the cell needs at least as many pawns as the card's cost (1–3).
 
-### 3. `src/` (Root Source Directory)
-This is the root directory containing the main game logic and components.
-- **`UserPlayerInterfacePlan.txt`**: file of our plan for implementing AI user and players
+**Influence:** each card has a 5×5 influence grid with the card at the center. When placed, its influence spreads to nearby cells. It adds one of your pawns to an empty cell, adds a pawn to a cell you already own (up to 3), or takes over the opponent's pawns.
 
-### 4. `src/pawnboard` ()
-This directory contains the core game logic and structure.
-- **`PawnsBoard.java`**: Main class to run the program
-- **`strategy-transcript-score.txt`**: Text file of a Max Score strategy 
-- **`strategy-transcript-first.txt`**: Text file of Fill First strategy
+**Scoring:** for each row, each player's card values are added up. The player with the higher total in a row earns those points. A tied row scores for nobody.
 
-### 5. `src/pawnboard/controller/` (Game Controller)
-This directory manages interactions between the game's model and the user interface, including player input handling.
-- **`GameController.java`**: Interface defining controller actions.
-- **`CardInitializer.java`**: Loads card data from files and initializes the card decks for the game.
-- **`PawnsGameController.java`**: A stub for simulating user input, including card and cell selections, and passing turns.
-- **'ModelStatusListener.java'**: Contains methods that notifies observers of changes in the model's state during the game.
-- **'PlayerActionListener.java'**: Represents methods for handling player actions in the game.
----
+**Winning:** the game ends when both players pass back to back. The player with the most points wins.
 
-### 6. 'src/pawnboard/influences/' (Influence Effects)
-This directory contains classes that define how cards influence the board when placed. These effects are used to modify the state of the game by affecting pawns and other cells around the card placement.
-- **`InfluenceEffect.java`**: Interface defining behaviors of an influence.
-- **`DefaultInfluence.java`**: Class of default influence that a card can have.
+### Controls
 
-### 7. `src/pawnboard/model/` (Game Model)
-This directory contains the core classes that define the game logic, rules, and board management.
-- **`PawnsGame.java`**: Interface defining the methods for managing the PawnBoard game.
-- **`Count.java`**: Enumeration class of the amount of pawns.
-- **`ReadonlyPawnsGame.java`**: This class provides a read-only view of the game. It allows access to the current game state without modifying it, which can be useful for observers or components that need to display game data without altering it.
-- **`Cell.java`**: Interface that represents a generic cell on the board.
-- **`PawnGameImpl.java`**: This is the primary class that represents the state of the game. It handles the game flow, including turn-taking, card placements, pawn management, and enforcing game rules.
-- **`PawnCell.java`**:This class represents a specific type of cell on the board.
-- **`PawnCard.java`**: This class represents the cards in the game.
-- **`Cost.java`**: Enumeration class with the cost of a card.
-- **`Card.java`**: Interface that defines common methods for all types of cards in the game.
-- **`InfluenceType.java`**: Enumeration class of the types of influences.
-- **`Player.java`**: Enumeration class of each player.
-- **'AddModelStatusListener.java'**: Contains methods needed to add a listener to the model.
----
+| Action | Input |
+|---|---|
+| Select or deselect a card | Click it in your hand |
+| Select or deselect a cell | Click it on the board |
+| Confirm the move | **C** |
+| Pass the turn | **P** |
+| Switch to high-contrast mode and back | **H** |
 
-### 8. `src/pawnboard/strategy/` (Player Strategies)
-Contains various strategies that players can use to make decisions during the game.
-- **`MaximizeRowStrategy.java`**: A strategy that prioritizes maximizing the player's score on a row.
-- **`PawnBoardStrategy.java`**: Interface for different strategies. It defines the methods and structure that all specific strategies must follow in order to make decisions during the game.
-- **`FillFirstStrategy.java`**: A strategy that quickly fills the board by placing a card in the first available legal spot.
-- **`MaxControlStrategy.java`**: An extra credit strategy that maximizes the number of controlled cells. In case of ties, it prioritizes the uppermost-leftmost position.
-- **`Move.java`**: A class that represents a possible move in the game.
----
+### Reading the screen
 
-### 9. `src/pawnboard/view/` (Textual and GUI Views)
-Responsible for rendering the game view, either as text or through a graphical user interface.
+| Element | Meaning |
+|---|---|
+| Red and blue tokens on a tile | Pawns; up to 3 per cell |
+| Tinted tile | Territory owned by that player |
+| Card on the board | A placed card, framed in its owner's color, showing its value |
+| Gold outline | The selected card or cell |
+| Filled score token beside a row | That player is currently winning the row |
+| Outlined score token | That player is not winning the row |
 
-- **`BoardPanel.java`**: Creates the panel for the board 
-- **`RedFrame.java`**: Frame for the Red Player that extends the GameFrame. 
-- **`GameFrame.java`**: Implementation for the Game Window that shows the board panel, hand panel 
-and Score panel. 
-- **`ScorePanel.java`**: Has the score of each row when cards get placed 
-- **`BlueFrame.java`**:Frame for the Blue Player that extends  the GameFrame.
-- **`PawnGameTextualView.java`**: Implementation of the GameView and returns where a Card has been
-placed and the score of each player 
-- **`HandPanel.java`**: Creates the Hand Panel and holds the cards of each player 
-- **`GameWindow.java`**: Interface for the game window which displays the view and updates it 
-- **`HighlightPanel.java`**: Interface for any panel that needs to be highlighted 
-- **`GameObserver.java`**: Interface for the observer when the game state has changed. 
-- **`GameView.java`**:Creates the Game View interface for the textual View 
-- **'PlayerActionPublisher.java'**: Represents a way for the view to register a playeractionlistener.
+On cards in your hand, the influence grid shows the card's position in **orange** and the cells it influences in **cyan**.
 
----
+## Architecture
 
-### 10. 'src/pawnboard/Player'
-Represents the different types of players in the game, each with distinct behaviors for interacting with the game.
-- **'UserPlayer.java'**: Interface that defines the general structure for player actions in the game.
-- **'HumanPlayer.java'**: Represents a player controlled by a human.
-- **'MachinePlayer.java'**: Represents a player controlled by the machine (AI). Makes decisions based on what strategy it is given to make moves from.
+The game follows **Model–View–Controller**, so the rules, the display, and the input handling can each change without affecting the others.
 
-### 11. `src/tests/pawnboard/` (Unit Tests)
-Contains the unit tests for the game logic, strategies, and components to ensure correctness.
+- **Model** (`PawnGameImpl`) holds the board, decks, hands, and turns, and enforces every rule. It never refers to the interface.
+- **Views** (`BoardPanel`, `HandPanel`, `ScorePanel`, `PawnGameTextualView`) only draw the game state.
+- **Controller** (`PawnsGameController`) turns clicks and key presses into model actions and responds to model events such as turn changes and game over.
 
+Design patterns and principles used:
 
+- **Strategy:** the AI strategies share the `PawnBoardStrategy` interface, so any strategy can be plugged into an AI player. Influence effects use the same idea, so a new effect is one new class.
+- **Observer:** three kinds of listeners keep the parts in sync without tying them together. Views watch the model through `GameObserver`, the controller watches the model through `ModelStatusListener`, and the controller watches the views through `PlayerActionListener`.
+- **Template method:** `GameFrame` is an abstract class that sets up the window layout, and `RedFrame` and `BlueFrame` fill in the player. `BoardPanel` does all of the drawing and takes its colors from overridable methods, so `HighContrastBoardPanel` is a small subclass that only changes colors.
+- **Interface segregation:** `ReadonlyPawnsGame` exposes only methods that read the game, and `PawnsGame` adds the ones that change it. The AI receives the read-only interface, so it can inspect the board but can't change it. The strategy decides on a move, and the `MachinePlayer` carries it out through the full model.
 
-- **`PawnGameTest.java`**: Tests all the public methods in the Pawn Game Implementation. 
-- **`MockPawnGame.java`**: Creates the MockGame implementation to test the strategies 
-- **`MockGame.java`**: Creates the MockGame interface that is used to test the strategies. 
+## Project structure
 
----
+### Game code (`src/pawnboard/`)
 
-### 12. `src/tests/pawnboard/model` (Unit Tests)
-Contains the unit tests for the PawnCell , PawnCard and CardInitializer components
+| Folder | Key files | Purpose |
+|---|---|---|
+| `pawnboard/` | `PawnsBoard.java` | Entry point; reads the command-line arguments and starts the game |
+| `model/` | `PawnGameImpl`, `PawnsGame`, `ReadonlyPawnsGame` | The game state and rules, plus the full and read-only interfaces to them |
+| | `PawnCell`, `Cell`, `PawnCard`, `Card` | Board cells and cards |
+| | `Player`, `Cost`, `Count`, `InfluenceType` | Enums for players, card costs, pawn counts, and influence types |
+| `controller/` | `PawnsGameController`, `GameController` | Turns clicks and key presses into game actions, and responds to turn changes and game over |
+| | `ModelStatusListener`, `PlayerActionListener` | Listener interfaces connecting the model, controller, and views |
+| | `CardInitializer` | Loads decks from card files |
+| `player/` | `UserPlayer`, `HumanPlayer`, `MachinePlayer` | Human and AI players; the AI plays the moves its strategy chooses |
+| `strategy/` | `PawnBoardStrategy`, `Move` | The strategy interface and the move a strategy returns |
+| | `FillFirstStrategy`, `MaximizeRowScoreStrategy`, `MaxControlStrategy` | The three AI strategies |
+| `influences/` | `InfluenceEffect` | The interface every influence effect implements |
+| | `DefaultInfluence`, `UpgradeInfluence`, `DecreaseInfluence` | The default, increase, and decrease effects |
+| `view/` | `GameFrame`, `RedFrame`, `BlueFrame` | The window for each player |
+| | `BoardPanel`, `HandPanel`, `ScorePanel` | The board, the player's hand, and the row scores |
+| | `HighContrastBoardPanel` | The high-contrast board |
+| | `PawnGameTextualView` | The text version of the board |
+| | `GameObserver`, `GameWindow`, `GameView`, `HighlightPanel`, `PlayerActionPublisher` | View interfaces |
 
+`src/pawnboard/` also contains `strategy-transcript-first.txt` and `strategy-transcript-score.txt`, which record the moves the Fill First and Maximize Row strategies consider.
 
-- **`PawnCellTest.java`**: Test the methods within the PawnCell which is used to create the Cells of the Board
-- **`PawnCardTest.java`**: Tests the methods withing the PawnCard which stores the values of the Card and is utilized in
-  the PawnGame Implementation.
-- **`CardInitializerTest.java`**: Test the creation of decks and testing the file paths. 
+### Other folders
 
-
-
-## How to Play
-1. make a new game object
-2. call startGame method on game object and input file path and handsize
-3. start a players turn so that a card can be drawn into their hand
-   1. card will not be drawn if adding the card will make the handsize 1/3 of the handsize
-4. make a move
-   1. place a card on a position on the board if there are enough pawns and player owns those pawns
-   2. pass a turn (the card drawn is still in the hand)
-5. Alternate turns until there are no more pawns on the board 
-6. A player wins on row basis, meaning that the player earns points for controlling rows. The player with the highest total wins the game.
+| Folder | Contents |
+|---|---|
+| `test/` | JUnit tests and mocks (see [Testing](#testing)) |
+| `docs/` | Deck files: `deck.config` (20 cards), `biggerDeck` (more cards, with duplicates), `triplefile` (each card three times) |
+| `GameScreenshots/` | Screenshots of the game |
 
 ### Class Invariant : 
 - INVARIANT: the board does not have null values
@@ -146,142 +113,50 @@ Contains the unit tests for the PawnCell , PawnCard and CardInitializer componen
 exceptions as there cannot be any null values and ensures that
 the board data is consistent.
 
-## Key Components
-### Game Model (PawnsBoardGame)
-- controls the game state, turn-taking, and win conditions
-- enforces rules, legal moves, and pawn/card interaction
-- we chose that the game model stores the decks, hands, turns, 
- the board, move validation, and altering the board as the model
-is supposed to store the state of the program, logic, and ensuring
-that the state is correct.
--  introduced the ReadsOnly interface to provide controlled, read-only access to the game's state.
+## Testing
 
-### Player (Player)
-- enum representation of RED and BLUE players
+The project uses **JUnit 4**. Run all tests in IntelliJ by right-clicking the `test` folder and choosing **Run All Tests**.
 
-### Pawn Card (PawnCard)
-- each card has a value, cost, and (5x5) influence grid
-- uses 5x5 grid to apply influence in different ways
+- `PawnGameTest` covers the model's public methods and the AI strategies. The strategies are tested against `MockPawnGame`, a stand-in model with a board set up for each test, so a test can check exactly which move a strategy picks.
+- `PawnGameControllerTest` tests the controller on its own, using mocks for everything around it: `MockPawnGameController`, `MockUserPlayer`, `MockGameWindow`, `MockBoardPanel`, `MockHandPanel`, and `MockGameInterface`. This checks how the controller responds to clicks, key presses, and model events without opening any windows.
+- `PawnCellTest`, `PawnCardTest`, and `CardInitializerTest` cover cells, cards, and deck loading.
+- `NewInfluenceTest` covers the increase and decrease influence effects.
+- `PawnGameRulesTest` covers the game rules end to end: passing and game over, behavior after the game ends, legal and illegal placements, drawing, scoring, and full games against the AI.
 
-### Pawn Cell (PawnCell)
-- represents a board cell 
-- can contain pawns or a card
+### Mocks
 
-### Influence Effect
-- determines how a card influences the board upon placement
-- applies modifications to surrounding pawns or cells
-- we decided to create a separate class for this so that adding
-different influences in future assignments is easier 
+Some tests replace real parts of the game with mocks: simple stand-ins that return controlled values, so one part can be tested without the rest of the game around it.
 
-### Card Initializer
-- loads card data into a list when given file
-- the game model uses the card initializer in startGame to 
-configure the deck since the deck is only constructed
-when the game is started
-
-### Textual View
-- provides text based representation of the board
-- displays pawn with integers and card placements with an R for red or B for blue
-- helps with visualizing card influencing and the current state of the board
-
-### Controller 
-- added the CardInitializer to be part of our controller package 
-- Created the game controller interface
-- Created the stub controller which handles card click and print out the index of the card clicked 
-and the player which owns the card
-- Also handles the cell click which also prints out the index of the cell
-- Handles the key press which after selecting card and cell player can confirm their move 
-by pressing "C" or "c" or they could press "p" or "P" to pass the turn 
-
-### Strategies 
-Fill First Strategy 
-- places a card in the first available legal spot on the board, starting from the top-left
-- prioritizes quick board filling and uses the player's hand to find the first valid move
-- Picks the first valid move
-- Throws exceptions if model/player is null or if the game is over
-Maximize Row Strategy 
--  aims to maximize the player's score on a row by placing a card in a position that improves 
-their row score more than the opponent’s
-- Prioritizes placing cards to maximize the player's row score
-- Avoids placing in rows where the player’s score is already higher than the opponent’s
-- Caches legal moves to avoid repeating checks
+- **`MockPawnGame`** is a stand-in model whose board is set up by each test. The strategy tests run against it, so a test can check exactly which move a strategy picks in a known situation.
+- **The controller mocks** (`MockUserPlayer`, `MockGameWindow`, `MockBoardPanel`, `MockHandPanel`, `MockGameInterface`, and `MockPawnGameController`) stand in for the player, the window, the panels, and the model. They let `PawnGameControllerTest` check the controller's behavior without opening any windows or playing a real game.
+  This works because each part depends on interfaces rather than specific classes. The controller only knows it has a model, a player, and a window, so a test can hand it mocks instead of the real ones.
 
 
+## Design decisions
 
-### GUI
-- sets up and displays the game window, including the board, player hands, and score panels. 
--  ensures that the game model and player are initialized properly
-- Hand panel for tracking the hand and making sure cards get added when a card is drawn 
-- RedFrame displays the game window for the red player 
-- Blue Frame displays teh game window for the blue player 
-- Score panel displays teh score on either side of each row 
+The project was built in phases during the course, and the design was revised along the way:
 
+- **Typed values:** raw integers and strings were replaced with enums for card costs, pawn counts, and influence types, so invalid values can't be represented.
+- **Encapsulation:** internal operations such as drawing a card and applying influence were made private, so other code can't call them out of order.
+- **Safer AI:** strategies were changed to take the read-only model instead of the mutable one, so an AI can't accidentally change the game.
+---
 
+## Portfolio updates
 
+After the course, I kept working on the project to make it portfolio-ready:
 
+- **Interface redesign:** the board, hand, and score panels were redrawn as a tabletop, with pawns as game tokens, cards framed in each player's color, hover and selection feedback, and score tokens that show who is winning each row.
+- **Game-over fixes:** the model originally used one flag for both "not started" and "finished," so ending the game made the board unreadable and crashed the game-over screen. It also never reset a pass when a card was played, so passes far apart could end the game. Game over is now tracked separately, playing a card resets the passing streak, and the model rejects moves after the game ends.
+- **Game-over display:** the game-over dialog now appears in every game mode, including human vs. human, and both window titles show the result.
+- **Reliable AI turns:** when an AI has no legal move, or its move is rejected, it passes instead of stalling the game.
+- **Reliable keyboard input:** key presses no longer depend on which panel has focus, so C, P, and H work right after a pop-up closes.
+- **High-contrast rewrite:** high-contrast mode is now a small subclass that overrides the board's colors and reuses all of its drawing code. This also fixed clicks being handled twice in that mode. It can be toggled even after the game ends.
+- **Rules tests:** `PawnGameRulesTest` covers each of these fixes so they can't come back.
+---
 
-Changes for Part 2 
-- Changed the String[][] 2D Grid to creating a enum InfluenceType and create a 
-InfluenceType 2D grid for the influence grid
-- Changed the Cost from a int to a Cost enum and changed the following tests 
-and related code
-- Changes the Count from a int to a Count enum and changed the following tests 
-and related code
-- Change startGame to take in two List of PawnCard decks instead of the file path 
-- Changed drawCard to be private 
-- Changed applyInfluence to be a private method 
-- Changed passTurn to not take in a player since the model stores the currentPlayer 
-- Change card initializer to take in two file paths and then changed the following code to return a 
-hash map of a string and deck 
-- Changed PawnCount to become a enum 
-- We  changed our PawnsGame Implementation to add the types of the Player and PawnCard, and keeping
-    the PawnCell already there
+## Known limitations
 
-
-
-  
-## Strategy
-- We were able to add one extra strategy which is the MaxControlStrategy which can be found 
-in the strategy folder
--  A strategy for selecting moves in Pawns Board game by maximizing the number of owned cells. 
-If multiple positions yield the same number of controlled cells, the uppermost-leftmost position 
-is chosen. If multiple cards yield the same number of controlled cells, the leftmost card in hand is 
-chosen.
-- We have added strategy tests for this strategy in our PawnGameTest and can 
-be found at the end of it. 
-
-## Influence Effect Visualized
-- If a cell has an upgrading influence, it is represented on the influence grid with green
-- If a cell has a decreasing influence, it is represented on the influence grid with purple
-- If a cell has a default influence, it is represented on the influence grid with cyan
-- The card is represented with orange on the influence grid
-
-### Changes in Part 3
-1. In the strategies, they used to take in a PawnsGameImpl which is the mutable version of the game. Instead we replaced it to take in a ReadOnlyPawnGame so that it can't accidentally mutate the game board. In the documentation, we also added that the model taken in must be a copy.
-2. In the hand panel, view prints to the console on click rather than delegating this behavior to a stub controller.
-
-# Extra Credit 
-## New Influence Effects
-- We were able to implement the new decreasing and increasing influences (can be seen in our InfluenceEffect folder)
-- Because we initially implemented influence effects as strategies, we were able to easily implement new influence
-effects simply by making a new class to represent the new influences.
-
-## Influence Effect Visualized
-- If a cell has an upgrading influence, it is represented on the influence grid with green
-- If a cell has a decreasing influence, it is represented on the influence grid with purple
-- If a cell has a default influence, it is represented on the influence grid with cyan
-- The card is represented with orange on the influence grid
-- If a cell has been affected by an increasing or decreasing effect, it will be shown through a +1 or -1, if the cell has
-not been influenced by this effect, no number will show. If the cell has been influenced, but through gameplay the value gets
-decreased back to 0, no number will show. 
-- In our textual view, we updated it to represent the changeValues:
-  1 R+0 _+1 _+0 _+0 1+0 0
-  2 R+0 _+1 _+0 _+0 1+0 0
-  0 2+0 _-1 _+0 _+0 1+0 0
-We represent the value the cell has been changed by adding a + or - followed by a number. To keep it uniform, if there is no 
-effect, there is a 0. For instance R+0 means that red has placed a card there and the value change is 0. 1+0 means that there is 1 pawn
-occupying that cell and it has a changeValue of 0.
-
-### HighContrast 
-- Added the Board Panel that extends the GameFrame, and overrides some of the methods 
-so that the high contrast board panel can change. 
+- **Increase and decrease influences** (shown in **green** and **purple** on a card's influence grid) are in progress and don't yet apply correctly during play.
+- **The AI only looks one move ahead.** A stronger AI would simulate the opponent's possible responses before choosing a move.
+- **Only the board switches to high contrast;** the hand and score panels keep their normal colors.
+ 
