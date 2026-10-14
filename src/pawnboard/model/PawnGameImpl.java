@@ -166,7 +166,12 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
     notifyObservers();
     lastPassingPlayer = null;
-    endTurn();
+    if (isGameOver()) {
+      gameOver = true;
+      notifyOnGameOver();
+    } else {
+      endTurn();
+    }
   }
 
   @Override

@@ -163,10 +163,12 @@ public class PawnsGameController implements GameController,
         playerView.showInvalidMoveNotification(e.getMessage());
       }
     } else if (key == 'p' || key == 'P') {
-      model.passTurn();
-      System.out.println("Pass went through. Turn is now: " + model.getCurrentPlayer());
-      updateView();
-
+      try {
+        model.passTurn();
+      } catch (IllegalStateException e) {
+        playerView.showInvalidMoveNotification(e.getMessage());
+        return;
+      }
     }
     else if (key == 'h' || key == 'H') {
       System.out.println("Handling key press");
