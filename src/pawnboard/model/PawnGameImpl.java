@@ -24,6 +24,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
   private final List<PawnCard> playerRedHand;
   private final List<PawnCard> playerBlueHand;
   private boolean gameStarted = false;
+  private boolean gameOver = false;
   private Player turn;
   private int handSize;
   private boolean turnStarted;
@@ -166,6 +167,7 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
     notifyOnCardPlaced();
 
     notifyObservers();
+    lastPassingPlayer = null;
     endTurn();
   }
 
@@ -187,19 +189,21 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
 
       handleConsecutivePassing(currentPlayer);
 
-      endTurn();
+      if (gameOver) {
+        notifyObservers();
+        notifyOnGameOver();
+      } else {
+        endTurn();
+      }
     }
   }
 
   private void handleConsecutivePassing(Player currentPlayer) {
-    if (lastPassingPlayer == null) {
+    if (lastPassingPlayer != null && lastPassingPlayer != currentPlayer) {
+      // The other player passed last turn too, so both passed back to back
+      gameOver = true;
+    } else {
       lastPassingPlayer = currentPlayer;
-    }
-    else if (lastPassingPlayer != currentPlayer) {
-      gameStarted = false;
-      notifyOnGameOver();
-
-
     }
   }
 
@@ -395,6 +399,10 @@ public class PawnGameImpl implements PawnsGame<PawnCell, Player, PawnCard>, AddM
   @Override
   public boolean isGameOver() {
     gameNotStartedCheck();
+
+    if (gameOver) {
+      return true;
+    }
 
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[i].length; j++) {
