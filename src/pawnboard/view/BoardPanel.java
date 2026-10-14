@@ -121,6 +121,14 @@ public class BoardPanel extends JPanel
     return TILE;
   }
 
+  protected Color tileBorderColor() {
+    return new Color(255, 255, 255, 22);
+  }
+
+  protected Color cardValueColor(Color ownerColor) {
+    return blend(ownerColor, Color.BLACK, 0.25f);
+  }
+
   protected Color cardFaceColor() {
     return CARD_FACE;
   }
@@ -288,7 +296,7 @@ public class BoardPanel extends JPanel
     g2d.dispose();
   }
 
-  private void drawBackground(Graphics2D g2d) {
+  protected void drawBackground(Graphics2D g2d) {
     Color base = backgroundColor();
     g2d.setPaint(new GradientPaint(0, 0, blend(base, Color.WHITE, 0.05f),
             0, getHeight(), blend(base, Color.BLACK, 0.3f)));
@@ -307,8 +315,8 @@ public class BoardPanel extends JPanel
       g2d.fill(tile);
     }
 
-    // Light top edge so tiles read as slightly raised.
-    g2d.setColor(new Color(255, 255, 255, 22));
+    // Outline around each tile.
+    g2d.setColor(tileBorderColor());
     g2d.setStroke(new BasicStroke(1f));
     g2d.draw(tile);
   }
@@ -399,7 +407,7 @@ public class BoardPanel extends JPanel
     int fontSize = Math.max(12, (int) (size * 0.42));
     Font font = new Font("Georgia", Font.BOLD, fontSize);
     drawCenteredText(g2d, text, font, card.getCenterX(), card.getCenterY(),
-            blend(ownerColor, Color.BLACK, 0.25f), false);
+            cardValueColor(ownerColor), false);
   }
 
   /** Draws a small +n / -n badge in the tile's corner when a cell's value has been changed. */

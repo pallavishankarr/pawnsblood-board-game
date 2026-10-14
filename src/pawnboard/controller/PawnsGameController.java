@@ -146,7 +146,7 @@ public class PawnsGameController implements GameController,
     System.out.println("Key '" + key + "' received by " + userPlayer.getPlayer()
             + " window. Current turn: " + model.getCurrentPlayer()
             + ", gameOver: " + gameOver);
-    if (gameOver) {
+    if (gameOver && key != 'h' && key != 'H') {
       return;
     }
 
@@ -259,26 +259,25 @@ public class PawnsGameController implements GameController,
 
   private void toggleBoardView() {
     playerView.remove(currentBoardPanel);
+    model.removeObserver(currentBoardPanel);   // stop updating the board that was removed
 
     if (isHighContrast) {
       currentBoardPanel = new BoardPanel(model, playerView.getHandPanel());
     } else {
-      System.out.println("Switching to the high contrast board...");
       currentBoardPanel = new HighContrastBoardPanel(model, playerView.getHandPanel());
     }
 
     currentBoardPanel.addPlayerActionListener(this);
-
     playerView.add(currentBoardPanel, BorderLayout.CENTER);
-
     playerView.revalidate();
     playerView.repaint();
+
     if (!gameOver) {
       playerView.updateWindowTitle(player, userPlayer.getPlayer());
     }
 
     this.isHighContrast = !isHighContrast;
-    System.out.println(isHighContrast);
+    playerView.requestFocus();
   }
 
 }
