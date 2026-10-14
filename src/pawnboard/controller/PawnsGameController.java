@@ -129,16 +129,14 @@ public class PawnsGameController implements GameController,
     if (gameOver) {
       return;
     }
-    System.out.println("Handling cell click at (" + row + ", " + col + ")");
-    if (row < 0 || col < 0) {
-      throw new IllegalArgumentException("row and col must be positive");
-    }
-    if (selectedCardIdx == -1) {
-      return;
-    }
 
-    this.selectedRow = row;
-    this.selectedCol = col;
+    if (currentBoardPanel.isHighlighted()) {
+      selectedRow = row;
+      selectedCol = col;
+    } else {
+      selectedRow = -1;
+      selectedCol = -1;
+    }
     updateView();
   }
 
@@ -150,18 +148,15 @@ public class PawnsGameController implements GameController,
       return;
     }
 
-    if (key == 'c' || key == 'C') {  // Confirm Move
-      if (selectedCardIdx == -1 || selectedRow == -1 || selectedCol == -1) {
+    if (key == 'c' || key == 'C') {
+      int cardIdx = playerView.getHandPanel().getSelectedCardIndex();   // 1. new line
+      if (cardIdx == -1 || selectedRow == -1 || selectedCol == -1) {
         return;
       }
 
       try {
 
-        model.placeCardAt(player, selectedCardIdx, selectedRow, selectedCol);
-        selectedCardIdx = -1;
-        selectedRow = -1;
-        selectedCol = -1;
-
+        model.placeCardAt(player, cardIdx, selectedRow, selectedCol);
         updateView();
 
       } catch (IllegalArgumentException e) {

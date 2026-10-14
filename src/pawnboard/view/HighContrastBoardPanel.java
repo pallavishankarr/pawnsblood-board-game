@@ -64,8 +64,7 @@ public class HighContrastBoardPanel extends BoardPanel {
 
   @Override
   protected Color cardValueColor(Color ownerColor) {
-    // Black on a white card is the strongest contrast, whichever player owns the card.
-    return Color.BLACK;
+    return Color.WHITE;
   }
 
   @Override

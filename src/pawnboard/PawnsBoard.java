@@ -56,7 +56,7 @@ public final class PawnsBoard {
     List<PawnCard> blueDeck = decks.get("deck2");
 
     // Initialize model
-    PawnGameImpl model = new PawnGameImpl(5, 5);
+    PawnGameImpl model = new PawnGameImpl(3, 5);
     model.startGame(redDeck, blueDeck, 5);
 
     // Create views
