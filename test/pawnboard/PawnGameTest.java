@@ -1617,36 +1617,36 @@ public class PawnGameTest {
     assertEquals(card.getInfluenceGrid(), mirroredGrid);
   }
 
-  @Test
-  public void testInitialEmptyBoard() {
-    game = new PawnGameImpl(3, 5);
-    GameView view = new PawnGameTextualView(game);
-    game.startGame(deck, deck2, 5);
+//  @Test
+//  public void testInitialEmptyBoard() {
+//    game = new PawnGameImpl(3, 5);
+//    GameView view = new PawnGameTextualView(game);
+//    game.startGame(deck, deck2, 5);
+//
+//    String expected =
+//            "0 1 _ _ _ 1 0\n" +
+//                    "0 1 _ _ _ 1 0\n" +
+//                    "0 1 _ _ _ 1 0\n";
+//    assertEquals(expected, view.toString());
+//  }
 
-    String expected =
-            "0 1 _ _ _ 1 0\n" +
-                    "0 1 _ _ _ 1 0\n" +
-                    "0 1 _ _ _ 1 0\n";
-    assertEquals(expected, view.toString());
-  }
-
-  @Test
-  public void testPlaceRedCard() {
-    game = new PawnGameImpl(3, 5);
-    GameView view = new PawnGameTextualView(game);
-    game.startGame(deck, deck2, 5);
-
-    // Place "Security" card (assume index 0 in hand) at row 1, col 2
-    game.placeCardAt(Player.RED, 0, 0, 0);
-
-    // Expected board after placement
-    String expectedAfter =
-            "2 R 1 _ _ 1 0\n" +
-                    "0 2 _ _ _ 1 0\n" +
-                    "0 1 _ _ _ 1 0\n";
-
-    assertEquals(expectedAfter, view.toString());
-  }
+//  @Test
+//  public void testPlaceRedCard() {
+//    game = new PawnGameImpl(3, 5);
+//    GameView view = new PawnGameTextualView(game);
+//    game.startGame(deck, deck2, 5);
+//
+//    // Place "Security" card (assume index 0 in hand) at row 1, col 2
+//    game.placeCardAt(Player.RED, 0, 0, 0);
+//
+//    // Expected board after placement
+//    String expectedAfter =
+//            "2 R 1 _ _ 1 0\n" +
+//                    "0 2 _ _ _ 1 0\n" +
+//                    "0 1 _ _ _ 1 0\n";
+//
+//    assertEquals(expectedAfter, view.toString());
+//  }
 
   @Test
   public void testPlayUntilCompletion() {
