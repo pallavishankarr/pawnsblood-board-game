@@ -120,10 +120,10 @@ the board data is consistent.
 The project uses **JUnit 4**. Run all tests in IntelliJ by right-clicking the `test` folder and choosing **Run All Tests**.
 
 - `PawnGameTest` covers the model's public methods and the AI strategies. The strategies are tested against `MockPawnGame`, a stand-in model with a board set up for each test, so a test can check exactly which move a strategy picks.
-- `PawnGameControllerTest` tests the controller on its own, using mocks for everything around it: `MockPawnGameController`, `MockUserPlayer`, `MockGameWindow`, `MockBoardPanel`, `MockHandPanel`, and `MockGameInterface`. This checks how the controller responds to clicks, key presses, and model events without opening any windows.
 - `PawnCellTest`, `PawnCardTest`, and `CardInitializerTest` cover cells, cards, and deck loading.
 - `NewInfluenceTest` covers the increase and decrease influence effects.
 - `PawnGameRulesTest` covers the game rules end to end: passing and game over, behavior after the game ends, legal and illegal placements, drawing, scoring, and full games against the AI.
+- `PawnGameControllerTest` covers how the controller responds to clicks, key presses, and model events. These tests are currently disabled (see [Known limitations](#known-limitations)).
 
 ### Mocks
 
@@ -161,4 +161,4 @@ After the course, I kept working on the project to make it portfolio-ready:
 - **Increase and decrease influences** (shown in **green** and **purple** on a card's influence grid) are in progress and don't yet apply correctly during play.
 - **The AI only looks one move ahead.** A stronger AI would simulate the opponent's possible responses before choosing a move.
 - **Only the board switches to high contrast;** the hand and score panels keep their normal colors.
- 
+- **The controller tests are disabled.** The controller depends on the concrete Swing window class rather than the `GameWindow` interface, so the mock window can't stand in for it. The fix is to move the window operations the controller needs into the interface.
